@@ -1,0 +1,62 @@
+
+//  --  MAIN TOOL SETTINGS      --  //
+creator.timeLimit		= 60
+creator.file.data.serial	= "doc.serial"						; relative to 'doc.path'
+creator.file.data.archive	= "doc.serial.gz"					; relative to 'doc.path'
+creator.file.log.error		= "logs/docCreatorErrors.log"				; absolute
+creator.mail.receiver		= 
+creator.skipParser		= no
+creator.skipCreator		= no
+creator.skipInfo		= no
+creator.skipResources		= no
+creator.verbose			= yes
+creator.verboseSkip		= no
+creator.verboseConfig		= no
+creator.verboseInfo		= yes
+
+creator.reader.plugins		= Statistics,Unicode,Defaults,Relations,Primitives,Search,Triggers
+
+
+//  --  DOCUMENTATION SETTINGS  --  //
+doc.path			= "c:/.mirror/tools/dev/DocCreator/doc/api/"		; absolute
+doc.language			= de
+doc.theme			= cm1
+doc.title			= "DocCreator API"
+doc.timezone			= "Europe/Berlin"
+doc.package.default		= "unknown"
+doc.package.upperCase		= ""
+doc.logo.url			= no
+doc.upperCasePackages		= ""
+
+
+//  --  PROJECT SETTINGS        --  //
+project.path.source		= "c:/.mirror/tools/dev/DocCreator/classes/"		; absolute
+project.path.documents		= "c:/.mirror/tools/dev/DocCreator/doc/"		; absolute
+project.extensions		= "php5"						; no wildcards or regex
+project.ignoreFiles		= "*/_*.php5"						; use wildcards, not regex
+project.ignoreFolders		= "*/.svn/*,doc/,logs/"					; use wildcards, not regex
+
+project.name			= "DocCreator"
+project.version			= "0.5"
+project.date			= "19.10.2009"
+project.author			= "Christian Würker <christian.wuerker@ceus-media.de>"
+project.company			= "CeuS Media (ceus-media.de)"
+
+project.builder.format		= html
+project.builder.theme		= cm1
+
+doc.site.plugins		= Home,ClassList,Search,About,Installation,History,Changes,Deprecations,Todos,Bugs,ParseErrors,Statistics,Triggers
+
+
+//  --  RSS FEED SETTINGS       --  //
+rss.timezone			= "+0100"
+rss.title			= "DocCreator RSS Feed"
+rss.link			= ""
+rss.description			= "DocCreator"
+rss.copyright			= "2008 DocCreator"
+rss.doc				= "http://blogs.law.harvard.edu/tech/rss"
+rss.manager			= "christian.wuerker@ceus-media.de (Christian Würker)"
+rss.webmaster			= "christian.wuerker@ceus-media.de (Christian Würker)"
+rss.language			= "en"
+rss.ttl				= "120"
+rss.item.url			= ""

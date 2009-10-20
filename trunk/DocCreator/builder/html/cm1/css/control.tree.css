@@ -1,0 +1,68 @@
+#tree {
+	margin-left: -16px;
+	}
+
+#tree ul li span.package-icon {
+	float: left;
+	clear: both;
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	}
+
+#tree ul li span.package-icon {
+	background-image: url(../images/mini/icon_package_open.gif);
+	}
+
+#tree ul li span.package-icon.shut {
+	background-image: url(../images/mini/icon_package.gif);
+	}
+
+#tree ul li span.package-label {
+	margin-left: 4px;
+	height: 16px;
+	}
+
+#tree ul li span.package-label>a {
+	font-weight: bold;
+	}
+
+#tree ul li span.class-label a {
+	background-image: url(../images/mini/page_php.gif);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	height: 16px;
+	}
+
+#tree ul li span.class-label a:hover {
+	text-decoration: underline;
+	}
+
+#tree ul li span.class-label a.current  {
+	text-decoration: underline;
+	color: red;
+	}
+
+#tree ul.shut {
+	display: none;
+	}
+
+#tree b.hilight {
+	background: lightgreen;
+	color: white;
+	}
+
+#control input#tree-query {
+	border-style: inset;
+	border-width: 1px;
+	border-color: #CCDDFF;
+	background-color: #DDE7FF;
+	font-size: 0.9em;
+	background-image:url(../images/silk/magnifier.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+	padding-left: 20px;
+	margin-left: 1.5em;
+	min-width: 120px;
+	margin-right: 1em;
+	}

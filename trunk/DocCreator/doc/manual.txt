@@ -1,0 +1,53 @@
+Data Structure
+
+The whole structure read by the parser is represented in an object structure.
+
+A Data_Container contains
+  - a list Data_File's
+  - methods to handle these files
+  - methods for file persistance
+
+A Data_File contains
+  - a list of Data_Interface's found within file
+  - a list of Data_Class'es found within file
+  - a list of Data_Functions'es found within file
+  - all file doc attributes
+    - category string
+    - package string
+    - subpackage string (although deprecated)
+    - since string
+    - version string
+    - list of Data_License's
+    - copyright string
+    - list of Data_Author's
+    - list of link strings
+    - list if see strings
+    - list ? uses ? (deprecated?!)
+  - source code string
+  - parser error string (used in generated Error Page)
+  - unicode flag
+  - time array containing performance information
+  - statistics array containing several information
+  - search string containing extracted text and keywords for search engine (to be reworked)
+  - reference to Data_File
+
+
+A Data_Class contains
+  - a list of Data_Member's
+  - a list of Data_Method's
+  - all class doc attributes
+    - 
+    
+
+File Pattern
+
+files/[category]-[package(_subpackage)*]-[fileName]-[(package(_subpackage)*)?className].html
+
+
+    
+Runtime Errors
+
+Errors occuring while parsing are noted in the data structure and will be reported as page in the docs.
+If this page is enabled there is no need to log the console result of DocCreator nor to send it as email.
+
+
