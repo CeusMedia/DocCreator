@@ -1,0 +1,54 @@
+span.type {
+	font-style: italic;
+	padding: 1px 6px;
+	margin-right: 2px;
+	background: #ccddff;
+	border: 1px solid #bbccee;
+	-moz-border-radius: 0.7em;
+	}
+span.default {
+	font-style: italic;
+	font-size: 0.9em;
+	color: gray;
+	}
+
+div.syntax {
+	padding: 4px;
+	border: 1px solid #EEE;
+	background: #F7F7F7;
+	-moz-border-radius: 1em;
+	}
+span.syntax {
+	font-size: 1.2em;
+	font-family: monospace;
+	}
+span.syntax * {
+	font-family: monospace;
+	}
+div.method ul.params,
+div.method ul.attributes {
+	margin-left: 3em;
+	}
+
+
+
+ul.extendedClass {
+	padding: 0.3em;
+	display: block;
+	clear: both;
+	margin-bottom: 1em;
+	}
+li.membersOfExtendedClass {
+	float: left; 
+	display: block;
+	width: 30%;
+	padding-right: 1em;
+	}
+
+li.methodsOfExtendedClass {
+	float: left; 
+	display: block;
+	width: 30%;
+	padding-right: 1em;
+	}
+

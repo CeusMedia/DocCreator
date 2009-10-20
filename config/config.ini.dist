@@ -1,0 +1,52 @@
+[application]
+name				= "DocCreator"
+version				= "0.4"
+date				= "18.06.2009"
+author				= "Christian Würker <christian.wuerker@ceus-media.de>"
+company				= "CeuS Media (ceus-media.de)"
+
+
+[docCreator]
+pathClasses			= "classes/"
+pathTarget			= "doc/api/"
+pathDocuments			= "doc/"
+language			= en
+theme				= cm1
+title				= DocCreator API
+
+extensions			= php5
+ignoreFiles			= "*/_*.php5,createDocs.php"
+ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/,"
+upperCasePackages		= ""
+fileDataSerial			= "data.serial"
+timeLimit			= 60
+skipParser			= no
+skipCreator			= no
+skipInfo			= no
+skipResources			= no
+verbose				= yes
+verboseSkip			= no
+verboseConfig			= no
+timezone			= "Europe/Berlin"
+
+defaultConfig			= "config/config.ini"
+defaultLogFile			= "logs/docCreatorErrors.log"
+defaultMailReceiver		= 
+logoUrl				= no
+
+
+[docCreatorRSS]
+timezone			= "+0100"
+title				= "DocCreator RSS Error Log"
+link				= 
+description			= "Error Log of DocCreator"
+copyright			= "2008 DocCreator"
+doc				= "http://blogs.law.harvard.edu/tech/rss"
+manager				= "admin@localhost (Administrator)"
+webmaster			= "admin@localhost (Administrator)"
+language			= "en"
+ttl				= "120"
+item_link			= 
+link_uri			= 
+
+
