@@ -22,21 +22,21 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: EncodingErrorBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: EncodingErrorBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Builds Encoding Error Info Site File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Site_Info
- *	@extends		Builder_HTML_CM1_Builder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: EncodingErrorBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: EncodingErrorBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Site_Info_EncodingErrorBuilder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_Site_Info_EncodingErrorBuilder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Creates Change Log Sites if any Change Log File is available in Project Folder.

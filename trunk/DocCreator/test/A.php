@@ -4,8 +4,6 @@
  *	@package		DocCreator_Test_A
  */
 /**
- *	@category		cmTools
- *	@package		DocCreator_Test_A
  *	@extends		ArrayObject
  *	@implements		Countable
  */

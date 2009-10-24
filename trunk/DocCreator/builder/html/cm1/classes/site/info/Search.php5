@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Search.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Search.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 /**
  *	Builds Search File.
@@ -32,7 +32,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Search.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Search.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstract
 {
@@ -89,14 +89,16 @@ class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstr
 				continue;
 			$terms	= array();
 			foreach( $fileData['search']['terms'] as $term => $count )
-				$terms[]	= '<li>'.$term.'</li>';
+				$terms[]	= UI_HTML_Elements::ListItem( $term );
 #			remark( $filePath.": ".count( $terms ) );
 
-			$terms	= '<ul class="terms">'.join( $terms ).'</ul>';
+			$terms	= UI_HTML_Elements::unorderedList( $terms, 0, array( 'class' => 'terms' ) );
 			$fileId	= $fileData['file']->getId();
 			$uri	= "files/".$classKey.".html";
 			$label	= $fileData['class']['name'];
-			$list[]	= '<div class="file"><a href="'.$uri.'" target="'.$this->linkTarget.'">'.$label.'</a>'.$terms.'</div>';
+			$link	= UI_HTML_Elements::Link( $uri, $label, NULL, $this->linkTarget );
+			$item	= UI_HTML_Tag::create( 'div', $link.$terms, array( 'class' => 'file' ) );
+			$list[]	= $item;
 		}
 		$list	= implode( "\n", $list );
 		return $list;

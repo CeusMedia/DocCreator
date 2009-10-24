@@ -22,9 +22,9 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: CategoryBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: CategoryBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Builder for Category View.
  *	@category		cmTools
@@ -33,18 +33,18 @@ import( 'builder.html.cm1.classes.Builder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: CategoryBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: CategoryBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_CategoryBuilder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_Site_CategoryBuilder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds Class List from Package Key.
 	 *	@access		private
-	 *	@param		Model_Category	$category		Category Object
+	 *	@param		ADT_PHP_Category	$category		Category Object
 	 *	@return		string
 	 *	@todo		fix
 	 */
-	private function buildClassList( Model_Category $category )
+	private function buildClassList( ADT_PHP_Category $category )
 	{
 		$list	= array();			
 		foreach( $category->getClasses() as $class )
@@ -65,19 +65,17 @@ class Builder_HTML_CM1_Site_CategoryBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds nested Package List from Package Key.
 	 *	@access		private
-	 *	@param		Model_Category	$category		Category Object
+	 *	@param		ADT_PHP_Category	$category		Category Object
 	 *	@return		string
 	 */
-	private function buildPackageList( Model_Category $category )
+	private function buildPackageList( ADT_PHP_Category $category )
 	{
 		$list	= array();
 		foreach( $category->getPackages() as $packageName => $package )
 		{
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
-			$label	= $package->getLabel();
-			$url	= 'package.'.$package->getId().".html";
-			$link	= UI_HTML_Elements::Link( $url, $label );
-			$item	= UI_HTML_Elements::ListItem( $link, 0, array( 'class' => "package" ) );
+			$type	= $this->getTypeMarkUp( $package, TRUE );
+			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
 			$list[]	= $item;
 		}
 		if( $list )
@@ -94,10 +92,10 @@ class Builder_HTML_CM1_Site_CategoryBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds Package View.
 	 *	@access		public
-	 *	@param		Model_Category	$category		Category Object
+	 *	@param		ADT_PHP_Category	$category		Category Object
 	 *	@return		string
 	 */
-	public function buildView( Model_Category $category )
+	public function buildView( ADT_PHP_Category $category )
 	{
 #		$packageName	= $this->env->capitalizePackageName( $category->getLabel() );
 		$packageName	= $category->getLabel();

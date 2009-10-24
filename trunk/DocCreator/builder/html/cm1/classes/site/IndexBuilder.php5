@@ -22,29 +22,31 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: IndexBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: IndexBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
+define( 'RELATION_EXTENDS', 1 );
+define( 'RELATION_IMPLEMENTS', 2 );
 /**
  *	Builder for Index View.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Site
- *	@extends		Builder_HTML_CM1_Builder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: IndexBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: IndexBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds Index View.
 	 *	@access		public
-	 *	@param		Model_File	$file			File Object to build Index for
+	 *	@param		ADT_PHP_File	$file			File Object to build Index for
 	 *	@param		array		$functions		List of Functions
 	 *	@return		string
 	 */
-	public function buildIndex( Model_File $file )
+	public function buildIndex( ADT_PHP_File $file )
 	{
 		$class		= array_shift( $file->getClasses() );
 		$words		= $this->env->words['index'];
@@ -135,10 +137,10 @@ class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds List of inherited Members.
 	 *	@access		private
-	 *	@param		Model_Class	$class			Class Object to get inherited Member List for
+	 *	@param		ADT_PHP_Class	$class			Class Object to get inherited Member List for
 	 *	@return		string
 	 */
-	private function buildInheritedMemberList( Model_Class $class )
+	private function buildInheritedMemberList( ADT_PHP_Class $class )
 	{
 		$list		= array();
 		$superClass	= $class->getExtendedClass();
@@ -155,10 +157,10 @@ class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds List of inherited Methods.
 	 *	@access		private
-	 *	@param		Model_Class	$class			Class Object to get inherited Method List for
+	 *	@param		ADT_PHP_Class	$class			Class Object to get inherited Method List for
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( Model_Class $class )
+	private function buildInheritedMethodList( ADT_PHP_Class $class )
 	{
 		$list		= array();
 		$superClass	= $class->getExtendedClass();
@@ -175,12 +177,12 @@ class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds List Item of Member.
 	 *	@access		private
-	 *	@param		Model_Class	$class			Class Object
+	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@param		string		$memberName		Name of Member
 	 *	@param		array		$memberData		Information of Member
 	 *	@return		string
 	 */
-	private function buildMemberEntry( Model_Class $class, $memberName, $memberData )
+	private function buildMemberEntry( ADT_PHP_Class $class, $memberName, $memberData )
 	{
 		$desc	= explode( "\n", $memberData->getDescription() );
 		$desc	= array_shift( $desc );
@@ -195,11 +197,11 @@ class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds List of Members.
 	 *	@access		private
-	 *	@param		Model_Class	$class			Class Object
+	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@param		int			$relation		Flag: hide private Members	
 	 *	@return		string
 	 */
-	private function buildMemberList( Model_Class $class, $relation = 0 )
+	private function buildMemberList( ADT_PHP_Class $class, $relation = 0 )
 	{
 		$list		= array();
 		$members	= $class->getMembers();
@@ -217,12 +219,12 @@ class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds List Item of Method.
 	 *	@access		private
-	 *	@param		Model_Class	$class			Class Object
+	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@param		string		$methodName		Name of Method
 	 *	@param		array		$methodData		Information of Method
 	 *	@return		string
 	 */
-	private function buildMethodEntry( Model_Class $class, $methodName, $methodData )
+	private function buildMethodEntry( ADT_PHP_Class $class, $methodName, $methodData )
 	{
 		$desc	= explode( "\n", $methodData->getDescription() );
 		$desc	= array_shift( $desc );
@@ -237,11 +239,11 @@ class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds List of Methods.
 	 *	@access		private
-	 *	@param		Model_Class	$class			Class Object
+	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@param		int			$relation		Flag: hide final, abstract and private Methods
 	 *	@return		string
 	 */
-	private function buildMethodList( Model_Class $class, $relation = 0 )
+	private function buildMethodList( ADT_PHP_Class $class, $relation = 0 )
 	{
 		$list		= array();
 		$methods	= $class->getMethods();

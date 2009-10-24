@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Primitives.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Primitives.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 import( 'reader.plugin.Abstract' );
 /**
@@ -33,7 +33,7 @@ import( 'reader.plugin.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Primitives.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Primitives.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 class Reader_Plugin_Primitives extends Reader_Plugin_Abstract
 {
@@ -49,10 +49,10 @@ class Reader_Plugin_Primitives extends Reader_Plugin_Abstract
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		Model_Container	$data		Object containing collected Class Data
+	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( Model_Container $data )
+	public function extendData( ADT_PHP_Container $data )
 	{
 		foreach( $data->getFiles() as $fileName => $file )
 		{

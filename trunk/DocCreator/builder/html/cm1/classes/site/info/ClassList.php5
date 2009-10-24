@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ClassList.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: ClassList.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
@@ -33,7 +33,7 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ClassList.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: ClassList.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Abstract
 {
@@ -60,14 +60,18 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 
 	private function buildClassList()
 	{
-		$list	= array();
+		$divClear	= UI_HTML_Tag::create( 'div', '', array( 'style' => 'clear: both' ) );
+
+		$list		= array();
 		foreach( $this->env->data->getFiles() as $fileId=> $file )
 		{
-			foreach( $file->getClasses() as $classId=> $class )
+			foreach( $file->getClasses() as $classId => $class )
 			{
-				$uri	= "class.".$classId.".html";
+				$uri	= 'class.'.$class->getId().'.html';
 				$label	= $class->getName();
-				$list[$label.time()]	= '<div class="file"><a href="'.$uri.'" target="'.$this->linkTarget.'">'.$label.'</a></div>';
+				$link	= UI_HTML_Elements::Link( $uri, $label, NULL, $this->linkTarget );
+				$div	= UI_HTML_Tag::create( 'div', $link, array( 'class' => 'file' ) );
+				$list[$label.time()]	= $div;
 			}
 		}
 		ksort( $list );
@@ -79,7 +83,15 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 			if( $last != $key[0] )
 			{
 				$letters[]	= $key[0];
-				$lines[]	= '<div style="clear: left"></div><div class="letter" id="letter-'.$key[0].'">'.$key[0].'</div>';
+				$divLetter	= UI_HTML_Tag::create(
+					'div',
+					$key[0],
+					array(
+						'class'	=> 'letter',
+						'id'	=> 'letter-'.$key[0]
+					)
+				); 
+				$lines[]	= $divClear.$divLetter;
 			}
 			$lines[]	= $item;
 			$last		= $key[0];
@@ -90,14 +102,15 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 		{
 			$letter	= chr( $i );
 			if( in_array( $letter, $letters ) )
-				$list[]	= '<a href="#letter-'.$letter.'">'.$letter.'</a>&nbsp';
+				$item	= UI_HTML_Elements::Link( '#letter-'.$letter, $letter );
 			else
-				$list[]	= '<span class="letter-disabled">'.$letter.'</span>&nbsp';
+				$item	= UI_HTML_Tag::create( 'span', $letter, array( 'class' => 'letter-disabled' ) );
+			$list[]	= $item.'&nbsp;';
 		}
-		$letters	= '<div id="list-letters">'.implode( $list ).'</div>';
-		
+		$list		= implode( $list );
+		$letters	= UI_HTML_Tag::create( 'div', $list, array( 'id' => 'list-letters' ) );
 
-		$list	= implode( "\n", $lines ).'<div style="clear: both"></div>';
+		$list		= implode( "\n", $lines ).$divClear;
 		return $letters.$list;
 	}
 }

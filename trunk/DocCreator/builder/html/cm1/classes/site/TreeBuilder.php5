@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: TreeBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: TreeBuilder.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'de.ceus-media.folder.Iterator' );
 import( 'de.ceus-media.adt.tree.menu.Item' );
@@ -37,7 +37,7 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: TreeBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: TreeBuilder.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 class Builder_HTML_CM1_Site_TreeBuilder
 {
@@ -89,18 +89,19 @@ class Builder_HTML_CM1_Site_TreeBuilder
 	{
 		foreach( $root->getPackages() as $package )
 		{
-			if( get_class( $package ) == 'Model_Category' )
+			if( get_class( $package ) == 'ADT_PHP_Category' )
 			{
 				$prefix	= 'category.';
 				$class	= 'category';
 			}
-			else if( get_class( $package ) == 'Model_Package' )
+			else if( get_class( $package ) == 'ADT_PHP_Package' )
 			{
 				$prefix	= 'package.';
 				$class	= 'package';
 			}
 			$uri	= $prefix.$package->getId().".html";
-			$item	= new ADT_Tree_Menu_Item( $uri, $package->getLabel() );
+			$label	= $this->env->capitalizePackageLabel( $package->getLabel() );
+			$item	= new ADT_Tree_Menu_Item( $uri, $label );
 			$item->setAttribute( 'class', $class );
 			$this->convertTreeToTreeMenuRecursive( $package, $item );
 			$menu->addChild( $item );

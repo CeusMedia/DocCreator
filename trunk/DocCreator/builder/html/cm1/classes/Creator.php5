@@ -22,13 +22,14 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Creator.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Creator.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.folder.RecursiveLister' );
 import( 'de.ceus-media.folder.RecursiveIterator' );
 import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.alg.StringTrimmer' );
+import( 'core.Environment' );
 import( 'builder.html.cm1.classes.site.ControlBuilder' );
 import( 'builder.html.cm1.classes.site.CategoryBuilder' );
 import( 'builder.html.cm1.classes.site.PackageBuilder' );
@@ -43,6 +44,7 @@ import( 'builder.html.cm1.classes.site.Builder' );
  *	@uses			UI_HTML_Elements
  *	@uses			Alg_Time_Clock
  *	@uses			Alg_StringTrimmer
+ *	@uses			DocCreator_Core_Environment
  *	@uses			Builder_HTML_CM1_Site_ControlBuilder
  *	@uses			Builder_HTML_CM1_Site_PackageBuilder
  *	@uses			Builder_HTML_CM1_Class_Builder
@@ -51,7 +53,7 @@ import( 'builder.html.cm1.classes.site.Builder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Creator.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Creator.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 class Builder_HTML_CM1_Creator
 {
@@ -68,7 +70,7 @@ class Builder_HTML_CM1_Creator
 	public function __construct( ArrayObject $config, $verbose = NULL )
 	{
 		$options	= array( 'creator.verbose' => $verbose );
-		$this->env	= new Environment( $config, new ArrayObject( $options ) );
+		$this->env	= new DocCreator_Core_Environment( $config, new ArrayObject( $options ) );
 
 		$this->siteBuilder	= new Builder_HTML_CM1_Site_Builder( $this->env );
 
@@ -80,7 +82,7 @@ class Builder_HTML_CM1_Creator
 		if( $this->env->config['creator.skipCreator'] )
 		{
 			if( $this->env->config['creator.verboseSkip'] )
-				remark( "Skipping File Creation" );
+				remark( "Skipping creation of files about classes, files, packages, categories" );
 		}
 		else
 		{
@@ -91,8 +93,8 @@ class Builder_HTML_CM1_Creator
 
 		if( $this->env->config['creator.skipInfo'] )
 		{
-			if( $this->env->config['creator.verboseInfo'] )
-				remark( "Skipping Info File Creation" );
+			if( $this->env->config['creator.verboseSkip'] )
+				remark( "Skipping info sites, frameset and control (links, tree)" );
 		}
 		else
 		{
@@ -103,7 +105,7 @@ class Builder_HTML_CM1_Creator
 		if( $this->env->config['creator.skipResources']	)
 		{
 			if( $this->env->config['creator.verboseSkip'] )
-				remark( "Skipping Resources" );
+				remark( "Skipping resources (images, icons, stylesheets, javascripts)" );
 		}				
 		else
 		{
@@ -152,7 +154,7 @@ class Builder_HTML_CM1_Creator
 			$fileName	= $pathTarget.$categoryId.".html";
 			$view		= $builder->buildView( $category );
 			if( $this->env->verbose )
-				remark( "Writing Category: ".$categoryId );
+				remark( "Writing Category: ".Alg_StringTrimmer::trimCentric( $categoryId, 60 ) );
 			file_put_contents( $fileName, $view );
 		}
 	}
@@ -208,7 +210,7 @@ class Builder_HTML_CM1_Creator
 			$fileName	= $pathTarget.$package->getId().".html";
 			$view		= $builder->buildView( $package );
 			if( $this->env->verbose )
-				remark( "Writing Package: ".$packageId );
+				remark( "Writing Package: ".Alg_StringTrimmer::trimCentric( $packageId, 61 ) );
 			file_put_contents( $fileName, $view );
 		}
 	}

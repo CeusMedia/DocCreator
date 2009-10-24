@@ -22,29 +22,29 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: PackageBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: PackageBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Builder for Package View.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Site
- *	@extends		Builder_HTML_CM1_Builder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: PackageBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: PackageBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_PackageBuilder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_Site_PackageBuilder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds Class List from Package Key.
 	 *	@access		private
-	 *	@param		Model_Package	$package		Package Object
+	 *	@param		ADT_PHP_Package	$package		Package Object
 	 *	@return		string
 	 *	@todo		fix
 	 */
-	private function buildClassList( Model_Package $package )
+	private function buildClassList( ADT_PHP_Package $package )
 	{
 		$list	= array();			
 		foreach( $package->getClasses() as $class )
@@ -65,19 +65,17 @@ class Builder_HTML_CM1_Site_PackageBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds nested Package List from Package Key.
 	 *	@access		private
-	 *	@param		Model_Package	$superPackage	Package Object
+	 *	@param		ADT_PHP_Package	$superPackage	Package Object
 	 *	@return		string
 	 */
-	private function buildPackageList( Model_Package $superPackage )
+	private function buildPackageList( ADT_PHP_Package $superPackage )
 	{
 		$list	= array();
 		foreach( $superPackage->getPackages() as $packageName => $package )
 		{
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
-			$label	= $package->getLabel();
-			$url	= 'package.'.$package->getId().".html";
-			$link	= UI_HTML_Elements::Link( $url, $label );
-			$item	= UI_HTML_Elements::ListItem( $link, 0, array( 'class' => "package" ) );
+			$type	= $this->getTypeMarkUp( $package, TRUE );
+			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
 			$list[]	= $item;
 		}
 		if( $list )
@@ -94,10 +92,10 @@ class Builder_HTML_CM1_Site_PackageBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds Package View.
 	 *	@access		public
-	 *	@param		Model_Package	$package		Package Object
+	 *	@param		ADT_PHP_Package	$package		Package Object
 	 *	@return		string
 	 */
-	public function buildView( Model_Package $package )
+	public function buildView( ADT_PHP_Package $package )
 	{
 #		$packageName	= $this->env->capitalizePackageName( $package->getLabel() );
 		$packageName	= $package->getLabel();

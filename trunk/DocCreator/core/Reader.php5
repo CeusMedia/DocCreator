@@ -18,33 +18,32 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator
+ *	@package		DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Reader.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Reader.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'de.ceus-media.file.php.Lister' );
 import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.alg.StringTrimmer' );
-#import( 'de.ceus-media.file.php.Parser' );
-import( 'classes.Parser' );
-import( 'model.Container' );
+import( 'de.ceus-media.adt.php.Container' );
+require_once( dirname( __FILE__ ).'/Parser.php5' );
 /**
  *	Recursive PHP File Reader for storing parsed Data.
  *	@category		cmTools
- *	@package		DocCreator
- *	@uses			File_PHP_Lisser
- *	@uses			File_PHP_Parser
+ *	@package		DocCreator_Core
+ *	@uses			File_PHP_Lister
  *	@uses			Alg_Time_Clock
  *	@uses			Alg_StringTrimmer
- *	@uses			Model_Container
+ *	@uses			ADT_PHP_Container
+ *	@uses			DocCreator_Core_Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Reader.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Reader.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
-class Reader
+class DocCreator_Core_Reader
 {
 	protected $config			= NULL;
 	protected $path				= "";
@@ -83,10 +82,10 @@ class Reader
 	/**
 	 *	Reads all files within a Folder and stored parsed Data..
 	 *	@access		protected
-	 *	@param		Model_Container	$data		Object containing collected Class Data
+	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	protected function listClassFiles( Model_Container $data )
+	protected function listClassFiles( ADT_PHP_Container $data )
 	{
 		$pathSource	= $this->config['project.path.source'];
 		$pathTarget	= $this->config['doc.path'];
@@ -99,6 +98,8 @@ class Reader
 		$sources	= explode( ",", $pathSource );
 		foreach( $sources as $pathSource )
 		{
+			if( !file_exists( $pathSource ) )
+				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
 			$lister		= new File_PHP_Lister( $pathSource, $ignoreFolders, $ignoreFiles, FALSE );
 
 			foreach( $lister as $entry )
@@ -109,9 +110,7 @@ class Reader
 					continue;
 
 				$fileName	= str_replace( "\\", "/", basename( $entry->getPathname() ) );
-#				remark( "fileName: ".$fileName );
 				$pathName	= dirname( str_replace( "\\", "/", $entry->getPathname() ) )."/";
-#				remark( "pathName: ".$pathName );
 				$innerPath	= substr( $pathName, strlen( $pathSource ) );			//  get inner Path Name
 
 				if( $this->verbose )
@@ -122,7 +121,7 @@ class Reader
 				}
 				ob_start();
 				$clock	= new Alg_Time_Clock();										//  setup Clock
-				$parser	= new Parser();												//  setup Parser
+				$parser	= new DocCreator_Core_Parser();								//  setup Parser
 
 				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );	//  parse File and return Data Object
 				$file->errors			= ob_get_clean();							//  store Parser Errors
@@ -135,12 +134,13 @@ class Reader
 
 	public function readFiles()
 	{
-		$data	= new Model_Container;												//  init Data Container Object
+		$data	= new ADT_PHP_Container;												//  init Data Container Object
 		$clock	= new Alg_Time_Clock();												//  start outer Clock
 
 		//  --  READ FILES  --  //		
 		$clock2	= new Alg_Time_Clock();												//  start inner Clock
 		$this->listClassFiles( $data );
+		$this->setDefaultCategoryAndPackage( $data );
 		$data->indexClasses();														//  create class index in container
 		$data->timeParse	= $clock2->stop( 6, 0 );								//  note needed time
 
@@ -156,6 +156,27 @@ class Reader
 		//  --  SAVE DATA  --  //		
 		$data->timeTotal	= $clock->stop( 6, 0 );									//  stop outer Clock
 		$data->save( $this->config );												//  save Data to Serial File
+	}
+		
+	protected function setDefaultCategoryAndPackage( $data )
+	{
+		$category	= $this->config['project.category.default'];
+		$package	= $this->config['project.package.default'];
+
+		foreach( $data->getFiles() as $file )
+		{
+			if( !$file->getCategory() )
+				$file->setCategory( $category );
+			if( !$file->getPackage() )
+				$file->setPackage( $package );
+			foreach( $file->getClasses() as $class )
+			{
+				if( !$class->getCategory() )
+					$class->setCategory( $category );
+				if( !$class->getPackage() )
+					$class->setPackage( $package );
+			}
+		}
 	}
 }
 ?>

@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Abstract.php5 730 2009-10-21 01:44:20Z christian.wuerker $
  */
 import( 'de.ceus-media.file.Writer' );
 import( 'builder.html.cm1.classes.Abstract' );
@@ -35,7 +35,7 @@ import( 'builder.html.cm1.classes.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Abstract.php5 730 2009-10-21 01:44:20Z christian.wuerker $
  */
 abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abstract
 {
@@ -46,7 +46,14 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 	protected $fileNames	= array();
 	protected $key			= NULL;
 
-	public function __construct( Environment $env, &$linkList )
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		DocCreator_Core_Environment	$env		Environment Object
+	 *	@param		array						$linkList	Reference to list of Site links
+	 *	@return		void
+	 */
+	public function __construct( DocCreator_Core_Environment $env, &$linkList )
 	{
 		parent::__construct( $env );
 		$this->linkList	=& $linkList;
