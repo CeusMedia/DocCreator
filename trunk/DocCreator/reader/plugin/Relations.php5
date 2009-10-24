@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Relations.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id: Relations.php5 740 2009-10-24 00:04:50Z christian.wuerker $
  */
 import( 'reader.plugin.Abstract' );
 /**
@@ -33,7 +33,7 @@ import( 'reader.plugin.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Relations.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id: Relations.php5 740 2009-10-24 00:04:50Z christian.wuerker $
  */
 class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 {
