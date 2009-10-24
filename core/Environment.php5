@@ -18,26 +18,26 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator
+ *	@package		DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Environment.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Environment.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.ui.Template' );
 /**
  *	Class holding environmental Resources for all DocCreater Components.
  *	@category		cmTools
- *	@package		DocCreator
+ *	@package		DocCreator_Core
  *	@uses			File_INI_Reader
  *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Environment.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Environment.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
-class Environment
+class DocCreator_Core_Environment
 {
 	public $config;
 	public $words;
@@ -72,7 +72,7 @@ class Environment
 		$reader			= new File_INI_Reader( $pathLocales.$config['doc.language'].".ini", TRUE );
 		$this->words	= $reader->toArray();
 
-		$packageNames	= $config['doc.upperCasePackages'];
+		$packageNames	= $config['project.package.upperCase'];
 		$parts			= explode( ",", $packageNames );
 		foreach( $parts as $part )
 			if( trim( $part ) )
@@ -81,7 +81,7 @@ class Environment
 		$uri	= dirname( dirname( __FILE__ ) )."/config/php.classes.list";
 		$this->phpClasses	= File_Reader::loadArray( $uri );
 
-		$data	= new Model_Container();
+		$data	= new ADT_PHP_Container();
 		$this->data	= $data->load( $this->config );
 		$this->readStructureTree();
 		$this->readPackageStructure();
@@ -132,7 +132,7 @@ class Environment
 		return $packageName;
 	}
 
-	public function getClassFromClassName( $className, Model_Class $relatedClass )
+	public function getClassFromClassName( $className, ADT_PHP_Class $relatedClass )
 	{
 		return $this->data->getClassFromClassName( $className, $relatedClass );
 	}
@@ -226,8 +226,10 @@ class Environment
 		{
 			foreach( $file->getClasses() as $className => $class )
 			{
-				$category	= $class->getCategory() ? $class->getCategory() : 'default';
-				$package	= $class->getPackage() ? $class->getPackage() : 'default';
+				$category	= $this->config['project.category.default'];
+				$package	= $this->config['project.package.default'];
+				$category	= $class->getCategory() ? $class->getCategory() : $category;
+				$package	= $class->getPackage() ? $class->getPackage() : $package;
 				$this->classNameList[$class->getName()][$category][$package]	= $class;
 				$this->classIdList[$class->getId()]	= $class;
 			}
@@ -253,7 +255,7 @@ class Environment
 
 	private function readStructureTree()
 	{
-		$this->tree	= new Model_Category( "root" );
+		$this->tree	= new ADT_PHP_Category( "root" );
 		foreach( $this->data->getFiles() as $file )
 		{
 			foreach( $file->getClasses() as $class )
@@ -261,13 +263,13 @@ class Environment
 				if( !$class->getCategory() )
 					continue;
 				if( !$this->tree->hasPackage( $class->getCategory() ) )
-					$this->tree->setPackage( $class->getCategory(), new Model_Category( $class->getCategory() ) );
+					$this->tree->setPackage( $class->getCategory(), new ADT_PHP_Category( $class->getCategory() ) );
 				if( !$class->getPackage() )
 					continue;
 				$category	= $this->tree->getPackage( $class->getCategory() );
 				$name		= str_replace( ".", "_", $class->getPackage() );
 				$name		= array_pop( explode( "_", $name ) );
-				$package	= new Model_Package( $this->capitalizePackageLabel( $name ) );
+				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
 				$package->setClass( $class->getName(), $class );
 				$category->setPackage( $class->getPackage(), $package );
 			}

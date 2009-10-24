@@ -22,49 +22,21 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-/*
-import( 'builder.html.cm1.classes.site.info.HomeBuilder' );
-import( 'builder.html.cm1.classes.site.info.TodoBuilder' );
-import( 'builder.html.cm1.classes.site.info.DeprecationBuilder' );
-import( 'builder.html.cm1.classes.site.info.AboutBuilder' );
-import( 'builder.html.cm1.classes.site.info.BugBuilder' );
-import( 'builder.html.cm1.classes.site.info.ClassListBuilder' );
-import( 'builder.html.cm1.classes.site.info.ChangeLogBuilder' );
-import( 'builder.html.cm1.classes.site.info.HistoryBuilder' );
-import( 'builder.html.cm1.classes.site.info.InstallationBuilder' );
-import( 'builder.html.cm1.classes.site.info.ParseErrorBuilder' );
-import( 'builder.html.cm1.classes.site.info.EncodingErrorBuilder' );
-import( 'builder.html.cm1.classes.site.info.StatisticsBuilder' );
-import( 'builder.html.cm1.classes.site.info.SearchBuilder' );
-import( 'builder.html.cm1.classes.site.info.TriggersBuilder' );
-*/
+import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Creates Documentation Sites from Parser Data.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Site
- *	@uses			Builder_HTML_CM1_Site_Info_HomeBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_TodoBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_DeprecationBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_AboutBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_BugBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_ClassListBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_ChangeLogBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_HistoryBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_InstallationBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_ParseErrorBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_EncodingErrorBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_StatisticsBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_SearchBuilder
- *	@uses			Builder_HTML_CM1_Site_Info_TriggersBuilder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 {
 
 	/**

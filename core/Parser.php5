@@ -18,52 +18,52 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator
+ *	@package		DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  *	@since			04.08.08
- *	@version		$Id: Parser.php5 728 2009-10-20 06:39:43Z christian.wuerker $
  */
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.alg.StringUnicoder' );
-import( 'model.File' );
-import( 'model.Interface' );
-import( 'model.Class' );
-import( 'model.Variable' );
-import( 'model.Member' );
-import( 'model.Function' );
-import( 'model.Method' );
-import( 'model.Parameter' );
-import( 'model.Author' );
-import( 'model.License' );
-import( 'model.Return' );
-import( 'model.Throws' );
+import( 'de.ceus-media.adt.php.File' );
+import( 'de.ceus-media.adt.php.Interface' );
+import( 'de.ceus-media.adt.php.Class' );
+import( 'de.ceus-media.adt.php.Variable' );
+import( 'de.ceus-media.adt.php.Member' );
+import( 'de.ceus-media.adt.php.Function' );
+import( 'de.ceus-media.adt.php.Method' );
+import( 'de.ceus-media.adt.php.Parameter' );
+import( 'de.ceus-media.adt.php.Author' );
+import( 'de.ceus-media.adt.php.License' );
+import( 'de.ceus-media.adt.php.Return' );
+import( 'de.ceus-media.adt.php.Throws' );
 /**
  *	Parses PHP Files containing a Class or Methods.
  *	@category		cmTools
- *	@package		DocCreator
+ *	@package		DocCreator_Core
  *	@uses			File_Reader
- *	@uses			Model_File
- *	@uses			Model_Interface
- *	@uses			Model_Class
- *	@uses			Model_Variable
- *	@uses			Model_Member
- *	@uses			Model_Function
- *	@uses			Model_Method
- *	@uses			Model_Parameter
- *	@uses			Model_Author
- *	@uses			Model_License
- *	@uses			Model_Return
- *	@uses			Model_Throws
+ *	@uses			ADT_PHP_File
+ *	@uses			ADT_PHP_Interface
+ *	@uses			ADT_PHP_Class
+ *	@uses			ADT_PHP_Variable
+ *	@uses			ADT_PHP_Member
+ *	@uses			ADT_PHP_Function
+ *	@uses			ADT_PHP_Method
+ *	@uses			ADT_PHP_Parameter
+ *	@uses			ADT_PHP_Author
+ *	@uses			ADT_PHP_License
+ *	@uses			ADT_PHP_Return
+ *	@uses			ADT_PHP_Throws
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  *	@since			04.08.08
- *	@version		$Id: Parser.php5 728 2009-10-20 06:39:43Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Parser
+class DocCreator_Core_Parser
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
 	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@';
@@ -99,7 +99,7 @@ class Parser
 
 			if( is_object( $value ) )															//  value is an object
 			{
-				if( $codeData instanceof Model_Function )
+				if( $codeData instanceof ADT_PHP_Function )
 				{
 					switch( $key )
 					{
@@ -118,7 +118,7 @@ class Parser
 					case 'description':	$codeData->setDescription( $value ); break;					//  extend description
 					case 'todo':		$codeData->setTodo( $itemValue ); break;					//  extend todos
 				}
-				if( $codeData instanceof Model_Interface )
+				if( $codeData instanceof ADT_PHP_Interface )
 				{
 					switch( $key )
 					{
@@ -154,7 +154,7 @@ class Parser
 							case 'deprecated':	$codeData->setDeprecation( $itemValue ); break;
 							case 'todo':		$codeData->setTodo( $itemValue ); break;
 						}
-						if( $codeData instanceof Model_Interface )
+						if( $codeData instanceof ADT_PHP_Interface )
 						{
 							switch( $key )
 							{
@@ -162,7 +162,7 @@ class Parser
 								case 'uses':		$codeData->setUsedClassName( $itemValue ); break;
 							}
 						}
-						else if( $codeData instanceof Model_Function )
+						else if( $codeData instanceof ADT_PHP_Function )
 						{
 							switch( $key )
 							{
@@ -178,13 +178,13 @@ class Parser
 	/**
 	 *	Parses a Class Signature and returns collected Information.
 	 *	@access		protected
-	 *	@param		Model_File		$parent			File Object of current Class
-	 *	@param		array			$matches		Matches of RegEx
-	 *	@return		Model_Class
+	 *	@param		ADT_PHP_File		$parent			File Object of current Class
+	 *	@param		array				$matches		Matches of RegEx
+	 *	@return		ADT_PHP_Class
 	 */
-	protected function parseClass( Model_File $parent, $matches )
+	protected function parseClass( ADT_PHP_File $parent, $matches )
 	{
-		$class	= new Model_Class( $matches[4] );
+		$class	= new ADT_PHP_Class( $matches[4] );
 		$class->setParent( $parent );
 		$class->setLine( $this->lineNumber );
 		$class->setAbstract( (bool) $matches[1] );
@@ -200,6 +200,10 @@ class Parser
 			$this->decorateCodeDataWithDocData( $class, array_pop( $this->openBlocks ) );
 			$this->openBlocks	= array();
 		}
+		if( !$class->getCategory() && $parent->getCategory() )
+			$class->setCategory( $parent->getCategory() );
+		if( !$class->getPackage() && $parent->getPackage() )
+			$class->setPackage( $parent->getPackage() );
 		return $class;
 	}
 
@@ -229,7 +233,7 @@ class Parser
 			}
 			else if( preg_match( "@\*\s+\@author\s+(.+)\s*(<(.+)>)?$@iU", $line, $matches ) )
 			{
-				$author	= new Model_Author( trim( $matches[1] ) );
+				$author	= new ADT_PHP_Author( trim( $matches[1] ) );
 				if( isset( $matches[3] ) )
 					$author->setEmail( trim( $matches[3] ) );
 				$data['author'][]	= $author;
@@ -246,15 +250,17 @@ class Parser
 					case 'deprecated':
 					case 'todo':
 					case 'copyright':
-					case 'license':
-					case 'author':
 					case 'see':
 					case 'uses':
 					case 'link':
 						$data[$matches[1]][]	= $matches[2];			
 						break;
+					case 'category':
+					case 'package':
+					case 'subpackage':
+						$data[$matches[1]]	= $matches[2];			
+						break;
 					default:
-					#	$data[$matches[1]]	= $matches[2];			
 						break;
 				}
 			}
@@ -272,7 +278,7 @@ class Parser
 	 *	Parses a File/Class License Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
-	 *	@return		Model_License
+	 *	@return		ADT_PHP_License
 	 */
 	protected function parseDocLicense( $matches )
 	{
@@ -294,7 +300,7 @@ class Parser
 			if( preg_match( "@^http://@", $matches[1] ) )
 				$url	= trim( $matches[1] );
 		}
-		$license	= new Model_License( $name, $url );
+		$license	= new ADT_PHP_License( $name, $url );
 		return $license;
 	}
 
@@ -302,11 +308,11 @@ class Parser
 	 *	Parses a Class Member Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
-	 *	@return		Model_Member
+	 *	@return		ADT_PHP_Member
 	 */
 	protected function parseDocMember( $matches )
 	{
-		$member	= new Model_Member( $matches[2], $matches[1], trim( $matches[4] ) );
+		$member	= new ADT_PHP_Member( $matches[2], $matches[1], trim( $matches[4] ) );
 		return $member;
 	}
 
@@ -314,11 +320,11 @@ class Parser
 	 *	Parses a Function/Method Parameter Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
-	 *	@return		Model_Parameter
+	 *	@return		ADT_PHP_Parameter
 	 */
 	protected function parseDocParameter( $matches )
 	{
-		$parameter	= new Model_Parameter( $matches[4], $matches[2] );
+		$parameter	= new ADT_PHP_Parameter( $matches[4], $matches[2] );
 		if( isset( $matches[5] ) )
 			$parameter->setDescription( $matches[5] );
 		return $parameter;
@@ -328,11 +334,11 @@ class Parser
 	 *	Parses a Function/Method Return Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
-	 *	@return		Model_Return
+	 *	@return		ADT_PHP_Return
 	 */
 	protected function parseDocReturn( $matches )
 	{
-		$return	= new Model_Return( trim( $matches[1] ) );
+		$return	= new ADT_PHP_Return( trim( $matches[1] ) );
 		if( isset( $matches[2] ) )
 			$return->setDescription( trim( $matches[2] ) );
 		return $return;
@@ -342,11 +348,11 @@ class Parser
 	 *	Parses a Function/Method Throws Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
-	 *	@return		Model_Throws
+	 *	@return		ADT_PHP_Throws
 	 */
 	protected function parseDocThrows( $matches )
 	{
-		$throws	= new Model_Throws( trim( $matches[1] ) );
+		$throws	= new ADT_PHP_Throws( trim( $matches[1] ) );
 		if( isset( $matches[2] ) )
 			$throws->setReason( trim( $matches[2] ) );
 		return $throws;
@@ -356,11 +362,11 @@ class Parser
 	 *	Parses a Class Varible Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
-	 *	@return		Model_Variable
+	 *	@return		ADT_PHP_Variable
 	 */
 	protected function parseDocVariable( $matches )
 	{
-		$variable	= new Model_Variable( $matches[2], $matches[1], trim( $matches[4] ) );
+		$variable	= new ADT_PHP_Variable( $matches[2], $matches[1], trim( $matches[4] ) );
 		return $variable;
 	}
 
@@ -382,7 +388,7 @@ class Parser
 		$openClass		= FALSE;
 		$function		= NULL;
 		$functionBody	= array();
-		$file			= new Model_File;
+		$file			= new ADT_PHP_File;
 		$file->setBasename( basename( $fileName ) );
 		$file->setPathname( substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) ) );
 		$file->setUri( str_replace( "\\", "/", $fileName ) );
@@ -443,7 +449,7 @@ class Parser
 					$function	= $this->parseFunction( $file, $matches );
 					if( isset( $matches[8] ) )
 						$level++;
-					$file->setFunction( $function->getName(), $function );
+					$file->setFunction( $function );
 				}
 			}
 			else
@@ -463,7 +469,7 @@ class Parser
 				{
 					$method		= $this->parseMethod( $class, $matches );
 					$function	= $matches[5];
-					$class->setMethod( $method->getName(), $method );
+					$class->setMethod( $method );
 					if( isset( $matches[8] ) )
 						$level++;
 				}
@@ -482,7 +488,7 @@ class Parser
 						$key		= $class->getName()."::".$name;
 						$varBlock	= isset( $this->varBlocks[$key] ) ? $this->varBlocks[$key] : NULL;
 						$variable	= $this->parseMember( $class, $matches, $varBlock ); 
-						$class->setMember( $name, $variable );
+						$class->setMember( $variable );
 					
 					}
 					else
@@ -507,7 +513,7 @@ class Parser
 		{
 			foreach( $class->getMethods() as $methodName => $method )
 				if( isset( $functionBody[$methodName] ) )
-					$method->sourceCode	= $functionBody[$methodName];
+					$method->setSourceCode( $functionBody[$methodName] );
 			$file->setClass( $class->getName(), $class );
 		}
 		return $file;
@@ -516,13 +522,13 @@ class Parser
 	/**
 	 *	Parses a Function Signature and returns collected Information.
 	 *	@access		protected
-	 *	@param		Model_File		$parent			Parent File Data Object
-	 *	@param		array			$matches		Matches of RegEx
-	 *	@return		Model_Function
+	 *	@param		ADT_PHP_File		$parent			Parent File Data Object
+	 *	@param		array				$matches		Matches of RegEx
+	 *	@return		ADT_PHP_Function
 	 */
-	protected function parseFunction( Model_File $parent, $matches )
+	protected function parseFunction( ADT_PHP_File $parent, $matches )
 	{
-		$function	= new Model_Function( $matches[5] );
+		$function	= new ADT_PHP_Function( $matches[5] );
 		$function->setParent( $parent );
 		$function->setLine( $this->lineNumber );
 
@@ -549,23 +555,23 @@ class Parser
 	/**
 	 *	Parses a Class Member Signature and returns collected Information.
 	 *	@access		protected
-	 *	@param		Model_Class		$parent			Parent Class Data Object
-	 *	@param		array			$matches		Matches of RegEx
-	 *	@param		array			$docBlock		Variable data object from Doc Parser
-	 *	@return		Model_Member
+	 *	@param		ADT_PHP_Class		$parent			Parent Class Data Object
+	 *	@param		array				$matches		Matches of RegEx
+	 *	@param		array				$docBlock		Variable data object from Doc Parser
+	 *	@return		ADT_PHP_Member
 	 */
 	protected function parseMember( $parent, $matches, $docBlock = NULL )
 	{
-		$variable			= new Model_Member( $matches[3], NULL, NULL );
+		$variable			= new ADT_PHP_Member( $matches[3], NULL, NULL );
 		$variable->setParent( $parent );
 		$variable->setLine( $this->lineNumber );
 		if( isset( $matches[4] ) )
 			$variable->setDefault( preg_replace( "@;$@", "", $matches[5] ) );
-		$variable->setAccess( $matches[1] == "var" ? "public" : $matches[1] );
+		$variable->setAccess( $matches[1] == "var" ? NULL : $matches[1] );
 		$variable->setStatic( (bool) trim( $matches[2] ) );
 
 		if( $docBlock )
-			if( $docBlock instanceof Model_Variable )
+			if( $docBlock instanceof ADT_PHP_Variable )
 				if( $docBlock->getName() == $variable->getName() )
 					$variable->merge( $docBlock );
 		return $variable;
@@ -574,13 +580,13 @@ class Parser
 	/**
 	 *	Parses a Method Signature and returns collected Information.
 	 *	@access		protected
-	 *	@param		Model_Class		$parent			Parent Class Data Object
-	 *	@param		array			$matches		Matches of RegEx
-	 *	@return		Model_Method
+	 *	@param		ADT_PHP_Class		$parent			Parent Class Data Object
+	 *	@param		array				$matches		Matches of RegEx
+	 *	@return		ADT_PHP_Method
 	 */
-	protected function parseMethod( Model_Class $parent, $matches )
+	protected function parseMethod( ADT_PHP_Class $parent, $matches )
 	{
-		$method	= new Model_Method( $matches[5] );
+		$method	= new ADT_PHP_Method( $matches[5] );
 		$method->setParent( $parent );
 		$method->setLine( $this->lineNumber );
 		$method->setAccess( trim( $matches[3] ) );
@@ -588,7 +594,7 @@ class Parser
 		$method->setFinal( (bool) $matches[2] );
 		$method->setStatic( (bool) $matches[4] );
 
-		$return		= new Model_Return( "unknown" );
+		$return		= new ADT_PHP_Return( "unknown" );
 		$return->setParent( $method );
 		$method->setReturn( $return );
 
@@ -617,13 +623,13 @@ class Parser
 	/**
 	 *	Parses a Function/Method Signature Parameters and returns collected Information.
 	 *	@access		protected
-	 *	@param		Model_Function	$parent			Parent Function or Method Data Object
-	 *	@param		array			$matches		Matches of RegEx
-	 *	@return		Model_Parameter
+	 *	@param		ADT_PHP_Function	$parent			Parent Function or Method Data Object
+	 *	@param		array				$matches		Matches of RegEx
+	 *	@return		ADT_PHP_Parameter
 	 */
-	protected function parseParameter( Model_Function $parent, $matches )
+	protected function parseParameter( ADT_PHP_Function $parent, $matches )
 	{
-		$parameter	= new Model_Parameter( $matches[5] );
+		$parameter	= new ADT_PHP_Parameter( $matches[5] );
 		$parameter->setParent( $parent );
 		$parameter->setLine( $this->lineNumber );
 		$parameter->setCast( $matches[2] );

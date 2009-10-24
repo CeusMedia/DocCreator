@@ -22,9 +22,9 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 726 2009-10-20 05:55:42Z christian.wuerker $
+ *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
 import( 'builder.html.cm1.classes.site.SourceCodeBuilder' );
 import( 'builder.html.cm1.classes.site.IndexBuilder' );
 import( 'builder.html.cm1.classes.file.FunctionsBuilder' );
@@ -32,16 +32,16 @@ import( 'builder.html.cm1.classes.file.FunctionsBuilder' );
  *	Builds File Information File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_File
- *	@extends		Builder_HTML_CM1_Builder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@uses			Builder_HTML_CM1_Site_SourceCodeBuilder
  *	@uses			Builder_HTML_CM1_Site_IndexBuilder
  *	@uses			File_FunctionsBuilder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 726 2009-10-20 05:55:42Z christian.wuerker $
+ *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Constructor.
@@ -61,10 +61,10 @@ class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds File View.
 	 *	@access		public
-	 *	@param		Model_File		$file			File Object
+	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( Model_File $file )
+	public function buildView( ADT_PHP_File $file )
 	{
 		$contents	= array();
 		$data	= array(
@@ -82,10 +82,10 @@ class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds Function List of File.
 	 *	@access		public
-	 *	@param		Model_File		$file			File Object
+	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function getFunctionList( Model_File $file )
+	public function getFunctionList( ADT_PHP_File $file )
 	{
 		$list		= array();
 		$functions	= $file->getFunctions();

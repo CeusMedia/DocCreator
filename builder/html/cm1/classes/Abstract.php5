@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Abstract.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
 import( 'de.ceus-media.ui.html.Elements' );
 /**
@@ -33,16 +33,16 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Abstract.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  *	@todo			Code Doc
  */
 abstract class Builder_HTML_CM1_Abstract
 {
-	/**	@var		Environment		$env 		Environment Object */
+	/**	@var		DocCreator_Core_Environment		$env 		Environment Object */
 	protected $env;
-	/**	@var		string			$type		Data Type (class|file) */
+	/**	@var		string			$type			Data Type (class|file) */
 	protected $type		= NULL;
-	/**	@var		array			$words		Array of Language Pairs */
+	/**	@var		array			$words			Array of Language Pairs */
 	protected $words;
 
 	/**
@@ -52,7 +52,7 @@ abstract class Builder_HTML_CM1_Abstract
 	 *	@param		string			$type		Data Type (class|file)
 	 *	@return		void
 	 */
-	public function __construct( Environment $env, $type = NULL )
+	public function __construct( DocCreator_Core_Environment $env, $type = NULL )
 	{
 		$this->env		= $env;
 		$this->type		= $type;
@@ -119,7 +119,7 @@ abstract class Builder_HTML_CM1_Abstract
 		return $this->buildParamList( $list, $key );
 	}
 
-	protected function getParameterMarkUp( Model_Parameter $data )
+	protected function getParameterMarkUp( ADT_PHP_Parameter $data )
 	{
 		$name		= $data->getName();
 		$name		= $data->isReference() ? "&amp;&nbsp;$".$name : "$".$name;
@@ -141,8 +141,16 @@ abstract class Builder_HTML_CM1_Abstract
 		$label	= $type;
 		if( is_object( $type ) )
 		{
-			$url	= $this->getUrlFromClass( $type );
-			$label	= UI_HTML_Elements::Link( $url, $type->getName() );
+			if( get_class( $type ) == "ADT_PHP_Package" )
+			{
+				$url	= $this->getUrlFromPackage( $type );
+				$label	= UI_HTML_Elements::Link( $url, $type->getLabel() );
+			}
+			else
+			{
+				$url	= $this->getUrlFromClass( $type );
+				$label	= UI_HTML_Elements::Link( $url, $type->getName() );
+			}
 		}
 		else if( is_string( $type ) )
 		{
@@ -171,24 +179,46 @@ abstract class Builder_HTML_CM1_Abstract
 		return UI_HTML_Tag::create( 'span', $label, array( 'class' => 'type' ) );
 	}
 
-	public function getUrlFromClass( Model_Interface $class )
+	public function getUrlFromClass( ADT_PHP_Interface $class )
 	{
 		switch( get_class( $class ) )
 		{
-			case 'Model_Class':		return "class.".$class->getId().".html";
-			case 'Model_Interface':	return "interface.".$class->getId().".html";
-			default:				throw new Exception( 'Invalid class' );
+			case 'ADT_PHP_Class':		return "class.".$class->getId().".html";
+			case 'ADT_PHP_Interface':	return "interface.".$class->getId().".html";
+			default:					throw new Exception( 'Invalid class' );
 		}
 	}
 	
-	public function getUrlFromClassName( $className, Model_Interface $relatedClass )
+	public function getUrlFromPackage( ADT_PHP_Package $package )
 	{
-		$class	= $this->env->data->getClassFromClassName( $className, $relatedClass );
-		if( is_object( $class ) )
+		return "package.".$package->getId().".html";
+		switch( get_class( $class ) )
+		{
+			case 'ADT_PHP_Class':		return "class.".$class->getId().".html";
+			case 'ADT_PHP_Interface':	return "interface.".$class->getId().".html";
+			default:				throw new Exception( 'Invalid class' );
+		}
+	}
+
+	/**
+	 *	Returns Doc URL for a Class Name if within indexed Classes.
+	 *	@access		public
+	 *	@param		string				$className		Name of Class to get Doc URL for
+	 *	@param		ADT_PHP_Interface	$relatedClass	Class Object related to Class to find
+	 *	@return		ADT_PHP_Interface
+	 */
+	public function getUrlFromClassName( $className, ADT_PHP_Interface $relatedClass )
+	{
+		try
+		{
+			$class	= $this->env->data->getClassFromClassName( $className, $relatedClass );
 			return $this->getUrlFromClass( $class );
-		
-		remark( "!!!getUrlFromClassName:not found" );
-		return NULL;
+		}
+		catch( Exception $e )
+		{
+			remark( "Builder::getUrlFromClassName: ".$e->getMessage() );
+			return "";
+		}
 	}
 
 	protected function hasTemplate( $fileKey )

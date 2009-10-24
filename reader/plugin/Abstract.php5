@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Abstract.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 /**
  *	Abstract Reader Plugin.
@@ -31,7 +31,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Abstract.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 abstract class Reader_Plugin_Abstract
 {
@@ -48,7 +48,7 @@ abstract class Reader_Plugin_Abstract
 		$this->setUp();
 	}
 
-	abstract public function extendData( Model_Container $data );
+	abstract public function extendData( ADT_PHP_Container $data );
 
 	protected function setUp() {}
 }

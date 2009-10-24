@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: FunctionsBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: FunctionsBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.file.InfoBuilder' );
 /**
@@ -33,17 +33,17 @@ import( 'builder.html.cm1.classes.file.InfoBuilder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: FunctionsBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: FunctionsBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 class Builder_HTML_CM1_File_FunctionsBuilder extends Builder_HTML_CM1_File_InfoBuilder
 {
 	/**
 	 *	Builds View of File Functions for File Information File.
 	 *	@access		public
-	 *	@param		Model_File		$file			File Object
+	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( Model_File $file )
+	public function buildView( ADT_PHP_File $file )
 	{
 		$this->type	= "file";
 		$list		= array();
@@ -67,11 +67,11 @@ class Builder_HTML_CM1_File_FunctionsBuilder extends Builder_HTML_CM1_File_InfoB
 	/**
 	 *	Builds View of a Function with all Information.
 	 *	@access		private
-	 *	@param		Model_File		$file			File Object
-	 *	@param		Model_Function	$function		Data of Function
+	 *	@param		ADT_PHP_File		$file			File Object
+	 *	@param		ADT_PHP_Function	$function		Data of Function
 	 *	@return		string
 	 */
-	private function buildFunctionEntry( Model_File $file, Model_Function $function )
+	private function buildFunctionEntry( ADT_PHP_File $file, ADT_PHP_Function $function )
 	{
 		$attributes	= array();
 
@@ -94,11 +94,17 @@ class Builder_HTML_CM1_File_FunctionsBuilder extends Builder_HTML_CM1_File_InfoB
 
 		$params	= array();
 		foreach( $function->getParameters() as $parameter )
-			$params[]	= $this->getParameterMarkUp( $parameter );
+		{
+			$signature	= $this->getParameterMarkUp( $parameter );
+			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
+			$params[]	= $signature.$text;
+		}
 		$params	= implode( "<br/>", $params );	
 		$attributes['param']	= $this->buildParamList( $params, 'param' );
 
 		$attributes		= $this->loadTemplate( 'file.function.attributes', $attributes );
+
+
 		$return			= $this->getTypeMarkUp( $function->getReturn() ? $function->getReturn()->getType() : "void" );
 		$functionName	= UI_HTML_Elements::Link( "#source_file_function_".$function->getName(), $function->getName() );
 

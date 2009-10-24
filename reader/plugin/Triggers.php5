@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Triggers.php5 725 2009-10-20 05:41:39Z christian.wuerker $
+ *	@version		$Id: Triggers.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'reader.plugin.Abstract' );
 /**
@@ -33,27 +33,30 @@ import( 'reader.plugin.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Triggers.php5 725 2009-10-20 05:41:39Z christian.wuerker $
+ *	@version		$Id: Triggers.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 class Reader_Plugin_Triggers extends Reader_Plugin_Abstract
 {
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		Model_Container	$data		Object containing collected Class Data
+	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( Model_Container $data )
+	public function extendData( ADT_PHP_Container $data )
 	{
 		foreach( $data->getFiles() as $file )
 		{
+			$source	= $file->getSourceCode();
+			if( !preg_match( '/@trigger\s/si', $source ) )
+				continue;
 			foreach( $file->getClasses() as $class )
 			{
 				foreach( $class->getMethods() as $method )
 				{
-					if( $method->sourceCode )
+					if( $method->getSourceCode() )
 					{
-						$body	= implode( "\n", $method->sourceCode );
+						$body	= implode( "\n", $method->getSourceCode() );
 						if( preg_match( '/@trigger/', $body ) )
 						{
 							$matches	= array();

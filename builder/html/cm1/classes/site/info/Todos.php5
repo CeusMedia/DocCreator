@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Todos.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Todos.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
@@ -33,7 +33,7 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Todos.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id: Todos.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  *	@todo			Code Doc
  */
 class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstract
@@ -54,7 +54,7 @@ class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstra
 				$classTodos		= array();
 				$methodTodos	= array();
 
-				$fileUri	= "files/".$class->getId().".html";
+				$fileUri	= "class.".$class->getId().".html";
 				$classLink	= UI_HTML_Elements::Link( $fileUri, $class->getName() );
 
 				if( $class->getTodos() )
@@ -73,7 +73,8 @@ class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstra
 						$list[]		= UI_HTML_Elements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
 					$list	= UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
-					$methodLink		= UI_HTML_Elements::Link( $classId."#class_method_".$methodName, $methodName, 'method' );
+					$methodUrl		= 'class.'.$class->getId().".html#class_method_".$methodName;
+					$methodLink		= UI_HTML_Elements::Link( $methodUrl, $methodName, 'method' );
 					$methodTodos[]	= UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );	
 				}
 				if( !$classTodos && !$methodTodos )

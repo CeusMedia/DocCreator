@@ -11,11 +11,11 @@
 	}
 
 #tree ul li span.package-icon {
-	background-image: url(../images/mini/icon_package_open.gif);
+	background-image: url(../images/mini/icon_package_open.png);
 	}
 
 #tree ul li span.package-icon.shut {
-	background-image: url(../images/mini/icon_package.gif);
+	background-image: url(../images/mini/icon_package.png);
 	}
 
 #tree ul li span.package-label {
@@ -28,7 +28,7 @@
 	}
 
 #tree ul li span.class-label a {
-	background-image: url(../images/mini/page_php.gif);
+	background-image: url(../images/mini/page_php.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	height: 16px;

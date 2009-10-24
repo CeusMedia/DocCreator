@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: MembersBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: MembersBuilder.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.class.InfoBuilder' );
 /**
@@ -33,17 +33,17 @@ import( 'builder.html.cm1.classes.class.InfoBuilder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: MembersBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: MembersBuilder.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 class Builder_HTML_CM1_Class_MembersBuilder extends Builder_HTML_CM1_Class_InfoBuilder
 {
 	/**
 	 *	Builds View of Class Members for Class Information File.
 	 *	@access		public
-	 *	@param		Model_Class	$class			Class Object
+	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( Model_Class $class )
+	public function buildView( ADT_PHP_Class $class )
 	{
 		$this->type	= "class";
 		
@@ -73,15 +73,16 @@ class Builder_HTML_CM1_Class_MembersBuilder extends Builder_HTML_CM1_Class_InfoB
 	/**
 	 *	Builds List of inherited Members of all extended Classes.
 	 *	@access		public
-	 *	@param		Model_Class	$class			Class Object
-	 *	@param		array		$got			List of Member Names already handled
-	 *	@return		string		List HTML 
+	 *	@param		ADT_PHP_Class	$class			Class Object
+	 *	@param		array			$got			List of Member Names already handled
+	 *	@return		string			List HTML 
 	 */
-	private function buildInheritedMemberList( Model_Class $class, $got = array() )
+	private function buildInheritedMemberList( ADT_PHP_Class $class, $got = array() )
 	{	
-		$extended	= array();
-		$members	= $class->getMembers();
-		$classes	= $this->getSuperClasses( $class );
+		$extended		= array();
+		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
+
+		$classes		= $this->getSuperClasses( $class );
 		foreach( $classes as $superClass )
 		{
 			$list		= array();
@@ -89,9 +90,9 @@ class Builder_HTML_CM1_Class_MembersBuilder extends Builder_HTML_CM1_Class_InfoB
 				continue;
 			foreach( $superClass->getMembers() as $memberName => $member )
 			{
-				if( in_array( $member, $members ) )
+				if( in_array( $memberName, $memberNames ) )
 					continue;
-				if( in_array( $member, $got ) )
+				if( in_array( $memberName, $got ) )
 					continue;
 				if( $member->getAccess() == 'private' )
 					continue;
@@ -104,7 +105,7 @@ class Builder_HTML_CM1_Class_MembersBuilder extends Builder_HTML_CM1_Class_InfoB
 			{
 				ksort( $list );
 				$list		= UI_HTML_Elements::unorderedList( $list );
-				$item		= $this->getTypeMarkUp( $class ).$list;
+				$item		= $this->getTypeMarkUp( $superClass ).$list;
 				$attributes	= array( 'class' => 'membersOfExtendedClass' );
 				$extended[]	= UI_HTML_Elements::ListItem( $item, 0, $attributes );
 			}
@@ -123,27 +124,29 @@ class Builder_HTML_CM1_Class_MembersBuilder extends Builder_HTML_CM1_Class_InfoB
 	/**
 	 *	Builds View of a Member with all Information.
 	 *	@access		private
-	 *	@param		Model_Class		$class			Class Object
+	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@param		string			$memberName		Name of Member
-	 *	@param		Model_Member	$member			Member data object
+	 *	@param		ADT_PHP_Member	$member			Member data object
 	 *	@return		string
 	 */
-	private function buildMemberEntry( Model_Class $class, $memberName, $member )
+	private function buildMemberEntry( ADT_PHP_Class $class, $memberName, $member )
 	{
 		$default	= $member->getDefault() ? " = ".$member->getDefault() : "";
 		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
 
 		$attributes	= array();
-		$attributes['access']	= $this->buildParamStringList( $member->getAccess(), 'access' );
+		$access		= $member->getAccess() ? $member->getAccess() : 'public';
+		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
 		$attributes['default']	= $this->buildParamStringList( $member->getDefault(), 'default' );
 
 		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
 	
+		$access		= $member->getAccess() ? $member->getAccess() : 'public';
 		$data	= array(
 			'memberName'	=> $memberName,
 			'memberTitle'	=> '$'.$memberName,
-			'access'		=> $member->getAccess(),
+			'access'		=> $access,
 			'type'			=> $type,
 			'default'		=> $default,
 			'attributes'	=> $attributes,

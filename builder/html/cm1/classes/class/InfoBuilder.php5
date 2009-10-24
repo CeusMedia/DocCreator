@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: InfoBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.file.InfoBuilder' );
 /**
@@ -33,7 +33,7 @@ import( 'builder.html.cm1.classes.file.InfoBuilder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: InfoBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  *	@todo			Code Doc
  */
 class Builder_HTML_CM1_Class_InfoBuilder extends Builder_HTML_CM1_File_InfoBuilder
@@ -61,7 +61,7 @@ class Builder_HTML_CM1_Class_InfoBuilder extends Builder_HTML_CM1_File_InfoBuild
 		return $this->buildParamList( $list, $key );
 	}
 
-	private function buildRelationTree( Model_Class $class )
+	private function buildRelationTree( ADT_PHP_Class $class )
 	{
 		$classes = $this->getSuperClasses( $class );
 
@@ -78,7 +78,7 @@ class Builder_HTML_CM1_Class_InfoBuilder extends Builder_HTML_CM1_File_InfoBuild
 		return $this->buildParamList( $tree, 'inheritance' );
 	}
 	
-	public function buildView( Model_Class $class )
+	public function buildView( ADT_PHP_Class $class )
 	{
 		$this->type		= 'class';
 
@@ -125,17 +125,17 @@ class Builder_HTML_CM1_Class_InfoBuilder extends Builder_HTML_CM1_File_InfoBuild
 	/**
 	 *	Returns a list of backwards resolved superclasses, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		Model_Class		$class		Class to get list of superclasses for
+	 *	@param		ADT_PHP_Class		$class		Class to get list of superclasses for
 	 *	@return		array			List of superclasses
 	 */
-	protected function getSuperClasses( Model_Class $class )
+	protected function getSuperClasses( ADT_PHP_Class $class )
 	{
 		$list	= array();																			//  prepare empty list
 		while( $superClass = $class->getExtendedClass() )											//  while internal class has superclass
 		{
 			$list[]	= $superClass;																	//  set reference to found superclass
 			$class	= $superClass;																	//  set internal class for recursion
-			if( !( $superClass instanceof Model_Class ) )											//  found superclass is not resolvable
+			if( !( $superClass instanceof ADT_PHP_Class ) )											//  found superclass is not resolvable
 				break;																				//  break recursion
 		}
 		return $list;																				//  return list of superclasses

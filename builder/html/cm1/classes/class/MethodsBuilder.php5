@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: MethodsBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: MethodsBuilder.php5 736 2009-10-21 08:02:30Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.class.InfoBuilder' );
 /**
@@ -33,17 +33,17 @@ import( 'builder.html.cm1.classes.class.InfoBuilder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: MethodsBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: MethodsBuilder.php5 736 2009-10-21 08:02:30Z christian.wuerker $
  */
 class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoBuilder
 {
 	/**
 	 *	Builds View of Class Methods for Class Information File.
 	 *	@access		public
-	 *	@param		Model_Class		$class			Class Object
+	 *	@param		ADT_PHP_Class		$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( Model_Class $class )
+	public function buildView( ADT_PHP_Class $class )
 	{
 		$this->type	= "class";
 		
@@ -53,7 +53,7 @@ class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoB
 			return "";
 		ksort( $methods );
 		foreach( $methods as $methodName => $methodData )
-			$list[$methodName]	= $this->buildMethodEntry( $class, $methodName, $methodData );
+			$list[$methodName]	= $this->buildMethodEntry( $class, $methodData );
 
 		$words		= $this->env->words['classMethods'];
 		$heading	= sprintf( $words['heading'], $class->getName() );
@@ -69,10 +69,10 @@ class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoB
 	/**
 	 *	Builds List of inherited Methods of all extended Classes.
 	 *	@access		public
-	 *	@param		Model_Class		$class			Class Object
+	 *	@param		ADT_PHP_Class		$class			Class Object
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( Model_Class $class, $got = array() )
+	private function buildInheritedMethodList( ADT_PHP_Class $class, $got = array() )
 	{	
 		$extended	= array();
 		$methods	= array_keys( $class->getMethods() );
@@ -120,12 +120,11 @@ class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoB
 	/**
 	 *	Builds View of a Method with all Information.
 	 *	@access		private
-	 *	@param		Model_Class		$class			Class Object
-	 *	@param		string			$methodName		Name of Method
-	 *	@param		Model_Method	$methodData		Data of Method
+	 *	@param		ADT_PHP_Class		$class			Class Object
+	 *	@param		ADT_PHP_Method		$method			Method Data Object
 	 *	@return		string
 	 */
-	private function buildMethodEntry( Model_Class $class, $methodName, Model_Method $method )
+	private function buildMethodEntry( ADT_PHP_Class $class, ADT_PHP_Method $method )
 	{
 		$attributes	= array();
 
@@ -137,8 +136,8 @@ class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoB
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
 		$attributes['static']		= $this->buildParamList( $method->isStatic() ? " " : "", 'static' );
 
-
-		$attributes['access']		= $this->buildParamStringList( $method->getAccess(), 'access' );
+		$access		= $method->getAccess() ? $method->getAccess() : 'public';
+		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
 		$attributes['copyright']	= $this->buildParamStringList( $method->getCopyright(), 'copyright' );
@@ -155,14 +154,19 @@ class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoB
 
 		$params	= array();
 		foreach( $method->getParameters() as $parameter )
-			$params[]	= $this->getParameterMarkUp( $parameter );
+		{
+			$signature	= $this->getParameterMarkUp( $parameter );
+			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
+			$params[]	= $signature.$text;
+		}
 		$params	= implode( "<br/>", $params );	
 		$attributes['param']	= $this->buildParamList( $params, 'param' );
 
 		$attributes	= $this->loadTemplate( 'class.method.attributes', $attributes );
-		$uri		= 'class.'.$class->getId().".html#source_class_method_".$methodName;
+
+		$uri		= 'class.'.$class->getId().".html#source_class_method_".$method->getName();
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
-		$methodName	= UI_HTML_Elements::Link( $uri, $methodName );
+		$methodLink	= UI_HTML_Elements::Link( $uri, $method->getName() );
 
 		$params	= array();
 		foreach( $method->getParameters() as $parameter )
@@ -171,10 +175,11 @@ class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoB
 		if( $params	)
 			$params	= " ".$params." ";
 		
+		$access		= $method->getAccess() ? $method->getAccess() : 'public';
 		$data	= array(
 			'methodName'	=> $method->getName(),
-			'methodTitle'	=> $methodName,
-			'access'		=> $method->getAccess(),
+			'methodTitle'	=> $methodLink,
+			'access'		=> $access,
 			'return'		=> $return,
 			'attributes'	=> $attributes,
 			'parameters'	=> $params,

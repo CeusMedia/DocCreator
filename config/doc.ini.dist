@@ -13,39 +13,39 @@ creator.verbose			= yes
 creator.verboseSkip		= no
 creator.verboseConfig		= no
 creator.verboseInfo		= yes
-
 creator.reader.plugins		= Statistics,Unicode,Defaults,Relations,Primitives,Search,Triggers
 
 
 //  --  DOCUMENTATION SETTINGS  --  //
 doc.path			= "c:/.mirror/tools/dev/DocCreator/doc/api/"		; absolute
-doc.language			= de
+doc.language			= en
 doc.theme			= cm1
 doc.title			= "DocCreator API"
 doc.timezone			= "Europe/Berlin"
-doc.package.default		= "unknown"
-doc.package.upperCase		= ""
 doc.logo.url			= no
-doc.upperCasePackages		= ""
 
 
 //  --  PROJECT SETTINGS        --  //
-project.path.source		= "c:/.mirror/tools/dev/DocCreator/classes/"		; absolute
-project.path.documents		= "c:/.mirror/tools/dev/DocCreator/doc/"		; absolute
-project.extensions		= "php5"						; no wildcards or regex
-project.ignoreFiles		= "*/_*.php5"						; use wildcards, not regex
-project.ignoreFolders		= "*/.svn/*,doc/,logs/"					; use wildcards, not regex
-
 project.name			= "DocCreator"
 project.version			= "0.5"
 project.date			= "19.10.2009"
 project.author			= "Christian Würker <christian.wuerker@ceus-media.de>"
 project.company			= "CeuS Media (ceus-media.de)"
 
-project.builder.format		= html
-project.builder.theme		= cm1
+project.path.source		= "c:/.mirror/tools/dev/DocCreator/"			; absolute
+project.path.documents		= "c:/.mirror/tools/dev/DocCreator/doc/"		; absolute
+project.extensions		= "php5"						; no wildcards or regex
+project.ignoreFiles		= "*/_*.php5"						; use wildcards, not regex
+project.ignoreFolders		= "*/.svn/*,doc/,logs/"					; use wildcards, not regex
 
-doc.site.plugins		= Home,ClassList,Search,About,Installation,History,Changes,Deprecations,Todos,Bugs,ParseErrors,Statistics,Triggers
+project.category.default	= "cmTools"
+project.package.default		= "DocCreator"
+project.package.upperCase	= ""
+
+project.builder.format		= html
+project.builder.converter	= cm1
+project.builder.theme		= cm1
+project.builder.site.plugins	= Home,ClassList,Search,About,Installation,History,Changes,Deprecations,Todos,Bugs,ParseErrors,Statistics,Triggers,UnusedVariables,MethodOrder,MethodAccess
 
 
 //  --  RSS FEED SETTINGS       --  //

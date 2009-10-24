@@ -22,9 +22,9 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
 import( 'builder.html.cm1.classes.class.InfoBuilder' );
 import( 'builder.html.cm1.classes.class.MembersBuilder' );
 import( 'builder.html.cm1.classes.class.MethodsBuilder' );
@@ -37,7 +37,7 @@ import( 'builder.html.cm1.classes.file.FunctionsBuilder' );
  *	Builds Class Information File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Class
- *	@extends		Builder_HTML_CM1_Builder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@uses			Builder_HTML_CM1_Site_SourceCodeBuilder
  *	@uses			Builder_HTML_CM1_Site_IndexBuilder
  *	@uses			Builder_HTML_CM1_Class_InfoBuilder
@@ -49,9 +49,9 @@ import( 'builder.html.cm1.classes.file.FunctionsBuilder' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Constructor.
@@ -76,10 +76,10 @@ class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds entire Class Information File.
 	 *	@access		public
-	 *	@param		Model_File		$file			File Object
+	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( $file )
+	public function buildView( ADT_PHP_File $file )
 	{
 		$contents	= array();
 		$functions	= $this->builderFile->getFunctionList( $file );

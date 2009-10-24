@@ -22,20 +22,20 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: InfoBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: InfoBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Builder' );
+import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Builder for File Info View.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_File
- *	@extends		Builder_HTML_CM1_Builder
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: InfoBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id: InfoBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_File_InfoBuilder extends Builder_HTML_CM1_Builder
+class Builder_HTML_CM1_File_InfoBuilder extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds List of License Attributes.
@@ -61,10 +61,10 @@ class Builder_HTML_CM1_File_InfoBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds Return Description.
 	 *	@access		protected
-	 *	@param		Model_Function	$data		Data object of function or method
+	 *	@param		ADT_PHP_Function	$data		Data object of function or method
 	 *	@return		string			Return Description
 	 */
-	protected function buildParamReturn( Model_Function $data )
+	protected function buildParamReturn( ADT_PHP_Function $data )
 	{
 		if( !$data->getReturn() )
 			return "";
@@ -95,10 +95,10 @@ class Builder_HTML_CM1_File_InfoBuilder extends Builder_HTML_CM1_Builder
 	/**
 	 *	Builds File Info View.
 	 *	@access		public
-	 *	@param		Model_File		$file		File Object to build Info View for
+	 *	@param		ADT_PHP_File		$file		File Object to build Info View for
 	 *	@return		string
 	 */
-	public function buildView( Model_File $file )
+	public function buildView( ADT_PHP_File $file )
 	{
 		$this->type	= 'file';
 
