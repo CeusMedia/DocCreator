@@ -1,2 +1,14 @@
-This is the 'about' file of this project.
+This is the 'about' file of this project.<br/>
 
+
+
+<br/>
+<b>ATTENTION !!!</b> <em>Risk of disk flooding!</em>
+Please make sure to disable XDEBUG Profiler for large projects.<br/>
+The tool makes many and often looped method calls leading to hude cachegrind files in your tmp folder.<br/>
+For example just building doc for Zend Framework produces a 2GB cachegrind file.<br/>
+Just parsing all files results in 400MB less memory on your disk.<br/>
+Now imagine a cron job that does this every day. Or twice! :D ... go get it.<br/>
+<br/>
+The profiler also slows this tool down by more than 100%.<br/>
+<br/>
