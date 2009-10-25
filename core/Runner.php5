@@ -142,12 +142,14 @@ class DocCreator_Core_Runner
 		//  --  LOAD DEFAULT PROJECT CONFIG  --  //
 		$uri	= dirname( dirname( __FILE__ ) )."/config/default.ini";
 		if( !file_exists( $uri ) )
-			throw new RuntimeException( 'No default config file given' );
+			throw new RuntimeException( 'No default config file found' );
 		$configDefault	= parse_ini_file( $uri, FALSE );
 
 		//  --  LOAD CUSTOM PROJECT CONFIG  --  //
 		if( !$fileName )
-			throw new RuntimeException( 'No config file given' );
+			throw new RuntimeException( 'No config file set' );
+		if( !file_exists( $fileName ) )
+			throw new RuntimeException( 'No config file found' );
 		$configCustom			= parse_ini_file( $fileName, FALSE );
 
 		$this->configProject	= array_merge( $configDefault, $configCustom );						//  merge default and custom config to project config
