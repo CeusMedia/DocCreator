@@ -35,7 +35,7 @@ import( 'builder.html.cm1.classes.Abstract' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: InfoBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_File_InfoBuilder extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM1_File_Info extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds List of License Attributes.
@@ -52,7 +52,11 @@ class Builder_HTML_CM1_File_InfoBuilder extends Builder_HTML_CM1_Abstract
 		{
 			$label	= $license->getName();
 			if( $license->getUrl() )
-				$label	= UI_HTML_Elements::Link( $license->getUrl(), $license->getName(), 'file-info-license' );
+			{
+				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
+				$class	= 'file-info-license';
+				$label	= UI_HTML_Elements::Link( $url, $label, $class );
+			}
 			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
 		}
 		return $this->buildParamList( $list, 'licenses' );

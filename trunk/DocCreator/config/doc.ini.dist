@@ -17,7 +17,7 @@ creator.reader.plugins		= Statistics,Unicode,Defaults,Relations,Primitives,Searc
 
 
 //  --  DOCUMENTATION SETTINGS  --  //
-doc.path			= "c:/.mirror/tools/dev/DocCreator/doc/api/"		; absolute
+doc.path			= "/path/to/DocCreator/doc/api/"		; absolute
 doc.language			= en
 doc.theme			= cm1
 doc.title			= "DocCreator API"
@@ -32,8 +32,8 @@ project.date			= "19.10.2009"
 project.author			= "Christian Würker <christian.wuerker@ceus-media.de>"
 project.company			= "CeuS Media (ceus-media.de)"
 
-project.path.source		= "c:/.mirror/tools/dev/DocCreator/"			; absolute
-project.path.documents		= "c:/.mirror/tools/dev/DocCreator/doc/"		; absolute
+project.path.source		= "/path/to/DocCreator/"				; absolute
+project.path.documents		= "/path/to/DocCreator/doc/"				; absolute
 project.extensions		= "php5"						; no wildcards or regex
 project.ignoreFiles		= "*/_*.php5"						; use wildcards, not regex
 project.ignoreFolders		= "*/.svn/*,doc/,logs/"					; use wildcards, not regex

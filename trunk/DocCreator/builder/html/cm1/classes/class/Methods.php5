@@ -24,18 +24,18 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodsBuilder.php5 740 2009-10-24 00:04:50Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.class.InfoBuilder' );
+import( 'builder.html.cm1.classes.class.Info' );
 /**
  *	Builds Class Methods Information File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Class
- *	@extends		Builder_HTML_CM1_Class_InfoBuilder
+ *	@extends		Builder_HTML_CM1_Class_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodsBuilder.php5 740 2009-10-24 00:04:50Z christian.wuerker $
  */
-class Builder_HTML_CM1_Class_MethodsBuilder extends Builder_HTML_CM1_Class_InfoBuilder
+class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 {
 	/**
 	 *	Builds View of Class Methods for Class Information File.

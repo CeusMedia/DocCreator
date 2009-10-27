@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site
+ *	@package		DocCreator_Builder_HTML_CM1_File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,14 +28,14 @@ import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Builds Source Code View.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site
+ *	@package		DocCreator_Builder_HTML_CM1_File
  *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: SourceCodeBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_SourceCodeBuilder extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM1_File_SourceCode extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds Source Code View.
@@ -105,6 +105,7 @@ class Builder_HTML_CM1_Site_SourceCodeBuilder extends Builder_HTML_CM1_Abstract
 			$template	= $this->env->getTemplateFile( "sourceLine", "file" );
 			$classes	= array();
 			$line		= preg_replace( '@^(\n\r?| *)$@', "&nbsp;", $line );
+			$line		= str_replace( ' ', '&nbsp;', $line );
 			if( $hide )
 				$classes[]	= "source-line-unimportant source-line-hidden";
 			$classes[]	= $number % 2 ? "type1" : "type2";

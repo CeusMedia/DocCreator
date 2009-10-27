@@ -30,9 +30,9 @@ import( 'de.ceus-media.folder.RecursiveIterator' );
 import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.alg.StringTrimmer' );
 import( 'core.Environment' );
-import( 'builder.html.cm1.classes.site.ControlBuilder' );
-import( 'builder.html.cm1.classes.site.CategoryBuilder' );
-import( 'builder.html.cm1.classes.site.PackageBuilder' );
+import( 'builder.html.cm1.classes.site.Control' );
+import( 'builder.html.cm1.classes.site.Category' );
+import( 'builder.html.cm1.classes.site.Package' );
 import( 'builder.html.cm1.classes.class.Builder' );
 import( 'builder.html.cm1.classes.file.Builder' );
 import( 'builder.html.cm1.classes.site.Builder' );
@@ -45,8 +45,8 @@ import( 'builder.html.cm1.classes.site.Builder' );
  *	@uses			Alg_Time_Clock
  *	@uses			Alg_StringTrimmer
  *	@uses			DocCreator_Core_Environment
- *	@uses			Builder_HTML_CM1_Site_ControlBuilder
- *	@uses			Builder_HTML_CM1_Site_PackageBuilder
+ *	@uses			Builder_HTML_CM1_Site_Control
+ *	@uses			Builder_HTML_CM1_Site_Package
  *	@uses			Builder_HTML_CM1_Class_Builder
  *	@uses			Builder_HTML_CM1_File_Builder
  *	@uses			Builder_HTML_CM1_Site_Builder
@@ -147,7 +147,7 @@ class Builder_HTML_CM1_Creator
 		$pathTarget		= $this->env->config['doc.path'].$pathCategories;
 #		if( !file_exists( $pathTarget ) )
 #			mkDir( $pathTarget );
-		$builder	= new Builder_HTML_CM1_Site_CategoryBuilder( $this->env );
+		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category )
 		{
 			$categoryId	= $category->getId();
@@ -161,7 +161,7 @@ class Builder_HTML_CM1_Creator
 	
 	private function createControl()
 	{
-		$builder		= new Builder_HTML_CM1_Site_ControlBuilder( $this->env );
+		$builder		= new Builder_HTML_CM1_Site_Control( $this->env );
 		$builder->createControl( $this->linkList );
 	}
 
@@ -204,7 +204,7 @@ class Builder_HTML_CM1_Creator
 		$pathTarget		= $this->env->config['doc.path'].$pathPackages;
 #		if( !file_exists( $pathTarget ) )
 #			mkDir( $pathTarget );
-		$builder	= new Builder_HTML_CM1_Site_PackageBuilder( $this->env );
+		$builder	= new Builder_HTML_CM1_Site_Package( $this->env );
 		foreach( $this->env->packageList as $packageId => $package )
 		{
 			$fileName	= $pathTarget.$package->getId().".html";

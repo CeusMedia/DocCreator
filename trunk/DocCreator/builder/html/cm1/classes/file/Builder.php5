@@ -25,17 +25,19 @@
  *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.Abstract' );
-import( 'builder.html.cm1.classes.site.SourceCodeBuilder' );
-import( 'builder.html.cm1.classes.site.IndexBuilder' );
-import( 'builder.html.cm1.classes.file.FunctionsBuilder' );
+import( 'builder.html.cm1.classes.file.Info' );
+import( 'builder.html.cm1.classes.file.Functions' );
+import( 'builder.html.cm1.classes.file.SourceCode' );
+import( 'builder.html.cm1.classes.file.Index' );
 /**
  *	Builds File Information File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_File
  *	@extends		Builder_HTML_CM1_Abstract
- *	@uses			Builder_HTML_CM1_Site_SourceCodeBuilder
- *	@uses			Builder_HTML_CM1_Site_IndexBuilder
- *	@uses			File_FunctionsBuilder
+ *	@uses			Builder_HTML_CM1_File_Info
+ *	@uses			Builder_HTML_CM1_File_Functions
+ *	@uses			Builder_HTML_CM1_File_SourceCode
+ *	@uses			Builder_HTML_CM1_File_Index
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -52,10 +54,10 @@ class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Abstract
 	public function __construct( $env )
 	{
 		parent::__construct( $env );
-		$this->builderFileInfo		= new Builder_HTML_CM1_File_InfoBuilder( $env );
-		$this->builderFileFunctions	= new Builder_HTML_CM1_File_FunctionsBuilder( $env );
-		$this->builderSourceCode	= new Builder_HTML_CM1_Site_SourceCodeBuilder( $env );
-		$this->builderIndex			= new Builder_HTML_CM1_Site_IndexBuilder( $env );
+		$this->builderFileInfo		= new Builder_HTML_CM1_File_Info( $env );
+		$this->builderFileFunctions	= new Builder_HTML_CM1_File_Functions( $env );
+		$this->builderSourceCode	= new Builder_HTML_CM1_File_SourceCode( $env );
+		$this->builderIndex			= new Builder_HTML_CM1_File_Index( $env );
 	}
 
 	/**
