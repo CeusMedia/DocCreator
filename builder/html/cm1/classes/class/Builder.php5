@@ -25,27 +25,25 @@
  *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
 import( 'builder.html.cm1.classes.Abstract' );
-import( 'builder.html.cm1.classes.class.InfoBuilder' );
-import( 'builder.html.cm1.classes.class.MembersBuilder' );
-import( 'builder.html.cm1.classes.class.MethodsBuilder' );
-import( 'builder.html.cm1.classes.site.SourceCodeBuilder' );
-import( 'builder.html.cm1.classes.site.IndexBuilder' );
-import( 'builder.html.cm1.classes.file.Builder' );
-import( 'builder.html.cm1.classes.file.InfoBuilder' );
-import( 'builder.html.cm1.classes.file.FunctionsBuilder' );
+import( 'builder.html.cm1.classes.class.Info' );
+import( 'builder.html.cm1.classes.class.Members' );
+import( 'builder.html.cm1.classes.class.Methods' );
+import( 'builder.html.cm1.classes.file.Info' );
+import( 'builder.html.cm1.classes.file.Functions' );
+import( 'builder.html.cm1.classes.file.SourceCode' );
+import( 'builder.html.cm1.classes.file.Index' );
 /**
  *	Builds Class Information File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Class
  *	@extends		Builder_HTML_CM1_Abstract
- *	@uses			Builder_HTML_CM1_Site_SourceCodeBuilder
- *	@uses			Builder_HTML_CM1_Site_IndexBuilder
- *	@uses			Builder_HTML_CM1_Class_InfoBuilder
- *	@uses			Builder_HTML_CM1_Class_MembersBuilder
- *	@uses			Builder_HTML_CM1_Class_MethodsBuilder
- *	@uses			Builder_HTML_CM1_File_Builder
- *	@uses			Builder_HTML_CM1_File_InfoBuilder
- *	@uses			Builder_HTML_CM1_File_FunctionsBuilder
+ *	@uses			Builder_HTML_CM1_Class_Info
+ *	@uses			Builder_HTML_CM1_Class_Members
+ *	@uses			Builder_HTML_CM1_Class_Methods
+ *	@uses			Builder_HTML_CM1_File_Info
+ *	@uses			Builder_HTML_CM1_File_Functions
+ *	@uses			Builder_HTML_CM1_File_SourceCode
+ *	@uses			Builder_HTML_CM1_File_Index
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -56,21 +54,19 @@ class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Abstract
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Environment		$env			Environment Object
-	 *	@param		FileBuilder		$builderFile	File Builder Object
+	 *	@param		DocCreator_Core_Environment	$env	Environment Object
 	 *	@return		void
 	 */
-	public function __construct( $env, $builderFile )
+	public function __construct( $env )
 	{
 		parent::__construct( $env );
-		$this->builderIndex			= new Builder_HTML_CM1_Site_IndexBuilder( $env );
-		$this->builderClassInfo		= new Builder_HTML_CM1_Class_InfoBuilder( $env );
-		$this->builderClassMembers	= new Builder_HTML_CM1_Class_MembersBuilder( $env );
-		$this->builderClassMethods	= new Builder_HTML_CM1_Class_MethodsBuilder( $env );
-		$this->builderFileInfo		= new Builder_HTML_CM1_File_InfoBuilder( $env );
-		$this->builderFileFunctions	= new Builder_HTML_CM1_File_FunctionsBuilder( $env );
-		$this->builderSourceCode	= new Builder_HTML_CM1_Site_SourceCodeBuilder( $env );
-		$this->builderFile			= $builderFile;
+		$this->builderFile			= new Builder_HTML_CM1_File_Info( $env );
+		$this->builderFunctions		= new Builder_HTML_CM1_File_Functions( $env );
+		$this->builderClass			= new Builder_HTML_CM1_Class_Info( $env );
+		$this->builderMembers		= new Builder_HTML_CM1_Class_Members( $env );
+		$this->builderMethods		= new Builder_HTML_CM1_Class_Methods( $env );
+		$this->builderSourceCode	= new Builder_HTML_CM1_File_SourceCode( $env );
+		$this->builderIndex			= new Builder_HTML_CM1_File_Index( $env );
 	}
 
 	/**
@@ -82,18 +78,17 @@ class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Abstract
 	public function buildView( ADT_PHP_File $file )
 	{
 		$contents	= array();
-		$functions	= $this->builderFile->getFunctionList( $file );
 		$class		= array_shift( $file->getClasses() );
 		$data	= array(
-			'index'				=> $this->builderIndex->buildIndex( $file, $functions ),
+			'index'				=> $this->builderIndex->buildIndex( $file ),
 			'className'			=> $class->getName(),
 			'fileName'			=> $file->getBasename(),
 			'pathName'			=> $file->getPathname(),
-			'fileInfo'			=> $this->builderFileInfo->buildView( $file ),
-			'classInfo'			=> $this->builderClassInfo->buildView( $class ),
-			'classMembers'		=> $this->builderClassMembers->buildView( $class ),
-			'classMethods'		=> $this->builderClassMethods->buildView( $class ),
-			'fileFunctions'		=> $this->builderFileFunctions->buildView( $file ),
+			'fileInfo'			=> $this->builderFile->buildView( $file ),
+			'classInfo'			=> $this->builderClass->buildView( $class ),
+			'classMembers'		=> $this->builderMembers->buildView( $class ),
+			'classMethods'		=> $this->builderMethods->buildView( $class ),
+			'fileFunctions'		=> $this->builderFunctions->buildView( $file ),
 			'fileSource'		=> $this->builderSourceCode->buildSourceCode( $file, TRUE ),
 		);
 		return $this->loadTemplate( 'class.content', $data );

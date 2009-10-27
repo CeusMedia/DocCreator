@@ -24,19 +24,19 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.file.InfoBuilder' );
+import( 'builder.html.cm1.classes.file.Info' );
 /**
  *	Builds Class Information View.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Class
- *	@extends		Builder_HTML_CM1_File_InfoBuilder
+ *	@extends		Builder_HTML_CM1_File_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Class_InfoBuilder extends Builder_HTML_CM1_File_InfoBuilder
+class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_File_Info
 {
 	protected function buildParamClassList( $parent, $value, $key, $list = array() )
 	{

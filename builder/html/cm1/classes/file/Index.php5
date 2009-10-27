@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site
+ *	@package		DocCreator_Builder_HTML_CM1_File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,14 +30,14 @@ define( 'RELATION_IMPLEMENTS', 2 );
 /**
  *	Builder for Index View.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site
+ *	@package		DocCreator_Builder_HTML_CM1_File
  *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: IndexBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_IndexBuilder extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Builds Index View.

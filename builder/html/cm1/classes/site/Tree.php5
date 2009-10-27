@@ -39,7 +39,7 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: TreeBuilder.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_TreeBuilder
+class Builder_HTML_CM1_Site_Tree
 {
 	/**
 	 *	Constructor.

@@ -24,29 +24,19 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ControlBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.site.TreeBuilder' );
+import( 'builder.html.cm1.classes.site.Tree' );
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Site
- *	@uses			Builder_HTML_CM1_Site_TreeBuilder
+ *	@uses			Builder_HTML_CM1_Site_Tree
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ControlBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_ControlBuilder
+class Builder_HTML_CM1_Site_Control
 {
-	private	$hasAbout			= FALSE;
-	private	$hasChangeLog		= FALSE;
-	private	$hasHistory			= FALSE;
-	private	$hasInstallation	= FALSE;
-	private $hasEncodingErrors	= FALSE;
-	private	$hasParseErrors		= FALSE;
-	private	$hasReadMe			= FALSE;
-	private $numberDeprecated	= 0;
-	private $numberTodos		= 0;
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -68,7 +58,7 @@ class Builder_HTML_CM1_Site_ControlBuilder
 	public function createControl( $linkList )
 	{
 		$pathTarget	= $this->env->config['doc.path'];
-		$builder	= new Builder_HTML_CM1_Site_TreeBuilder( $this->env );
+		$builder	= new Builder_HTML_CM1_Site_Tree( $this->env );
 		$tree		= $builder->buildTree();
 
 		$uiData	= array(
