@@ -53,61 +53,44 @@ class DocCreator_Core_Reader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		ArrayObject		$config		Configuration Array Object
-	 *	@param		bool			$verbose	Flag: show Pregress in Console.
+	 *	@param		DocCreator_Core_Configuration	$config		Configuration Array Object
+	 *	@param		bool							$verbose	Flag: show Pregress in Console.
 	 *	@return		void
 	 */
-	public function __construct( ArrayObject $config, $verbose = TRUE )
+	public function __construct( DocCreator_Core_Configuration $config, $verbose = TRUE )
 	{
 		$this->config	= $config;
 		$this->verbose	= $verbose;
 		$this->registerPlugins();
-		set_time_limit( $this->config['creator.timeLimit'] );
-	}
-
-	protected function registerPlugins()
-	{
-		$plugins	= explode( ",", $this->config['creator.reader.plugins'] );
-		foreach( $plugins as $pluginName )
-		{
-			$pluginName	= trim( $pluginName );
-			$classKey	= 'reader.plugin.'.$pluginName;
-			$className	= 'Reader_Plugin_'.$pluginName;
-			import( $classKey );
-			$plugin		= new $className( $this->config, $this->verbose );
-			$this->plugins[$pluginName]	= $plugin;
-		}
+		set_time_limit( $this->config->getTimeLimit() );
 	}
 
 	/**
 	 *	Reads all files within a Folder and stored parsed Data..
 	 *	@access		protected
 	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
+	 *	@param		XML_Element			$project	XML Element of Project from Configuration
 	 *	@return		void
 	 */
-	protected function listClassFiles( ADT_PHP_Container $data )
+	protected function listClassFiles( ADT_PHP_Container $data, XML_Element $project )
 	{
-		$pathSource	= $this->config['project.path.source'];
-		$pathTarget	= $this->config['doc.path'];
+		$pathSource		= $this->config->getProjectPath( $project );
 
-		$ignoreFiles	= explode( ",", $this->config['project.ignoreFiles'] );
-		$ignoreFolders	= explode( ",", $this->config['project.ignoreFolders'] );
-		$extensions		= explode( ",", $this->config['project.extensions'] );
-		$extensions		= implode( "|", $extensions );
+		$ignoreFiles	= $this->config->getProjectIgnoreFiles( $project );
+		$ignoreFolders	= $this->config->getProjectIgnoreFolders( $project );
+		$extensions		= $this->config->getProjectExtensions( $project );
 
 		$sources	= explode( ",", $pathSource );
 		foreach( $sources as $pathSource )
 		{
 			if( !file_exists( $pathSource ) )
 				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
-			$lister		= new File_PHP_Lister( $pathSource, $ignoreFolders, $ignoreFiles, FALSE );
+			$lister		= new File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
 
 			foreach( $lister as $entry )
 			{
-				if( !preg_match( "@\.(".$extensions.")$@", $entry->getFilename() ) )
-					continue;
-				if( !preg_match( "@^[A-Z]@", $entry->getFilename() ) )
-					continue;
+#				if( !preg_match( "@^[A-Z]@", $entry->getFilename() ) )
+#					continue;
 
 				$fileName	= str_replace( "\\", "/", basename( $entry->getPathname() ) );
 				$pathName	= dirname( str_replace( "\\", "/", $entry->getPathname() ) )."/";
@@ -119,14 +102,13 @@ class DocCreator_Core_Reader
 					$fileLabel	= Alg_StringTrimmer::trimCentric( $filePath, 60 );	//  trim File Label
 					remark( "Parsing: ".$fileLabel );
 				}
-				ob_start();
+#				ob_start();
 				$clock	= new Alg_Time_Clock();										//  setup Clock
 				$parser	= new DocCreator_Core_Parser();								//  setup Parser
 
 				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );	//  parse File and return Data Object
 				$file->errors			= ob_get_clean();							//  store Parser Errors
 				$file->time['parse']	= $clock->stop( 6, 0 );						//  store time needed
-
 				$data->setFile( $file->getId(), $file );							//  store File in Data Container
 			}
 		}
@@ -139,8 +121,11 @@ class DocCreator_Core_Reader
 
 		//  --  READ FILES  --  //		
 		$clock2	= new Alg_Time_Clock();												//  start inner Clock
-		$this->listClassFiles( $data );
-		$this->setDefaultCategoryAndPackage( $data );
+		foreach( $this->config->getProjects() as $project )
+		{
+			$this->listClassFiles( $data, $project );
+			$this->setDefaultCategoryAndPackage( $data, $project );
+		}
 		$data->indexClasses();														//  create class index in container
 		$data->timeParse	= $clock2->stop( 6, 0 );								//  note needed time
 
@@ -155,13 +140,33 @@ class DocCreator_Core_Reader
 
 		//  --  SAVE DATA  --  //		
 		$data->timeTotal	= $clock->stop( 6, 0 );									//  stop outer Clock
-		$data->save( $this->config );												//  save Data to Serial File
+		return $data;
 	}
-		
-	protected function setDefaultCategoryAndPackage( $data )
+
+	protected function registerPlugins()
 	{
-		$category	= $this->config['project.category.default'];
-		$package	= $this->config['project.package.default'];
+		foreach( $this->config->getReaderPlugins() as $pluginName )
+		{
+			$pluginName	= trim( $pluginName );
+			$classKey	= 'reader.plugin.'.$pluginName;
+			$className	= 'Reader_Plugin_'.$pluginName;
+			import( $classKey );
+			$plugin		= new $className( $this->config, $this->verbose );
+			$this->plugins[$pluginName]	= $plugin;
+		}
+	}
+
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		ADT_PHP_Container	$data
+	 *	@param		XML_Element			$project
+	 *	@return		void
+	 */
+	protected function setDefaultCategoryAndPackage( $data, XML_Element $project )
+	{
+		$category	= $project->category->default->getValue();
+		$package	= $project->package->default->getValue();
 
 		foreach( $data->getFiles() as $file )
 		{

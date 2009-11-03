@@ -126,6 +126,13 @@ class DocCreator_Core_Parser
 						case 'extends':		$codeData->setExtendedClassName( $value ); break;		//  extend extends
 					}
 				}
+				if( $codeData instanceof ADT_PHP_Method )
+				{
+					switch( $key )
+					{
+						case 'access':		$codeData->setAccess( $value ); break;					//  extend access
+					}
+				}
 			}
 			else if( is_array( $value ) )															//  value is a list of objects or strings
 			{
@@ -255,6 +262,7 @@ class DocCreator_Core_Parser
 					case 'link':
 						$data[$matches[1]][]	= $matches[2];			
 						break;
+					case 'access':
 					case 'category':
 					case 'package':
 					case 'subpackage':
@@ -407,7 +415,7 @@ class DocCreator_Core_Parser
 			if( preg_match( '@}$@', $line ) )
 				$level--;
 
-			if( !$function && $line == "/**" )
+			if( $line == "/**" )
 			{
 				$list	= array();
 				while( !preg_match( "@\*?\*/\s*$@", $line ) )
@@ -460,11 +468,9 @@ class DocCreator_Core_Parser
 					array_unshift( $lines, $line );
 					$this->lineNumber --;
 					$openClass	= FALSE;
-					$level		= 0;
+					$level		= 1;
 					continue;
 				}
-				if( $level == 0 && $openClass )
-					$openClass	= FALSE;
 				if( preg_match( $this->regexMethod, $line, $matches ) )
 				{
 					$method		= $this->parseMethod( $class, $matches );
@@ -506,7 +512,6 @@ class DocCreator_Core_Parser
 			}
 		}
 		while( $lines );
-
 
 		$file->setSourceCode( $content );
 		if( $class )
@@ -567,7 +572,8 @@ class DocCreator_Core_Parser
 		$variable->setLine( $this->lineNumber );
 		if( isset( $matches[4] ) )
 			$variable->setDefault( preg_replace( "@;$@", "", $matches[5] ) );
-		$variable->setAccess( $matches[1] == "var" ? NULL : $matches[1] );
+		if( !empty( $matches[1] ) )
+			$variable->setAccess( $matches[1] == "var" ? NULL : $matches[1] );
 		$variable->setStatic( (bool) trim( $matches[2] ) );
 
 		if( $docBlock )
@@ -589,7 +595,8 @@ class DocCreator_Core_Parser
 		$method	= new ADT_PHP_Method( $matches[5] );
 		$method->setParent( $parent );
 		$method->setLine( $this->lineNumber );
-		$method->setAccess( trim( $matches[3] ) );
+		if( !empty( $matches[3] ) )
+			$method->setAccess( trim( $matches[3] ) );
 		$method->setAbstract( (bool) $matches[1] );
 		$method->setFinal( (bool) $matches[2] );
 		$method->setStatic( (bool) $matches[4] );

@@ -5,7 +5,7 @@
 
 //  --  PLEASE SET UP YOUR ENVIRONMENT  --  //
 $pathCmLib	= "cmClasses/trunk/";													//  path to cmClasses, absolute or relative or empty if already loaded
-$configFile	= dirname( __FILE__ ).'/config/doc.ini';
+$configFile	= dirname( __FILE__ ).'/config/doc.test.xml';
 
 //  --  PLEASE DON'T CHANGE BELOW IF NOT NECESSARY  --  //
 if( $pathCmLib )																	//  path to cmClasses is set
