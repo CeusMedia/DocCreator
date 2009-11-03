@@ -50,10 +50,11 @@ class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstr
 			'words'		=> $this->env->words['search'],
 			'list'		=> $this->buildTermIndex(),
 		);
-		$content	= $this->env->loadTemplate( "site/info/search", $uiData );
+		$content	= $this->loadTemplate( "site/info/search", $uiData );
 		$this->saveFile( "search.html", $content );
 
-		$htaccess	= file_get_contents( $this->env->getBuilderPath().'templates/search.php' );
+		$template	= $this->env->getBuilderClassPath().'templates/search.php';
+		$htaccess	= file_get_contents( $template );
 		$this->saveFile( "search.php", $htaccess );
 		$this->appendLink( 'search.html', 'search' );
 	}

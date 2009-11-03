@@ -17,7 +17,6 @@ $(document).ready(function(){
     $("#source-line-show-caller").hide();
   });
 
-
   if($("#index").size()){
     $("#index-hide-caller").click(function(){
       $.cookie('hideDocIndex',1)
@@ -53,11 +52,9 @@ $(document).ready(function(){
 
   //  --  TOTAL TABLE  --  //
   $("#statistics #totalTable table.grid tr").eq(1).css("font-weight","bold").css("font-size","1.1em");
-
 });
 
 $(document).ready(function(){
-  console.log('orphan!');
   if(top.location == self.location)
     top.location.href="index.html?" + document.URL;
 });

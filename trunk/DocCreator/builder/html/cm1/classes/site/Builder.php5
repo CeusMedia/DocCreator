@@ -48,14 +48,12 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	 */
 	public function createSites( &$linkList )
 	{
-		$pathProject	= $this->env->config['project.path.source'];
-		$pathTarget		= $this->env->config['doc.path'];
+#		$pathProject	= $this->env->config['project.path.source'];
+		$pathTarget		= $this->env->getBuilderTargetPath();
 		$this->createHtaccess( $pathTarget );
 		$this->createFrameset( $pathTarget );
 		
-		$infoSites	= $this->env->config['project.builder.site.plugins'];
-		$infoSites	= explode( ',', $infoSites );
-		
+		$infoSites	= $this->env->config->getBuilderPlugins( $this->env->builder );
 		foreach( $infoSites as $infoSite )
 		{
 			$infoSite	= trim( $infoSite );
@@ -68,7 +66,7 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 				require_once( $classFile );
 				$class		= 'Builder_HTML_CM1_Site_Info_'.$infoSite;
 				$builder	= new $class( $this->env, $linkList );
-				$builder->setProjectPath( $pathProject );
+#				$builder->setProjectPath( $pathProject );
 				$builder->setTargetPath( $pathTarget );
 				$builder->createSite();
 			}
@@ -78,11 +76,10 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	protected function createFrameset( $pathTarget )
 	{
 		$data	= array(
-			'config'	=> $this->env->config,
-			'language'	=> $this->env->config['doc.language'],
-			'title'		=> $this->env->config['doc.title'],
+			'language'	=> $this->env->builder->language->getValue(),
+			'title'		=> $this->env->builder->title->getValue(),
 		);
-		$index		= $this->env->loadTemplate( "site/frameset", $data );
+		$index		= $this->loadTemplate( "site/frameset", $data );
 		file_put_contents( $pathTarget."index.html", $index );
 	}
 
@@ -90,7 +87,8 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	{
 		if( $this->env->verbose )
 			remark( "Creating Site: Htaccess" );
-		$htaccess	= file_get_contents( $this->env->getBuilderPath().'templates/htaccess' );
+		$source		= $this->env->getBuilderClassPath().'templates/htaccess';
+		$htaccess	= file_get_contents( $source );
 		file_put_contents( $pathTarget.".htaccess", $htaccess );
 	}
 }

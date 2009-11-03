@@ -62,26 +62,27 @@ class Builder_HTML_CM1_Creator
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$pathProject	Path to Project Configuration
-	 *	@param		ArrayObject		$config			Configuration Array Object 
-	 *	@param		bool			$options		Flag: be verbose
+	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
+	 *	@param		bool							$options		Flag: be verbose
 	 *	@return		void
 	 */
-	public function __construct( ArrayObject $config, $verbose = NULL )
+	public function __construct( DocCreator_Core_Configuration $config, XML_Element $builder, $verbose = NULL )
 	{
 		$options	= array( 'creator.verbose' => $verbose );
 		$this->env	= new DocCreator_Core_Environment( $config, new ArrayObject( $options ) );
+		$this->env->openBuilder( $builder );
+		$this->env->load();
 
 		$this->siteBuilder	= new Builder_HTML_CM1_Site_Builder( $this->env );
 
-		$pathSource	= $this->env->getBuilderPath();
-		$pathTarget	= $this->env->config['doc.path'];
-#		if( !file_exists( $pathTarget ) )
-#			mkDir( $pathTarget, 0777, TRUE );
+		$this->pathBuilder	= dirname( dirname( __FILE__ ) )."/";
+		$this->pathTarget	= $this->env->getBuilderTargetPath();
+		if( !file_exists( $this->pathTarget ) )
+			mkDir( $this->pathTarget, 0775, TRUE );
 
-		if( $this->env->config['creator.skipCreator'] )
+		if( $this->env->config->getSkip( 'creator' ) )
 		{
-			if( $this->env->config['creator.verboseSkip'] )
+			if( $this->env->config->getVerbose( 'skip' ) )
 				remark( "Skipping creation of files about classes, files, packages, categories" );
 		}
 		else
@@ -91,9 +92,9 @@ class Builder_HTML_CM1_Creator
 			$this->createCategories();
 		}
 
-		if( $this->env->config['creator.skipInfo'] )
+		if( $this->env->config->getSkip( 'info' ) )
 		{
-			if( $this->env->config['creator.verboseSkip'] )
+			if( $this->env->config->getVerbose( 'skip' ) )
 				remark( "Skipping info sites, frameset and control (links, tree)" );
 		}
 		else
@@ -102,23 +103,26 @@ class Builder_HTML_CM1_Creator
 			$this->createControl();
 		}
 
-		if( $this->env->config['creator.skipResources']	)
+		if( $this->env->config->getSkip( 'resources' ) )
 		{
-			if( $this->env->config['creator.verboseSkip'] )
+			if( $this->env->config->getVerbose( 'skip' ) )
 				remark( "Skipping resources (images, icons, stylesheets, javascripts)" );
 		}				
 		else
 		{
-			$this->copyResourcesRecursive( $pathSource."js/", $pathTarget."js/", "JavaScripts" );
-			$this->copyResourcesRecursive( $pathSource."css/", $pathTarget."css/", "Stylesheets" );
-			$this->copyResourcesRecursive( $pathSource."images/", $pathTarget."images/", "Images" );
+			$theme	= $this->env->getBuilderTheme();
+			$this->copyResourcesRecursive( "js/", "js/", "JavaScripts" );
+			$this->copyResourcesRecursive( "css/".$theme."/", "css/".$theme."/", "Stylesheets" );
+			$this->copyResourcesRecursive( "images/", "images/", "Images" );
 		}
 	}
 	
 	protected function copyResourcesRecursive( $pathSource, $pathTarget, $label )
 	{
+		$pathSource	= $this->pathBuilder.$pathSource;
+		$pathTarget	= $this->pathTarget.$pathTarget;
 		if( !file_exists( $pathTarget ) )
-			mkDir( $pathTarget );
+			mkDir( $pathTarget, 0775, TRUE );
 
 #		$index	= new Folder_RecursiveLister( $pathSource );
 		$index	= new Folder_RecursiveIterator( $pathSource );
@@ -142,35 +146,34 @@ class Builder_HTML_CM1_Creator
 		}	
 	}
 	
-	private function createCategories( $pathCategories = "category." )
+	protected function createCategories( $prefix = "category." )
 	{
-		$pathTarget		= $this->env->config['doc.path'].$pathCategories;
-#		if( !file_exists( $pathTarget ) )
-#			mkDir( $pathTarget );
+
+		$pathTarget	= $this->env->getBuilderTargetPath();
 		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category )
 		{
 			$categoryId	= $category->getId();
-			$fileName	= $pathTarget.$categoryId.".html";
+			$fileName	= $prefix.$categoryId.".html";
 			$view		= $builder->buildView( $category );
 			if( $this->env->verbose )
 				remark( "Writing Category: ".Alg_StringTrimmer::trimCentric( $categoryId, 60 ) );
-			file_put_contents( $fileName, $view );
+			file_put_contents( $pathTarget.$fileName, $view );
 		}
 	}
 	
-	private function createControl()
+	protected function createControl()
 	{
-		$builder		= new Builder_HTML_CM1_Site_Control( $this->env );
+		$builder	= new Builder_HTML_CM1_Site_Control( $this->env );
 		$builder->createControl( $this->linkList );
 	}
 
-	private function createFiles( $pathFiles = "class." )
+	protected function createFiles( $prefix = "class." )
 	{
-		$clock			= new Alg_Time_Clock;
-		$pathTarget		= $this->env->config['doc.path'].$pathFiles;
+		$clock		= new Alg_Time_Clock;
+		$pathTarget	= $this->pathTarget.$prefix;
 #		if( !file_exists( $pathTarget ) )
-#			mkDir( $pathTarget );
+#			mkDir( $pathTarget, 0775, TRUE );
 
 		$fileBuilder	= new Builder_HTML_CM1_File_Builder( $this->env );
 		$classBuilder	= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
@@ -199,19 +202,27 @@ class Builder_HTML_CM1_Creator
 		$this->env->timeBuild	= $clock->stop( 6, 0 );
 	}
 	
-	private function createPackages( $pathPackages = "package." )
+	protected function createPackages( $prefix = "package." )
 	{
-		$pathTarget		= $this->env->config['doc.path'].$pathPackages;
-#		if( !file_exists( $pathTarget ) )
-#			mkDir( $pathTarget );
+		$pathTarget	= $this->env->getBuilderTargetPath();
+		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
+		foreach( $this->env->tree->getPackages() as $category )
+			$this->createPackageRecursive( $category, $prefix );
+	}
+	
+	private function createPackageRecursive( ADT_PHP_Category $superPackage, $prefix = "package." )
+	{
+		$pathTarget	= $this->env->getBuilderTargetPath();
 		$builder	= new Builder_HTML_CM1_Site_Package( $this->env );
-		foreach( $this->env->packageList as $packageId => $package )
+		foreach( $superPackage->getPackages() as $package )
 		{
-			$fileName	= $pathTarget.$package->getId().".html";
+			$packageId	= $package->getId();
+			$fileName	= $prefix.$packageId.".html";
 			$view		= $builder->buildView( $package );
 			if( $this->env->verbose )
 				remark( "Writing Package: ".Alg_StringTrimmer::trimCentric( $packageId, 61 ) );
-			file_put_contents( $fileName, $view );
+			file_put_contents( $pathTarget.$fileName, $view );
+			$this->createPackageRecursive( $package, $prefix );
 		}
 	}
 	

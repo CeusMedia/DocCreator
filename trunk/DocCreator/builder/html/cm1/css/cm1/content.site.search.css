@@ -1,0 +1,8 @@
+body.site-info div#info-search input#search-query {
+	background-image:url(../../images/silk/magnifier.png);
+	background-position:1px 0;
+	background-repeat:no-repeat;
+	border:1px inset #CCDDFF;
+	min-width:120px;
+	padding-left:20px;
+	}

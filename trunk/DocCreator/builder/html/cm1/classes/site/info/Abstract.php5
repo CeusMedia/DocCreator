@@ -86,12 +86,12 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 		if( !$this->key )
 			throw new Exception( 'No key set' );
 
-		$list	= array();
+		$list		= array();
+		$pathDocs	= $this->env->getBuilderDocumentsPath();
+		if( !$pathDocs )
+			return;
 		foreach( $this->fileNames as $fileName )
 		{
-			$prefix		= 'project.path.';
-			$pathKey	= isset( $this->env->config[$prefix.'documents'] ) ? 'documents' : 'source';
-			$pathDocs	= $this->env->config[$prefix.$pathKey];
 			$fileName	= $pathDocs.$fileName;
 			if( file_exists( $fileName ) )
 			{

@@ -102,7 +102,6 @@ class Builder_HTML_CM1_File_SourceCode extends Builder_HTML_CM1_Abstract
 			if( $isClass )
 				$line	= preg_replace( "@^(.+function\s+)(\w+)\(@", '\\1<a name="source_class_method_\\2" href="#class_method_\\2">\\2</a>(', $line );
 			$line		= preg_replace( "@^(function\s+)(\w+)\(@", '\\1<a name="source_file_function_\\2" href="#file_function_\\2">\\2</a>(', $line );
-			$template	= $this->env->getTemplateFile( "sourceLine", "file" );
 			$classes	= array();
 			$line		= preg_replace( '@^(\n\r?| *)$@', "&nbsp;", $line );
 			$line		= str_replace( ' ', '&nbsp;', $line );

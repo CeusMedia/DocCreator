@@ -66,7 +66,7 @@ class Builder_HTML_CM1_File_Info extends Builder_HTML_CM1_Abstract
 	 *	Builds Return Description.
 	 *	@access		protected
 	 *	@param		ADT_PHP_Function	$data		Data object of function or method
-	 *	@return		string			Return Description
+	 *	@return		string				Return Description
 	 */
 	protected function buildParamReturn( ADT_PHP_Function $data )
 	{
