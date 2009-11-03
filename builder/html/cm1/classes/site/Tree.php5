@@ -30,6 +30,7 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		cmTools
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@package		DocCreator_Builder_HTML_CM1_Site
  *	@uses			Folder_Iterator
  *	@uses			ADT_Tree_Menu_Item
@@ -39,7 +40,7 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: TreeBuilder.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_Tree
+class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 {
 	/**
 	 *	Constructor.
@@ -78,11 +79,11 @@ class Builder_HTML_CM1_Site_Tree
 		$builder->setTarget( 'content' );
 		$tree		= $builder->buildMenuFromMenuList( $menu );
 		$uiData	= array(
-			'cookieId'	=> $this->env->config['project.name'].'_tree',
+			'cookieId'	=> "doc_tree",#$this->env->config['project.name'].'_tree',
 			'words'		=> $this->env->words['tree'],
 			'tree'		=> $tree,
 		);
-		return $this->env->loadTemplate( "site/tree", $uiData );
+		return $this->loadTemplate( "site/tree", $uiData );
 	}
 
 	protected function convertTreeToTreeMenuRecursive( &$root, &$menu )

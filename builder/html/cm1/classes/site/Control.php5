@@ -24,10 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ControlBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
  */
+import( 'builder.html.cm1.classes.Abstract' );
 import( 'builder.html.cm1.classes.site.Tree' );
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		cmTools
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@package		DocCreator_Builder_HTML_CM1_Site
  *	@uses			Builder_HTML_CM1_Site_Tree
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -35,19 +37,9 @@ import( 'builder.html.cm1.classes.site.Tree' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ControlBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_Control
+class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		Environment		$env		Environment Object
-	 *	@return		void
-	 */
-	public function __construct( $env )
-	{
-		$this->env			=& $env;
-		$this->linkTarget	= "content";
-	}
+	protected $linkTarget	= "content";
 	
 	/**
 	 *	Builds Tree View.
@@ -57,7 +49,7 @@ class Builder_HTML_CM1_Site_Control
 	 */
 	public function createControl( $linkList )
 	{
-		$pathTarget	= $this->env->config['doc.path'];
+		$pathTarget	= $this->env->getBuilderTargetPath();
 		$builder	= new Builder_HTML_CM1_Site_Tree( $this->env );
 		$tree		= $builder->buildTree();
 
@@ -65,7 +57,7 @@ class Builder_HTML_CM1_Site_Control
 			'tree'		=> $tree,
 			'links'		=> $this->buildLinks( $linkList ),
 		);
-		$content	= $this->env->loadTemplate( "site/control", $uiData );
+		$content	= $this->loadTemplate( "site/control", $uiData );
 		File_Writer::save( $pathTarget."control.html", $content );
 	}
 
@@ -86,7 +78,7 @@ class Builder_HTML_CM1_Site_Control
 			'list'	=> UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "links" ) ),
 			'words'	=> $words,
 		);
-		return $this->env->loadTemplate( "site/links", $uiData );
+		return $this->loadTemplate( "site/links", $uiData );
 	}
 }
 ?>

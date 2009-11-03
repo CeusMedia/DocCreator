@@ -1,0 +1,100 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	line-height: 1.5em;
+	}
+h1,
+h2,
+h3 {
+	padding-top: 0.5em;
+	}
+h4 {
+	margin-bottom: 0.1em;
+	}
+
+h1 {
+	font-size: 2em;
+	}
+
+
+h1 small {
+	font-size: 0.5em;
+	}
+/*
+#changes xmp {
+	font-family: Lucida Console, mono-face;
+	font-size: 1.0em;
+	line-height: 1.2em;
+	}
+*/
+
+table.grid {
+	border: 1px solid gray;
+	border-collapse: collapse;
+	}
+table.grid td {
+	border: 1px dotted #bbb;
+	padding: 0.2em 0.5em;
+	}
+
+table.grid th {
+	background: #F7F7F7;
+	padding: 0.1em 0.2em;
+	}
+
+
+/*
+ul {
+	list-style: circle;
+	}
+ol {
+	list-style: upper-roman;
+	}
+ol li ol {
+	list-style: lower-latin;
+	}
+
+ul li, ol li {
+	margin-left: 2em;
+	}
+	*/
+
+div.file-uri {
+	font-size: 0.8em;
+	color: #777;
+	font-style: italic;
+	border-bottom: 1px dotted #BBB;
+	margin-bottom: 0.2em;
+	}
+
+
+pre.text {
+	background: #F7F7F7;
+	border: 1px solid #EFEFEF;
+	padding: 0.5em;
+	font-family: Lucida Console, mono-face;
+	font-size: 1.0em;
+	line-height: 1.2em;
+	}
+
+
+body.site-info {
+	padding: 1em 2em 3em 2em;
+	}
+
+body.site-info ul.classes>li {
+	list-style: square;
+	}
+
+body.site-info ul.classList>li {
+	list-style: disc;
+	}
+
+body.site-info ul.classList>li.classItem {
+	list-style: circle;
+	}
+
+body.site-info ul.methodList>li {
+	list-style: circle;
+	}
+

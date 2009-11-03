@@ -60,7 +60,7 @@ class Builder_HTML_CM1_Site_Info_DocHints extends Builder_HTML_CM1_Site_Info_Abs
 	{
 		$content	= "";
 		$list		= array();
-		$words		= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+		$words		= isset( $this->words[$this->key] ) ? $this->words[$this->key] : array();
 		foreach( $this->env->data->getFiles() as $file )
 		{
 			foreach( $file->getClasses() as $class )

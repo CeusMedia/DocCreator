@@ -49,13 +49,13 @@ class Builder_HTML_CM1_Site_Info_Home extends Builder_HTML_CM1_Site_Info_Abstrac
 			remark( "Creating Site: Home" );
 		$config		= $this->env->config;
 		$words		= $this->env->words['home'];
-		date_default_timezone_set( $config['doc.timezone'] );
+		date_default_timezone_set( $this->env->builder->timezone->getValue() );
 		$data		= array(
+			'title'		=> $this->env->builder->title->getValue(),
 			'words'		=> $words,
-			'config'	=> $config,
 			'date'		=> date( $words['formatDate'], time() ),
 		);
-		$home	= $this->env->loadTemplate( 'site/home', $data );
+		$home	= $this->loadTemplate( 'site/home', $data );
 		$this->saveFile( 'home.html', $home );
 		$this->appendLink( 'home.html', 'home' );
 	}

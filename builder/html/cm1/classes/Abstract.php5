@@ -25,11 +25,13 @@
  *	@version		$Id: Abstract.php5 740 2009-10-24 00:04:50Z christian.wuerker $
  */
 import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.ui.Template' );
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1
  *	@uses			UI_HTML_Elements
+ *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -44,6 +46,10 @@ abstract class Builder_HTML_CM1_Abstract
 	protected $type		= NULL;
 	/**	@var		array			$words			Array of Language Pairs */
 	protected $words;
+	
+	protected $cacheClassUrl		= array();
+	
+	protected $cacheTemplate		= array();
 
 	/**
 	 *	Constructor.
@@ -118,6 +124,18 @@ abstract class Builder_HTML_CM1_Abstract
 			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $label ) );
 		return $this->buildParamList( $list, $key );
 	}
+	
+	protected function getFileNameFromTemplateKey( $fileKey )
+	{
+		$package	= "";
+		$parts		= explode( ".", $fileKey );
+		if( count( $parts ) > 1 )
+			$package	= array_shift( $parts )."/";
+		$fileKey	= implode( ".", $parts );
+		$fileName	= $package.$fileKey.".html";
+		$fileUri	= dirname( dirname( __FILE__ ) )."/templates/".$fileName;
+		return $fileUri;
+	}
 
 	protected function getParameterMarkUp( ADT_PHP_Parameter $data )
 	{
@@ -133,7 +151,7 @@ abstract class Builder_HTML_CM1_Abstract
 		$code		= $type.' '.$name.$default;
 		return $code;
 	}
-
+	
 	protected function getTypeMarkUp( $type, $inPackage = FALSE )
 	{
 		if( !$type )
@@ -173,6 +191,9 @@ abstract class Builder_HTML_CM1_Abstract
 				$label	= UI_HTML_Elements::Link( $url, $label );
 				$label	= UI_HTML_Elements::Acronym( $label, $this->env->words['pseudoTypes'][$type] );
 			}
+			else if( $type == "unknown" )
+				return "";
+#				$label	= UI_HTML_Tag::create( 'small', $type );
 #			else if( $type !== "unknown" )
 #				remark( "!getTypeMarkUp: ".$type );
 		}
@@ -181,23 +202,25 @@ abstract class Builder_HTML_CM1_Abstract
 
 	public function getUrlFromClass( ADT_PHP_Interface $class )
 	{
-		switch( get_class( $class ) )
+		$classId	= $class->getId();
+		$type		= get_class( $class );
+#	--  CACHE (atm disabled because no effect)  --
+#		if( array_key_exists( $type.$classId, $this->cacheClassUrl ) )
+#			return $this->cacheClassUrl[$type.$classId];
+			
+		switch( $type )
 		{
-			case 'ADT_PHP_Class':		return "class.".$class->getId().".html";
-			case 'ADT_PHP_Interface':	return "interface.".$class->getId().".html";
-			default:					throw new Exception( 'Invalid class' );
+			case 'ADT_PHP_Class':
+				$url	= "class.".$classId.".html";
+				break;
+			case 'ADT_PHP_Interface':
+				$url	= "interface.".$classId.".html";
+				break;
+			default:
+				throw new Exception( 'Invalid class' );
 		}
-	}
-	
-	public function getUrlFromPackage( ADT_PHP_Package $package )
-	{
-		return "package.".$package->getId().".html";
-		switch( get_class( $class ) )
-		{
-			case 'ADT_PHP_Class':		return "class.".$class->getId().".html";
-			case 'ADT_PHP_Interface':	return "interface.".$class->getId().".html";
-			default:				throw new Exception( 'Invalid class' );
-		}
+#		$this->cacheClassUrl[$type.$classId]	= $url;
+		return $url;
 	}
 
 	/**
@@ -220,12 +243,18 @@ abstract class Builder_HTML_CM1_Abstract
 			return "";
 		}
 	}
-
-	protected function hasTemplate( $fileKey )
-	{
-		return $this->env->hasTemplate( $fileKey );
-	}
 	
+	public function getUrlFromPackage( ADT_PHP_Package $package )
+	{
+		return "package.".$package->getId().".html";
+	}
+
+	public function hasTemplate( $fileKey )
+	{
+		$fileUri	= $this->getFileNameFromTemplateKey( $fileKey );
+		return file_exists( $fileUri );
+	}
+
 	/**
 	 *	Loads a Template and inserts Data.
 	 *	@access		public
@@ -235,7 +264,20 @@ abstract class Builder_HTML_CM1_Abstract
 	 */
 	protected function loadTemplate( $fileKey, $data )
 	{
-		return $this->env->loadTemplate( $fileKey, $data );
+		if( !isset( $data['language'] ) )
+			$data['language']	= $this->env->builder->language->getValue();
+		if( !isset( $data['theme'] ) )
+			$data['theme']	= $this->env->builder->getAttribute( 'theme' );
+		$fileUri	= $this->getFileNameFromTemplateKey( $fileKey );
+		$fileId		= md5( $fileUri );
+		if( array_key_exists( $fileId, $this->cacheTemplate ) )
+			$content	= $this->cacheTemplate[$fileId];
+		else
+		{
+			$content	= file_get_contents( $fileUri );
+			$this->cacheTemplate[$fileId]	= $content;
+		}
+		return UI_Template::renderString( $content, $data );
 	}
 }
 ?>

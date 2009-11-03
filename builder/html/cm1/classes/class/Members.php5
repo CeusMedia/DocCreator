@@ -135,7 +135,8 @@ class Builder_HTML_CM1_Class_Members extends Builder_HTML_CM1_Class_Info
 		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
 
 		$attributes	= array();
-		$access		= $member->getAccess() ? $member->getAccess() : 'public';
+		$access		= $member->getAccess() ? $member->getAccess() : 'unknown';
+		$access		= array_key_exists( $access, $this->words['access'] ) ? $this->words['access'][$access] : $access;
 		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
 		$attributes['default']	= $this->buildParamStringList( $member->getDefault(), 'default' );

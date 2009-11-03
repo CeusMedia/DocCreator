@@ -101,7 +101,7 @@ class TermSearchResults
 		$list	= array();
 		foreach( $data as $entry )
 		{
-			$link	= '<a href="files/'.$entry['fileId'].'.html?query='.urlencode($query).'">'.$entry['className'].'</a>&nbsp;<small>('.$entry['count'].')</small>';
+			$link	= '<a href="class.'.$entry['classId'].'.html?query='.urlencode($query).'">'.$entry['className'].'</a>&nbsp;<small>('.$entry['count'].')</small>';
 			$count	= '<span class="count">'.$entry['count'].'</span>';
 			$list[]	= '<li>'.$link./*$count.*/'</li>';
 		}

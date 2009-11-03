@@ -136,7 +136,9 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
 		$attributes['static']		= $this->buildParamList( $method->isStatic() ? " " : "", 'static' );
 
-		$access		= $method->getAccess() ? $method->getAccess() : 'public';
+		$access		= $method->getAccess() ? $method->getAccess() : 'unknown';
+		$access		= array_key_exists( $access, $this->words['access'] ) ? $this->words['access'][$access] : $access;
+
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
@@ -176,6 +178,7 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 			$params	= " ".$params." ";
 		
 		$access		= $method->getAccess() ? $method->getAccess() : 'public';
+	
 		$data	= array(
 			'methodName'	=> $method->getName(),
 			'methodTitle'	=> $methodLink,

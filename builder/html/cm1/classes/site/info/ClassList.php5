@@ -37,9 +37,8 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
  */
 class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Abstract
 {
-	public $linkTarget = 'content';
+	public $linkTarget = '_self';
 	
-
 	/**
 	 *	...
 	 *	@access		public
@@ -53,7 +52,7 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 			'words'		=> $this->env->words['classList'],
 			'list'		=> $this->buildClassList(),
 		);
-		$content	= $this->env->loadTemplate( "site/info/classList", $uiData );
+		$content	= $this->loadTemplate( "site/info/classList", $uiData );
 		$this->saveFile( "classes.html", $content );
 		$this->appendLink( 'classes.html', 'classList' );
 	}
