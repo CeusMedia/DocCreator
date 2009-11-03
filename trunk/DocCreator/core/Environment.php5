@@ -25,13 +25,11 @@
  *	@version		$Id: Environment.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
 import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.ui.Template' );
 /**
  *	Class holding environmental Resources for all DocCreater Components.
  *	@category		cmTools
  *	@package		DocCreator_Core
  *	@uses			File_INI_Reader
- *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -46,7 +44,7 @@ class DocCreator_Core_Environment
 	public $fileList;
 	public $packageList;
 	public $packageTree;
-	public $upperCasePackages	= array();
+#	public $upperCasePackages	= array();
 	public $extensions;
 	public $verbose				= FALSE; 
 	
@@ -56,39 +54,60 @@ class DocCreator_Core_Environment
 	/**
 	 *	Constructur, reads Resources and stores locally.
 	 *	@access		public
-	 *	@param		ArrayObject		$config			Configuration Array Object 
-	 *	@param		ArrayObject		$options		Options Array Object to overwrite Configuration
+	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
+	 *	@param		ArrayObject						$options		Options Array Object to overwrite Configuration
 	 *	@return		void
 	 */
-	public function __construct( ArrayObject $config, ArrayObject $options )
+	public function __construct( DocCreator_Core_Configuration $config, ArrayObject $options )
 	{
 		$this->config	=& $config;
-		$this->verbose	= $config['creator.verbose'];
-		foreach( $options as $key => $value )
-			if( array_key_exists( $key, $config ) && $value !== NULL )
-				$config[$key]	= $value;
-		
-		$pathLocales	= $this->getBuilderPath().'locales/';
-		$reader			= new File_INI_Reader( $pathLocales.$config['doc.language'].".ini", TRUE );
-		$this->words	= $reader->toArray();
+		$this->verbose	= $config->getVerbose();
 
-		$packageNames	= $config['project.package.upperCase'];
-		$parts			= explode( ",", $packageNames );
-		foreach( $parts as $part )
-			if( trim( $part ) )
-				$this->upperCasePackages[]	= $part;
+		$this->path		= $_ENV['TMP']."/";
 
 		$uri	= dirname( dirname( __FILE__ ) )."/config/php.classes.list";
 		$this->phpClasses	= File_Reader::loadArray( $uri );
 
+#		foreach( $options as $key => $value )
+#			if( array_key_exists( $key, $config ) && $value !== NULL )
+#				$config[$key]	= $value;
+		
+#		$packageNames	= $config['project.package.upperCase'];
+#		$parts			= explode( ",", $packageNames );
+#		foreach( $parts as $part )
+#			if( trim( $part ) )
+#				$this->upperCasePackages[]	= $part;
+
+	}
+
+	public function openBuilder( XML_Element $builder )
+	{
+		$this->builder	= $builder;
+		$fileLocales	= $this->getBuilderClassPath().'locales/'.$builder->language->getValue().".ini";
+		$reader			= new File_INI_Reader( $fileLocales, TRUE );
+		$this->words	= $reader->toArray();
+	}
+
+	public function getBuilderTargetPath()
+	{
+		return $this->config->getBuilderTargetPath( $this->builder );
+	}
+
+	public function getBuilderDocumentsPath()
+	{
+		return $this->config->getBuilderDocumentsPath( $this->builder );
+	}
+	
+	public function load()
+	{
 		$data	= new ADT_PHP_Container();
-		$this->data	= $data->load( $this->config );
+		$this->data	= $this->loadContainer( $this->config );
 		$this->readStructureTree();
 		$this->readPackageStructure();
 		$this->readClassIndex();
 
-		$this->extensions		= explode( ",", $config['project.extensions'] );
-		$this->extensions		= implode( "|", $this->extensions );
+#		$this->extensions		= explode( ",", $config['project.extensions'] );
+#		$this->extensions		= implode( "|", $this->extensions );
 		$this->fileList			= array();
 		$this->classList		= array();
 /*		foreach( $this->data->getFiles() as $fileName => $file)
@@ -107,9 +126,10 @@ class DocCreator_Core_Environment
 	 */
 	public function capitalizePackageLabel( $label )
 	{
-		if( in_array( $label, $this->upperCasePackages ) )
-			return strtoupper( $label );
 		return $label;
+#		if( in_array( $label, $this->upperCasePackages ) )
+#			return strtoupper( $label );
+#		return $label;
 	}
 
 	/**
@@ -120,15 +140,15 @@ class DocCreator_Core_Environment
 	 */
 	public function capitalizePackageName( $packageName, $separator = "_" )
 	{
-		$packageParts	= explode( $separator, $packageName );
-		foreach( $packageParts as $nr => $part )
-		{
-			$part	= ucFirst( $part );
-			if( in_array( $part, $this->upperCasePackages ) )
-				$part	= strtoupper( $part );
-			$packageParts[$nr]	= $part;
-		}
-		$packageName	= implode( "_", $packageParts );
+#		$packageParts	= explode( $separator, $packageName );
+#		foreach( $packageParts as $nr => $part )
+#		{
+#			$part	= ucFirst( $part );
+#			if( in_array( $part, $this->upperCasePackages ) )
+#				$part	= strtoupper( $part );
+#			$packageParts[$nr]	= $part;
+#		}
+#		$packageName	= implode( "_", $packageParts );
 		return $packageName;
 	}
 
@@ -161,63 +181,53 @@ class DocCreator_Core_Environment
 	}
 	
 	/**
-	 *	Returns URI of Template Name for a given Template Key and optional Template Folder.
+	 *	Returns Path to Builder Classes.
 	 *	@access		public
-	 *	@param		string			$fileName		Template Key (without Extension)
-	 *	@param		string			$packageName	Template Folder (without trailing Slash)
-	 *	@return		string			File Name of Template File
+	 *	@return		string			Path to Builder Classes
 	 */
-	public function getTemplateFile( $fileName, $packageName = "" )
+	public function getBuilderClassPath()
 	{
-		if( $packageName )
-			$fileName	= $packageName."/".$fileName;
-		$themePath	= $this->getBuilderPath();
-		$fileUri	= $themePath."templates/".$fileName.".phpt";
-		return $fileUri;
+		$format		= $this->builder->getAttribute( 'format' );
+		$converter	= $this->builder->getAttribute( 'converter' );
+		return 'builder/'.$format.'/'.$converter."/";
 	}
 	
-	/**
-	 *	Returns Path to Template.
-	 *	@access		public
-	 *	@return		string			Template Path
-	 */
-	public function getBuilderPath()
+	public function getBuilderTheme()
 	{
-		return 'builder/'.$this->config['project.builder.format'].'/'.$this->config['project.builder.theme']."/";
+		return $this->builder->getAttribute( 'theme' );
 	}
 
-	/**
-	 *	Loads a Template and inserts Data.
-	 *	@access		public
-	 *	@param		string			$fileKey		Key of Template, e.g. folder.file.sub for themes/.../templates/folder/file.sub.html
-	 *	@param		array			$data			Data Array to insert into Template
-	 *	@return		string
-	 */
-	public function loadTemplate( $fileKey, $data )
+	public function loadContainer()
 	{
-		if( !isset( $data['language'] ) )
-			$data['language']	= $this->config['doc.language'];
-		$fileUri	= $this->getFileNameFromTemplateKey( $fileKey );
-		$template	= new UI_Template( $fileUri, $data );
-		return $template->create();
-	}
-	
-	protected function getFileNameFromTemplateKey( $fileKey )
-	{
-		$package	= "";
-		$parts		= explode( ".", $fileKey );
-		if( count( $parts ) > 1 )
-			$package	= array_shift( $parts )."/";
-		$fileKey	= implode( ".", $parts );
-		$fileName	= $package.$fileKey.".html";
-		$fileUri	= $this->getBuilderPath()."templates/".$fileName;
-		return $fileUri;
-	}
-
-	public function hasTemplate( $fileKey )
-	{
-		$fileUri	= $this->getFileNameFromTemplateKey( $fileKey );
-		return file_exists( $fileUri );
+		$archive	= $this->config->getArchiveFileName();
+		$serial		= $this->config->getSerialFileName();
+		if( !empty( $archive ) )
+		{
+			$uri	= $this->path.$archive;
+			if( file_exists( $uri ) )
+			{
+				$serial	= "";
+				if( $fp = gzopen( $uri, "r" ) )
+				{
+					while( !gzeof( $fp ) )
+						$serial	.= gzgets( $fp, 4096 );
+					$data	= unserialize( $serial );
+					gzclose( $fp );
+				}				
+				return $data;
+			}
+		}
+		if( !empty( $serial ) )
+		{
+			$uri	= $this->path.$serial;
+			if( file_exists( $uri ) )
+			{
+				$serial	= file_get_contents( $uri );
+				$data	= unserialize( $serial );
+				return $data;
+			}
+		}
+		throw new RuntimeException( 'No data file existing' );
 	}
 
 	private function readClassIndex()
@@ -226,8 +236,12 @@ class DocCreator_Core_Environment
 		{
 			foreach( $file->getClasses() as $className => $class )
 			{
-				$category	= $this->config['project.category.default'];
-				$package	= $this->config['project.package.default'];
+#				$category	= $this->config->data->['project.category.default'];
+#				$package	= $this->config['project.package.default'];
+
+				$category	= 'default';
+				$package	= 'default';
+
 				$category	= $class->getCategory() ? $class->getCategory() : $category;
 				$package	= $class->getPackage() ? $class->getPackage() : $package;
 				$this->classNameList[$class->getName()][$category][$package]	= $class;
@@ -273,6 +287,34 @@ class DocCreator_Core_Environment
 				$package->setClass( $class->getName(), $class );
 				$category->setPackage( $class->getPackage(), $package );
 			}
+		}
+	}
+
+	/**
+	 *	Stores collected File/Class Data as Serial File or Archive File.
+	 *	@access		protected
+	 *	@param		ADT_PHP_Container	$data		Collected File / Class Data
+	 *	@return		void
+	 */
+	public function saveContainer( ADT_PHP_Container $data )
+	{
+		$serial	= serialize( $data );
+#		if( !file_exists( $this->path ) )
+#			mkDir( $this->path, 0775, TRUE );
+		
+		$fileArchive	= $this->config->getArchiveFileName();
+		$fileSerial		= $this->config->getSerialFileName();
+		if( !empty( $fileArchive ) )
+		{
+			$uri	= $this->path.$fileArchive;
+			$gz		= gzopen( $uri, 'w9' );
+			gzwrite( $gz, $serial );
+			gzclose( $gz );
+		}
+		else if( !empty( $fileSerial ) )
+		{
+			$uri	= $this->path.$fileSerial;
+			file_put_contents( $uri, $serial );
 		}
 	}
 }

@@ -27,6 +27,7 @@
 import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.ui.DevOutput' );
+require_once( dirname( __FILE__ ).'/Configuration.php5' );
 require_once( dirname( __FILE__ ).'/Environment.php5' );
 require_once( dirname( __FILE__ ).'/Reader.php5' );
 /**
@@ -35,6 +36,7 @@ require_once( dirname( __FILE__ ).'/Reader.php5' );
  *	@package		DocCreator_Core
  *	@uses			File_INI_Reader
  *	@uses			Alg_Time_Clock
+ *	@uses			DocCreator_Core_Configuration
  *	@uses			DocCreator_Core_Environment
  *	@uses			DocCreator_Core_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -50,6 +52,13 @@ class DocCreator_Core_Runner
 	protected $pathProject;
 	protected $options			= NULL;
 
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string		$configFile		Name of Configuration File
+	 *	@param		bool		$verbose		Flag: show Information
+	 *	@return		void
+	 */
 	public function __construct( $configFile = NULL, $verbose = NULL )
 	{
 		$this->loadToolConfig();
@@ -64,35 +73,35 @@ class DocCreator_Core_Runner
 	
 	public function enableParser( $bool = TRUE )
 	{
-		$this->setOption( 'skipParser', !$bool );
+		$this->configProject->setSkip( 'parser', !$bool );
 	}
 	
 	public function enableCreator( $bool = TRUE )
 	{
-		$this->setOption( 'skipCreator', !$bool );
+		$this->configProject->setSkip( 'creator', !$bool );
 	}
 	
 	public function enableInfo( $bool = TRUE )
 	{
-		$this->setOption( 'skipInfo', !$bool );
+		$this->configProject->setSkip( 'info', !$bool );
 	}
 	
 	public function enableResources( $bool = TRUE )
 	{
-		$this->setOption( 'skipResources', !$bool );
+		$this->configProject->setSkip( 'resources', !$bool );
 	}
 	
-	public function setOption( $key, $value )
-	{
-		$this->configProject['creator.'.$key]	= $value;
-	}
+#	public function setOption( $key, $value )
+#	{
+#		$this->configProject['creator.'.$key]	= $value;
+#	}
 	
-	public function getOption( $key, $default = NULL )
-	{
-		if( isset( $this->configProject['creator.'.$key] ) )
-			return $this->configProject['creator.'.$key];
-		return $default;
-	}
+#	public function getOption( $key, $default = NULL )
+#	{
+#		if( isset( $this->configProject['creator.'.$key] ) )
+#			return $this->configProject['creator.'.$key];
+#		return $default;
+#	}
 
 	public function handleError( $number, $message, $file, $line )
 	{
@@ -120,18 +129,18 @@ class DocCreator_Core_Runner
 			remark( str_repeat( "-", "77" ) );
 		}
 		$content	= ob_get_clean();
-		if( $this->getOption( 'mail.receiver' ) )
+		$receiver	= $this->configProject->getMailReceiver();
+		if( $receiver )
 		{
-			$receiver	= $this->getOption( 'mail.receiver' );
 			$subject	= array_shift( explode( "\n", $message ) );
-			mail( "kriss@reiz-strom.net", $subject, $message );
+			mail( $receiver, $subject, $message );
 		}
-		if( $this->getOption( 'file.log.error' ) )
+		$logFile	= $this->configProject->getErrorLogFileName();
+		if( $logFile )
 		{
-			$logFile	= $this->getOption( 'file.log.error' );
 			error_log( time().":". base64_encode( $content )."\n", 3, $logFile );
 		}
-		if( $this->getOption( 'verbose' ) )
+		if( $this->configProject->getVerbose() )
 		{
 			die( $content );
 		}
@@ -140,22 +149,24 @@ class DocCreator_Core_Runner
 	protected function loadProjectConfig( $fileName )
 	{
 		//  --  LOAD DEFAULT PROJECT CONFIG  --  //
-		$uri	= dirname( dirname( __FILE__ ) )."/config/default.ini";
-		if( !file_exists( $uri ) )
-			throw new RuntimeException( 'No default config file found' );
-		$configDefault	= parse_ini_file( $uri, FALSE );
+#		$uri	= dirname( dirname( __FILE__ ) )."/config/default.ini";
+#		if( !file_exists( $uri ) )
+#			throw new RuntimeException( 'No default config file found' );
+#		$configDefault	= parse_ini_file( $uri, FALSE );
 
 		//  --  LOAD CUSTOM PROJECT CONFIG  --  //
 		if( !$fileName )
 			throw new RuntimeException( 'No config file set' );
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'No config file found' );
-		$configCustom			= parse_ini_file( $fileName, FALSE );
+#		$configCustom			= parse_ini_file( $fileName, FALSE );
 
-		$this->configProject	= array_merge( $configDefault, $configCustom );						//  merge default and custom config to project config
-		$this->pathProject		= $this->configProject['project.path.source'];						//  set shortcut to project 
+#		$this->configProject	= array_merge( $configDefault, $configCustom );						//  merge default and custom config to project config
 
-		$this->setVerbose( $this->getOption( 'verbose' ) );
+		$this->configProject	= new DocCreator_Core_Configuration( $fileName );
+#		$this->pathProject		= $this->configProject->['project.path.source'];						//  set shortcut to project 
+
+		$this->setVerbose( $this->configProject->getVerbose() );
 	}
 
 	protected function loadToolConfig()
@@ -175,33 +186,36 @@ class DocCreator_Core_Runner
 		{
 			$clock		= new Alg_Time_Clock;
 
-			if( $this->getOption( 'showConfigOnly' ) )
-			{
-				$this->showConfig();
-				return;
-			}
-#			else if( !$this->getOption( 'verbose' ) )
+#			if( $this->getOption( 'showConfigOnly' ) )
+#			{
+#				$this->showConfig();
+#				return;
+#			}
+#			else if( !$this->configProject->getVerbose() )
 #				ob_start( 'trashOutput' );
 
-			if( $this->getOption( 'verbose' ) )
+			if( $this->configProject->getVerbose() )
 			{
 				remark( "run ".$this->configTool['project.name']." v".$this->configTool['project.version'] );
-				remark( "for ".$this->configProject['project.name']." v".$this->configProject['project.version'] );
+#				remark( "for ".$this->configProject['project.name']." v".$this->configProject['project.version'] );
 				remark( "" );
 				remark( "Project Config: ".$this->configFile );
-				if( $this->getOption( 'showConfig' ) )
-					$this->showConfig();
+#				if( $this->getOption( 'showConfig' ) )
+#					$this->showConfig();
 			}
 
-			if( $this->getOption( 'skipParser' ) )
+			if( $this->configProject->getSkip( 'parser' ) )
 			{
-				if( $this->getOption( 'verboseSkip' ) )
+				if( $this->configProject->getVerbose( 'skip' ) )
 					remark( 'Skip: Parser + Reader + Reader Plugins' );
 			}
 			else
 			{
-				$doc	= new DocCreator_Core_Reader( $this->configProject, $this->getOption( 'verbose' ) );
-				$doc->readFiles();
+				$doc	= new DocCreator_Core_Reader( $this->configProject, $this->configProject->getVerbose() );
+				$data	= $doc->readFiles();
+
+				$env	= new DocCreator_Core_Environment( $this->configProject, new ArrayObject() );
+				$env->saveContainer( $data );												//  save Data to Serial File
 			}
 			
 			$this->runCreator();
@@ -225,31 +239,32 @@ class DocCreator_Core_Runner
 		
 	protected function runCreator()
 	{
-
-	
-		$format		= $this->configProject['project.builder.format'];
-		$theme		= $this->configProject['project.builder.theme'];
-		$classKey	= 'builder.'.$format.'.'.$theme.'.classes.Creator';
-		$className	= 'Builder_'.strtoupper( $format ).'_'.strtoupper( $theme ).'_Creator';
-		import( $classKey );
-		new $className( $this->configProject, $this->getOption( 'verbose' ) );
+		foreach( $this->configProject->getBuilders() as $builder )
+		{
+			$format		= $builder->getAttribute( 'format' );
+			$converter	= $builder->getAttribute( 'converter' );
+			$classKey	= 'builder.'.$format.'.'.$converter.'.classes.Creator';
+			$className	= 'Builder_'.strtoupper( $format ).'_'.strtoupper( $converter ).'_Creator';
+			import( $classKey );
+			new $className( $this->configProject, $builder, $this->configProject->getVerbose() );
+		}
 	}
 
 	public function setConfigFile( $fileName )
 	{
 		$this->configFile	= $fileName;
 		$this->loadProjectConfig( $fileName );		
-		$this->configProject	= new ArrayObject( $this->configProject );
+		$this->configProject	= $this->configProject;
 	}
 
-	public function setErrorLog( $fileName )
-	{
-		$this->setOption( 'file.log.error', $fileName );
-	}
+#	public function setErrorLog( $fileName )
+#	{
+#		$this->setOption( 'file.log.error', $fileName );
+#	}
 
 	public function setErrorMail( $mail )
 	{
-		$this->setOption( 'mail.receiver', $mail );
+		$this->configProject->setMailReceiver( $mail );
 	}
 
 	public function setQuite()
@@ -259,7 +274,7 @@ class DocCreator_Core_Runner
 	
 	public function setVerbose( $bool = TRUE )
 	{
-		$this->setOption( 'verbose', $bool );
+		$this->configProject->setVerbose( 'general', $bool );
 	}
 
 	protected function showConfig( $indent = 20 )

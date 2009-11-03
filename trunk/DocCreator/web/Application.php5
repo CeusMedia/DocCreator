@@ -1,4 +1,14 @@
 <?php
+/**
+ *	...
+ *	@category		cmTools
+ *	@package		DocCreator_Web
+ */
+/**
+ *	...
+ *	@category		cmTools
+ *	@package		DocCreator_Web
+ */
 class DocCreator_Web_Application
 {
 	public function __construct()
