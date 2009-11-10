@@ -268,14 +268,14 @@ abstract class Builder_HTML_CM1_Abstract
 			$data['language']	= $this->env->builder->language->getValue();
 		if( !isset( $data['theme'] ) )
 			$data['theme']	= $this->env->builder->getAttribute( 'theme' );
-		$fileUri	= $this->getFileNameFromTemplateKey( $fileKey );
-		$fileId		= md5( $fileUri );
-		if( array_key_exists( $fileId, $this->cacheTemplate ) )
-			$content	= $this->cacheTemplate[$fileId];
+		$fileHash	= md5( $fileKey );
+		if( array_key_exists( $fileHash, $this->cacheTemplate ) )
+			$content	= $this->cacheTemplate[$fileHash];
 		else
 		{
+			$fileUri	= $this->getFileNameFromTemplateKey( $fileKey );
 			$content	= file_get_contents( $fileUri );
-			$this->cacheTemplate[$fileId]	= $content;
+			$this->cacheTemplate[$fileHash]	= $content;
 		}
 		return UI_Template::renderString( $content, $data );
 	}

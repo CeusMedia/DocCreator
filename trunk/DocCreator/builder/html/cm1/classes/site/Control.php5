@@ -42,7 +42,7 @@ class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
 	protected $linkTarget	= "content";
 	
 	/**
-	 *	Builds Tree View.
+	 *	Builds complete Control Frame View.
 	 *	@access		public
 	 *	@return		string
 	 *	@todo		rename to buildView

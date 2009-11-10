@@ -171,7 +171,7 @@ class DocCreator_Core_Runner
 
 	protected function loadToolConfig()
 	{
-		$uri	= dirname( dirname( __FILE__ ) )."/config/doc.ini";
+		$uri	= dirname( dirname( __FILE__ ) )."/config/config.ini";
 		if( !file_exists( $uri ) )
 			throw new RuntimeException( 'No tool config file given' );
 		$this->configTool	= parse_ini_file( $uri, FALSE );
