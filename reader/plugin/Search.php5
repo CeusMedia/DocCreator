@@ -24,14 +24,16 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Search.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
-import( 'de.ceus-media.alg.TermExtractor' );
+import( 'de.ceus-media.alg.text.Unicoder' );
+import( 'de.ceus-media.alg.text.TermExtractor' );
 import( 'reader.plugin.Abstract' );
 /**
  *	...
  *	@category		cmTools
  *	@package		DocCreator_Reader_Plugin
  *	@extends		Reader_Plugin_Abstract
- *	@uses			Alg_TermExtractor
+ *	@uses			Alg_Text_Unicoder
+ *	@uses			Alg_Text_TermExtractor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -54,43 +56,63 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 			remark( "Extracting Search Terms..." );
 		foreach( $data->getFiles() as $fileName => $file )
 		{
-			$document	= array();
-			if( $file->getClasses() )
+			$facts	= array();
+			foreach( $file->getClasses() as $classId => $class )
 			{
-				$class	= array_shift( $file->getClasses() );
-				$document[]	= $class->getName();
-				$document[]	= $class->getDescription();
+				$facts['className']	= $class->getName();
+				$facts['classDesc']	= $class->getDescription();
 #				foreach( $class->getAuthors() as $author )
-#					$document[]	= $author->getName();
+#					$facts['authors'][]			= $author->getName();
 				foreach( $class->getTodos() as $todo )
-					$document[]	= $todo;
-				foreach( $class->getDeprecations() as $deprecated )
-					$document[]	= $deprecated;
+					$facts['todos'][]			= $todo;
+				foreach( $class->getDeprecations() as $deprecation )
+					$facts['deprecations'][]	= $deprecation;
 				foreach( $class->getMembers() as $member )
-				{
-					$document[]	= $member->getName();
-					$document[]	= $member->getDescription();
-				}
+					$facts['members'][$member->getName()]	= $member->getDescription();
 				foreach( $class->getMethods() as $method )
 				{
-					$document[]	= $method->getName();
-					$document[]	= $method->getDescription();
+					$facts['methods'][$method->getName()]	= $method->getDescription();
+					foreach( $method->getTodos() as $todo )
+						$facts['todos'][]			= $todo;
+					foreach( $method->getDeprecations() as $deprecation )
+						$facts['deprecations'][]	= $deprecation;
 				}
 			}
-			foreach( $file->getFunctions() as $functionName => $function )
+/*			foreach( $file->getFunctions() as $functionName => $function )
 			{
 				$document[]	= $function->getName();
 				$document[]	= $function->getDescription();
 			}
-			foreach( $document as $line => $entry )
-				if( !trim( $entry ) )
-					unset( $document[$line] );
-
+*/
+			$document	= array();
+			foreach( array_values( $facts ) as $fact )
+			{
+				if( is_string( $fact ) && trim( $fact ) )
+					$document[]	= $fact;
+				else if( is_array( $fact ) )
+				{
+					foreach( $fact as $factKey => $factValue )
+						if( $factValue )
+							if( is_string( $factKey ) )
+								$document[]	= $factKey . ' ' . $factValue;
+							else
+								$document[]	= $factValue;
+				}
+			}
 			$document	= implode( "\n", $document );
-			$terms		= Alg_TermExtractor::getTerms( $document );
+
+			$facts['fileId']	= $file->getId();
+			$facts['fileName']	= $fileName;
+			$facts['filePath']	= $file->getPathname();
+			$facts['classId']	= $class->getId();
+			if( !Alg_StringUnicoder::isUnicode( $document ) )
+				$document	= Alg_StringUnicoder::convertToUnicode( $document );
+			
+			$terms		= Alg_Text_TermExtractor::getTerms( $document );
 			$data->getFile( $fileName )->search	= array(
 				'document'	=> $document,
 				'terms'		=> $terms,
+				'facts'		=> $facts,
 			);
 		}
 		$data->timeTerms	= $clock2->stop( 6, 0 );								//  note needed time
@@ -99,7 +121,7 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 	protected function setUp()
 	{
 		$termsBlacklist	= array( 'for', 'and', 'with', 'of', 'if', 'else', 'returns', 'method', 'function', 'functions', 'methods', 'method' );
-		Alg_TermExtractor::setBlacklist( $termsBlacklist );
+		Alg_Text_TermExtractor::setBlacklist( $termsBlacklist );
 	}
 }
 ?>

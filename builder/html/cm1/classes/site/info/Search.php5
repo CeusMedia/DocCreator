@@ -59,26 +59,26 @@ class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstr
 		$this->appendLink( 'search.html', 'search' );
 	}
 
+	/**
+	 *	Collects all Search Terms of all Classes and stores a serialized Term List in Doc Folder.
+	 *	This serial will be used by the Search Script, which is triggered by the built HTML Search Form and copied as 'resource'.
+	 *	@access		private
+	 *	@param		string		$pathTarget			Doc Folder
+	 *	@return		int			Number of saved Bytes
+	 */
 	private function createTermList( $pathTarget )
 	{
 		$data		= array();
 		$files		= $this->env->data->getFiles();
 		foreach( $files as $fileId => $file )
-		{
 			foreach( $file->getClasses() as $classId => $class )
-			{
-				$data[]	= array(
-					'fileId'	=> $fileId,
-					'fileName'	=> $file->getPathname(),
-					'classId'	=> $classId,
-					'className'	=> $class->getName(),
-					'terms'		=> $file->search['terms']
-				);
-			}
-		}
-		File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
+				$data[]	= $file->search;
+		return File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 
+	/**
+	 *	@deprecated		not used anymore, since Search is running on Server
+	 */
 	private function buildTermIndex()
 	{
 		return;
