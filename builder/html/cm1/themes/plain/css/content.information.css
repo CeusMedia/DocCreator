@@ -33,7 +33,7 @@
 
 
 #information table {
-	background-image: url(../../images/lighter25.png);
+	background-image: url(../images/lighter25.png);
 	background-repeat: repeat;
 	border: 1px solid #BBB;
 	border-collapse: collapse;
@@ -58,13 +58,13 @@
 	}
 #information h3.member-public,
 #information h3.method-public {
-	background-image: url(../../images/mini/icon_world.png);
+	background-image: url(../images/mini/icon_world.png);
 	}
 #information h3.member-protected,
 #information h3.method-protected {
-	background-image: url(../../images/mini/icon_security.png);
+	background-image: url(../images/mini/icon_security.png);
 	}
 #information h3.member-private,
 #information h3.method-private {
-	background-image: url(../../images/mini/icon_padlock.png);
+	background-image: url(../images/mini/icon_padlock.png);
 	}

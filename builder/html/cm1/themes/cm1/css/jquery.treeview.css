@@ -32,9 +32,9 @@
 	}
 
 .treeview .hover { color: red; cursor: pointer; }
-.treeview li { background: url(../../images/tree/tv-item.gif) 0 0 no-repeat; }
-.treeview .collapsable { background-image: url(../../images/tree/tv-collapsable.gif); }
-.treeview .expandable { background-image: url(../../images/tree/tv-expandable.gif); }
-.treeview .last { background-image: url(../../images/tree/tv-item-last.gif); }
-.treeview .lastCollapsable { background-image: url(../../images/tree/tv-collapsable-last.gif); }
-.treeview .lastExpandable { background-image: url(../../images/tree/tv-expandable-last.gif); }
+.treeview li { background: url(../images/tree/tv-item.gif) 0 0 no-repeat; }
+.treeview .collapsable { background-image: url(../images/tree/tv-collapsable.gif); }
+.treeview .expandable { background-image: url(../images/tree/tv-expandable.gif); }
+.treeview .last { background-image: url(../images/tree/tv-item-last.gif); }
+.treeview .lastCollapsable { background-image: url(../images/tree/tv-collapsable-last.gif); }
+.treeview .lastExpandable { background-image: url(../images/tree/tv-expandable-last.gif); }

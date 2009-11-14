@@ -87,7 +87,7 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	{
 		if( $this->env->verbose )
 			remark( "Creating Site: Htaccess" );
-		$source		= $this->env->getBuilderClassPath().'templates/htaccess';
+		$source		= $this->pathTheme.'templates/htaccess';
 		$htaccess	= file_get_contents( $source );
 		file_put_contents( $pathTarget.".htaccess", $htaccess );
 	}

@@ -1,5 +1,5 @@
 body.site-info div#info-search input#search-query {
-	background-image:url(../../images/silk/magnifier.png);
+	background-image:url(../images/silk/magnifier.png);
 	background-position:1px 0;
 	background-repeat:no-repeat;
 	border:1px inset #CCDDFF;
@@ -18,23 +18,23 @@ body.site-info div.description {
 
 body.site-info span.found {
 	font-weight: bold;
-	background-image: url(../../images/background_hilight_gray.png);
+	background-image: url(../images/background_hilight_gray.png);
 	}
 
 body.site-info span.found.term-0 {
-	background-image: url(../../images/background_hilight_green.png);
+	background-image: url(../images/background_hilight_green.png);
 	}
 
 body.site-info span.found.term-1 {
-	background-image: url(../../images/background_hilight_yellow.png);
+	background-image: url(../images/background_hilight_yellow.png);
 	}
 
 body.site-info span.found.term-2 {
-	background-image: url(../../images/background_hilight_red.png);
+	background-image: url(../images/background_hilight_red.png);
 	}
 
 body.site-info span.found.term-3 {
-	background-image: url(../../images/background_hilight_blue.png);
+	background-image: url(../images/background_hilight_blue.png);
 	}
 
 	

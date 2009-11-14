@@ -7,7 +7,7 @@
 /*	margin-left: 2px;*/
 	padding-left: 16px;
 	height: 16px;
-	background-image: url(../../images/mini/icon_page.png);
+	background-image: url(../images/mini/icon_page.png);
 	background-repeat: no-repeat;
 	text-decoration: none;
 	}
@@ -18,11 +18,11 @@
 	}
 
 #tree ul li a.category {
-	background-image: url(../../images/mini/page_component.png);
+	background-image: url(../images/mini/page_component.png);
 	}
 
 #tree ul li a.package {
-	background-image: url(../../images/mini/page_package.png);
+	background-image: url(../images/mini/page_package.png);
 	}
 
 #tree ul li a.package>span {
@@ -31,7 +31,7 @@
 	}
 
 #tree ul li a.class {
-	background-image: url(../../images/mini/page_php.png);
+	background-image: url(../images/mini/page_php.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	height: 16px;
@@ -61,7 +61,7 @@
 	border-color: #CCDDFF;
 	background-color: #DDE7FF;
 	font-size: 0.9em;
-	background-image:url(../../images/silk/magnifier.png);
+	background-image:url(../images/silk/magnifier.png);
 	background-repeat: no-repeat;
 	background-position: 1px 0px;
 	padding-left: 20px;

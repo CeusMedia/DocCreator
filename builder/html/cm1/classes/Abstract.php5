@@ -50,6 +50,10 @@ abstract class Builder_HTML_CM1_Abstract
 	protected $cacheClassUrl		= array();
 	
 	protected $cacheTemplate		= array();
+	
+	protected $pathTheme			= NULL;
+
+	protected $pathBuilder			= NULL;
 
 	/**
 	 *	Constructor.
@@ -60,9 +64,11 @@ abstract class Builder_HTML_CM1_Abstract
 	 */
 	public function __construct( DocCreator_Core_Environment $env, $type = NULL )
 	{
-		$this->env		= $env;
-		$this->type		= $type;
-		$this->words	= $this->env->words;
+		$this->env			= $env;
+		$this->type			= $type;
+		$this->words		= $this->env->words;
+		$this->pathBuilder	= dirname( dirname( __FILE__ ) ).'/';
+		$this->pathTheme	= $this->getThemePath();
 	}
 
 	/**
@@ -127,14 +133,21 @@ abstract class Builder_HTML_CM1_Abstract
 	
 	protected function getFileNameFromTemplateKey( $fileKey )
 	{
-		$package	= "";
-		$parts		= explode( ".", $fileKey );
-		if( count( $parts ) > 1 )
-			$package	= array_shift( $parts )."/";
-		$fileKey	= implode( ".", $parts );
-		$fileName	= $package.$fileKey.".html";
-		$fileUri	= dirname( dirname( __FILE__ ) )."/templates/".$fileName;
-		return $fileUri;
+		$package		= "";
+		$fileKeyParts	= explode( ".", $fileKey );
+		if( count( $fileKeyParts ) > 1 )
+			$package	= array_shift( $fileKeyParts )."/";
+		$fileKey		= implode( ".", $fileKeyParts );
+		$fileName		= $package.$fileKey.".html";
+		$templateUri	= $this->pathTheme.'templates/'.$fileName;
+		return $templateUri;
+	}
+	
+	protected function getThemePath()
+	{
+		$themeKey		= $this->env->getBuilderTheme();
+		$themePath		= $this->pathBuilder.'themes/'.$themeKey.'/';
+		return $themePath;
 	}
 
 	protected function getParameterMarkUp( ADT_PHP_Parameter $data )

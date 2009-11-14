@@ -66,12 +66,14 @@ class Builder_HTML_CM1_Creator
 	 *	@param		bool							$options		Flag: be verbose
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Configuration $config, XML_Element $builder, $verbose = NULL )
+	public function __construct( DocCreator_Core_Environment $env, XML_Element $builder, $verbose = NULL )
 	{
-		$options	= array( 'creator.verbose' => $verbose );
-		$this->env	= new DocCreator_Core_Environment( $config, new ArrayObject( $options ) );
+		$options		= array( 'creator.verbose' => $verbose );
+		$this->env		= $env;
+		$this->config	= $this->env->config;
 		$this->env->openBuilder( $builder );
 		$this->env->load();
+
 
 		$this->siteBuilder	= new Builder_HTML_CM1_Site_Builder( $this->env );
 
@@ -110,10 +112,10 @@ class Builder_HTML_CM1_Creator
 		}				
 		else
 		{
-			$theme	= $this->env->getBuilderTheme();
-			$this->copyResourcesRecursive( "js/", "js/", "JavaScripts" );
-			$this->copyResourcesRecursive( "css/".$theme."/", "css/".$theme."/", "Stylesheets" );
-			$this->copyResourcesRecursive( "images/", "images/", "Images" );
+			$pathTheme	= 'themes/'.$this->env->getBuilderTheme().'/';
+			$this->copyResourcesRecursive( $pathTheme.'js/', 'js/', "JavaScripts" );
+			$this->copyResourcesRecursive( $pathTheme.'css/', 'css/', "Stylesheets" );
+			$this->copyResourcesRecursive( $pathTheme.'images/', "images/", "Images" );
 		}
 	}
 	
