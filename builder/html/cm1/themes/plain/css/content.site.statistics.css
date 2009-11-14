@@ -1,0 +1,40 @@
+body.site-info div#info-statistics table caption {
+	background: #EEE;
+	color: #000;
+	text-align: left;
+	font-size: 1.2em;
+	padding: 0.1em 1em 0em 1em;
+	border-color: gray;
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	}
+
+body.site-info div#info-statistics tr.codes {
+	color: blue;
+	font-weight: bold;
+	}
+
+body.site-info div#info-statistics tr.docs {
+	color: green;
+	font-weight: bold;
+	}
+
+body.site-info div#info-statistics tr.strips {
+	color: gray;
+	font-weight: bold;
+	}
+
+
+body.site-info div#info-statistics #codeTable table {
+	width: 520px;
+	}
+
+body.site-info div#info-statistics #metricsTable table {
+	width: 520px;
+	}
+
+body.site-info div#info-statistics #graph {
+	width: 518px;
+	border: 1px solid gray;
+	}
+
