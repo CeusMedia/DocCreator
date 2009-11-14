@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title><%className%></title>
+    <link rel="stylesheet" href="css/<%theme%>/reset.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/typography.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/content.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/content.index.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/content.information.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/content.syntax.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/content.source.css"/>
+    <link rel="stylesheet" href="css/<%theme%>/jquery.thickbox.css"/>
+    <script type="text/javascript" src="js/jquery.pack.js"></script>
+  </head>
+  <body>
+    <a name="top"></a>
+    <%index%>
+    <div id="information">
+      <h1>Class: <%className%></h1>
+      <small>File: <a href="#file_source"><%fileName%></a></small><br/>
+      <%fileInfo%>
+      <%classInfo%>
+      <%classMembers%>
+      <%classMethods%>
+      <%fileFunctions%>
+      <%fileSource%>
+    </div>
+  </body>
+  <script src="js/jquery.cookie.pack.js"></script>
+  <script src="js/jquery.thickbox.pack.js"></script>
+  <script src="js/dynamic.js"></script>
+</html>
