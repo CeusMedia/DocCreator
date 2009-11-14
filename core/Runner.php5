@@ -55,20 +55,17 @@ class DocCreator_Core_Runner
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$configFile		Name of Configuration File
+	 *	@param		string		$configFile		Name of Configuration File, absolute or relative
 	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		void
 	 */
-	public function __construct( $configFile = NULL, $verbose = NULL )
+	public function __construct( $configFile, $verbose = NULL )
 	{
+		$this->configFile	= $configFile;
 		$this->loadToolConfig();
-
-		if( $configFile )
-		{
-			$this->setConfigFile( $configFile );
-			if( !is_null( $verbose ) )
-				$this->setVerbose( $verbose );
-		}
+		$this->loadProjectConfig();		
+		if( !is_null( $verbose ) )
+			$this->setVerbose( $verbose );
 	}
 	
 	public function enableParser( $bool = TRUE )
@@ -145,27 +142,22 @@ class DocCreator_Core_Runner
 			die( $content );
 		}
 	}
-	
-	protected function loadProjectConfig( $fileName )
+
+	/**
+	 *	Loads DocCreator Settings from set absolute or relative Config File.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function loadProjectConfig()
 	{
-		//  --  LOAD DEFAULT PROJECT CONFIG  --  //
-#		$uri	= dirname( dirname( __FILE__ ) )."/config/default.ini";
-#		if( !file_exists( $uri ) )
-#			throw new RuntimeException( 'No default config file found' );
-#		$configDefault	= parse_ini_file( $uri, FALSE );
-
 		//  --  LOAD CUSTOM PROJECT CONFIG  --  //
-		if( !$fileName )
+		if( !$this->configFile )
 			throw new RuntimeException( 'No config file set' );
-		if( !file_exists( $fileName ) )
-			throw new RuntimeException( 'No config file found' );
-#		$configCustom			= parse_ini_file( $fileName, FALSE );
+		if( !file_exists( $this->configFile ) )
+			throw new RuntimeException( 'Config file "'.$this->configFile.'" not found' );
 
-#		$this->configProject	= array_merge( $configDefault, $configCustom );						//  merge default and custom config to project config
-
-		$this->configProject	= new DocCreator_Core_Configuration( $fileName );
-#		$this->pathProject		= $this->configProject->['project.path.source'];						//  set shortcut to project 
-
+		$this->configProject	= new DocCreator_Core_Configuration( $this->configFile );
+		$this->env				= new DocCreator_Core_Environment( $this->configProject );
 		$this->setVerbose( $this->configProject->getVerbose() );
 	}
 
@@ -213,9 +205,7 @@ class DocCreator_Core_Runner
 			{
 				$doc	= new DocCreator_Core_Reader( $this->configProject, $this->configProject->getVerbose() );
 				$data	= $doc->readFiles();
-
-				$env	= new DocCreator_Core_Environment( $this->configProject, new ArrayObject() );
-				$env->saveContainer( $data );												//  save Data to Serial File
+				$this->env->saveContainer( $data );												//  save Data to Serial File
 			}
 			
 			$this->runCreator();
@@ -246,15 +236,8 @@ class DocCreator_Core_Runner
 			$classKey	= 'builder.'.$format.'.'.$converter.'.classes.Creator';
 			$className	= 'Builder_'.strtoupper( $format ).'_'.strtoupper( $converter ).'_Creator';
 			import( $classKey );
-			new $className( $this->configProject, $builder, $this->configProject->getVerbose() );
+			new $className( $this->env, $builder, $this->configProject->getVerbose() );
 		}
-	}
-
-	public function setConfigFile( $fileName )
-	{
-		$this->configFile	= $fileName;
-		$this->loadProjectConfig( $fileName );		
-		$this->configProject	= $this->configProject;
 	}
 
 #	public function setErrorLog( $fileName )
