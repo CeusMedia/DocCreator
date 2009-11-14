@@ -71,7 +71,8 @@ class Builder_HTML_CM1_Site_Info_Deprecations extends Builder_HTML_CM1_Site_Info
 						continue;
 					$list	= array();
 					foreach( $method->getDeprecations() as $deprecation )
-						$list[]		= UI_HTML_Elements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
+						if( trim( $deprecation ) )
+							$list[]		= UI_HTML_Elements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
 					$list	= UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().'.html#class_method_'.$method->getName();

@@ -43,18 +43,6 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
 class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		Environment		$env		Environment Object
-	 *	@return		void
-	 */
-	public function __construct( $env )
-	{
-		$this->env			=& $env;
-		$this->linkTarget	= "content";
-	}
-	
-	/**
 	 *	Builds Tree View.
 	 *	@access		public
 	 *	@param		string		$projectId		Project ID (used as Cookie Name)
@@ -83,7 +71,7 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 			'words'		=> $this->env->words['tree'],
 			'tree'		=> $tree,
 		);
-		return $this->loadTemplate( "site/tree", $uiData );
+		return $this->loadTemplate( "site.tree", $uiData );
 	}
 
 	protected function convertTreeToTreeMenuRecursive( &$root, &$menu )

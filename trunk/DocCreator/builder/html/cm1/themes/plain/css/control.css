@@ -29,7 +29,7 @@ ul.links>li>a.info {
 	display: block;
 	padding-left: 26px;
 	height: 20px;
-	background-image: url(../../images/mini/box.png);
+	background-image: url(../images/mini/box.png);
 	background-repeat: no-repeat;
 	background-position: 5px 2px;
 	outline: 0px;
@@ -47,45 +47,45 @@ ul.links>li>a.info.current {
 
 
 ul.links>li>a.info.home {
-	background-image: url(../../images/mini/icon_home.png);
+	background-image: url(../images/mini/icon_home.png);
 	}
 ul.links>li>a.info.classList {
-	background-image: url(../../images/mini/table.png);
+	background-image: url(../images/mini/table.png);
 	}
 ul.links>li>a.info.search {
-	background-image: url(../../images/mini/page_find.png);
+	background-image: url(../images/mini/page_find.png);
 	}
 ul.links>li>a.info.statistics {
-	background-image: url(../../images/silk/chart_bar.png);
+	background-image: url(../images/silk/chart_bar.png);
 	}
 ul.links>li>a.info.parseErrors {
-	background-image: url(../../images/mini/action_stop.png);
+	background-image: url(../images/mini/action_stop.png);
 	}
 ul.links>li>a.info.about {
-	background-image: url(../../images/mini/page_text.png);
+	background-image: url(../images/mini/page_text.png);
 	}
 ul.links>li>a.info.history {
-	background-image: url(../../images/mini/icon_history.png);
+	background-image: url(../images/mini/icon_history.png);
 	}
 ul.links>li>a.info.changes {
-	background-image: url(../../images/mini/page_dynamic.png);
+	background-image: url(../images/mini/page_dynamic.png);
 	}
 ul.links>li>a.info.deprecations {
-	background-image: url(../../images/mini/icon_alert.png);
+	background-image: url(../images/mini/icon_alert.png);
 	}
 ul.links>li>a.info.installation {
-	background-image: url(../../images/mini/page_settings.png);
+	background-image: url(../images/mini/page_settings.png);
 	}
 ul.links>li>a.info.todos {
-	background-image: url(../../images/mini/note.png);
+	background-image: url(../images/mini/note.png);
 	}
 ul.links>li>a.info.bugs {
-	background-image: url(../../images/silk/bug.png);
+	background-image: url(../images/silk/bug.png);
 	}
 ul.links>li>a.info.triggers {
-	background-image: url(../../images/mini/action_go.png);
+	background-image: url(../images/mini/action_go.png);
 	}
 
 ul.links>li>a.info.methodOrder {
-	background-image: url(../../images/silk/spellcheck.png);
+	background-image: url(../images/silk/spellcheck.png);
 	}
