@@ -55,10 +55,9 @@ class DocCreator_Core_Environment
 	 *	Constructur, reads Resources and stores locally.
 	 *	@access		public
 	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
-	 *	@param		ArrayObject						$options		Options Array Object to overwrite Configuration
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Configuration $config, ArrayObject $options )
+	public function __construct( DocCreator_Core_Configuration $config )
 	{
 		$this->config	=& $config;
 		$this->verbose	= $config->getVerbose();
@@ -67,23 +66,14 @@ class DocCreator_Core_Environment
 
 		$uri	= dirname( dirname( __FILE__ ) )."/config/php.classes.list";
 		$this->phpClasses	= File_Reader::loadArray( $uri );
-
-#		foreach( $options as $key => $value )
-#			if( array_key_exists( $key, $config ) && $value !== NULL )
-#				$config[$key]	= $value;
-		
-#		$packageNames	= $config['project.package.upperCase'];
-#		$parts			= explode( ",", $packageNames );
-#		foreach( $parts as $part )
-#			if( trim( $part ) )
-#				$this->upperCasePackages[]	= $part;
-
 	}
 
 	public function openBuilder( XML_Element $builder )
 	{
 		$this->builder	= $builder;
-		$fileLocales	= $this->getBuilderClassPath().'locales/'.$builder->language->getValue().".ini";
+		$pathBuilder	= $this->getBuilderClassPath();
+		$pathTheme		= 'themes/'.$this->getBuilderTheme().'/';
+		$fileLocales	= $pathBuilder.$pathTheme.'locales/'.$builder->language->getValue().".ini";
 		$reader			= new File_INI_Reader( $fileLocales, TRUE );
 		$this->words	= $reader->toArray();
 	}
