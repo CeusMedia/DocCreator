@@ -32,21 +32,21 @@ a.interface {
 	}
 
 a.function {
-	background-image: url(../images/own/function_1.png);
+	background-image: url(../images/own/function_1_light.png);
 	}
 
 a.method {
-	background-image: url(../images/own/function_2.png);
+	background-image: url(../images/own/function_1_light.png);
 	padding-left: 16px;
 	}
 
 a.var {
-	background-image: url(../images/own/var_1.png);
+	background-image: url(../images/own/var_1_light.png);
 	padding-left: 16px;
 	}
 
 a.member {
-	background-image: url(../images/own/var_1.png);
+	background-image: url(../images/own/var_1_light.png);
 	padding-left: 16px;
 	}
 

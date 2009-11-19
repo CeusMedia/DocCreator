@@ -70,7 +70,7 @@ class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Si
 				if( $list )
 				{
 					$url	= 'class.'.$class->getId().'.html';
-					$link	= UI_HTML_Elements::Link( $url, $class->getName() );
+					$link	= UI_HTML_Elements::Link( $url, $class->getName(), 'class' );
 					$list	= UI_HTML_Elements::unorderedList( $list, 1 );
 					$classList[]	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
 				}
@@ -85,7 +85,7 @@ class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Si
 				if( $list )
 				{
 					$url	= 'interface.'.$interface->getId().'.html';
-					$link	= UI_HTML_Elements::Link( $url, $interface->getName() );
+					$link	= UI_HTML_Elements::Link( $url, $interface->getName(), 'interface' );
 					$list	= UI_HTML_Elements::unorderedList( $list, 1 );
 					$classList[]	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'interface' ) );
 				}
