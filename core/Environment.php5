@@ -34,22 +34,21 @@ import( 'de.ceus-media.file.ini.Reader' );
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Environment.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@todo			fix case sensitive packages/categories
  */
 class DocCreator_Core_Environment
 {
 	public $config;
 	public $words;
 	public $data;
-	public $classList;
-	public $fileList;
 	public $packageList;
-	public $packageTree;
 #	public $upperCasePackages	= array();
 	public $extensions;
 	public $verbose				= FALSE; 
 	
 	public $tree;
 	public $phpClasses			= array();
+	public $tool				= array();
 
 	/**
 	 *	Constructur, reads Resources and stores locally.
@@ -57,9 +56,10 @@ class DocCreator_Core_Environment
 	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Configuration $config )
+	public function __construct( DocCreator_Core_Configuration $config, $configTool )
 	{
 		$this->config	=& $config;
+		$this->tool		= $configTool;
 		$this->verbose	= $config->getVerbose();
 
 		$this->path		= $_ENV['TMP']."/";
@@ -67,46 +67,6 @@ class DocCreator_Core_Environment
 		$uri	= dirname( dirname( __FILE__ ) )."/config/php.classes.list";
 		$this->phpClasses	= File_Reader::loadArray( $uri );
 	}
-
-	public function openBuilder( XML_Element $builder )
-	{
-		$this->builder	= $builder;
-		$pathBuilder	= $this->getBuilderClassPath();
-		$pathTheme		= 'themes/'.$this->getBuilderTheme().'/';
-		$fileLocales	= $pathBuilder.$pathTheme.'locales/'.$builder->language->getValue().".ini";
-		$reader			= new File_INI_Reader( $fileLocales, TRUE );
-		$this->words	= $reader->toArray();
-	}
-
-	public function getBuilderTargetPath()
-	{
-		return $this->config->getBuilderTargetPath( $this->builder );
-	}
-
-	public function getBuilderDocumentsPath()
-	{
-		return $this->config->getBuilderDocumentsPath( $this->builder );
-	}
-	
-	public function load()
-	{
-		$data	= new ADT_PHP_Container();
-		$this->data	= $this->loadContainer( $this->config );
-		$this->readStructureTree();
-		$this->readPackageStructure();
-		$this->readClassIndex();
-
-#		$this->extensions		= explode( ",", $config['project.extensions'] );
-#		$this->extensions		= implode( "|", $this->extensions );
-		$this->fileList			= array();
-		$this->classList		= array();
-/*		foreach( $this->data->getFiles() as $fileName => $file)
-		{
-			$className	= $this->getClassNameFromFileName( $fileName );
-			$this->classList[$className] = $fileName;
-			$this->fileList[$fileName] = $className;
-		}
-*/	}
 
 	/**
 	 *	Returns capitalized Version of Package Name.
@@ -141,12 +101,62 @@ class DocCreator_Core_Environment
 #		$packageName	= implode( "_", $packageParts );
 		return $packageName;
 	}
-
-	public function getClassFromClassName( $className, ADT_PHP_Class $relatedClass )
+	
+	/**
+	 *	Returns Path to Builder Classes.
+	 *	@access		public
+	 *	@return		string			Path to Builder Classes
+	 */
+	public function getBuilderClassPath()
 	{
-		return $this->data->getClassFromClassName( $className, $relatedClass );
+		$format		= $this->builder->getAttribute( 'format' );
+		$converter	= $this->builder->getAttribute( 'converter' );
+		return 'builder/'.$format.'/'.$converter."/";
 	}
 
+	/**
+	 *	Returns Path to read Info File from for currently selected Builder.
+	 *	@access		public
+	 *	@param		string
+	 */
+	public function getBuilderDocumentsPath()
+	{
+		return $this->config->getBuilderDocumentsPath( $this->builder );
+	}
+
+	/**
+	 *	Returns Path to save created Files in for currently selected Builder.
+	 *	@access		public
+	 *	@param		string
+	 */
+	public function getBuilderTargetPath()
+	{
+		return $this->config->getBuilderTargetPath( $this->builder );
+	}
+	
+	public function getBuilderTheme()
+	{
+		return $this->builder->getAttribute( 'theme' );
+	}
+
+	/**
+	 *	Returns Class Object from Class Name if registered.
+	 *	@access		public
+	 *	@param		string				$className			Name of Class to find Data Object for
+	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)
+	 *	@return		ADT_PHP_Class
+	 */
+	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedArtefact )
+	{
+		return $this->data->getClassFromClassName( $className, $relatedArtefact );
+	}
+
+	/**
+	 *	Returns Class Object from Class ID if registered.
+	 *	@access		public
+	 *	@param		string				$id					ID of Class to find Data Object for
+	 *	@return		ADT_PHP_Class
+	 */
 	public function getClassFromId( $id )
 	{
 		return $this->data->getClassFromId( $id );
@@ -169,24 +179,53 @@ class DocCreator_Core_Environment
 		$key	= strtolower( $key );
 		return $key;
 	}
-	
+
 	/**
-	 *	Returns Path to Builder Classes.
+	 *	Returns Interface Object from Interface ID if registered.
 	 *	@access		public
-	 *	@return		string			Path to Builder Classes
+	 *	@param		string				$id					ID of Interface to find Data Object for
+	 *	@return		ADT_PHP_Interface
 	 */
-	public function getBuilderClassPath()
+	public function getInterfaceFromId( $id )
 	{
-		$format		= $this->builder->getAttribute( 'format' );
-		$converter	= $this->builder->getAttribute( 'converter' );
-		return 'builder/'.$format.'/'.$converter."/";
-	}
-	
-	public function getBuilderTheme()
-	{
-		return $this->builder->getAttribute( 'theme' );
+		return $this->data->getInterfaceFromId( $id );
 	}
 
+	/**
+	 *	Returns Interface Object from Interface Name if registered.
+	 *	@access		public
+	 *	@param		string				$interfaceName		Name of Interface to find Data Object for
+	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)
+	 *	@return		ADT_PHP_Interface
+	 */
+	public function getInterfaceFromInterfaceName( $interfaceName, ADT_PHP_Interface $relatedArtefact )
+	{
+		return $this->data->getInterfaceFromInterfaceName( $interfaceName, $relatedArtefact );
+	}
+
+	/**
+	 *	Loads Data Container and reads Stucture for Builders.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function load()
+	{
+		$data	= new ADT_PHP_Container();
+		$this->data	= $this->loadContainer( $this->config );										//  load Data Container from Serial
+		$this->readStructureTree();																	//  build Category/Package View from Data Container
+		$this->readPackageStructure();																//  extract a List of Packages
+		$this->readClassIndex();																	//  extract a List of Classes
+
+#		$this->extensions		= explode( ",", $config['project.extensions'] );
+#		$this->extensions		= implode( "|", $this->extensions );
+	}
+
+	/**
+	 *	Loads Data Container from Serial File.
+	 *	@access		public
+	 *	@return		ADT_PHP_Container
+	 *	@throws		RuntimeException if neither Archive File Name nor Serial Name is set
+	 */
 	public function loadContainer()
 	{
 		$archive	= $this->config->getArchiveFileName();
@@ -220,6 +259,19 @@ class DocCreator_Core_Environment
 		throw new RuntimeException( 'No data file existing' );
 	}
 
+	public function openBuilder( XML_Element $builder )
+	{
+		$this->builder	= $builder;
+		$pathBuilder	= $this->getBuilderClassPath();
+		$pathTheme		= 'themes/'.$this->getBuilderTheme().'/';
+		$fileLocales	= $pathBuilder.$pathTheme.'locales/'.$builder->language->getValue().".ini";
+		$reader			= new File_INI_Reader( $fileLocales, TRUE );
+		$this->words	= $reader->toArray();
+	}
+
+	/**
+	 *	@todo		same algo is in Container, check which is deprecated
+	 */
 	private function readClassIndex()
 	{
 		foreach( $this->data->getFiles() as $fileName => $file )
@@ -257,6 +309,11 @@ class DocCreator_Core_Environment
 		return;
 	}
 
+	/**
+	 *	Build Category/Package View from Data Container, assigning found Classes and Interfaces in Tree Nodes.
+	 *	@access		private
+	 *	@return		void
+	 */
 	private function readStructureTree()
 	{
 		$this->tree	= new ADT_PHP_Category( "root" );
@@ -274,8 +331,23 @@ class DocCreator_Core_Environment
 				$name		= str_replace( ".", "_", $class->getPackage() );
 				$name		= array_pop( explode( "_", $name ) );
 				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
-				$package->setClass( $class->getName(), $class );
+				$package->addClass( $class );
 				$category->setPackage( $class->getPackage(), $package );
+			}
+			foreach( $file->getInterfaces() as $interface )
+			{
+				if( !$interface->getCategory() )
+					continue;
+				if( !$this->tree->hasPackage( $interface->getCategory() ) )
+					$this->tree->setPackage( $interface->getCategory(), new ADT_PHP_Category( $interface->getCategory() ) );
+				if( !$interface->getPackage() )
+					continue;
+				$category	= $this->tree->getPackage( $interface->getCategory() );
+				$name		= str_replace( ".", "_", $interface->getPackage() );
+				$name		= array_pop( explode( "_", $name ) );
+				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
+				$package->addInterface( $interface);
+				$category->setPackage( $interface->getPackage(), $package );
 			}
 		}
 	}

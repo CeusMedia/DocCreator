@@ -41,6 +41,7 @@ require_once( dirname( __FILE__ ).'/Runner.php5' );
 class DocCreator_Core_ConsoleRunner extends Console_Application
 {
 	protected $configFile	= NULL;
+
 	protected $verbose		= NULL;
 
 	protected $shortCuts		= array(
@@ -79,7 +80,6 @@ class DocCreator_Core_ConsoleRunner extends Console_Application
 		if( $this->arguments->has( '--help' ) )
 			die( $this->showUsage() );
 
-
 		$creator	= new DocCreator_Core_Runner( $this->configFile, $this->verbose );
 #		set_error_handler( array( $this, 'handleError' ) );
 
@@ -105,6 +105,11 @@ class DocCreator_Core_ConsoleRunner extends Console_Application
 		$creator->main();
 	}
 
+	/**
+	 *	Prints Usage Screen.
+	 *	@access		protected
+	 *	@return		void
+	 */
 	protected function showUsage()
 	{
 		remark( "Usage: php create.php5 [OPTION]..." );

@@ -34,13 +34,14 @@ import( 'de.ceus-media.xml.ElementReader' );
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id $
+ *	@todo			Code Doc
  */
 class DocCreator_Core_Configuration
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of Configuration XML File
+	 *	@param		string			$fileName		Name of Configuration XML File
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
@@ -52,7 +53,7 @@ class DocCreator_Core_Configuration
 	/**
 	 *	Returns Name of Archive File Name.
 	 *	@access		public
-	 *	@return		string		Relative Name of Archive File
+	 *	@return		string			Relative Name of Archive File
 	 */
 	public function getArchiveFileName()
 	{
@@ -60,17 +61,59 @@ class DocCreator_Core_Configuration
 			if( $file->getAttribute( 'type' ) == "archive" )
 				return $file->getValue();
 	}
-	
-	public function getBuilders()
+
+	/**
+	 *	Returns Path to Documents to read for a given Builder Node.
+	 *	@access		public
+	 *	@param		XML_Element		$builder		Builder Node from XML File
+	 *	@return		string
+	 */
+	public function getBuilderDocumentsPath( XML_Element $builder )
 	{
-		return $this->data->builders->builder;
+		foreach( $builder->path as $path )
+			if( $path->getAttribute( 'type' ) == "documents" )
+				return $path->getValue();
 	}
 
+	/**
+	 *	Returns XML Element with one or more Builder Plugin Nodes of a give Builder Node.
+	 *	@access		public
+	 *	@param		XML_Element		$builder		Builder Node from XML File
+	 *	@return		XML_Element
+	 */
 	public function getBuilderPlugins( $builder )
 	{
 		return $builder->plugins->plugin;
 	}
 
+	/**
+	 *	Returns XML Element with one or more Builder Nodes.
+	 *	@access		public
+	 *	@return		XML_Element
+	 */
+	public function getBuilders()
+	{
+		return $this->data->builders->builder;
+	}
+
+	/**
+	 *	Returns Path to read created Files within for a given Builder Node.
+	 *	@access		public
+	 *	@param		XML_Element		$builder		Builder Node from XML File
+	 *	@return		string
+	 */
+	public function getBuilderTargetPath( XML_Element $builder )
+	{
+		foreach( $builder->path as $path )
+			if( $path->getAttribute( 'type' ) == "target" )
+				return $path->getValue();
+	}
+
+	/**
+	 *	Returns File URI of Error Log.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function getErrorLogFileName()
 	{
 		foreach( $this->data->creator->file as $file )
@@ -78,11 +121,22 @@ class DocCreator_Core_Configuration
 				return $file->getValue();
 	}
 
+	/**
+	 *	Returns Mail Address of Error Mail Receiver if set.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function getMailReceiver()
 	{
 		return $this->data->creator->mail->getValue();	
 	}
 
+	/**
+	 *	Returns List of File Extensions which should be read by Parser for a given Project Node.
+	 *	@access		public
+	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@return		array
+	 */
 	public function getProjectExtensions( XML_Element $project )
 	{
 		$list	= array();
@@ -91,6 +145,12 @@ class DocCreator_Core_Configuration
 		return $list;
 	}
 
+	/**
+	 *	Returns List of regex patterns of Files which should be ignored by Parser for a given Project Node.
+	 *	@access		public
+	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@return		array
+	 */
 	public function getProjectIgnoreFiles( XML_Element $project )
 	{
 		$list	= array();
@@ -99,6 +159,12 @@ class DocCreator_Core_Configuration
 		return $list;
 	}
 
+	/**
+	 *	Returns List of regex patterns of Folders which should be ignored by Parser for a given Project Node.
+	 *	@access		public
+	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@return		array
+	 */
 	public function getProjectIgnoreFolders( XML_Element $project )
 	{
 		$list	= array();
@@ -106,31 +172,33 @@ class DocCreator_Core_Configuration
 			$list[]	= $folder->getValue();
 		return $list;
 	}
-	
-	public function getProjects()
-	{
-		return $this->data->projects->project;
-	}
 
+	/**
+	 *	Returns Path to for Parser to find Classes of a given Project Node.
+	 *	@access		public
+	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@return		string
+	 */
 	public function getProjectPath( XML_Element $project )
 	{
 		return $project->path->getValue();	
 	}
 
-	public function getBuilderTargetPath( XML_Element $builder )
+	/**
+	 *	Returns XML Element with one or more Project Nodes.
+	 *	@access		public
+	 *	@return		XML_Element
+	 */
+	public function getProjects()
 	{
-		foreach( $builder->path as $path )
-			if( $path->getAttribute( 'type' ) == "target" )
-				return $path->getValue();
+		return $this->data->projects->project;
 	}
 
-	public function getBuilderDocumentsPath( XML_Element $builder )
-	{
-		foreach( $builder->path as $path )
-			if( $path->getAttribute( 'type' ) == "documents" )
-				return $path->getValue();
-	}
-
+	/**
+	 *	Returns List of Reader Plugins which should be applied after parsing.
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function getReaderPlugins()
 	{
 		$list	= array();
@@ -187,14 +255,6 @@ class DocCreator_Core_Configuration
 		$node[$type]	= $value;
 	}
 
-	public function setVerbose( $type, $value )
-	{
-		$type	= $type ? $type : "general";
-		$value	= $value ? TRUE : FALSE;
-		$node	= $this->data->creator->verbose;
-		$node[$type]	= $value;
-	}
-
 	/**
 	 *	Sets number of maximum seconds of execution.
 	 *	@access		public
@@ -204,6 +264,14 @@ class DocCreator_Core_Configuration
 	public function setTimeLimit( $seconds )
 	{
 		return $this->data->creator->timeLimit->setValue( (int) $seconds );
+	}
+
+	public function setVerbose( $type, $value )
+	{
+		$type	= $type ? $type : "general";
+		$value	= $value ? TRUE : FALSE;
+		$node	= $this->data->creator->verbose;
+		$node[$type]	= $value;
 	}
 }
 ?>

@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  *	@since			04.08.08
+ *	@todo			support multiple return types separated with |
  */
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.alg.StringUnicoder' );
@@ -88,7 +89,7 @@ class DocCreator_Core_Parser
 	 *	@param		array		$codeData		Data collected by parsing Code
 	 *	@param		string		$docData		Data collected by parsing Documentation
 	 *	@return		void
-	 *	@todo		fix merge problem
+	 *	@todo		fix merge problem -> seems to be fixed (what was the problem again?)
 	 */
 	protected function decorateCodeDataWithDocData( &$codeData, $docData )
 	{
@@ -122,7 +123,10 @@ class DocCreator_Core_Parser
 				{
 					switch( $key )
 					{
-						case 'access':		$codeData->setAccess( $value ); break;					//  extend access
+						case 'access':
+							if( !$codeData->getAccess() )											//  only if no access type given by signature
+								$codeData->setAccess( $value );										//  extend access type
+							break;								
 						case 'extends':		$codeData->setExtendedClassName( $value ); break;		//  extend extends
 					}
 				}
@@ -130,7 +134,10 @@ class DocCreator_Core_Parser
 				{
 					switch( $key )
 					{
-						case 'access':		$codeData->setAccess( $value ); break;					//  extend access
+						case 'access':
+							if( !$codeData->getAccess() )											//  only if no access type given by signature
+								$codeData->setAccess( $value );										//  extend access type
+							break;
 					}
 				}
 			}
@@ -187,31 +194,40 @@ class DocCreator_Core_Parser
 	 *	@access		protected
 	 *	@param		ADT_PHP_File		$parent			File Object of current Class
 	 *	@param		array				$matches		Matches of RegEx
-	 *	@return		ADT_PHP_Class
+	 *	@return		ADT_PHP_Interface|ADT_PHP_Class
 	 */
-	protected function parseClass( ADT_PHP_File $parent, $matches )
+	protected function parseClassOrInterface( ADT_PHP_File $parent, $matches )
 	{
-		$class	= new ADT_PHP_Class( $matches[4] );
-		$class->setParent( $parent );
-		$class->setLine( $this->lineNumber );
-		$class->setAbstract( (bool) $matches[1] );
-		$class->setFinal( (bool) $matches[2] );
-		$class->type		= $matches[3];
-		$class->setExtendedClassName( isset( $matches[5] ) ? $matches[6] : NULL );
-		if( isset( $matches[7] ) )
-			foreach( array_slice( $matches, 8 ) as $match )
-				if( trim( $match ) && !preg_match( "@^,|{@", trim( $match ) ) )
-					$class->setImplementedInterfaceName( trim( $match ) );
+		switch( strtolower( trim( $matches[3] ) ) )
+		{
+			case 'interface':
+				$artefact	= new ADT_PHP_Interface( $matches[4] );
+				$artefact->setExtendedInterface( isset( $matches[5] ) ? $matches[6] : NULL );
+				break;
+			default:
+				$artefact	= new ADT_PHP_Class( $matches[4] );
+				$artefact->setExtendedClassName( isset( $matches[5] ) ? $matches[6] : NULL );
+				$artefact->setFinal( (bool) $matches[2] );
+				$artefact->setAbstract( (bool) $matches[1] );
+				if( isset( $matches[7] ) )
+					foreach( array_slice( $matches, 8 ) as $match )
+						if( trim( $match ) && !preg_match( "@^,|{@", trim( $match ) ) )
+							$artefact->setImplementedInterfaceName( trim( $match ) );
+				break;
+		}
+		$artefact->setParent( $parent );
+		$artefact->setLine( $this->lineNumber );
+		$artefact->type		= $matches[3];
 		if( $this->openBlocks )
 		{
-			$this->decorateCodeDataWithDocData( $class, array_pop( $this->openBlocks ) );
+			$this->decorateCodeDataWithDocData( $artefact, array_pop( $this->openBlocks ) );
 			$this->openBlocks	= array();
 		}
-		if( !$class->getCategory() && $parent->getCategory() )
-			$class->setCategory( $parent->getCategory() );
-		if( !$class->getPackage() && $parent->getPackage() )
-			$class->setPackage( $parent->getPackage() );
-		return $class;
+		if( !$artefact->getCategory() && $parent->getCategory() )
+			$artefact->setCategory( $parent->getCategory() );
+		if( !$artefact->getPackage() && $parent->getPackage() )
+			$artefact->setPackage( $parent->getPackage() );
+		return $artefact;
 	}
 
 	/**
@@ -415,7 +431,7 @@ class DocCreator_Core_Parser
 			if( preg_match( '@}$@', $line ) )
 				$level--;
 
-			if( $line == "/**" )
+			if( $line == "/**" && $level < 2 )
 			{
 				$list	= array();
 				while( !preg_match( "@\*?\*/\s*$@", $line ) )
@@ -449,7 +465,7 @@ class DocCreator_Core_Parser
 					}
 					while( !trim( array_pop( array_slice( $matches, -1 ) ) ) )
 						array_pop( $matches );
-					$class	= $this->parseClass( $file, $matches );
+					$class	= $this->parseClassOrInterface( $file, $matches );
 					$openClass	= TRUE;
 				}
 				else if( preg_match( $this->regexMethod, $line, $matches ) )
@@ -519,7 +535,10 @@ class DocCreator_Core_Parser
 			foreach( $class->getMethods() as $methodName => $method )
 				if( isset( $functionBody[$methodName] ) )
 					$method->setSourceCode( $functionBody[$methodName] );
-			$file->setClass( $class->getName(), $class );
+			if( $class instanceof ADT_PHP_Class )
+				$file->addClass( $class->getName(), $class );
+			else if( $class instanceof ADT_PHP_Interface )
+				$file->addInterface( $class->getName(), $class );
 		}
 		return $file;
 	}
@@ -586,11 +605,11 @@ class DocCreator_Core_Parser
 	/**
 	 *	Parses a Method Signature and returns collected Information.
 	 *	@access		protected
-	 *	@param		ADT_PHP_Class		$parent			Parent Class Data Object
+	 *	@param		ADT_PHP_Interface	$parent			Parent Class Data Object
 	 *	@param		array				$matches		Matches of RegEx
 	 *	@return		ADT_PHP_Method
 	 */
-	protected function parseMethod( ADT_PHP_Class $parent, $matches )
+	protected function parseMethod( ADT_PHP_Interface $parent, $matches )
 	{
 		$method	= new ADT_PHP_Method( $matches[5] );
 		$method->setParent( $parent );
