@@ -42,6 +42,8 @@ require_once( dirname( __FILE__ ).'/Parser.php5' );
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Reader.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@todo			fix error noted in 'setDefaultCategoryAndPackage'
+ *	@todo			Code Doc (members)
  */
 class DocCreator_Core_Reader
 {
@@ -114,6 +116,12 @@ class DocCreator_Core_Reader
 		}
 	}
 
+	/**
+	 *	Reads all suitable Files for all defined Projects, created Indices and applies Reader Plugins.
+	 *	@access		public
+	 *	@return		ADT_PHP_Container
+	 *	@todo		rewrite: create a Container for each Project and merge afterwards, see note in 'setDefaultCategoryAndPackage'
+	 */
 	public function readFiles()
 	{
 		$data	= new ADT_PHP_Container;												//  init Data Container Object
@@ -127,6 +135,7 @@ class DocCreator_Core_Reader
 			$this->setDefaultCategoryAndPackage( $data, $project );
 		}
 		$data->indexClasses();														//  create class index in container
+		$data->indexInterfaces();													//  create interface index in container
 		$data->timeParse	= $clock2->stop( 6, 0 );								//  note needed time
 
 		//  --  APPLY PLUGINS  --  //		
@@ -143,6 +152,11 @@ class DocCreator_Core_Reader
 		return $data;
 	}
 
+	/** 
+	 *	Assigns Reader Plugins to be applied after parsing all Projects.
+	 *	@access		protected
+	 *	@return		void
+	 */
 	protected function registerPlugins()
 	{
 		foreach( $this->config->getReaderPlugins() as $pluginName )
@@ -157,11 +171,13 @@ class DocCreator_Core_Reader
 	}
 
 	/**
-	 *	...
+	 *	Sets default Category and Package for incomplete Classes and Interfaces found in latest parsed Project Files.
+	 *	This is applied after every Project.
 	 *	@access		protected
-	 *	@param		ADT_PHP_Container	$data
-	 *	@param		XML_Element			$project
+	 *	@param		ADT_PHP_Container	$data			
+	 *	@param		XML_Element			$project		Project to get values for
 	 *	@return		void
+	 *	@todo		There is a possible error if a project does not set defaults but the next project is. Than all incomplete files of the last project will be assigned to the next one. A workaround would be to have several containers which will be merged in the end.
 	 */
 	protected function setDefaultCategoryAndPackage( $data, XML_Element $project )
 	{
@@ -174,12 +190,19 @@ class DocCreator_Core_Reader
 				$file->setCategory( $category );
 			if( !$file->getPackage() )
 				$file->setPackage( $package );
-			foreach( $file->getClasses() as $class )
+ 			foreach( $file->getClasses() as $class )
 			{
 				if( !$class->getCategory() )
 					$class->setCategory( $category );
 				if( !$class->getPackage() )
 					$class->setPackage( $package );
+			}
+			foreach( $file->getInterfaces() as $interface )
+			{
+				if( !$interface->getCategory() )
+					$interface->setCategory( $category );
+				if( !$interface->getPackage() )
+					$interface->setPackage( $package );
 			}
 		}
 	}

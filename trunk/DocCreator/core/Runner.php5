@@ -61,37 +61,55 @@ class DocCreator_Core_Runner
 	 */
 	public function __construct( $configFile, $verbose = NULL )
 	{
-		$this->configFile	= $configFile;
 		$this->loadToolConfig();
-		$this->loadProjectConfig();		
+		$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
 			$this->setVerbose( $verbose );
 	}
 	
-	public function enableParser( $bool = TRUE )
-	{
-		$this->configProject->setSkip( 'parser', !$bool );
-	}
-	
+	/** 
+	 *	Enable or disable creation of Doc Files (Classes, Interfaces, Packages, Categories).
+	 *	@access		public
+	 *	@param		bool		$bool		Flag: switch creation of Doc Files
+	 *	@return		void
+	 */
 	public function enableCreator( $bool = TRUE )
 	{
 		$this->configProject->setSkip( 'creator', !$bool );
 	}
 	
+	/** 
+	 *	Enable or disable creation of Info Sites.
+	 *	@access		public
+	 *	@param		bool		$bool		Flag: switch creation of Info Sites
+	 *	@return		void
+	 */
 	public function enableInfo( $bool = TRUE )
 	{
 		$this->configProject->setSkip( 'info', !$bool );
 	}
 	
+	/** 
+	 *	Enable or disable parsing of Source Files.
+	 *	@access		public
+	 *	@param		bool		$bool		Flag: switch parsing of Source Files
+	 *	@return		void
+	 */
+	public function enableParser( $bool = TRUE )
+	{
+		$this->configProject->setSkip( 'parser', !$bool );
+	}
+
+	/** 
+	 *	Enable or disable creation of Resources (Images, StyleSheets, JavaScripts).
+	 *	@access		public
+	 *	@param		bool		$bool		Flag: switch creation of Resources
+	 *	@return		void
+	 */
 	public function enableResources( $bool = TRUE )
 	{
 		$this->configProject->setSkip( 'resources', !$bool );
 	}
-	
-#	public function setOption( $key, $value )
-#	{
-#		$this->configProject['creator.'.$key]	= $value;
-#	}
 	
 #	public function getOption( $key, $default = NULL )
 #	{
@@ -100,6 +118,9 @@ class DocCreator_Core_Runner
 #		return $default;
 #	}
 
+	/**
+	 *	@deprecated		currently disabled, check if useful, otherwise clean config also (mail receiver etc.)
+	 */
 	public function handleError( $number, $message, $file, $line )
 	{
 		ob_start();
@@ -144,7 +165,7 @@ class DocCreator_Core_Runner
 	}
 
 	/**
-	 *	Loads DocCreator Settings from set absolute or relative Config File.
+	 *	Loads Configuration of Projects from set absolute or relative XML Configuration File.
 	 *	@access		protected
 	 *	@return		void
 	 */
@@ -157,16 +178,21 @@ class DocCreator_Core_Runner
 			throw new RuntimeException( 'Config file "'.$this->configFile.'" not found' );
 
 		$this->configProject	= new DocCreator_Core_Configuration( $this->configFile );
-		$this->env				= new DocCreator_Core_Environment( $this->configProject );
+		$this->env				= new DocCreator_Core_Environment( $this->configProject, $this->configTool );
 		$this->setVerbose( $this->configProject->getVerbose() );
 	}
 
+	/**
+	 *	Loads Configuration of DocCreator itself.
+	 *	@access		protected
+	 *	@return		void
+	 */
 	protected function loadToolConfig()
 	{
 		$uri	= dirname( dirname( __FILE__ ) )."/config/config.ini";
 		if( !file_exists( $uri ) )
 			throw new RuntimeException( 'No tool config file given' );
-		$this->configTool	= parse_ini_file( $uri, FALSE );
+		$this->configTool	= parse_ini_file( $uri, TRUE );
 	}
 
 	public function main()
@@ -188,7 +214,7 @@ class DocCreator_Core_Runner
 
 			if( $this->configProject->getVerbose() )
 			{
-				remark( "run ".$this->configTool['project.name']." v".$this->configTool['project.version'] );
+				remark( "run ".$this->configTool['application']['name']." v".$this->configTool['application']['version'] );
 #				remark( "for ".$this->configProject['project.name']." v".$this->configProject['project.version'] );
 				remark( "" );
 				remark( "Project Config: ".$this->configFile );
@@ -226,7 +252,13 @@ class DocCreator_Core_Runner
 		}
 		chdir( $pathOld );
 	}
-		
+
+	/**
+	 *	Start creation of Doc Files applying one or more Builders to Data Container.
+	 *	@access		protected
+	 *	@return		void
+	 *	@throws		RuntimeException if a Builder Class is not existing
+	 */
 	protected function runCreator()
 	{
 		foreach( $this->configProject->getBuilders() as $builder )
@@ -236,8 +268,22 @@ class DocCreator_Core_Runner
 			$classKey	= 'builder.'.$format.'.'.$converter.'.classes.Creator';
 			$className	= 'Builder_'.strtoupper( $format ).'_'.strtoupper( $converter ).'_Creator';
 			import( $classKey );
+			if( !class_exists( $className ) )
+				throw new RuntimeException( 'Builder class "'.$className.'" is not existing' );
 			new $className( $this->env, $builder, $this->configProject->getVerbose() );
 		}
+	}
+
+	/**
+	 *	Set an other XML Configuration File and load it.
+	 *	@access		public
+	 *	@param		string		$configFile		URI of XML Configuration File 
+	 *	@return		void
+	 */
+	public function setConfigFile( $configFile )
+	{
+		$this->configFile	= $configFile;
+		$this->loadProjectConfig();		
 	}
 
 #	public function setErrorLog( $fileName )
@@ -249,6 +295,11 @@ class DocCreator_Core_Runner
 	{
 		$this->configProject->setMailReceiver( $mail );
 	}
+	
+#	public function setOption( $key, $value )
+#	{
+#		$this->configProject['creator.'.$key]	= $value;
+#	}
 
 	public function setQuite()
 	{
@@ -260,6 +311,10 @@ class DocCreator_Core_Runner
 		$this->configProject->setVerbose( 'general', $bool );
 	}
 
+	/**
+	 *	Prints current Configuration.
+	 *	@deprecated		should not work since config is xml base -> to be reworked or deleted
+	 */
 	protected function showConfig( $indent = 20 )
 	{
 		remark( "Settings:" );
