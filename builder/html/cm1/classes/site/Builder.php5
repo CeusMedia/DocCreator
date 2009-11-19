@@ -38,6 +38,24 @@ import( 'builder.html.cm1.classes.Abstract' );
  */
 class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 {
+	protected function createFrameset( $pathTarget )
+	{
+		$data	= array(
+			'language'	=> $this->env->builder->language->getValue(),
+			'title'		=> $this->env->builder->title->getValue(),
+		);
+		$index		= $this->loadTemplate( "site/frameset", $data );
+		file_put_contents( $pathTarget."index.html", $index );
+	}
+
+	protected function createHtaccess( $pathTarget )
+	{
+		if( $this->env->verbose )
+			remark( "Creating Site: Htaccess" );
+		$source		= $this->pathTheme.'templates/htaccess';
+		$htaccess	= file_get_contents( $source );
+		file_put_contents( $pathTarget.".htaccess", $htaccess );
+	}
 
 	/**
 	 *	Creates several Sites: Index, Todos, Deprecated, ChangeLog, ReadMe and Statistics.
@@ -71,25 +89,6 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 				$builder->createSite();
 			}
 		}
-	}
-
-	protected function createFrameset( $pathTarget )
-	{
-		$data	= array(
-			'language'	=> $this->env->builder->language->getValue(),
-			'title'		=> $this->env->builder->title->getValue(),
-		);
-		$index		= $this->loadTemplate( "site/frameset", $data );
-		file_put_contents( $pathTarget."index.html", $index );
-	}
-
-	protected function createHtaccess( $pathTarget )
-	{
-		if( $this->env->verbose )
-			remark( "Creating Site: Htaccess" );
-		$source		= $this->pathTheme.'templates/htaccess';
-		$htaccess	= file_get_contents( $source );
-		file_put_contents( $pathTarget.".htaccess", $htaccess );
 	}
 }
 ?>

@@ -38,24 +38,6 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
 class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Abstract
 {
 	public $linkTarget = '_self';
-	
-	/**
-	 *	...
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function createSite()
-	{
-		if( $this->env->verbose )
-			remark( "Creating Site: Class List" );
-		$uiData	= array(
-			'words'		=> $this->env->words['classList'],
-			'list'		=> $this->buildClassList(),
-		);
-		$content	= $this->loadTemplate( "site/info/classList", $uiData );
-		$this->saveFile( "classes.html", $content );
-		$this->appendLink( 'classes.html', 'classList' );
-	}
 
 	private function buildClassList()
 	{
@@ -68,8 +50,16 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 			{
 				$uri	= 'class.'.$class->getId().'.html';
 				$label	= $class->getName();
-				$link	= UI_HTML_Elements::Link( $uri, $label, NULL, $this->linkTarget );
-				$div	= UI_HTML_Tag::create( 'div', $link, array( 'class' => 'file' ) );
+				$link	= UI_HTML_Elements::Link( $uri, $label, 'class', $this->linkTarget );
+				$div	= UI_HTML_Tag::create( 'div', $link, array( 'class' => 'class' ) );
+				$list[$label.time()]	= $div;
+			}
+			foreach( $file->getInterfaces() as $interfaceId => $interface )
+			{
+				$uri	= 'interface.'.$interface->getId().'.html';
+				$label	= $interface->getName();
+				$link	= UI_HTML_Elements::Link( $uri, $label, 'interface', $this->linkTarget );
+				$div	= UI_HTML_Tag::create( 'div', $link, array( 'class' => 'interface' ) );
 				$list[$label.time()]	= $div;
 			}
 		}
@@ -111,6 +101,25 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 
 		$list		= implode( "\n", $lines ).$divClear;
 		return $letters.$list;
+	}
+	
+	/**
+	 *	...
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function createSite()
+	{
+		if( $this->env->verbose )
+			remark( "Creating Site: Class List" );
+		$uiData	= array(
+			'words'		=> $this->env->words['classList'],
+			'list'		=> $this->buildClassList(),
+			'footer'	=> $this->buildFooter(),
+		);
+		$content	= $this->loadTemplate( "site/info/classList", $uiData );
+		$this->saveFile( "classes.html", $content );
+		$this->appendLink( 'classes.html', 'classList' );
 	}
 }
 ?>

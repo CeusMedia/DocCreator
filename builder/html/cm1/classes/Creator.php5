@@ -34,6 +34,7 @@ import( 'builder.html.cm1.classes.site.Control' );
 import( 'builder.html.cm1.classes.site.Category' );
 import( 'builder.html.cm1.classes.site.Package' );
 import( 'builder.html.cm1.classes.class.Builder' );
+import( 'builder.html.cm1.classes.interface.Builder' );
 import( 'builder.html.cm1.classes.file.Builder' );
 import( 'builder.html.cm1.classes.site.Builder' );
 /**
@@ -48,6 +49,7 @@ import( 'builder.html.cm1.classes.site.Builder' );
  *	@uses			Builder_HTML_CM1_Site_Control
  *	@uses			Builder_HTML_CM1_Site_Package
  *	@uses			Builder_HTML_CM1_Class_Builder
+ *	@uses			Builder_HTML_CM1_Interface_Builder
  *	@uses			Builder_HTML_CM1_File_Builder
  *	@uses			Builder_HTML_CM1_Site_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -62,8 +64,9 @@ class Builder_HTML_CM1_Creator
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
-	 *	@param		bool							$options		Flag: be verbose
+	 *	@param		DocCreator_Core_Environment	$env			Environment Object 
+	 *	@param		XML_Element					$builder		XML Node from Config of Builder to apply
+	 *	@param		bool						$options		Flag: be verbose
 	 *	@return		void
 	 */
 	public function __construct( DocCreator_Core_Environment $env, XML_Element $builder, $verbose = NULL )
@@ -73,7 +76,6 @@ class Builder_HTML_CM1_Creator
 		$this->config	= $this->env->config;
 		$this->env->openBuilder( $builder );
 		$this->env->load();
-
 
 		$this->siteBuilder	= new Builder_HTML_CM1_Site_Builder( $this->env );
 
@@ -140,8 +142,9 @@ class Builder_HTML_CM1_Creator
 					continue;
 #				if( $this->env->verbose )
 #					remark( "Copying: ".Alg_StringTrimmer::trimCentric( $pathTarget.$name, 70 ) );
-				if( !@copy( $entry->getPathname(), $pathTarget.$name ) )
-					throw new RuntimeException( 'File "'.$entry->getPathname().'" could not be copied to "'.$pathTarget.$name.'"' ); 
+				if( 1 || !file_exists( $pathTarget.$name ) )
+					if( !@copy( $entry->getPathname(), $pathTarget.$name ) )
+						throw new RuntimeException( 'File "'.$entry->getPathname().'" could not be copied to "'.$pathTarget.$name.'"' ); 
 			}
 			else if( $entry->isDir() && !file_exists( $pathTarget.$name ) )
 				mkDir( $pathTarget.$name );
@@ -170,15 +173,16 @@ class Builder_HTML_CM1_Creator
 		$builder->createControl( $this->linkList );
 	}
 
-	protected function createFiles( $prefix = "class." )
+	protected function createFiles()
 	{
 		$clock		= new Alg_Time_Clock;
 		$pathTarget	= $this->pathTarget.$prefix;
 #		if( !file_exists( $pathTarget ) )
 #			mkDir( $pathTarget, 0775, TRUE );
 
-		$fileBuilder	= new Builder_HTML_CM1_File_Builder( $this->env );
-		$classBuilder	= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
+		$fileBuilder		= new Builder_HTML_CM1_File_Builder( $this->env );
+		$classBuilder		= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
+		$interfaceBuilder	= new Builder_HTML_CM1_Interface_Builder( $this->env, $fileBuilder );
 		foreach( $this->env->data->getFiles() as $fileName => $file )
 		{
 			$clock2		= new Alg_Time_Clock;
@@ -187,10 +191,22 @@ class Builder_HTML_CM1_Creator
 				foreach( $file->getClasses() as $class )
 				{
 					$classId	= $class->getId();
-					$docFile	= $pathTarget.$classId.".html";
+					$docFile	= $pathTarget.'class.'.$classId.".html";
 					if( $this->env->verbose )
 						remark( "Creating: ".Alg_StringTrimmer::trimCentric( $classId, 68 )  );
-					$view		= $classBuilder->buildView( $file );
+					$view		= $classBuilder->buildView( $file, $class );
+					file_put_contents( $docFile, $view );
+				}
+			}
+			if( $file->hasInterfaces() )
+			{
+				foreach( $file->getInterfaces() as $interface )
+				{
+					$interfaceId	= $interface->getId();
+					$docFile		= $pathTarget.'interface.'.$interfaceId.".html";
+					if( $this->env->verbose )
+						remark( "Creating: ".Alg_StringTrimmer::trimCentric( $interfaceId, 68 )  );
+					$view		= $interfaceBuilder->buildView( $file, $interface );
 					file_put_contents( $docFile, $view );
 				}
 			}
@@ -202,14 +218,6 @@ class Builder_HTML_CM1_Creator
 			$file->timeBuild	= $clock2->stop( 6, 0 );
 		}
 		$this->env->timeBuild	= $clock->stop( 6, 0 );
-	}
-	
-	protected function createPackages( $prefix = "package." )
-	{
-		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
-		foreach( $this->env->tree->getPackages() as $category )
-			$this->createPackageRecursive( $category, $prefix );
 	}
 	
 	private function createPackageRecursive( ADT_PHP_Category $superPackage, $prefix = "package." )
@@ -226,6 +234,14 @@ class Builder_HTML_CM1_Creator
 			file_put_contents( $pathTarget.$fileName, $view );
 			$this->createPackageRecursive( $package, $prefix );
 		}
+	}
+	
+	protected function createPackages( $prefix = "package." )
+	{
+		$pathTarget	= $this->env->getBuilderTargetPath();
+		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
+		foreach( $this->env->tree->getPackages() as $category )
+			$this->createPackageRecursive( $category, $prefix );
 	}
 	
 	private function createSites()

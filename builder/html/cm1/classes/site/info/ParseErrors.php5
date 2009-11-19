@@ -67,6 +67,7 @@ class Builder_HTML_CM1_Site_Info_ParseErrors extends Builder_HTML_CM1_Site_Info_
 			'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'parseErrors',
 			'content'	=> UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
 			'words'		=> $words,
+			'footer'	=> $this->buildFooter(),
 		);
 		$template	= 'site/info/parseErrors';
 		$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

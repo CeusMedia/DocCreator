@@ -41,6 +41,7 @@ class Builder_HTML_CM1_Site_Info_MethodOrder extends Builder_HTML_CM1_Site_Info_
 	 *	Creates Change Log Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
+	 *	@todo		support Interfaces, too
 	 */
 	public function createSite()
 	{
@@ -64,8 +65,9 @@ class Builder_HTML_CM1_Site_Info_MethodOrder extends Builder_HTML_CM1_Site_Info_
 				}
 				while( count( $methods ) && count( $ordered ) );
 				$count++;
-				$label	= $class->getName().": ".$line1." | ".$line2;
-				$list[]	= UI_HTML_Elements::ListItem( $label );
+				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$label	= $link.": ".$line1." | ".$line2;
+				$list[]	= UI_HTML_Elements::ListItem( $label, 0, array( 'class' => 'class' ) );
 			}
 		}
 		if( !$count )
@@ -80,6 +82,7 @@ class Builder_HTML_CM1_Site_Info_MethodOrder extends Builder_HTML_CM1_Site_Info_
 			'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
 			'content'	=> UI_HTML_Elements::unorderedList( $list ),
 			'words'		=> $words,
+			'footer'	=> $this->buildFooter(),
 		);
 		$template	= 'site/info/methodOrder';
 		$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

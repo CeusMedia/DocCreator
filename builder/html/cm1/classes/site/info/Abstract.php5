@@ -110,6 +110,7 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 				'id'		=> 'info-'.$this->key,
 				'content'	=> implode( "\n\n", $list ),
 				'title'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/'.$this->key;
 			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';
@@ -125,6 +126,11 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 		File_Writer::save( $this->pathTarget.$fileName, $content );
 	}
 
+	public function setLinkTargetFrame( $linkTarget )
+	{
+		$this->linkTarget	= $linkTarget;
+	}
+
 	public function setProjectPath( $pathProject )
 	{
 		$this->pathProject	= $pathProject;
@@ -133,11 +139,6 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 	public function setTargetPath( $pathTarget )
 	{
 		$this->pathTarget	= $pathTarget;
-	}
-
-	public function setLinkTargetFrame( $linkTarget )
-	{
-		$this->linkTarget	= $linkTarget;
 	}
 	
 	public function verboseCreation( $key )

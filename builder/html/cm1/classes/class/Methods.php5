@@ -38,35 +38,6 @@ import( 'builder.html.cm1.classes.class.Info' );
 class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 {
 	/**
-	 *	Builds View of Class Methods for Class Information File.
-	 *	@access		public
-	 *	@param		ADT_PHP_Class		$class			Class Object
-	 *	@return		string
-	 */
-	public function buildView( ADT_PHP_Class $class )
-	{
-		$this->type	= "class";
-		
-		$list		= array();
-		$methods	= $class->getMethods();
-		if( !$methods )
-			return "";
-		ksort( $methods );
-		foreach( $methods as $methodName => $methodData )
-			$list[$methodName]	= $this->buildMethodEntry( $class, $methodData );
-
-		$words		= $this->env->words['classMethods'];
-		$heading	= sprintf( $words['heading'], $class->getName() );
-		$data	= array(
-			'words'		=> $words,
-			'heading'	=> $heading,
-			'list'		=> implode( "", $list ),
-			'inherited'	=> $this->buildInheritedMethodList( $class, array_keys( $list ) ),
-		);
-		return $this->loadTemplate( 'class.methods', $data );
-	}
-
-	/**
 	 *	Builds List of inherited Methods of all extended Classes.
 	 *	@access		public
 	 *	@param		ADT_PHP_Class		$class			Class Object
@@ -77,7 +48,7 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 		$extended	= array();
 		$methods	= array_keys( $class->getMethods() );
 		$classes	= $this->getSuperClasses( $class );
-		foreach( $classes as $class )
+		foreach( $classes as $nr => $class )
 		{
 			$list		= array();
 			if( !is_object( $class ) )
@@ -93,9 +64,10 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 				if( $methodData->isAbstract() )
 					continue;
 				$uri		= 'class.'.$class->getId().".html#class_method_".$methodName;
-				$link		= UI_HTML_Elements::Link( $uri, $methodName );
+				$link		= UI_HTML_Elements::Link( $uri, $methodName, 'method' );
+				$linkTyped	= $this->getTypeMarkUp( $link );
 				$got[]		= $methodName;
-				$list[$methodName]	= UI_HTML_Elements::ListItem( $link );
+				$list[$methodName]	= UI_HTML_Elements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
 			}
 			if( $list )
 			{
@@ -103,6 +75,8 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 				$list		= UI_HTML_Elements::unorderedList( $list );
 				$item		= $this->getTypeMarkUp( $class ).$list;
 				$attributes	= array( 'class' => 'methodsOfExtendedClass' );
+				if( $nr % 3 == 0 )
+					$attributes['style']	= "clear: left";										//  line break after each 3 classes
 				$extended[]	= UI_HTML_Elements::ListItem( $item, 0, $attributes );
 			}
 		}
@@ -136,8 +110,8 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
 		$attributes['static']		= $this->buildParamList( $method->isStatic() ? " " : "", 'static' );
 
-		$access		= $method->getAccess() ? $method->getAccess() : 'unknown';
-		$access		= array_key_exists( $access, $this->words['access'] ) ? $this->words['access'][$access] : $access;
+		$accessType	= $method->getAccess() ? $method->getAccess() : 'unknown';
+		$access		= $this->buildAccessLabel( $accessType );
 
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
@@ -177,18 +151,47 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 		if( $params	)
 			$params	= " ".$params." ";
 		
-		$access		= $method->getAccess() ? $method->getAccess() : 'public';
+		$accessType	= $method->getAccess() ? $method->getAccess() : 'public';
 	
 		$data	= array(
 			'methodName'	=> $method->getName(),
 			'methodTitle'	=> $methodLink,
-			'access'		=> $access,
+			'access'		=> $accessType,
 			'return'		=> $return,
 			'attributes'	=> $attributes,
 			'parameters'	=> $params,
 			'description'	=> nl2br( trim( $method->getDescription() ) ),
 		);
 		return $this->loadTemplate( 'class.method', $data );
+	}
+
+	/**
+	 *	Builds View of Class Methods for Class Information File.
+	 *	@access		public
+	 *	@param		ADT_PHP_Class		$class			Class Object
+	 *	@return		string
+	 */
+	public function buildView( ADT_PHP_Class $class )
+	{
+		$this->type	= "class";
+		
+		$list		= array();
+		$methods	= $class->getMethods();
+		if( !$methods )
+			return "";
+		ksort( $methods );
+		foreach( $methods as $methodName => $methodData )
+			$list[$methodName]	= $this->buildMethodEntry( $class, $methodData );
+
+		$words		= $this->env->words['classMethods'];
+		$heading	= sprintf( $words['heading'], $class->getName() );
+		$data	= array(
+			'words'		=> $words,
+			'heading'	=> $heading,
+			'list'		=> implode( "", $list ),
+			'inherited'	=> $this->buildInheritedMethodList( $class, array_keys( $list ) ),
+		);
+		return $this->loadTemplate( 'class.methods', $data );
 	}
 }
 ?>

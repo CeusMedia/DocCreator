@@ -54,6 +54,7 @@ class Builder_HTML_CM1_Site_Info_Home extends Builder_HTML_CM1_Site_Info_Abstrac
 			'title'		=> $this->env->builder->title->getValue(),
 			'words'		=> $words,
 			'date'		=> date( $words['formatDate'], time() ),
+			'footer'	=> $this->buildFooter(),
 		);
 		$home	= $this->loadTemplate( 'site/home', $data );
 		$this->saveFile( 'home.html', $home );

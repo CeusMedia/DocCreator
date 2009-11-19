@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <link rel="stylesheet" href="css/<%theme%>/reset.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/typography.css"/>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/typography.css"/>
+    <link rel="stylesheet" href="css/content.css"/>
     <script type="text/javascript" src="js/jquery.pack.js"></script>
     <style>
 strike {
@@ -11,12 +12,13 @@ strike {
 	}
     </style>
   </head>
-  <body style="padding: 2em">
+  <body class="content" style="padding: 2em">
 
     <h1><%title%></h1>
     <h2><%?words.subtitle%></h2>
 <!--    <b><%words.version%></b> <%?config.project.version%><br/>
     <b><%words.date%></b> <%date%><br/>-->
     <br/>
+    <%?footer%>
   </body>
 </html>

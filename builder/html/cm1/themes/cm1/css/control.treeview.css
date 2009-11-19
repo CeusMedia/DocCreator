@@ -18,11 +18,12 @@
 	}
 
 #tree ul li a.category {
-	background-image: url(../images/mini/page_component.png);
+	background-image: url(../images/mini/icon_component.png);
 	}
 
 #tree ul li a.package {
-	background-image: url(../images/mini/page_package.png);
+	background-image: url(../images/mini/icon_package.png);
+	padding-left: 20px;
 	}
 
 #tree ul li a.package>span {
@@ -42,6 +43,22 @@
 	}
 
 #tree ul li a.class.current  {
+	text-decoration: underline;
+	color: red;
+	}
+
+#tree ul li a.interface {
+	background-image: url(../images/mini/page_dynamic.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	height: 16px;
+	}
+
+#tree ul li a.interface:hover {
+	text-decoration: underline;
+	}
+
+#tree ul li a.interface.current  {
 	text-decoration: underline;
 	color: red;
 	}

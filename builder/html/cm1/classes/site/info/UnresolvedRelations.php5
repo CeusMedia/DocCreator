@@ -42,6 +42,14 @@ class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Si
 {
 	protected $count		= 0;
 
+	protected function checkUnresolvedAndAddListItemIfNot( &$list, $relation, $prefix = NULL )
+	{
+		if( !is_string( $relation ) )
+			return;
+		$this->count++;
+		$list[]	= UI_HTML_Elements::ListItem( $prefix.$relation, 1 );
+	}
+
 	/**
 	 *	Creates Deprecation Info Site File.
 	 *	@access		public
@@ -57,24 +65,29 @@ class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Si
 			{
 				$list	= array();
 				$this->checkUnresolvedAndAddListItemIfNot( $list, $class->getExtendedClass(), 'extends: ' );
-				if( $class instanceof ADT_PHP_Class )
-				{
-					foreach( $class->getExtendingClasses() as $extendingClass )
-						$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingClass, 'extendedBy: ' );
-				}
-				else																			//  an Interface
-				{
-					foreach( $class->getExtendingInterfaces() as $extendingInterface )
-						$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingInterface, 'extendedBy: ' );
-					foreach( $class->getImplementingClasses() as $implementingClass )
-						$this->checkUnresolvedAndAddListItemIfNot( $list, $implementingClass, 'implementedBy: ' );
-				}
+				foreach( $class->getExtendingClasses() as $extendingClass )
+					$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingClass, 'extendedBy: ' );
 				if( $list )
 				{
 					$url	= 'class.'.$class->getId().'.html';
 					$link	= UI_HTML_Elements::Link( $url, $class->getName() );
 					$list	= UI_HTML_Elements::unorderedList( $list, 1 );
 					$classList[]	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+				}
+			}
+			foreach( $file->getInterfaces() as $interface )
+			{
+				$list	= array();
+				foreach( $interface->getExtendingInterfaces() as $extendingInterface )
+					$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingInterface, 'extendedBy: ' );
+				foreach( $interface->getImplementingClasses() as $implementingClass )
+					$this->checkUnresolvedAndAddListItemIfNot( $list, $implementingClass, 'implementedBy: ' );
+				if( $list )
+				{
+					$url	= 'interface.'.$interface->getId().'.html';
+					$link	= UI_HTML_Elements::Link( $url, $interface->getName() );
+					$list	= UI_HTML_Elements::unorderedList( $list, 1 );
+					$classList[]	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'interface' ) );
 				}
 			}
 		}
@@ -89,6 +102,7 @@ class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Si
 				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'unresolvedRelations',
 				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
+				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/unresolvedRelations';
 			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';
@@ -97,14 +111,6 @@ class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Si
 			$this->appendLink( 'unresolvedRelations.html', 'unresolvedRelations', $this->count );
 		}
 		return (bool) $this->count;
-	}
-
-	protected function checkUnresolvedAndAddListItemIfNot( &$list, $relation, $prefix = NULL )
-	{
-		if( !is_string( $relation ) )
-			return;
-		$this->count++;
-		$list[]	= UI_HTML_Elements::ListItem( $prefix.$relation, 1 );
 	}
 }
 ?>

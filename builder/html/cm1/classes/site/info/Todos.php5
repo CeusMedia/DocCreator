@@ -42,6 +42,7 @@ class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstra
 	 *	Creates Todo Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
+	 *	@todo		support Interfaces, too
 	 */
 	public function createSite()
 	{
@@ -54,8 +55,8 @@ class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstra
 				$classTodos		= array();
 				$methodTodos	= array();
 
-				$fileUri	= "class.".$class->getId().".html";
-				$classLink	= UI_HTML_Elements::Link( $fileUri, $class->getName() );
+				$classUri	= "class.".$class->getId().".html";
+				$classLink	= UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getTodos() )
 				{
@@ -96,6 +97,7 @@ class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstra
 				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
 				'content'	=> UI_HTML_Elements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
+				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/todos';
 			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

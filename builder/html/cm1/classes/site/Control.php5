@@ -40,26 +40,6 @@ import( 'builder.html.cm1.classes.site.Tree' );
 class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
 {
 	protected $linkTarget	= "content";
-	
-	/**
-	 *	Builds complete Control Frame View.
-	 *	@access		public
-	 *	@return		string
-	 *	@todo		rename to buildView
-	 */
-	public function createControl( $linkList )
-	{
-		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new Builder_HTML_CM1_Site_Tree( $this->env );
-		$tree		= $builder->buildTree();
-
-		$uiData	= array(
-			'tree'		=> $tree,
-			'links'		=> $this->buildLinks( $linkList ),
-		);
-		$content	= $this->loadTemplate( "site/control", $uiData );
-		File_Writer::save( $pathTarget."control.html", $content );
-	}
 
 	private function buildLinks( $linkList )
 	{
@@ -79,6 +59,26 @@ class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
 			'words'	=> $words,
 		);
 		return $this->loadTemplate( "site/links", $uiData );
+	}
+	
+	/**
+	 *	Builds complete Control Frame View.
+	 *	@access		public
+	 *	@return		string
+	 *	@todo		rename to buildView
+	 */
+	public function createControl( $linkList )
+	{
+		$pathTarget	= $this->env->getBuilderTargetPath();
+		$builder	= new Builder_HTML_CM1_Site_Tree( $this->env );
+		$tree		= $builder->buildTree();
+
+		$uiData	= array(
+			'tree'		=> $tree,
+			'links'		=> $this->buildLinks( $linkList ),
+		);
+		$content	= $this->loadTemplate( "site/control", $uiData );
+		File_Writer::save( $pathTarget."control.html", $content );
 	}
 }
 ?>

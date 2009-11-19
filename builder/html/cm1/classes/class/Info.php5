@@ -24,55 +24,31 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.file.Info' );
+import( 'builder.html.cm1.classes.interface.Info' );
 /**
  *	Builds Class Information View.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Class
- *	@extends		Builder_HTML_CM1_File_Info
+ *	@extends		Builder_HTML_CM1_Interface_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_File_Info
+class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_Interface_Info
 {
-	protected function buildParamClassList( $parent, $value, $key, $list = array() )
-	{
-		$list	= array();
-		if( is_string( $value ) )
-			return $this->buildParamList( $value, $key );
-
-		if( is_array( $value ) )
-		{
-			foreach( $value as $class )
-				if( $class !== $parent )
-					$list[]	= $this->loadTemplate( 'class.info.param.item', array( 'value' => $this->getTypeMarkUp( $class ) ) );
-		}
-		else if( $value )
-			$list[]	= $this->loadTemplate( 'class.info.param.item', array( 'value' => $this->getTypeMarkUp( $value ) ) );
-
-#		//  or in short
-#		$array	= is_array( $data->$key ) ? $data->$key : array( $data->$key );
-#			foreach( $data->$key as $classId )
-#				$list[]	= $this->loadTemplate( 'class.info.param.item', array( 'value' => $this->getTypeMarkUp( $classId ) ) );
-
-		return $this->buildParamList( $list, $key );
-	}
-
 	private function buildRelationTree( ADT_PHP_Class $class )
 	{
 		$classes = $this->getSuperClasses( $class );
-
 		if( !$classes )
 			return;
-		array_unshift( $classes, $class->getName() );
+		array_unshift( $classes, $class );
+		$tree	= "";
 		foreach( $classes as $className )
 		{
-			if( isset( $tree ) )
-				$className	= $this->getTypeMarkUp( $className ).$tree;
-			$item	= UI_HTML_Elements::ListItem( $className );
+			$className	= $this->getTypeMarkUp( $className ).$tree;
+			$item	= UI_HTML_Elements::ListItem( $className, 0, array( 'class' => 'class' ) );
 			$tree	= UI_HTML_Elements::unorderedList( array( $item ) );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );
@@ -82,10 +58,15 @@ class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_File_Info
 	{
 		$this->type		= 'class';
 
+		$package		= $this->buildPackageLink( $class->getPackage(), $class->getCategory() );
+		$category		= $this->buildCategoryLink( $class->getCategory() );
+		$package		= $this->getTypeMarkUp( $package );
+		$category		= $this->getTypeMarkUp( $category );
+
 		$attributeData	= array(
 			'description'	=> nl2br( trim( (string) $class->getDescription() ) ),
-			'category'		=> $this->buildParamStringList( $class->getCategory(), 'category' ),		//  category
-			'package'		=> $this->buildParamStringList( $class->getPackage(), 'package' ),			//  package
+			'category'		=> $this->buildParamStringList( $category, 'category' ),					//  category (linked if resolvable)
+			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $class->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $class->getSince(), 'since' ),				//  since version
 			'copyright'		=> $this->buildParamStringList( $class->getCopyright(), 'copyright' ),		//  copyright notes
@@ -134,9 +115,9 @@ class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_File_Info
 		while( $superClass = $class->getExtendedClass() )											//  while internal class has superclass
 		{
 			$list[]	= $superClass;																	//  set reference to found superclass
-			$class	= $superClass;																	//  set internal class for recursion
-			if( !( $superClass instanceof ADT_PHP_Class ) )											//  found superclass is not resolvable
+			if( !is_object( $superClass ) )															//  found superclass is not resolvable
 				break;																				//  break recursion
+			$class	= $superClass;																	//  set internal class for recursion
 		}
 		return $list;																				//  return list of superclasses
 	}

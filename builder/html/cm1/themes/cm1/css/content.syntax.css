@@ -1,11 +1,79 @@
+
+/*  --  LINK ICONS  --  */
+a.category,
+a.package,
+a.file,
+a.class,
+a.interface,
+a.function,
+a.method,
+a.var,
+a.member {
+	background-repeat: no-repeat;
+	margin-left: 2px;
+	margin-right: 5px;
+	padding-left: 20px;
+	height: 16px;
+	font-style: italic;
+	}
+
+a.category {
+	background-image: url(../images/mini/icon_component.png);
+	}
+
+a.package {
+	background-image: url(../images/mini/icon_package.png);
+	}
+
+a.class {
+	background-image: url(../images/mini/page_php.png);
+	}
+
+a.interface {
+	background-image: url(../images/mini/page_dynamic.png);
+	}
+
+a.function {
+	background-image: url(../images/own/function_1.png);
+	}
+
+a.method {
+	background-image: url(../images/own/function_2.png);
+	padding-left: 16px;
+	}
+
+a.var {
+	background-image: url(../images/mini/var_1.png);
+	}
+
+a.member {
+	background-image: url(../images/mini/var_1.png);
+	}
+
+
+/*  --  NOT LIST STYLE FOR ICONED LINKS  --  */	
+ul li.package,
+ul li.interface,
+ul li.class,
+ul li.member,
+ul li.method {
+	list-style-type: none;
+	margin: 0px;
+	}
+
+
+/*  --  TYPE  --  */
 span.type {
 	font-style: italic;
 	padding: 1px 6px;
 	margin-right: 2px;
-	background: #ccddff;
-	border: 1px solid #bbccee;
+#	background: #ccddff;
+	background-image: url(../images/background_type_lighten_50.png);
+	background-repeat: repeat;
+	border: 1px solid #83acca;
 	-moz-border-radius: 0.7em;
 	}
+
 span.default {
 	font-style: italic;
 	font-size: 0.9em;
@@ -18,18 +86,20 @@ div.syntax {
 	background: #F7F7F7;
 	-moz-border-radius: 1em;
 	}
+
 span.syntax {
 	font-size: 1.2em;
 	font-family: monospace;
 	}
+
 span.syntax * {
 	font-family: monospace;
 	}
+
 div.method ul.params,
 div.method ul.attributes {
 	margin-left: 3em;
 	}
-
 
 
 ul.extendedClass {

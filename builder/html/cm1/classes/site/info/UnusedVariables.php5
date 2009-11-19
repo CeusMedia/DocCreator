@@ -53,35 +53,38 @@ class Builder_HTML_CM1_Site_Info_UnusedVariables extends Builder_HTML_CM1_Site_I
 		$classList	= array();
 		foreach( $this->env->data->getFiles() as $file )
 		{
-			$finder->readCode( $file->getSourceCode() );
-			$unusedVariables	= $finder->getUnusedVars();
-			if( !$unusedVariables )
-				continue;
-
-			$listMethods	= array();
-			foreach( $unusedVariables as $method => $vars )
+			foreach( $file->getClasses() as $class )
 			{
-				$listVars	= array();
-				foreach( $vars as $var )
-				{
-					$count++;
-					$span	= '<span class="var">'.$var.'</span>';
-					$item	= UI_HTML_Elements::ListItem( $span, 2, array( 'class' => "varItem" ) );
-					$listVars[]	= $item;
-				}
-				if( !$listVars )
+				$finder->readCode( $file->getSourceCode() );
+				$unusedVariables	= $finder->getUnusedVars();
+				if( !$unusedVariables )
 					continue;
-				$span	= '<span class="method">'.$method.'</span>';
-				$list	= UI_HTML_Elements::unorderedList( $listVars, 2, array( 'class' => 'varList' ) );
-				$item	= UI_HTML_Elements::ListItem( $span.$list, 1, array( 'class' => 'methodItem' ) );
-				$listMethods[]	= $item;
+
+				$listMethods	= array();
+				foreach( $unusedVariables as $method => $vars )
+				{
+					$listVars	= array();
+					foreach( $vars as $var )
+					{
+						$count++;
+						$span	= '<span class="var">'.$var.'</span>';
+						$item	= UI_HTML_Elements::ListItem( $span, 2, array( 'class' => "varItem" ) );
+						$listVars[]	= $item;
+					}
+					if( !$listVars )
+						continue;
+					$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html#class_method_'.$method, $method, 'method' );
+					$list	= UI_HTML_Elements::unorderedList( $listVars, 2, array( 'class' => 'varList' ) );
+					$item	= UI_HTML_Elements::ListItem( $link.$list, 1, array( 'class' => 'methodItem' ) );
+					$listMethods[]	= $item;
+				}
+				if( !$listMethods )
+					continue;
+				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId.'.html', $class->getName(), 'class' );
+				$list	= UI_HTML_Elements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
+				$item	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+				$classList[]	= $item;
 			}
-			if( !$listMethods )
-				continue;
-			$span	= '<span class="file">'.$file->getPathname().'</span>';
-			$list	= UI_HTML_Elements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
-			$item	= UI_HTML_Elements::ListItem( $span.$list, 0, array( 'class' => 'class' ) );
-			$classList[]	= $item;
 		}
 		if( $count )
 		{
@@ -94,6 +97,7 @@ class Builder_HTML_CM1_Site_Info_UnusedVariables extends Builder_HTML_CM1_Site_I
 				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'unusedVariables',
 				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
+				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/unusedVariables';
 			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

@@ -41,7 +41,7 @@ $(document).ready(function(){
   if(!$("#class_info").size())
     $("li.index-class-info").hide();
 
-  appendTitle();
+//  appendTitle();
 
   //  --  ALL TABLES  --  //
   $("#statistics table.grid tr td").css("text-align","right");

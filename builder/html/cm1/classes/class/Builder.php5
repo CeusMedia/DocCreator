@@ -75,10 +75,9 @@ class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Abstract
 	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_File $file )
+	public function buildView( ADT_PHP_File $file, ADT_PHP_Class $class )
 	{
 		$contents	= array();
-		$class		= array_shift( $file->getClasses() );
 		$data	= array(
 			'index'				=> $this->builderIndex->buildIndex( $file ),
 			'className'			=> $class->getName(),
@@ -90,6 +89,7 @@ class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Abstract
 			'classMethods'		=> $this->builderMethods->buildView( $class ),
 			'fileFunctions'		=> $this->builderFunctions->buildView( $file ),
 			'fileSource'		=> $this->builderSourceCode->buildSourceCode( $file, TRUE ),
+			'footer'			=> $this->buildFooter(),
 		);
 		return $this->loadTemplate( 'class.content', $data );
 	}
