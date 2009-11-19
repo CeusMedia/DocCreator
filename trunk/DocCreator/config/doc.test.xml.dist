@@ -24,7 +24,7 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="DocCreator" version="0.5" date="" revision="">
+    <project label="DocCreator" version="0.6dev" date="" revision="">
       <path alt="must be absolute">/path/to/DocCreator/</path>
       <extensions>
         <extension>php5</extension>

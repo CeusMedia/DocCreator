@@ -57,13 +57,17 @@ class Builder_HTML_CM1_Site_Info_MethodAccess extends Builder_HTML_CM1_Site_Info
 					if( !$method->getAccess() )
 					{
 						$count++;
-						$methodList[]	= UI_HTML_Elements::ListItem( $method->getName(), 1, array( 'class' => 'methodItem' ) );
+						$url			= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
+						$link			= UI_HTML_Elements::Link( $url, $method->getName(), 'method' );
+						$methodList[]	= UI_HTML_Elements::ListItem( $link, 1, array( 'class' => 'method' ) );
 					}
 				}
 				if( !$methodList )
 					continue;
-				$methodList		= UI_HTML_Elements::unorderedList( $methodList, 1, array( 'class' => 'methodList' ) );
-				$classList[]	= UI_HTML_Elements::ListItem( $class->getName().$methodList, 0, array( 'class' => 'classItem' ) );
+				$methodList		= UI_HTML_Elements::unorderedList( $methodList, 1, array( 'class' => 'methods' ) );
+				$url			= 'class.'.$class->getId().'.html';
+				$link			= UI_HTML_Elements::Link( $url, $class->getName(), 'class' );
+				$classList[]	= UI_HTML_Elements::ListItem( $link.$methodList, 0, array( 'class' => 'classes' ) );
 			}
 		}
 		if( !$classList )

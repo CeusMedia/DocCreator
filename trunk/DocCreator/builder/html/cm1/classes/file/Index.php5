@@ -163,10 +163,13 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 	 *	@param		ADT_PHP_Class	$class			Class Object to get inherited Method List for
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( ADT_PHP_Class $class )
+	private function buildInheritedMethodList( ADT_PHP_Interface $class )
 	{
 		$list		= array();
-		$superClass	= $class->getExtendedClass();
+		if( $class instanceof ADT_PHP_Class )
+			$superClass	= $class->getExtendedClass();
+		else if( $class instanceof ADT_PHP_Interface )
+			$superClass	= $class->getExtendedInterface();
 		if( is_object( $superClass ) )
 		{
 			$subList	= $this->buildInheritedMethodList( $superClass );
@@ -227,7 +230,7 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 	 *	@param		array		$methodData		Information of Method
 	 *	@return		string
 	 */
-	private function buildMethodEntry( ADT_PHP_Class $class, $methodName, $methodData )
+	private function buildMethodEntry( ADT_PHP_Interface $class, $methodName, $methodData )
 	{
 		$desc	= explode( "\n", $methodData->getDescription() );
 		$desc	= array_shift( $desc );
@@ -246,7 +249,7 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 	 *	@param		int			$relation		Flag: hide final, abstract and private Methods
 	 *	@return		string
 	 */
-	private function buildMethodList( ADT_PHP_Class $class, $relation = 0 )
+	private function buildMethodList( ADT_PHP_Interface $class, $relation = 0 )
 	{
 		$list		= array();
 		$methods	= $class->getMethods();
