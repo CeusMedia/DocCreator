@@ -46,6 +46,7 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 	 *	@access		public
 	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
+	 *	@todo		support Interfaces
 	 */
 	public function extendData( ADT_PHP_Container $data )
 	{
@@ -67,8 +68,9 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 					$facts['todos'][]			= $todo;
 				foreach( $class->getDeprecations() as $deprecation )
 					$facts['deprecations'][]	= $deprecation;
-				foreach( $class->getMembers() as $member )
-					$facts['members'][$member->getName()]	= $member->getDescription();
+				if( $class instanceof ADT_PHP_Class )
+					foreach( $class->getMembers() as $member )
+						$facts['members'][$member->getName()]	= $member->getDescription();
 				foreach( $class->getMethods() as $method )
 				{
 					$facts['methods'][$method->getName()]	= $method->getDescription();

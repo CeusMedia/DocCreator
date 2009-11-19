@@ -57,7 +57,7 @@ class Reader_Plugin_Triggers extends Reader_Plugin_Abstract
 					if( $method->getSourceCode() )
 					{
 						$body	= implode( "\n", $method->getSourceCode() );
-						if( preg_match( '/@trigger/', $body ) )
+						if( preg_match( '/@trigger/si', $body ) )
 						{
 							$matches	= array();
 							preg_match_all( '@/\*\*.+\*/@s', $body, $matches );

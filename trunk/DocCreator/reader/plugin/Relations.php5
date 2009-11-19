@@ -37,13 +37,6 @@ import( 'reader.plugin.Abstract' );
  */
 class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 {
-	protected $extendedBy		= array();
-	protected $implementedBy	= array();
-	protected $usedBy			= array();
-	protected $composedBy		= array();
-	protected $receivedBy		= array();
-	protected $returnedBy		= array();
-
 	/**
 	 *	Collects Relations between Classes.
 	 *	@access		protected
@@ -53,63 +46,25 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 	public function extendData( ADT_PHP_Container $data )
 	{
 		if( $this->verbose )
-			remark( "Finding Class Relations..." );
+			remark( "Finding Class/Interface Relations..." );
 
 		foreach( $data->getFiles() as $fileName => $file )
+		{
 			foreach( $file->getClasses() as $class )
 				$this->tryToResolveClassRelations( $data, $class );
-
-		foreach( $data->getFiles() as $fileName => $file )
-			foreach( $file->getClasses() as $class )
-				$this->setFoundClassRelations( $class );
+			foreach( $file->getInterfaces() as $interface )
+				$this->tryToResolveInterfaceRelations( $data, $interface );
+		}
 	}	
 
-	protected function setFoundClassRelations( $class )
-	{
-/*		foreach( $class->getMethods() as $method )
-		{
-			if( !$parameter->getType() )
-				continue;
-			if( $parameter->getCast() == "ADT_PHP_Interface" )
-				die( "!!!!" );
-		}
-*/
-		$classId	= $class->getId();
-
-		if( $class instanceof ADT_PHP_Class )
-		{
-			if( array_key_exists( $classId, $this->extendedBy ) )
-				$class->setExtendingClass( $this->extendedBy[$classId] );
-			if( array_key_exists( $classId, $this->usedBy ) )
-				foreach( $this->usedBy[$classId] as $usingClass )
-					$class->setUsingClass( $usingClass );
-			if( array_key_exists( $classId, $this->composedBy ) )
-				foreach( $this->composedBy[$classId] as $composingClass )
-					$class->setComposingClass( $composingClass );
-			if( array_key_exists( $classId, $this->receivedBy ) )
-				foreach( $this->receivedBy[$classId] as $receivingClass )
-					$class->setReceivingClass( $receivingClass );
-			if( array_key_exists( $classId, $this->returnedBy ) )
-				foreach( $this->returnedBy[$classId] as $returningClass )
-					$class->setReturningClass( $returningClass );
-		}
-		else if( $class instanceof ADT_PHP_Interface )
-		{
-			if( array_key_exists( $classId, $this->extendedBy ) )
-				$class->setExtendingInterface( $this->extendedBy[$classId] );
-			if( array_key_exists( $classId, $this->implementedBy ) )
-				foreach( $this->implementedBy[$classId] as $imlementingClass )
-					$class->setImlementingClass( $imlementingClass );
-			if( array_key_exists( $classId, $this->receivedBy ) )
-				foreach( $this->receivedBy[$classId] as $receivingClass )
-					$class->setReceivingClass( $receivingClass );
-			if( array_key_exists( $classId, $this->returnedBy ) )
-				foreach( $this->returnedBy[$classId] as $returningClass )
-					$class->setReturningClass( $returningClass );
-		}
-	}
-
-	protected function tryToResolveClassRelations( $data, $class )
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		ADT_PHP_Container	$data			Object containing collected Class Data
+	 *	@param		ADT_PHP_Class		$class			Class Data Object
+	 *	@return		void
+	 */
+	protected function tryToResolveClassRelations( $data, ADT_PHP_Class $class )
 	{
 		if( $class->getUsedClasses() )																//  current class uses other classes
 		{
@@ -118,7 +73,7 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 				try
 				{
 					$usedClass	= $data->getClassFromClassName( $className, $class );				//  try to resolve class to object
-					$this->usedBy[$usedClass->getId()][]	= $class;									//  note the resolved class uses current class
+					$usedClass->setUsingClass( $class );
 					$class->setUsedClass( $usedClass );												//  store resolved class object instead of class name string
 				}
 				catch( Exception $e ){}
@@ -127,13 +82,13 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 
 		if( $class->getImplementedInterfaces() )													//  current class implements interfaces
 		{
-			foreach( $class->getImplementedInterfaces() as $nr => $className )						//  iterate interfaces
+			foreach( $class->getImplementedInterfaces() as $nr => $interfaceName )						//  iterate interfaces
 			{
 				try
 				{
-					$implementedClass	= $data->getClassFromClassName( $className, $class );		//  try to resolve interface to object
-					$this->implementedBy[$implementedClass->getId()][]	= $implementedClass;		//  note that resolved interface is implemented by currend class
-					$class->setImplementedInterface( $implementedClass );							//  store resolved interface object instead of interface name string
+					$implementedInterface	= $data->getInterfaceFromInterfaceName( $interfaceName, $class );		//  try to resolve interface to object
+					$implementedInterface->setImplementingClass( $class ) ;
+					$class->setImplementedInterface( $implementedInterface );							//  store resolved interface object instead of interface name string
 				}
 				catch( Exception $e ){}
 			}
@@ -145,7 +100,7 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 			try
 			{
 				$extendedClass	= $data->getClassFromClassName( $superClass, $class );				//  try to resolve extended class to object
-				$this->extendedBy[$extendedClass->getId()]	= $extendedClass;						//  note that extended class is extended by current class
+				$extendedClass->setExtendingClass( $class );
 				$class->setExtendedClass( $extendedClass );											//  store resolved class object instead of class name string
 			}
 			catch( Exception $e ){}
@@ -159,12 +114,46 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 			{
 				$foundClass	= $data->getClassFromClassName( $member->getType(), $class );				//  try to resolve extended class to object
 				$member->setType( $foundClass );
-				$this->composedBy[$foundClass->getId()][]	= $foundClass;
+				$foundClass->setComposingClass( $class );
 			}
 			catch( Exception $e ){}
 		}
+		$this->tryToResolveMethodRelations( $data, $class );
+	}
 
-		foreach( $class->getMethods() as $method )
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		ADT_PHP_Container	$data			Object containing collected Class Data
+	 *	@param		ADT_PHP_Interface	$interface		...
+	 *	@return		void
+	 */
+	protected function tryToResolveInterfaceRelations( ADT_PHP_Container $data, ADT_PHP_Interface $interface )
+	{
+		if( $interface->getExtendedInterface() )													//  current interface is extending another interface
+		{
+			$parent		= $interface->getExtendedInterface();
+			try
+			{
+				$extendedInterface	= $data->getInterfaceFromInterfaceName( $parent, $interface );	//  try to resolve extended interface to object
+				$extendedInterface->setExtendingInterface( $interface );
+				$interface->setExtendedInterface( $extendedInterface );								//  store resolved interface object instead of interface name string
+			}
+			catch( Exception $e ){}
+		}
+		$this->tryToResolveMethodRelations( $data, $interface );
+	}
+	
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		ADT_PHP_Container	$data			Object containing collected Class Data
+	 *	@param		ADT_PHP_Interface	$artefact		Interface or Class
+	 *	@return		void
+	 */
+	protected function tryToResolveMethodRelations( ADT_PHP_Container $data, ADT_PHP_Interface $artefact )
+	{
+		foreach( $artefact->getMethods() as $method )
 		{
 			foreach( $method->getParameters() as $parameter )
 			{
@@ -173,9 +162,17 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 				$type	= $parameter->getType();													//  get type of parameter
 				try
 				{
-					$foundClass	= $data->getClassFromClassName( $type, $class );					//  try to resolve extended class to object
+					if( $artefact instanceof ADT_PHP_Class )
+					{
+						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
+						$foundClass->addReceivingClass( $artefact );
+					}
+					else if( $artefact instanceof ADT_PHP_Interface )
+					{
+						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
+						$foundClass->addReceivingInterface( $artefact );
+					}
 					$parameter->setType( $foundClass );
-					$this->receivedBy[$foundClass->getId()][]	= $class;
 				}
 				catch( Exception $e ){}
 			}
@@ -187,7 +184,11 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 				$type	= $parameter->getCast();
 				try
 				{
-					$foundClass	= $data->getClassFromClassName( $type, $class );					//  try to resolve extended class to object
+					if( $artefact instanceof ADT_PHP_Class )
+						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
+					else if( $artefact instanceof ADT_PHP_Interface )
+						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
+					
 					$parameter->setCast( $foundClass );
 				}
 				catch( Exception $e ){}
@@ -198,9 +199,17 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 				$type	= $method->getReturn()->getType();
 				try
 				{
-					$foundClass	= $data->getClassFromClassName( $type, $class );					//  try to resolve extended class to object
+					if( $artefact instanceof ADT_PHP_Class )
+					{
+						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
+						$foundClass->addReturningClass( $artefact );
+					}
+					else if( $artefact instanceof ADT_PHP_Interface )
+					{					
+						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
+						$foundClass->addReturningInterface( $artefact );
+					}
 					$method->getReturn()->setType( $foundClass );
-					$this->returnedBy[$foundClass->getId()][]	= $class;
 				}
 				catch( Exception $e ){}
 			}
