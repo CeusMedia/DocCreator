@@ -58,8 +58,9 @@ class Reader_Plugin_Primitives extends Reader_Plugin_Abstract
 		{
 			foreach( $file->getClasses() as $class )
 			{
-				foreach( $class->getMembers() as $member )
-					$this->tryToExtendPrimitiveType( $member );
+				if( $class instanceof ADT_PHP_Class )
+					foreach( $class->getMembers() as $member )
+						$this->tryToExtendPrimitiveType( $member );
 				foreach( $class->getMethods() as $method )
 				{
 					if( $method->getReturn() )
