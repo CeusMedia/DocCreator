@@ -78,6 +78,7 @@ class Builder_HTML_CM1_Site_Info_MethodAccess extends Builder_HTML_CM1_Site_Info
 			'title'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
 			'content'	=> UI_HTML_Elements::unorderedList( $classList ),
 			'words'		=> $words,
+			'footer'	=> $this->buildFooter(),
 		);
 		$template	= 'site/info/'.$this->key;
 		$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

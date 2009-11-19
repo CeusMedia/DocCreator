@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <link rel="stylesheet" href="css/<%theme%>/reset.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/typography.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.information.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.package.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.syntax.css"/>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/typography.css"/>
+    <link rel="stylesheet" href="css/content.css"/>
+    <link rel="stylesheet" href="css/content.information.css"/>
+    <link rel="stylesheet" href="css/content.package.css"/>
+    <link rel="stylesheet" href="css/content.syntax.css"/>
     <script type="text/javascript" src="js/jquery.pack.js"></script>
   </head>
-  <body>
+  <body class="content">
     <a name="top"></a>
     <div id="information">
       <h1>
@@ -21,6 +21,8 @@
       <small><%words.internal%>: <%packageKey%></small><br/>
       <%?packageList%>
       <%?classList%>
+      <%?interfaceList%>
     </div>
+	<%?footer%>
   </body>
 </html>

@@ -100,9 +100,9 @@ class Builder_HTML_CM1_Site_Info_DocHints extends Builder_HTML_CM1_Site_Info_Abs
 						$methodNotes[]	= UI_HTML_Elements::ListItem( $words['method.return.missing'] );
 					if( $methodNotes )
 					{
-						$methodNotes	= UI_HTML_Elements::unorderedList( $methodNotes, 2, array( 'class' => 'method' ) );
-						$link			= UI_HTML_Elements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName() );
-						$classNotes[]	= UI_HTML_Elements::ListItem( $link.$methodNotes, 2, array( 'class' => 'methods' ) );
+						$methodNotes	= UI_HTML_Elements::unorderedList( $methodNotes, 2 );
+						$link			= UI_HTML_Elements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName(), 'method' );
+						$classNotes[]	= UI_HTML_Elements::ListItem( $link.$methodNotes, 2, array( 'class' => 'method' ) );
 					}
 				}
 	
@@ -113,7 +113,7 @@ class Builder_HTML_CM1_Site_Info_DocHints extends Builder_HTML_CM1_Site_Info_Abs
 				
 				$notes	= UI_HTML_Elements::unorderedList( $classNotes );
 
-				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName() );
+				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$count	= ' <small>('.count( $notes ).')</small>';
 				$item	= UI_HTML_Elements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
 				$list[]	= $item;
@@ -129,6 +129,7 @@ class Builder_HTML_CM1_Site_Info_DocHints extends Builder_HTML_CM1_Site_Info_Abs
 				'title'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
 				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $list ).'</div>',
 				'words'		=> $words,
+				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/'.$this->key;
 			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

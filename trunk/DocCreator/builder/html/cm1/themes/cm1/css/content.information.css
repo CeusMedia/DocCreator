@@ -1,13 +1,16 @@
-#information {
-	padding: 1em 2em;
-	}
-
 #information #package_info,
 #information #package_files,
 #information #package_packages,
+#information #package_interfaces,
+#information #package_classes,
 #information #file_info,
 #information #file_functions,
 #information #file_source,
+#information #interface_members,
+#information #interface_members_inherited,
+#information #interface_methods,
+#information #interface_methods_inherited,
+#information #interface_info,
 #information #class_members,
 #information #class_members_inherited,
 #information #class_methods,
@@ -16,7 +19,10 @@
 	margin-top: 1em;
 	}
 #information #package_info,
+#information #package_interfaces,
+#information #package_classes,
 #information #file_info,
+#information #interface_info,
 #information #class_info {
 	padding: 1em 2em;
 	background-color: #b9d7ed;
@@ -24,6 +30,8 @@
 	-moz-border-radius: 1em;
 	}
 #information #package_files,
+#information #interface_members,
+#information #interface_members_inherited,
 #information #class_members,
 #information #class_members_inherited {
 	padding: 0.5em 2em 1em 2em;
@@ -33,6 +41,8 @@
 	}
 #information #package_packages,
 #information #file_functions,
+#information #interface_methods,
+#information #interface_methods_inherited,
 #information #class_methods,
 #information #class_methods_inherited {
 	padding: 1em 2em;
@@ -47,7 +57,7 @@
 #information table {
 	background-image: url(../images/lighter25.png);
 	background-repeat: repeat;
-	border: 1px dotted gray;
+	border: 1px solid gray;
 	border-collapse: collapse;
 	width:500px;
 	}

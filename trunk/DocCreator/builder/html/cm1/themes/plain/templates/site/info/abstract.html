@@ -3,16 +3,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title><%?title%></title>
-    <link rel="stylesheet" href="css/<%theme%>/reset.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/typography.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.css"/>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/typography.css"/>
+    <link rel="stylesheet" href="css/content.css"/>
     <script type="text/javascript" src="js/jquery.pack.js"></script>
   </head>
-  <body class="site-info">
+  <body class="content site-info">
     <div id="<%?id%>">
       <h1><%?words.heading%></h1>
       <p><%?words.description%></p>
       <%content%>
     </div>
+    <%?footer%>
   </body>
 </html>

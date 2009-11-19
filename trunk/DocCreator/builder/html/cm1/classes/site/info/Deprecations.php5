@@ -55,8 +55,8 @@ class Builder_HTML_CM1_Site_Info_Deprecations extends Builder_HTML_CM1_Site_Info
 				$classDeprecations	= array();
 				$methodDeprecations	= array();
 
-				$fileUri	= "class.".$class->getId().".html";
-				$classLink	= UI_HTML_Elements::Link( $fileUri, $class->getName() );
+				$classUri	= "class.".$class->getId().".html";
+				$classLink	= UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getDeprecations() )
 				{
@@ -98,6 +98,7 @@ class Builder_HTML_CM1_Site_Info_Deprecations extends Builder_HTML_CM1_Site_Info
 				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
 				'content'	=> UI_HTML_Elements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
+				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/deprecations';
 			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

@@ -109,6 +109,7 @@ class Builder_HTML_CM1_Site_Category extends Builder_HTML_CM1_Abstract
 			'categoryKey'	=> "key-id:".$category->getId(),
 			'packageList'	=> $packageList,
 			'classList'		=> $classList,
+			'footer'		=> $this->buildFooter(),
 		);
 		return $this->loadTemplate( 'category.content', $data );
 	}

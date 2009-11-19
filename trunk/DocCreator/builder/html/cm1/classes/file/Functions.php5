@@ -38,33 +38,6 @@ import( 'builder.html.cm1.classes.file.Info' );
 class Builder_HTML_CM1_File_Functions extends Builder_HTML_CM1_File_Info
 {
 	/**
-	 *	Builds View of File Functions for File Information File.
-	 *	@access		public
-	 *	@param		ADT_PHP_File		$file			File Object
-	 *	@return		string
-	 */
-	public function buildView( ADT_PHP_File $file )
-	{
-		$this->type	= "file";
-		$list		= array();
-		$functions	= $file->getFunctions();
-		if( !$functions )
-			return "";
-		ksort( $functions );
-		foreach( $functions as $functionName => $function )
-			$list[$functionName]	= $this->buildFunctionEntry( $file, $function );
-
-		$words		= $this->env->words['fileFunctions'];
-		$heading	= sprintf( $words['heading'], $file->getBasename() );
-		$data	= array(
-			'words'		=> $words,
-			'heading'	=> $heading,
-			'list'		=> implode( "", $list ),
-		);
-		return $this->loadTemplate( 'file.functions', $data );
-	}
-
-	/**
 	 *	Builds View of a Function with all Information.
 	 *	@access		private
 	 *	@param		ADT_PHP_File		$file			File Object
@@ -124,6 +97,33 @@ class Builder_HTML_CM1_File_Functions extends Builder_HTML_CM1_File_Info
 			'description'	=> nl2br( trim( $function->getDescription() ) ),
 		);
 		return $this->loadTemplate( 'file.function', $data );
+	}
+
+	/**
+	 *	Builds View of File Functions for File Information File.
+	 *	@access		public
+	 *	@param		ADT_PHP_File		$file			File Object
+	 *	@return		string
+	 */
+	public function buildView( ADT_PHP_File $file )
+	{
+		$this->type	= "file";
+		$list		= array();
+		$functions	= $file->getFunctions();
+		if( !$functions )
+			return "";
+		ksort( $functions );
+		foreach( $functions as $functionName => $function )
+			$list[$functionName]	= $this->buildFunctionEntry( $file, $function );
+
+		$words		= $this->env->words['fileFunctions'];
+		$heading	= sprintf( $words['heading'], $file->getBasename() );
+		$data	= array(
+			'words'		=> $words,
+			'heading'	=> $heading,
+			'list'		=> implode( "", $list ),
+		);
+		return $this->loadTemplate( 'file.functions', $data );
 	}
 }
 ?>

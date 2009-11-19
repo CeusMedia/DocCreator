@@ -64,6 +64,7 @@ class Builder_HTML_CM1_Site_Info_EncodingErrorBuilder extends Builder_HTML_CM1_A
 			$uiData	= array(
 				'list'	=> UI_HTML_Elements::unorderedList( $list ),
 				'words'	=> $this->env->words['encoding'],
+				'footer'	=> $this->buildFooter(),
 			);
 			$content	= $this->loadTemplate( 'site/info/encoding', $uiData );
 			file_put_contents( $pathTarget."encoding.html", $content );

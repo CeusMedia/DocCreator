@@ -106,9 +106,14 @@ class Builder_HTML_CM1_File_Info extends Builder_HTML_CM1_Abstract
 	{
 		$this->type	= 'file';
 
+		$package		= $this->buildPackageLink( $file->getPackage(), $file->getCategory() );
+		$category		= $this->buildCategoryLink( $file->getCategory() );
+		$package		= $this->getTypeMarkUp( $package );
+		$category		= $this->getTypeMarkUp( $category );
+
 		$attributesData	= array(
-			'category'		=> $this->buildParamStringList( $file->getCategory(), 'category' ),			//  category
-			'package'		=> $this->buildParamStringList( $file->getPackage(), 'package' ),			//  package
+			'category'		=> $this->buildParamStringList( $category, 'category' ),					//  category (linked if resolvable)
+			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $file->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $file->getSince(), 'since' ),				//  since version
 			'copyright'		=> $this->buildParamStringList( $file->getCopyright(), 'copyright' ),		//  copyright notes

@@ -69,6 +69,7 @@ class Builder_HTML_CM1_Site_Info_Triggers extends Builder_HTML_CM1_Site_Info_Abs
 			'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'triggers',
 			'content'	=> $content,
 			'words'		=> $words,
+			'footer'	=> $this->buildFooter(),
 		);
 		$template	= 'site/info/triggers';
 		$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';

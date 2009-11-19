@@ -40,6 +40,25 @@ define( 'RELATION_IMPLEMENTS', 2 );
 class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 {
 	/**
+	 *	Adds a Main Link to the Index List.
+	 *	@access		private
+	 *	@param		string		$class			Item Class or Linked Anchor ID
+	 *	@param		string		$label			Label of Main Link
+	 *	@param		string		$content		Content within Main Link
+	 *	@return		string
+	 */
+	private function addMainLink( $class, $label, $content = "" )
+	{
+		$class	= str_replace( "_", "-", $class );
+		$url	= "#".str_replace( "-", "_", $class );
+		if( $content && is_array( $content ) )
+			$content	= UI_HTML_Elements::unorderedList( $content );
+		$link	= UI_HTML_Elements::Link( $url, $label ).$content;
+		$item	= UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
+		$this->list[]	= $item;
+	}
+	
+	/**
 	 *	Builds Index View.
 	 *	@access		public
 	 *	@param		ADT_PHP_File	$file			File Object to build Index for
@@ -48,7 +67,7 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 	 */
 	public function buildIndex( ADT_PHP_File $file )
 	{
-		$class		= array_shift( $file->getClasses() );
+		$class		= array_shift( array_merge( $file->getClasses(), $file->getInterfaces() ) );
 		$words		= $this->env->words['index'];
 		$this->list	= array();
 
@@ -61,17 +80,20 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 			$this->addMainLink( 'class-info', $words['class'] );
 		
 			//  --  CLASS MEMBERS & INHERITED CLASS MEMBERS  --  //
-			$inheritedMemberList	= $this->buildInheritedMemberList( $class, RELATION_EXTENDS );
-			$memberList	= $this->buildMemberList( $class );
-			if( $memberList )
+			if( $class instanceof ADT_PHP_CLASS )
 			{
+				$inheritedMemberList	= $this->buildInheritedMemberList( $class, RELATION_EXTENDS );
+				$memberList	= $this->buildMemberList( $class );
+				if( $memberList )
+				{
+					if( $inheritedMemberList )
+						foreach( array_keys( $memberList ) as $memberName )
+							unset( $inheritedMemberList[$memberName] );
+					$this->addMainLink( "class-members", $words['classMembers'], $memberList );
+				}
 				if( $inheritedMemberList )
-					foreach( array_keys( $memberList ) as $memberName )
-						unset( $inheritedMemberList[$memberName] );
-				$this->addMainLink( "class-members", $words['classMembers'], $memberList );
+					$this->addMainLink( 'class-members-inherited', $words['classMembersInherited'], $inheritedMemberList );
 			}
-			if( $inheritedMemberList )
-				$this->addMainLink( 'class-members-inherited', $words['classMembersInherited'], $inheritedMemberList );
 
 			//  --  CLASS METHODS & INHERITED CLASS METHODS  --  //
 			$inheritedMethodList	= $this->buildInheritedMethodList( $class, RELATION_EXTENDS );
@@ -115,25 +137,6 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 		return $this->loadTemplate( 'site/index', $data );
 	}
 
-	/**
-	 *	Adds a Main Link to the Index List.
-	 *	@access		private
-	 *	@param		string		$class			Item Class or Linked Anchor ID
-	 *	@param		string		$label			Label of Main Link
-	 *	@param		string		$content		Content within Main Link
-	 *	@return		string
-	 */
-	private function addMainLink( $class, $label, $content = "" )
-	{
-		$class	= str_replace( "_", "-", $class );
-		$url	= "#".str_replace( "-", "_", $class );
-		if( $content && is_array( $content ) )
-			$content	= UI_HTML_Elements::unorderedList( $content );
-		$link	= UI_HTML_Elements::Link( $url, $label ).$content;
-		$item	= UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
-		$this->list[]	= $item;
-	}
-	
 	/**
 	 *	Builds List of inherited Members.
 	 *	@access		private

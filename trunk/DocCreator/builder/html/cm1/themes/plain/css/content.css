@@ -14,23 +14,16 @@ h4 {
 	margin-bottom: 0.1em;
 	}
 
+h1 {
+	font-size: 2em;
+	}
+
+h2 {
+	font-size: 1.8em;
+	}
+
 h1 small {
 	font-size: 0.5em;
-	}
-
-table.grid {
-	border: 1px solid gray;
-	border-collapse: collapse;
-	}
-
-table.grid td {
-	border: 1px dotted #bbb;
-	padding: 0.2em 0.5em;
-	}
-
-table.grid th {
-	background: #F7F7F7;
-	padding: 0.1em 0.2em;
 	}
 
 div.file-uri {
@@ -51,24 +44,33 @@ pre.text {
 	line-height: 1.2em;
 	}
 
-
+body.content,
 body.site-info {
 	padding: 1em 2em 3em 2em;
 	}
 
-body.site-info ul.classes>li {
-	list-style: square;
+body.content div#footer {
+	margin: 2em;
+	border-top: 1px solid #CCC;
+	color: gray;
+	font-style: italic;
+	letter-spacing: 1px;
+	text-align: center;
 	}
 
-body.site-info ul.classList>li {
-	list-style: disc;
+
+/* --   GRID TABLE  --  */
+table.grid {
+	border: 1px solid gray;
+	border-collapse: collapse;
 	}
 
-body.site-info ul.classList>li.classItem {
-	list-style: circle;
+table.grid td {
+	border: 1px dotted #bbb;
+	padding: 0.2em 0.5em;
 	}
 
-body.site-info ul.methodList>li {
-	list-style: circle;
+table.grid th {
+	background: #F7F7F7;
+	padding: 0.1em 0.2em;
 	}
-

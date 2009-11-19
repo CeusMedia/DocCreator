@@ -50,7 +50,7 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 		foreach( $package->getClasses() as $class )
 		{
 			$type	= $this->getTypeMarkUp( $class, TRUE );
-			$list[]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "file" ) );
+			$list[]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "class" ) );
 		}
 		if( $list )
 		{
@@ -59,6 +59,31 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 				'list'	=> UI_HTML_Elements::unorderedList( $list ),
 			);
 			return $this->loadTemplate( 'package.classes', $data );
+		}
+	}
+
+	/**
+	 *	Builds Interface List from Package Key.
+	 *	@access		private
+	 *	@param		ADT_PHP_Package	$package		Package Object
+	 *	@return		string
+	 *	@todo		fix
+	 */
+	private function buildInterfaceList( ADT_PHP_Package $package )
+	{
+		$list	= array();			
+		foreach( $package->getInterfaces() as $interface )
+		{
+			$type	= $this->getTypeMarkUp( $interface, TRUE );
+			$list[]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "interface" ) );
+		}
+		if( $list )
+		{
+			$data	= array(
+				'words'	=> $this->env->words['packageInterfaces'],
+				'list'	=> UI_HTML_Elements::unorderedList( $list ),
+			);
+			return $this->loadTemplate( 'package.interfaces', $data );
 		}
 	}
 
@@ -100,6 +125,7 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 #		$packageName	= $this->env->capitalizePackageName( $package->getLabel() );
 		$packageName	= $package->getLabel();
 		$classList		= $this->buildClassList( $package );
+		$interfaceList	= $this->buildInterfaceList( $package );
 		$packageList	= $this->buildPackageList( $package );
 		
 		$data	= array(
@@ -109,6 +135,8 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 			'packageKey'	=> "key-id:".$package->getId(),
 			'packageList'	=> $packageList,
 			'classList'		=> $classList,
+			'interfaceList'	=> $interfaceList,
+			'footer'		=> $this->buildFooter(),
 		);
 		return $this->loadTemplate( 'package.content', $data );
 	}

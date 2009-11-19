@@ -38,6 +38,95 @@ import( 'builder.html.cm1.classes.class.Info' );
 class Builder_HTML_CM1_Class_Members extends Builder_HTML_CM1_Class_Info
 {
 	/**
+	 *	Builds List of inherited Members of all extended Classes.
+	 *	@access		public
+	 *	@param		ADT_PHP_Class	$class			Class Object
+	 *	@param		array			$got			List of Member Names already handled
+	 *	@return		string			List HTML 
+	 */
+	private function buildInheritedMemberList( ADT_PHP_Class $class, $got = array() )
+	{	
+		$extended		= array();
+		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
+
+		$classes		= $this->getSuperClasses( $class );
+		foreach( $classes as $nr => $superClass )
+		{
+			$list		= array();
+			if( !is_object( $superClass ) )
+				continue;
+			foreach( $superClass->getMembers() as $memberName => $member )
+			{
+				if( in_array( $memberName, $memberNames ) )
+					continue;
+				if( in_array( $memberName, $got ) )
+					continue;
+				if( $member->getAccess() == 'private' )
+					continue;
+				$got[]		= $memberName;
+				$uri		= 'class.'.$superClass->getId().".html#class_member_".$memberName;
+				$link		= UI_HTML_Elements::Link( $uri, $memberName, 'member' );
+				$linkTyped	= $this->getTypeMarkUp( $link );
+				$list[$memberName]	= UI_HTML_Elements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
+			}
+			if( $list )
+			{
+				ksort( $list );
+				$list		= UI_HTML_Elements::unorderedList( $list );
+				$item		= $this->getTypeMarkUp( $superClass ).$list;
+				$attributes	= array( 'class' => 'membersOfExtendedClass' );
+				if( $nr % 3 == 0 )
+					$attributes['style']	= "clear: left";										//  line break after each 3 classes
+				$extended[]	= UI_HTML_Elements::ListItem( $item, 0, $attributes );
+			}
+		}
+		if( !$extended )
+			return "";
+		$attributes	= array( 'class' => 'extendedClass' );
+		$extended	= UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
+		$data	= array(
+			'words'	=> $this->words['classMembersInherited'],
+			'list'	=> $extended,
+		);
+		return $this->loadTemplate( 'class.members.inherited', $data );
+	}
+
+	/**
+	 *	Builds View of a Member with all Information.
+	 *	@access		private
+	 *	@param		ADT_PHP_Class	$class			Class Object
+	 *	@param		string			$memberName		Name of Member
+	 *	@param		ADT_PHP_Member	$member			Member data object
+	 *	@return		string
+	 */
+	private function buildMemberEntry( ADT_PHP_Class $class, $memberName, $member )
+	{
+		$default	= $member->getDefault() ? " = ".$member->getDefault() : "";
+		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
+
+		$attributes	= array();
+		$accessType	= $member->getAccess() ? $member->getAccess() : 'unknown';
+		$access		= $this->buildAccessLabel( $accessType );
+		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
+		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
+		$attributes['default']	= $this->buildParamStringList( $member->getDefault(), 'default' );
+
+		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
+	
+		$accessType	= $member->getAccess() ? $member->getAccess() : 'public';
+		$data	= array(
+			'memberName'	=> $memberName,
+			'memberTitle'	=> '$'.$memberName,
+			'access'		=> $accessType,
+			'type'			=> $type,
+			'default'		=> $default,
+			'attributes'	=> $attributes,
+			'description'	=> nl2br( trim( $member->getDescription() ) ),
+		);
+		return $this->loadTemplate( 'class.member', $data );
+	}
+
+	/**
 	 *	Builds View of Class Members for Class Information File.
 	 *	@access		public
 	 *	@param		ADT_PHP_Class	$class			Class Object
@@ -68,92 +157,6 @@ class Builder_HTML_CM1_Class_Members extends Builder_HTML_CM1_Class_Info
 		}
 		$content	.= $this->buildInheritedMemberList( $class, array_keys( $list ) );
 		return $content;
-	}
-
-	/**
-	 *	Builds List of inherited Members of all extended Classes.
-	 *	@access		public
-	 *	@param		ADT_PHP_Class	$class			Class Object
-	 *	@param		array			$got			List of Member Names already handled
-	 *	@return		string			List HTML 
-	 */
-	private function buildInheritedMemberList( ADT_PHP_Class $class, $got = array() )
-	{	
-		$extended		= array();
-		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
-
-		$classes		= $this->getSuperClasses( $class );
-		foreach( $classes as $superClass )
-		{
-			$list		= array();
-			if( !is_object( $superClass ) )
-				continue;
-			foreach( $superClass->getMembers() as $memberName => $member )
-			{
-				if( in_array( $memberName, $memberNames ) )
-					continue;
-				if( in_array( $memberName, $got ) )
-					continue;
-				if( $member->getAccess() == 'private' )
-					continue;
-				$got[]		= $memberName;
-				$uri		= 'class.'.$superClass->getId().".html#class_member_".$memberName;
-				$link		= UI_HTML_Elements::Link( $uri, $memberName );
-				$list[$memberName]	= UI_HTML_Elements::ListItem( $link, 1 );
-			}
-			if( $list )
-			{
-				ksort( $list );
-				$list		= UI_HTML_Elements::unorderedList( $list );
-				$item		= $this->getTypeMarkUp( $superClass ).$list;
-				$attributes	= array( 'class' => 'membersOfExtendedClass' );
-				$extended[]	= UI_HTML_Elements::ListItem( $item, 0, $attributes );
-			}
-		}
-		if( !$extended )
-			return "";
-		$attributes	= array( 'class' => 'extendedClass' );
-		$extended	= UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
-		$data	= array(
-			'words'	=> $this->words['classMembersInherited'],
-			'list'	=> $extended,
-		);
-		return $this->loadTemplate( 'class.members.inherited', $data );
-	}
-
-	/**
-	 *	Builds View of a Member with all Information.
-	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object
-	 *	@param		string			$memberName		Name of Member
-	 *	@param		ADT_PHP_Member	$member			Member data object
-	 *	@return		string
-	 */
-	private function buildMemberEntry( ADT_PHP_Class $class, $memberName, $member )
-	{
-		$default	= $member->getDefault() ? " = ".$member->getDefault() : "";
-		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
-
-		$attributes	= array();
-		$access		= $member->getAccess() ? $member->getAccess() : 'unknown';
-		$access		= array_key_exists( $access, $this->words['access'] ) ? $this->words['access'][$access] : $access;
-		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
-		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
-		$attributes['default']	= $this->buildParamStringList( $member->getDefault(), 'default' );
-
-		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
-	
-		$access		= $member->getAccess() ? $member->getAccess() : 'public';
-		$data	= array(
-			'memberName'	=> $memberName,
-			'memberTitle'	=> '$'.$memberName,
-			'access'		=> $access,
-			'type'			=> $type,
-			'default'		=> $default,
-			'attributes'	=> $attributes,
-			'description'	=> nl2br( trim( $member->getDescription() ) ),
-		);
-		return $this->loadTemplate( 'class.member', $data );
 	}
 }
 ?>

@@ -3,18 +3,18 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Code Statistics</title>
-    <link rel="stylesheet" href="css/<%theme%>/reset.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/typography.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/jquery.svg.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.css"/>
-    <link rel="stylesheet" href="css/<%theme%>/content.site.statistics.css"/>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/typography.css"/>
+    <link rel="stylesheet" href="css/jquery.svg.css"/>
+    <link rel="stylesheet" href="css/content.css"/>
+    <link rel="stylesheet" href="css/content.site.statistics.css"/>
     <script type="text/javascript" src="js/jquery.pack.js"></script>
     <script type="text/javascript" src="js/jquery.svg.pack.js"></script>
     <script type="text/javascript" src="js/jquery.svgfilter.pack.js"></script>
     <script type="text/javascript" src="js/jquery.svggraph.pack.js"></script>
     <script type="text/javascript" src="js/dynamic.js"></script>
   </head>
-  <body class="site-info">
+  <body class="content site-info">
     <div id="info-statistics">
       <h1><%words.statistics.heading%></h1>
       <p><%words.statistics.description%></p>
@@ -105,5 +105,6 @@
         <embed src="<%?graphFile%>" width="518" height="400">
       </div>
     </div>
+    <%?footer%>
   </body>
 </html>

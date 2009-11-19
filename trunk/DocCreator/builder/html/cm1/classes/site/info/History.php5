@@ -44,7 +44,6 @@ class Builder_HTML_CM1_Site_Info_History extends Builder_HTML_CM1_Site_Info_Abst
 		'history.log',
 		'history.nfo',
 	);
-	
 
 	/**
 	 *	Creates History Info Site File.

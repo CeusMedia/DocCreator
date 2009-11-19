@@ -37,7 +37,7 @@
 	background-repeat: repeat;
 	border: 1px solid #BBB;
 	border-collapse: collapse;
-	width:500px;
+	min-width: 600px;
 	}
 #information table td {
 	border: 1px solid #DDD;

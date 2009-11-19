@@ -1,8 +1,78 @@
+
+/*  --  LINK ICONS  --  */
+a.category,
+a.package,
+a.file,
+a.class,
+a.interface,
+a.function,
+a.method,
+a.var,
+a.member {
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	height: 16px;
+	font-style: italic;
+	}
+
+a.category {
+	background-image: url(../images/mini/icon_component.png);
+	}
+
+a.package {
+	background-image: url(../images/mini/icon_package.png);
+	}
+
+a.class {
+	background-image: url(../images/mini/page_php.png);
+	}
+
+a.interface {
+	background-image: url(../images/mini/page_dynamic.png);
+	}
+
+a.function {
+	background-image: url(../images/own/function_1.png);
+	}
+
+a.method {
+	background-image: url(../images/own/function_2.png);
+	padding-left: 16px;
+	}
+
+a.var {
+	background-image: url(../images/own/var_1.png);
+	padding-left: 16px;
+	}
+
+a.member {
+	background-image: url(../images/own/var_1.png);
+	padding-left: 16px;
+	}
+
+
+/*  --  NOT LIST STYLE FOR ICONED LINKS  --  */	
+ul li.package,
+ul li.interface,
+ul li.class,
+ul li.member,
+ul li.method {
+	list-style-type: none;
+	margin: 0px;
+	}
+	
+
+
+/*  --  TYPE  --  */
 span.type {
 	font-style: italic;
 	padding: 1px 6px;
-	margin-right: 2px;
-	background: #DDD;
+	margin-right: 4px;
+	background: #F7F7F7;
+	}
+
+span.type a {
+	text-decoration: none;
 	}
 
 span.default {

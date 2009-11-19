@@ -77,6 +77,7 @@ class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Abstract
 			'fileInfo'		=> $this->builderFileInfo->buildView( $file ),
 			'fileFunctions'	=> $this->builderFileFunctions->buildView( $file ),
 			'fileSource'	=> $this->builderSourceCode->buildSourceCode( $file ),
+			'footer'		=> $this->buildFooter(),
 		);
 		return $this->loadTemplate( 'file.content', $data );
 	}

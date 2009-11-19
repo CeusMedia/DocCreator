@@ -102,6 +102,13 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 			$item->setAttribute( 'class', 'class' );
 			$menu->addChild( $item );
 		}
+		foreach( $root->getInterfaces() as $interface )
+		{
+			$name	= array_pop( explode( "_", $interface->getName() ) );
+			$item	= new ADT_Tree_Menu_Item( 'interface.'.$interface->getId().'.html', $name );
+			$item->setAttribute( 'class', 'interface' );
+			$menu->addChild( $item );
+		}
 	}
 }
 ?>

@@ -37,46 +37,6 @@
 class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstract
 {
 	/**
-	 *	Builds Tree View.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function createSite()
-	{
-		if( $this->env->verbose )
-			remark( "Creating Site: Search" );
-		$this->createTermList( $this->pathTarget );
-		$uiData	= array(
-			'words'		=> $this->env->words['search'],
-			'list'		=> $this->buildTermIndex(),
-		);
-		$content	= $this->loadTemplate( "site/info/search", $uiData );
-		$this->saveFile( "search.html", $content );
-
-		$template	= $this->env->getBuilderClassPath().'templates/search.php';
-		$htaccess	= file_get_contents( $template );
-		$this->saveFile( "search.php", $htaccess );
-		$this->appendLink( 'search.html', 'search' );
-	}
-
-	/**
-	 *	Collects all Search Terms of all Classes and stores a serialized Term List in Doc Folder.
-	 *	This serial will be used by the Search Script, which is triggered by the built HTML Search Form and copied as 'resource'.
-	 *	@access		private
-	 *	@param		string		$pathTarget			Doc Folder
-	 *	@return		int			Number of saved Bytes
-	 */
-	private function createTermList( $pathTarget )
-	{
-		$data		= array();
-		$files		= $this->env->data->getFiles();
-		foreach( $files as $fileId => $file )
-			foreach( $file->getClasses() as $classId => $class )
-				$data[]	= $file->search;
-		return File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
-	}
-
-	/**
 	 *	@deprecated		not used anymore, since Search is running on Server
 	 */
 	private function buildTermIndex()
@@ -103,6 +63,47 @@ class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstr
 		}
 		$list	= implode( "\n", $list );
 		return $list;
+	}
+
+	/**
+	 *	Builds Tree View.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function createSite()
+	{
+		if( $this->env->verbose )
+			remark( "Creating Site: Search" );
+		$this->createTermList( $this->pathTarget );
+		$uiData	= array(
+			'words'		=> $this->env->words['search'],
+			'list'		=> $this->buildTermIndex(),
+			'footer'	=> $this->buildFooter(),
+		);
+		$content	= $this->loadTemplate( "site/info/search", $uiData );
+		$this->saveFile( "search.html", $content );
+
+		$template	= $this->pathTheme.'templates/search.php';
+		$htaccess	= file_get_contents( $template );
+		$this->saveFile( "search.php", $htaccess );
+		$this->appendLink( 'search.html', 'search' );
+	}
+
+	/**
+	 *	Collects all Search Terms of all Classes and stores a serialized Term List in Doc Folder.
+	 *	This serial will be used by the Search Script, which is triggered by the built HTML Search Form and copied as 'resource'.
+	 *	@access		private
+	 *	@param		string		$pathTarget			Doc Folder
+	 *	@return		int			Number of saved Bytes
+	 */
+	private function createTermList( $pathTarget )
+	{
+		$data		= array();
+		$files		= $this->env->data->getFiles();
+		foreach( $files as $fileId => $file )
+			foreach( $file->getClasses() as $classId => $class )
+				$data[]	= $file->search;
+		return File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 }
 ?>
