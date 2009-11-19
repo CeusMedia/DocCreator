@@ -8,13 +8,10 @@
  *	@package		DocCreator_Test_B
  *	@author			Hans Wurst
  */
-final class Test_B extends Test_A implements Interface_AdvancedDocumentable
+final class Test_C extends Test_A implements Interface_AdvancedDocumentable
 {
     /**	@var		Test_B		$b		... */
     public $b;
-    
-    /** @var		Interface_Documentable	$interface	An Interface */
-    public $interface;
 
     /**
      *	@access		public
@@ -26,14 +23,6 @@ final class Test_B extends Test_A implements Interface_AdvancedDocumentable
     function doB( Test_A $a )
     {
     	return "no code here";
-    }
-    
-    /**
-     *	@return		Interface_Documentable
-     */
-    function crazyStuff( Interface_AdvancedDocumentable $interface )
-    {
-    
     }
 }
 ?>

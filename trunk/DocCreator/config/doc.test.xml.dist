@@ -25,7 +25,7 @@
   <!--  PROJECTS  -->  
   <projects>
     <project label="DocCreator" version="0.5" date="" revision="">
-      <path alt="must be absolute">d:/.mirror/tools/dev/DocCreator/</path>
+      <path alt="must be absolute">/path/to/DocCreator/</path>
       <extensions>
         <extension>php5</extension>
       </extensions>
@@ -33,21 +33,21 @@
         <file alt="regular expression">/^(_|[a-z])/</file>
         <folder alt="regular expression">#^doc/#</folder>
       </ignore>
-      <package>
+      <category lowercase="">
+        <default>unknown</default>
+      </category>
+      <package lowercase="">
         <default>unknown</default>
         <uppercase alt="comma seperated"></uppercase>
       </package>
-      <category>
-        <default>unknown</default>
-      </category>
     </project>
   </projects>
 
   <!--  BUILDERS -->  
   <builders>
     <builder format="html" converter="cm1" theme="plain">
-      <path type="target" alt="must be absolute">d:/.mirror/tools/dev/DocCreator/doc/api2/</path>
-      <path type="documents" alt="must be absolute">d:/.mirror/tools/dev/DocCreator/doc/</path>
+      <path type="target" alt="must be absolute">/path/to/DocCreator/doc/api2/</path>
+      <path type="documents" alt="must be absolute">/path/to/DocCreator/doc/</path>
       <language>en</language>
       <title>DocCreator API</title>
       <author><![CDATA[Christian Würker <christian.wuerker@ceus-media.de>]]></author>

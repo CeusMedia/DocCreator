@@ -2,7 +2,6 @@
 /**
  *	Script to execute DocCreator Runnner on console.
  **/
-
 //  --  PLEASE SET UP YOUR ENVIRONMENT  --  //
 $pathCmLib	= "cmClasses/trunk/";													//  path to cmClasses, absolute or relative or empty if already loaded
 $pathSelf	= dirname( __FILE__ ).'/';												//  path to current folder
