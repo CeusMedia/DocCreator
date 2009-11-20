@@ -259,7 +259,8 @@ abstract class Builder_HTML_CM1_Abstract
 #		if( is_object( $type ) )
 #			remark( $type->getName()." - ".get_class( $type ) );
 		if( !$type )
-			throw new Exception( 'Type cannot be empty' );
+			return "";
+#			throw new Exception( 'Type cannot be empty' );
 		$label	= $type;
 		if( is_object( $type ) )
 		{

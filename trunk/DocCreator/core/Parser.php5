@@ -480,7 +480,10 @@ class DocCreator_Core_Parser
 			{
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
-					$file->addClass( $class );
+					if( $class instanceof ADT_PHP_Class )
+						$file->addClass( $class );
+					else if( $class instanceof ADT_PHP_Interface )
+						$file->addInterface( $class );
 					array_unshift( $lines, $line );
 					$this->lineNumber --;
 					$openClass	= FALSE;
