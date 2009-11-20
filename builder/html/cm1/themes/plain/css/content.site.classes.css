@@ -17,6 +17,7 @@ body.site-info div#info-classList div.letter {
 	cursor: pointer;
 	}
 
+body.site-info div#info-classList div.file,
 body.site-info div#info-classList div.class,
 body.site-info div#info-classList div.interface {
 	float: left;

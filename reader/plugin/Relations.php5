@@ -51,7 +51,8 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 		foreach( $data->getFiles() as $fileName => $file )
 		{
 			foreach( $file->getClasses() as $class )
-				$this->tryToResolveClassRelations( $data, $class );
+				if( $class instanceof ADT_PHP_Class )
+					$this->tryToResolveClassRelations( $data, $class );
 			foreach( $file->getInterfaces() as $interface )
 				$this->tryToResolveInterfaceRelations( $data, $interface );
 		}

@@ -126,7 +126,7 @@ class TermSearchResults
 			$queries	= array_keys( $entry['foundQueries'] );
 			$className	= self::hilight( $facts['className'], $queries );
 			$classUrl	= 'class.'.$facts['classId'].'.html';
-			$classLink	= '<a href="'.$classUrl.'?query='.urlencode($query).'">'.$className.'</a>&nbsp;<small>('.$entry['foundCount'].')</small>';
+			$classLink	= '<a class="class" href="'.$classUrl.'?query='.urlencode($query).'">'.$className.'</a>&nbsp;<small>('.$entry['foundCount'].')</small>';
 			$classDesc	= "";
 			if( self::find( $facts['classDesc'], $queries ) )
 				$classDesc	=  '<div class="description">'.self::hilight( $facts['classDesc'], $queries ).'</div>';
@@ -143,7 +143,7 @@ class TermSearchResults
 					if( self::find( $memberDesc, $queries ) )
 						$desc	=  '<div class="description">'.nl2br( self::hilight( $memberDesc, $queries ) ).'</div>';
 					$name		= self::hilight( $memberName, $queries );
-					$link		= '<a href="'.$classUrl.'#class_member_'.$memberName.'">$'.$name.'</a>';
+					$link		= '<a class="member" href="'.$classUrl.'#class_member_'.$memberName.'">$'.$name.'</a>';
 					$members[]	= '<li class="member">'.$link.$desc.'</li>';
 				}
 			}
@@ -161,7 +161,7 @@ class TermSearchResults
 					if( self::find( $methodDesc, $queries ) )
 						$desc	=  '<div class="description">'.nl2br( self::hilight( $methodDesc, $queries ) ).'</div>';
 					$name		= self::hilight( $methodName, $queries );
-					$link		= '<a href="'.$classUrl.'#class_method_'.$methodName.'">'.$name.'()</a>';
+					$link		= '<a class="method" href="'.$classUrl.'#class_method_'.$methodName.'">'.$name.'()</a>';
 					$methods[]	= '<li class="method">'.$link.$desc.'</li>';
 				}
 			}

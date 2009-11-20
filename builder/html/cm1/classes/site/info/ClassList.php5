@@ -51,7 +51,8 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 				$uri	= 'class.'.$class->getId().'.html';
 				$label	= $class->getName();
 				$link	= UI_HTML_Elements::Link( $uri, $label, 'class', $this->linkTarget );
-				$div	= UI_HTML_Tag::create( 'div', $link, array( 'class' => 'class' ) );
+				$type	= $this->getTypeMarkUp( $link );
+				$div	= UI_HTML_Tag::create( 'div', $link/*type*/, array( 'class' => 'class' ) );
 				$list[$label.time()]	= $div;
 			}
 			foreach( $file->getInterfaces() as $interfaceId => $interface )
@@ -59,7 +60,8 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 				$uri	= 'interface.'.$interface->getId().'.html';
 				$label	= $interface->getName();
 				$link	= UI_HTML_Elements::Link( $uri, $label, 'interface', $this->linkTarget );
-				$div	= UI_HTML_Tag::create( 'div', $link, array( 'class' => 'interface' ) );
+				$type	= $this->getTypeMarkUp( $link );
+				$div	= UI_HTML_Tag::create( 'div', $link/*type*/, array( 'class' => 'interface' ) );
 				$list[$label.time()]	= $div;
 			}
 		}

@@ -1,5 +1,6 @@
 body.site-info div#info-classList #list-letters * {
 	font-size: 1.1em;
+	margin-right: 0.3em;
 	}
 
 body.site-info div#info-classList #list-letters span.letter-disabled {
@@ -16,7 +17,10 @@ body.site-info div#info-classList div.letter {
 	cursor: pointer;
 	}
 
-body.site-info div#info-classList div.file {
+body.site-info div#info-classList div.file,
+body.site-info div#info-classList div.class,
+body.site-info div#info-classList div.interface {
 	float: left;
 	width: 32%;
 	}
+

@@ -50,8 +50,6 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 	 */
 	public function extendData( ADT_PHP_Container $data )
 	{
-
-
 		$clock2	= new Alg_Time_Clock();												//  start inner Clock
 		if( $this->verbose )
 			remark( "Extracting Search Terms..." );
@@ -86,27 +84,14 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 				$document[]	= $function->getDescription();
 			}
 */
-			$document	= array();
-			foreach( array_values( $facts ) as $fact )
-			{
-				if( is_string( $fact ) && trim( $fact ) )
-					$document[]	= $fact;
-				else if( is_array( $fact ) )
-				{
-					foreach( $fact as $factKey => $factValue )
-						if( $factValue )
-							if( is_string( $factKey ) )
-								$document[]	= $factKey . ' ' . $factValue;
-							else
-								$document[]	= $factValue;
-				}
-			}
-			$document	= implode( "\n", $document );
+			if( !$class )
+				continue;
+			$document	= $this->getFactsDocument( $facts );
 
 			$facts['fileId']	= $file->getId();
 			$facts['fileName']	= $fileName;
 			$facts['filePath']	= $file->getPathname();
-			$facts['classId']	= $class->getId();
+#			$facts['classId']	= $class->getId();
 			if( !Alg_StringUnicoder::isUnicode( $document ) )
 				$document	= Alg_StringUnicoder::convertToUnicode( $document );
 			
@@ -118,6 +103,26 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 			);
 		}
 		$data->timeTerms	= $clock2->stop( 6, 0 );								//  note needed time
+	}
+
+	protected function getFactsDocument( $facts )
+	{
+		$document	= array();
+		foreach( array_values( $facts ) as $fact )
+		{
+			if( is_string( $fact ) && trim( $fact ) )
+				$document[]	= $fact;
+			else if( is_array( $fact ) )
+			{
+				foreach( $fact as $factKey => $factValue )
+					if( $factValue )
+						if( is_string( $factKey ) )
+							$document[]	= $factKey . ' ' . $factValue;
+						else
+							$document[]	= $factValue;
+			}
+		}
+		return implode( "\n", $document );
 	}
 
 	protected function setUp()
