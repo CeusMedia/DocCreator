@@ -4,6 +4,7 @@ version				= "0.4"
 date				= "18.06.2009"
 author				= "Christian Würker <christian.wuerker@ceus-media.de>"
 company				= "CeuS Media (ceus-media.de)"
+link				= "http://code.google.com/p/cmtools/"
 
 
 [docCreator]
