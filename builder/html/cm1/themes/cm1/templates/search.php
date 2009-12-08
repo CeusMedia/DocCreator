@@ -26,7 +26,7 @@ class TermSearch
 	{
 		$list			= array();
 		$queries		= self::getQueryParts( $query );
-		foreach( $this->data as $item )
+		foreach( $this->data as $classId => $item )
 		{
 			$foundQueries	= array();
 			$foundCount 	= 0;
@@ -45,13 +45,13 @@ class TermSearch
 				continue;
 			$item['foundQueries']	= $foundQueries;
 			$item['foundCount']		= $foundCount;	
-			$list[$foundCount][]	= $item;
+			$list[$foundCount][$classId]	= $item;
 		}
 		krsort( $list );
 		$data	= array();
 		foreach( $list as $sublist )
-			foreach( $sublist as $item )
-				$data[]	= $item;
+			foreach( $sublist as $classId => $item )
+				$data[$classId]	= $item;
 		return $data;
 	}
 	
@@ -120,12 +120,12 @@ class TermSearchResults
 		if( is_int( $limit ) && $limit )
 			$data	= array_slice( $data, 0, $limit );
 
-		foreach( $data as $entry )
+		foreach( $data as $classId => $entry )
 		{
 			$facts		= $entry['facts'];
 			$queries	= array_keys( $entry['foundQueries'] );
 			$className	= self::hilight( $facts['className'], $queries );
-			$classUrl	= 'class.'.$facts['classId'].'.html';
+			$classUrl	= 'class.'.$classId.'.html';
 			$classLink	= '<a class="class" href="'.$classUrl.'?query='.urlencode($query).'">'.$className.'</a>&nbsp;<small>('.$entry['foundCount'].')</small>';
 			$classDesc	= "";
 			if( self::find( $facts['classDesc'], $queries ) )

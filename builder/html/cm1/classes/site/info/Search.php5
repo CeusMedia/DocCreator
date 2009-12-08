@@ -102,7 +102,7 @@ class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstr
 		$files		= $this->env->data->getFiles();
 		foreach( $files as $fileId => $file )
 			foreach( $file->getClasses() as $classId => $class )
-				$data[]	= $file->search;
+				$data[$class->getId()]	= $class->search;
 		return File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 }

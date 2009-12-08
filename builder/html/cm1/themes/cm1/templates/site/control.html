@@ -10,20 +10,16 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.treeview.pack.js"></script>
     <script src="js/jquery.cookie.pack.js"></script>
+    <script src="js/jquery.cmDevLog.js"></script>
+    <script src="js/jquery.cmDocTreeSearch.js"></script>
     <script>
 $(document).ready(function(){
-  $("a").click(function(){
-    $("a").removeClass('current');
-  });
-
   $("ul>li>a").click(function(){
+    $("ul>li>a").removeClass('current');
     $(this).addClass('current');
   });
-
-  $("ul>li>a").click(function(){
-    $(this).addClass('current');
-  });
-
+  $(document).cmDocTreeSearch();
+  $("#tree-query").trigger('keyup');
 });
     </script>
   </head>
@@ -32,7 +28,9 @@ $(document).ready(function(){
       <div id="logo"></div>
       <br/>
       <%?links%>
+      <input id="tree-query" name="tree-query"/>
       <%?tree%>
+      <div class="msgTreeEmpty" style="display: none">No entries found.</div>
       <%?more%>
     </div>
   </body>

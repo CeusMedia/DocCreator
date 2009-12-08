@@ -66,13 +66,13 @@ class Builder_HTML_CM1_Site_Info_DocHints extends Builder_HTML_CM1_Site_Info_Abs
 			foreach( $file->getClasses() as $class )
 			{
 				$classNotes	= array();
-				if( !preg_match( '/^\w+\s+\w+$/', $class->getDescription() ) )
+				if( !preg_match( '/^.{20,}$/s', $class->getDescription() ) )
 					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.description.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getCategory() ) )
 					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.category.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getPackage() ) )
 					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.package.missing'] );
-				if( !preg_match( '/^\S+$/', $class->getVersion() ) )
+				if( !preg_match( '/^.{4,}$/s', $class->getVersion() ) )
 					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.version.missing'] );
 
 				$authors	= $class->getAuthors();

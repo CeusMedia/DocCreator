@@ -44,7 +44,6 @@ ul.links>li>a.info {
 	background-position: 5px 2px;
 /*	margin-bottom: 1px;*/
 /*	opacity: 0.8;*/
-	-moz-border-radius: 0.3em;
 	outline: 0px;
 	}
 ul.links>li>a.info:hover {
@@ -53,7 +52,7 @@ ul.links>li>a.info:hover {
 ul.links>li>a.info:active,
 ul.links>li>a.info.current {
 	background-color: #D7E7FF;
-	cursor: normal;
+	cursor: text;
 	}
 ul.links>li>a.info.current {
 	}

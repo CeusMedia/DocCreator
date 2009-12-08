@@ -54,26 +54,32 @@ class Reader_Plugin_Triggers extends Reader_Plugin_Abstract
 			{
 				foreach( $class->getMethods() as $method )
 				{
-					if( $method->getSourceCode() )
+					if( !$method->getSourceCode() )
+						continue;
+					$body	= implode( "\n", $method->getSourceCode() );
+					if( !preg_match( '/@trigger/si', $body ) )
+						continue;
+					$matches	= array();
+					preg_match_all( '@/\*\*.+\*/@s', $body, $matches );
+					foreach( $matches as $match )
 					{
-						$body	= implode( "\n", $method->getSourceCode() );
-						if( preg_match( '/@trigger/si', $body ) )
-						{
-							$matches	= array();
-							preg_match_all( '@/\*\*.+\*/@s', $body, $matches );
-							foreach( $matches as $match )
-							{
-								$match	= preg_replace( '@\n\s*\*\s+@Us', ' ', array_shift( $match ) );
-								$parts	= array();
-								preg_match_all( '/^\/\*+\s+@trigger\s+(\w+)\s+(.+)\s*\*+\/$/Us', $match, $parts );
-								if( $parts[1] )
-									$data->triggers[$parts[1][0]]	= $parts[2][0];
-							}
-						}
+						$match	= preg_replace( '@\n\s*\*\s+@Us', ' ', array_shift( $match ) );
+						$parts	= array();
+						preg_match_all( '/^\/\*+\s+@trigger\s+(\w+)\s+(.+)\s*\*+\/$/Us', $match, $parts );
+						if( empty( $parts[1] ) )
+							continue;
+						$data->triggers[$parts[1][0]]	= array(
+							'fileId'	=> $file->getId(),
+							'classId'	=> $class->getId(),
+							'method'	=> $method->getName(),
+							'name'		=> $parts[1][0],
+							'text'		=> $parts[2][0]
+						);
 					}
 				}
 			}
 		}
+		ksort( $data->triggers );
 	}
 }
 ?>
