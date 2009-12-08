@@ -66,3 +66,6 @@
 	min-width: 120px;
 	margin-right: 1em;
 	}
+#control input#tree-query.searching {
+	background-image:url(../images/spinner.gif);
+	}

@@ -1,8 +1,8 @@
-#tree {
+#control #tree {
 /*	margin-left: 16px;*/
 	}
 
-#tree ul li a {
+#control #tree ul li a {
 	display: block;
 /*	margin-left: 2px;*/
 	padding-left: 16px;
@@ -11,64 +11,64 @@
 	background-repeat: no-repeat;
 	text-decoration: none;
 	}
-#tree ul li a>span {
+#control #tree ul li a>span {
 	display: block;
 	margin-top: -2px;
 	height: 16px;
 	}
 
-#tree ul li a.category {
+#control #tree ul li a.category {
 	background-image: url(../images/mini/icon_component.png);
 	}
 
-#tree ul li a.package {
+#control #tree ul li a.package {
 	background-image: url(../images/mini/icon_package.png);
 	padding-left: 20px;
 	}
 
-#tree ul li a.package>span {
+#control #tree ul li a.package>span {
 	font-weight: bold;
 	padding-left: 4px;
 	}
 
-#tree ul li a.class {
+#control #tree ul li a.class {
 	background-image: url(../images/mini/page_php.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	height: 16px;
 	}
 
-#tree ul li a.class:hover {
+#control #tree ul li a.class:hover {
 	text-decoration: underline;
 	}
 
-#tree ul li a.class.current  {
+#control #tree ul li a.class.current  {
 	text-decoration: underline;
 	color: red;
 	}
 
-#tree ul li a.interface {
+#control #tree ul li a.interface {
 	background-image: url(../images/mini/page_dynamic.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	height: 16px;
 	}
 
-#tree ul li a.interface:hover {
+#control #tree ul li a.interface:hover {
 	text-decoration: underline;
 	}
 
-#tree ul li a.interface.current  {
+#control #tree ul li a.interface.current  {
 	text-decoration: underline;
 	color: red;
 	}
 
-#tree ul.shut {
+#control #tree ul.shut {
 	display: none;
 	}
 
-#tree b.hilight {
-	background: lightgreen;
+#control #tree b.hilight {
+	background-color: lightgreen;
 	color: white;
 	}
 
@@ -87,26 +87,32 @@
 	margin-right: 1em;
 	}
 
+#control input#tree-query.searching {
+	background-image:url(../images/spinner.gif);
+	}
 
+#control input#tree-query.found {
+	background-color: #9FB;
+	}
 
+#control input#tree-query.unfound {
+	background-color: #FBD;
+	}
 
-
-
-#tree ul li a {
+#control #tree ul li a {
 /*	border-width: 1px;*/
 	border-style: solid;
 	border-color: #B0D0F0;
 /*	opacity: 0.8;*/
-	-moz-border-radius: 0.3em;
-	outline: 0px;
+ 	outline: 0px;
 	font-size: 0.9em;
 	}
 
-#tree ul li a:hover {
+#control #tree ul li a:hover {
 	background-color: #E0F0FF;
 	}
 
-#tree ul li a.current  {
+#control #tree ul li a.current  {
 	background-color: #D7E7FF;
-	cursor: normal;
+	cursor: text;
 	}

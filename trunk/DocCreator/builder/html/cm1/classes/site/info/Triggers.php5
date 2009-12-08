@@ -49,18 +49,26 @@ class Builder_HTML_CM1_Site_Info_Triggers extends Builder_HTML_CM1_Site_Info_Abs
 		if( !$this->env->data->triggers )
 			return FALSE;
 		
-		$list		= array();
-		foreach( $this->env->data->triggers as $name => $description )
-		{
-			$item	= "<dt>".$name."</dt><dd>".$description."</dd>";
-			$list[]	= $item;
-		}
-		if( !$list )
-			return FALSE;
-
 		$this->verboseCreation( 'triggers' );
 
-		$content	= '<dl>'.implode( "\n", $list ).'</dl>';
+		$list		= array();
+		foreach( $this->env->data->triggers as $nr => $trigger )
+		{
+			$class	= $this->env->getClassFromId( $trigger['classId'] );
+			$uri	= 'class.'.$class->getId().'.html#class_method_'.$trigger['method'];
+			$method	= UI_HTML_Elements::Link( $url, $trigger['method'], 'method' );
+			$class	= $this->getTypeMarkUp( $class, TRUE );
+			
+			$info	= array();
+			$info[]	= UI_HTML_Elements::ListItem( 'Class: '.$class );
+			$info[]	= UI_HTML_Elements::ListItem( 'Method: '.$method );
+			$info	= UI_HTML_Elements::unorderedList( $info );
+
+			$type	= UI_HTML_Tag::create( 'dt', $trigger['name'] );
+			$def	= UI_HTML_Tag::create( 'dd', $trigger['text'].$info );
+			$list[]	= $type.$def;
+		}
+		$content	= UI_HTML_Tag::create( 'dl', implode( "\n", $list ) );
 
 		$words	= isset( $this->env->words['triggers'] ) ? $this->env->words['triggers'] : array();
 		$uiData	= array(

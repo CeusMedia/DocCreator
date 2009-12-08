@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="css/content.syntax.css"/>
     <link rel="stylesheet" href="css/content.site.search.css"/>
     <script type="text/javascript" src="js/jquery.pack.js"></script>
+    <script type="text/javascript" src="js/jquery.history.js"></script>
     <script type="text/javascript">
 function sendQuery(){
+  $("#search-query").addClass('loading');
   $.ajax({
     type     : "GET",
     url      : "search.php",
@@ -19,8 +21,10 @@ function sendQuery(){
     cache    : false,
     success  : function(html){
       $("#list").html(html);
+      $("#search-query").removeClass('loading');
     },
     error: function(msg){
+      $("#search-query").removeClass('loading');
       alert(msg);
     }
   });
@@ -33,6 +37,9 @@ function sendQuery(){
       <p><%?words.description%></p>
       <form onsubmit="sendQuery(); return false">
         <input id="search-query" type="text" name="query" value=""/>
+        <span id="loader" style="float: left; display: none">
+          <img src="images/spinner.gif"/>
+        </span>
       </form>
       <div id="list">
       </div>

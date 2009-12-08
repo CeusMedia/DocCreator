@@ -55,9 +55,9 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 			remark( "Extracting Search Terms..." );
 		foreach( $data->getFiles() as $fileName => $file )
 		{
-			$facts	= array();
 			foreach( $file->getClasses() as $classId => $class )
 			{
+				$facts	= array();
 				$facts['className']	= $class->getName();
 				$facts['classDesc']	= $class->getDescription();
 #				foreach( $class->getAuthors() as $author )
@@ -77,30 +77,17 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 					foreach( $method->getDeprecations() as $deprecation )
 						$facts['deprecations'][]	= $deprecation;
 				}
-			}
-/*			foreach( $file->getFunctions() as $functionName => $function )
-			{
-				$document[]	= $function->getName();
-				$document[]	= $function->getDescription();
-			}
-*/
-			if( !$class )
-				continue;
-			$document	= $this->getFactsDocument( $facts );
+				$document	= $this->getFactsDocument( $facts );
+				if( !Alg_StringUnicoder::isUnicode( $document ) )
+					$document	= Alg_StringUnicoder::convertToUnicode( $document );
 
-			$facts['fileId']	= $file->getId();
-			$facts['fileName']	= $fileName;
-			$facts['filePath']	= $file->getPathname();
-#			$facts['classId']	= $class->getId();
-			if( !Alg_StringUnicoder::isUnicode( $document ) )
-				$document	= Alg_StringUnicoder::convertToUnicode( $document );
-			
-			$terms		= Alg_Text_TermExtractor::getTerms( $document );
-			$data->getFile( $fileName )->search	= array(
-				'document'	=> $document,
-				'terms'		=> $terms,
-				'facts'		=> $facts,
-			);
+				$terms		= Alg_Text_TermExtractor::getTerms( $document );
+				$data->getFile( $fileName )->getClass( $class->getName() )->search	= array(
+					'document'	=> $document,
+					'terms'		=> $terms,
+					'facts'		=> $facts,
+				);
+			}
 		}
 		$data->timeTerms	= $clock2->stop( 6, 0 );								//  note needed time
 	}

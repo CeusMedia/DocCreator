@@ -38,6 +38,11 @@ class Test_A extends ArrayObject implements Documentable
 	 */
 	public function combineAll()
 	{
+		/**
+		 * @trigger onCallTryToDestroy This trigger is not destroying
+		 * anything but it is existing just to be there.
+		 * This is a test.
+		 */
 		return implode( "", func_get_args() );
 	}
 }

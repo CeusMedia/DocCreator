@@ -1,5 +1,5 @@
       <div><b><%words.heading%></b></div>
-      <div id="tree_container">
+      <div id="tree_container" style="display: none">
         <%tree%>
         <div class="msgTreeEmpty" style="display:none">Keine Einträge vorhanden.</div>
       </div>
@@ -12,7 +12,7 @@ $(document).ready(function(){
       collapsed: true,
       persist: "cookie",
       cookieId: "<%cookieId%>"
-    });
+    }).show();
   }else{
     $(".msgTreeEmpty").show();
   }
