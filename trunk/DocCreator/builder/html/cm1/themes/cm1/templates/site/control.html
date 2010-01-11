@@ -18,8 +18,10 @@ $(document).ready(function(){
     $("ul>li>a").removeClass('current');
     $(this).addClass('current');
   });
-  $(document).cmDocTreeSearch();
-  $("#tree-query").trigger('keyup');
+  if($("a.class,a.interface",$("#control")).size()<500){
+    $(document).cmDocTreeSearch();
+    $("#tree-query").show().trigger('keyup');
+  }
 });
     </script>
   </head>
@@ -28,7 +30,7 @@ $(document).ready(function(){
       <div id="logo"></div>
       <br/>
       <%?links%>
-      <input id="tree-query" name="tree-query"/>
+      <input id="tree-query" name="tree-query" style="display: none"/>
       <%?tree%>
       <div class="msgTreeEmpty" style="display: none">No entries found.</div>
       <%?more%>
