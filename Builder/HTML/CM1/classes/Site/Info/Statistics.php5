@@ -99,10 +99,10 @@ class Builder_HTML_CM1_Site_Info_Statistics extends Builder_HTML_CM1_Site_Info_A
 
 		//  --  TOTAL TABLE  --  //
 
-		$data['length']['total']			= ALG_UnitFormater::formatBytes( $data['number']['length'], 1 );
-		$data['length']['perFile']			= ALG_UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
-		$data['time']['stats']['total']		= ALG_UnitFormater::formatMicroSeconds( $data['seconds'] );
-		$data['time']['stats']['perFile']	= ALG_UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
+		$data['length']['total']			= Alg_UnitFormater::formatBytes( $data['number']['length'], 1 );
+		$data['length']['perFile']			= Alg_UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
+		$data['time']['stats']['total']		= Alg_UnitFormater::formatMicroSeconds( $data['seconds'] );
+		$data['time']['stats']['perFile']	= Alg_UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
 		unset( $data['files'] );
 		
 		//  --  GRAPH  --  //
@@ -130,10 +130,10 @@ class Builder_HTML_CM1_Site_Info_Statistics extends Builder_HTML_CM1_Site_Info_A
 		if( $fileCount )
 		{
 			$parseTime	= $this->env->data->timeTotal;
-			$data['time']['parse']['total']		= ALG_UnitFormater::formatMicroSeconds( $parseTime );
-			$data['time']['parse']['perFile']	= ALG_UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
-			$data['time']['build']['total']		= ALG_UnitFormater::formatMicroSeconds( $buildTime );
-			$data['time']['build']['perFile']	= ALG_UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
+			$data['time']['parse']['total']		= Alg_UnitFormater::formatMicroSeconds( $parseTime );
+			$data['time']['parse']['perFile']	= Alg_UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
+			$data['time']['build']['total']		= Alg_UnitFormater::formatMicroSeconds( $buildTime );
+			$data['time']['build']['perFile']	= Alg_UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
 		}
 
 		$uiData	= array(

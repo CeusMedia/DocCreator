@@ -61,6 +61,7 @@ class DocCreator_Core_Runner
 	 */
 	public function __construct( $configFile, $verbose = NULL )
 	{
+		CMC_Loader::registerNew( 'php5' );
 		$this->loadToolConfig();
 		$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
@@ -265,9 +266,15 @@ class DocCreator_Core_Runner
 		{
 			$format		= $builder->getAttribute( 'format' );
 			$converter	= $builder->getAttribute( 'converter' );
-			$classKey	= 'builder.'.$format.'.'.$converter.'.classes.Creator';
-			$className	= 'Builder_'.strtoupper( $format ).'_'.strtoupper( $converter ).'_Creator';
-			import( $classKey );
+
+			$loader		= new CMC_Loader( 'php5' );
+			$loader->setPrefix( 'Builder_'.$format.'_'.$converter.'_' );
+			$loader->setPath( 'Builder/'.$format.'/'.$converter.'/classes/' );
+			$loader->registerAutoloader();
+
+#			$classKey	= 'builder.'.$format.'.'.$converter.'.classes.Creator';
+			$className	= 'Builder_'.$format.'_'.$converter.'_Creator';
+#			import( $classKey );
 			if( !class_exists( $className ) )
 				throw new RuntimeException( 'Builder class "'.$className.'" is not existing' );
 			new $className( $this->env, $builder, $this->configProject->getVerbose() );
