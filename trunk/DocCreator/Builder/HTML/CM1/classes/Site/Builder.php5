@@ -77,7 +77,7 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 			$infoSite	= trim( $infoSite );
 			if( $infoSite )
 			{
-				$classFile	= dirname( __FILE__ )."/info/".$infoSite.".php5";
+				$classFile	= dirname( __FILE__ )."/Info/".$infoSite.".php5";
 				if( !file_exists( $classFile ) )
 					throw new RuntimeException( 'Invalid info site "'.$infoSite.'"' );
 

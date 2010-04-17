@@ -50,6 +50,9 @@ class DocCreator_Core_Environment
 	public $phpClasses			= array();
 	public $tool				= array();
 
+	protected $path;
+	
+
 	/**
 	 *	Constructur, reads Resources and stores locally.
 	 *	@access		public
@@ -61,8 +64,7 @@ class DocCreator_Core_Environment
 		$this->config	=& $config;
 		$this->tool		= $configTool;
 		$this->verbose	= $config->getVerbose();
-
-		$this->path		= $_ENV['TMP']."/";
+		$this->path		= './';
 
 		$uri	= dirname( dirname( __FILE__ ) )."/config/php.classes.list";
 		$this->phpClasses	= File_Reader::loadArray( $uri );
@@ -111,7 +113,7 @@ class DocCreator_Core_Environment
 	{
 		$format		= $this->builder->getAttribute( 'format' );
 		$converter	= $this->builder->getAttribute( 'converter' );
-		return 'builder/'.$format.'/'.$converter."/";
+		return 'Builder/'.$format.'/'.$converter."/";
 	}
 
 	/**
