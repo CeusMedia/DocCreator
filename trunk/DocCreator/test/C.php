@@ -3,9 +3,12 @@
  *	@category		cmTools
  *	@package		DocCreator_Test_B
  */
+require_once 'interface/AdvancedDocumentable.php';
 /**
  *	@category		cmTools
  *	@package		DocCreator_Test_B
+ *	@extends		Test_A
+ *	@implements		Interface_AdvancedDocumentable
  *	@author			Hans Wurst
  */
 final class Test_C extends Test_A implements Interface_AdvancedDocumentable

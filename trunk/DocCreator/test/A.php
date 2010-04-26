@@ -3,11 +3,14 @@
  *	@category		cmTools
  *	@package		DocCreator_Test_A
  */
+require_once 'interface/Documentable.php';
 /**
+ *	@category		cmTools
+ *	@package		DocCreator_Test_A
  *	@extends		ArrayObject
- *	@implements		Countable
+ *	@implements		Test_Interface_Documentable
  */
-class Test_A extends ArrayObject implements Documentable
+class Test_A extends ArrayObject implements Interface_Documentable
 {
 	/** @var	int		$a		Integer 1 */
 	public $a	= 1;
@@ -44,6 +47,11 @@ class Test_A extends ArrayObject implements Documentable
 		 * This is a test.
 		 */
 		return implode( "", func_get_args() );
+	}
+	
+	public function toDoc()
+	{
+		return get_class( $this );
 	}
 }
 ?>
