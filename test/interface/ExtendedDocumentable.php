@@ -4,9 +4,11 @@
  *	@package		DocCreator.test.interface
  *	@version		$Id$
  */
+require_once 'Documentable.php';
 /**
  *	@category		cmTools
  *	@package		DocCreator.test.interface
+ *	@extends		Interface_Documentable
  *	@version		$Id$
  */
 interface Interface_ExtendedDocumentable extends Interface_Documentable
@@ -17,7 +19,7 @@ interface Interface_ExtendedDocumentable extends Interface_Documentable
 	 *	@param		Interface_Documentable		$interface		An Interface
 	 *	@return		Interface_AdvancedDocumentable
 	 */
-	public function trySomething( Interface_Documentable $interface )
+	public function trySomething( Interface_Documentable $interface );
 	
 }
 ?>

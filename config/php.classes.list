@@ -123,3 +123,5 @@ SoapParam
 SoapHeader
 XSLTProcessor
 ZipArchive
+
+PDO
