@@ -176,7 +176,7 @@ class Builder_HTML_CM1_Creator
 	protected function createFiles()
 	{
 		$clock		= new Alg_Time_Clock;
-		$pathTarget	= $this->pathTarget.$prefix;
+		$pathTarget	= $this->pathTarget;
 #		if( !file_exists( $pathTarget ) )
 #			mkDir( $pathTarget, 0775, TRUE );
 

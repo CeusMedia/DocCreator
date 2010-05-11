@@ -80,7 +80,7 @@ class Builder_HTML_CM1_Site_Info_UnusedVariables extends Builder_HTML_CM1_Site_I
 				}
 				if( !$listMethods )
 					continue;
-				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId.'.html', $class->getName(), 'class' );
+				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$list	= UI_HTML_Elements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
 				$item	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
 				$classList[]	= $item;

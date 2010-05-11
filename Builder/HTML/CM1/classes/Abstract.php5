@@ -128,7 +128,7 @@ abstract class Builder_HTML_CM1_Abstract
 		$package		= $this->getPackageFromName( $packageName, $categoryName );
 		if( $package )
 		{
-			$packageUrl		= $this->getUrlFromPackage( $package, $class );
+			$packageUrl		= $this->getUrlFromPackage( $package );
 			$packageName	= UI_HTML_Elements::Link( $packageUrl, $packageName, 'package' );
 		}
 		return $packageName;
