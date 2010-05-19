@@ -307,6 +307,7 @@ class DocCreator_Core_Environment
 				$list[$packageId]	= $this->tree->getPackage( $category."_".$package );
 			}
 		}
+		ksort( $list );
 		$this->packageList	= $list;
 		return;
 	}
