@@ -76,6 +76,7 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 
 	protected function convertTreeToTreeMenuRecursive( &$root, &$menu )
 	{
+		$list	= array();
 		foreach( $root->getPackages() as $package )
 		{
 			if( get_class( $package ) == 'ADT_PHP_Category' )
@@ -93,8 +94,13 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 			$item	= new ADT_Tree_Menu_Item( $uri, $label );
 			$item->setAttribute( 'class', $class );
 			$this->convertTreeToTreeMenuRecursive( $package, $item );
-			$menu->addChild( $item );
+			$list[$label]	= $item;
 		}
+		ksort( $list );
+		foreach( $list as $item )
+			$menu->addChild( $item );
+
+		$list	= array();
 		foreach( $root->getClasses() as $class )
 		{
 			$name	= array_pop( explode( "_", $class->getName() ) );
@@ -102,6 +108,11 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 			$item->setAttribute( 'class', 'class' );
 			$menu->addChild( $item );
 		}
+		ksort( $list );
+		foreach( $list as $item )
+			$menu->addChild( $item );
+
+		$list	= array();
 		foreach( $root->getInterfaces() as $interface )
 		{
 			$name	= array_pop( explode( "_", $interface->getName() ) );
@@ -109,6 +120,9 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 			$item->setAttribute( 'class', 'interface' );
 			$menu->addChild( $item );
 		}
+		ksort( $list );
+		foreach( $list as $item )
+			$menu->addChild( $item );
 	}
 }
 ?>
