@@ -1,7 +1,19 @@
+#package #package_info,
+#package #package_files,
+#package #package_packages {
+	margin-top: 1em;
+	}
+#package #package_info{
+	}
+#package #package_files{
+	}
+#package #package_packages{
+	}
+
 /*
-#package_files li,
-#package_classes li,
-#package_packages li {
+#package #package_files li,
+#package #package_classes li,
+#package #package_packages li {
 	padding-left: 20px;
 	padding-top: 1px;
 	padding-bottom: 1px;
@@ -9,10 +21,10 @@
 	background-repeat: no-repeat;
 	background-position: 0px 2px;
 	}
-#package_files li {
+#package #package_files li {
 	background-image: url(../images/mini/page_php.png);
 	}
-#package_packages li {
+#package #package_packages li {
 	background-image: url(../images/mini/icon_package.png);
 	padding-top: 1px;
 	padding-bottom: 1px;
