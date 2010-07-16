@@ -75,3 +75,57 @@ table.grid th {
 	background: #F7F7F7;
 	padding: 0.1em 0.2em;
 	}
+
+
+#package #package_info,
+#package #package_files,
+#package #package_packages,
+#package #package_interfaces,
+#artefact #package_classes,
+#artefact #file_info,
+#artefact #file_functions,
+#artefact #file_source,
+#artefact #interface_members,
+#artefact #interface_members_inherited,
+#artefact #interface_methods,
+#artefact #interface_methods_inherited,
+#artefact #interface_info,
+#artefact #class_members,
+#artefact #class_members_inherited,
+#artefact #class_methods,
+#artefact #class_methods_inherited,
+#artefact #class_info {
+	margin-top: 1em;
+	}
+#package #package_info,
+#package #package_interfaces,
+#package #package_classes,
+#artefact #file_info,
+#artefact #interface_info,
+#artefact #class_info {
+	padding: 1em 2em;
+	background-color: #b9d7ed;
+	border: 2px solid #83acca;
+	-moz-border-radius: 1em;
+	}
+#package #package_files,
+#artefact #interface_members,
+#artefact #interface_members_inherited,
+#artefact #class_members,
+#artefact #class_members_inherited {
+	padding: 0.5em 2em 1em 2em;
+	background-color: #d4eb95;
+	border: 2px solid #9ec630;
+	-moz-border-radius: 1em;
+	}
+#package #package_packages,
+#artefact #file_functions,
+#artefact #interface_methods,
+#artefact #interface_methods_inherited,
+#artefact #class_methods,
+#artefact #class_methods_inherited {
+	padding: 1em 2em;
+	background-color: #f1d89b;
+	border: 2px solid #f2b92c;
+	-moz-border-radius: 1em;
+	}

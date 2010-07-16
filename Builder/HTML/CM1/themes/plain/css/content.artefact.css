@@ -1,0 +1,69 @@
+#artefact {
+	margin-right: 16em;
+	}
+
+#artefact #file_info,
+#artefact #file_functions,
+#artefact #file_source,
+#artefact #class_members,
+#artefact #class_members_inherited,
+#artefact #class_methods,
+#artefact #class_methods_inherited,
+#artefact #class_info {
+	margin-top: 1em;
+	}
+#artefact #file_info,
+#artefact #class_info {
+	}
+#artefact #class_members,
+#artefact #class_members_inherited {
+	}
+#artefact #file_functions,
+#artefact #class_methods,
+#artefact #class_methods_inherited {
+	}
+#artefact #file_source {
+	}
+
+#artefact table {
+	background-image: url(../images/lighter25.png);
+	background-repeat: repeat;
+	border: 1px solid #BBB;
+	border-collapse: collapse;
+	min-width: 100%;
+	}
+#artefact table th {
+	border: 1px solid #DDD;
+	font-weight: bold;
+	background-color: #EEE;
+	min-width: 12em;
+	}
+#artefact table td {
+	border: 1px solid #DDD;
+	}
+#artefact table td ul {
+	margin-bottom: 0px;
+	}
+
+#artefact h3.member-public,
+#artefact h3.member-protected,
+#artefact h3.member-private,
+#artefact h3.method-public,
+#artefact h3.method-protected,
+#artefact h3.method-private {
+	background-repeat: no-repeat;
+	background-position: 0px 11px;
+	padding-left: 22px;
+	}
+#artefact h3.member-public,
+#artefact h3.method-public {
+	background-image: url(../images/mini/icon_world.png);
+	}
+#artefact h3.member-protected,
+#artefact h3.method-protected {
+	background-image: url(../images/mini/icon_security.png);
+	}
+#artefact h3.member-private,
+#artefact h3.method-private {
+	background-image: url(../images/mini/icon_padlock.png);
+	}
