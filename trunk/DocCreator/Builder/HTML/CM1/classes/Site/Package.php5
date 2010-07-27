@@ -47,11 +47,13 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 	private function buildClassList( ADT_PHP_Package $package )
 	{
 		$list	= array();			
-		foreach( $package->getClasses() as $class )
+		foreach( $package->getClasses() as $className => $class )
 		{
 			$type	= $this->getTypeMarkUp( $class, TRUE );
-			$list[]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "class" ) );
+			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "class" ) );
+			$list[$className]	= $item;
 		}
+		ksort( $list );
 		if( $list )
 		{
 			$data	= array(
@@ -72,11 +74,13 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 	private function buildInterfaceList( ADT_PHP_Package $package )
 	{
 		$list	= array();			
-		foreach( $package->getInterfaces() as $interface )
+		foreach( $package->getInterfaces() as $interfaceName => $interface )
 		{
 			$type	= $this->getTypeMarkUp( $interface, TRUE );
-			$list[]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "interface" ) );
+			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "interface" ) );
+			$list[$interfaceName]	= $item;
 		}
+		ksort( $list );
 		if( $list )
 		{
 			$data	= array(
@@ -101,8 +105,9 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package, TRUE );
 			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
-			$list[]	= $item;
+			$list[$packageName]	= $item;
 		}
+		ksort( $list );
 		if( $list )
 		{
 			$packageList	= UI_HTML_Elements::unorderedList( array_values( $list ) );

@@ -66,28 +66,26 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	 */
 	public function createSites( &$linkList )
 	{
+		remark( "createSites" );
 #		$pathProject	= $this->env->config['project.path.source'];
 		$pathTarget		= $this->env->getBuilderTargetPath();
 		$this->createHtaccess( $pathTarget );
 		$this->createFrameset( $pathTarget );
-		
-		$infoSites	= $this->env->config->getBuilderPlugins( $this->env->builder );
-		foreach( $infoSites as $infoSite )
-		{
-			$infoSite	= trim( $infoSite );
-			if( $infoSite )
-			{
-				$classFile	= dirname( __FILE__ )."/Info/".$infoSite.".php5";
-				if( !file_exists( $classFile ) )
-					throw new RuntimeException( 'Invalid info site "'.$infoSite.'"' );
 
-				require_once( $classFile );
-				$class		= 'Builder_HTML_CM1_Site_Info_'.$infoSite;
-				$builder	= new $class( $this->env, $linkList );
+		$format		= $this->env->builder->getAttribute( 'format' );
+		$converter	= $this->env->builder->getAttribute( 'converter' );
+
+		$plugins	= $this->env->getBuilderPlugins();
+		foreach( $plugins as $plugin )
+		{
+			$className	= 'Builder_'.$format.'_'.$converter.'_Site_Info_'.$plugin;
+			if( !class_exists( $className ) )
+				throw new RuntimeException( 'Invalid info site "'.$plugin.'"' );
+			$reflection	= new ReflectionClass( $className );
+			$builder	= $reflection->newInstanceArgs( array( $this->env, &$linkList ) );
 #				$builder->setProjectPath( $pathProject );
-				$builder->setTargetPath( $pathTarget );
-				$builder->createSite();
-			}
+			$builder->setTargetPath( $pathTarget );
+			$builder->createSite();
 		}
 	}
 }

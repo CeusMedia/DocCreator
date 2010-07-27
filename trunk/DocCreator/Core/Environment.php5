@@ -126,6 +126,14 @@ class DocCreator_Core_Environment
 		return $this->config->getBuilderDocumentsPath( $this->builder );
 	}
 
+	public function getBuilderPlugins()
+	{
+		$list	= array();
+		foreach( $this->config->getBuilderPlugins( $this->builder ) as $plugin )
+			if( trim( $plugin ) )
+				$list[]	= trim( $plugin );
+		return $list;
+	}
 	/**
 	 *	Returns Path to save created Files in for currently selected Builder.
 	 *	@access		public
