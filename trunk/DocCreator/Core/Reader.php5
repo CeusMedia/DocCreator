@@ -162,10 +162,11 @@ class DocCreator_Core_Reader
 		foreach( $this->config->getReaderPlugins() as $pluginName )
 		{
 			$pluginName	= trim( $pluginName );
-			$classKey	= 'reader.plugin.'.$pluginName;
 			$className	= 'Reader_Plugin_'.$pluginName;
-			import( $classKey );
-			$plugin		= new $className( $this->config, $this->verbose );
+			if( !class_exists( $className ) )
+				throw new RuntimeException( 'Invalid reader plugin "'.$pluginName.'"' );
+			$reflection	= new ReflectionClass( $className );
+			$plugin		= $reflection->newInstanceArgs( array( $this->config, $this->verbose ) );
 			$this->plugins[$pluginName]	= $plugin;
 		}
 	}

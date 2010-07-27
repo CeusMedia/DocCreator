@@ -66,21 +66,19 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	 */
 	public function createSites( &$linkList )
 	{
-		remark( "createSites" );
 #		$pathProject	= $this->env->config['project.path.source'];
 		$pathTarget		= $this->env->getBuilderTargetPath();
+		$format			= $this->env->builder->getAttribute( 'format' );
+		$converter		= $this->env->builder->getAttribute( 'converter' );
 		$this->createHtaccess( $pathTarget );
 		$this->createFrameset( $pathTarget );
-
-		$format		= $this->env->builder->getAttribute( 'format' );
-		$converter	= $this->env->builder->getAttribute( 'converter' );
 
 		$plugins	= $this->env->getBuilderPlugins();
 		foreach( $plugins as $plugin )
 		{
 			$className	= 'Builder_'.$format.'_'.$converter.'_Site_Info_'.$plugin;
 			if( !class_exists( $className ) )
-				throw new RuntimeException( 'Invalid info site "'.$plugin.'"' );
+				throw new RuntimeException( 'Invalid info site plugin "'.$plugin.'"' );
 			$reflection	= new ReflectionClass( $className );
 			$builder	= $reflection->newInstanceArgs( array( $this->env, &$linkList ) );
 #				$builder->setProjectPath( $pathProject );
