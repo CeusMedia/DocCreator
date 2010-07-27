@@ -47,11 +47,12 @@ class Builder_HTML_CM1_Site_Category extends Builder_HTML_CM1_Abstract
 	private function buildClassList( ADT_PHP_Category $category )
 	{
 		$list	= array();			
-		foreach( $category->getClasses() as $class )
+		foreach( $category->getClasses() as $className => $class )
 		{
 			$type	= $this->getTypeMarkUp( $class, TRUE );
-			$list[]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "file" ) );
+			$list[$className]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "file" ) );
 		}
+		ksort( $list );
 		if( $list )
 		{
 			$data	= array(
@@ -76,8 +77,9 @@ class Builder_HTML_CM1_Site_Category extends Builder_HTML_CM1_Abstract
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package, TRUE );
 			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
-			$list[]	= $item;
+			$list[$packageName]	= $item;
 		}
+		ksort( $list );
 		if( $list )
 		{
 			$packageList	= UI_HTML_Elements::unorderedList( array_values( $list ) );

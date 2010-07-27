@@ -81,7 +81,7 @@ class DocCreator_Core_Configuration
 	 *	@param		XML_Element		$builder		Builder Node from XML File
 	 *	@return		XML_Element
 	 */
-	public function getBuilderPlugins( $builder )
+	public function getBuilderPlugins( XML_Element $builder )
 	{
 		return $builder->plugins->plugin;
 	}
