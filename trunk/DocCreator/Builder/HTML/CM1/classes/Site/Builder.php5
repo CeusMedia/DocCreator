@@ -38,6 +38,14 @@ import( 'builder.html.cm1.classes.Abstract' );
  */
 class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 {
+	protected $linkList			= array();
+
+	protected function createControl( $pathTarget )
+	{
+		$builder	= new Builder_HTML_CM1_Site_Control( $this->env );
+		$builder->createControl( $this->linkList );
+	}
+
 	protected function createFrameset( $pathTarget )
 	{
 		$data	= array(
@@ -64,14 +72,13 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	 *	@param		string			$pathTarget		Path to save Sites in
 	 *	@return		void
 	 */
-	public function createSites( &$linkList )
+	public function createSites()
 	{
-#		$pathProject	= $this->env->config['project.path.source'];
 		$pathTarget		= $this->env->getBuilderTargetPath();
 		$format			= $this->env->builder->getAttribute( 'format' );
 		$converter		= $this->env->builder->getAttribute( 'converter' );
-		$this->createHtaccess( $pathTarget );
-		$this->createFrameset( $pathTarget );
+
+		self::removeFiles( $pathTarget, '/^(([^.]+\.html)|(.+\.svg)|(\.ht.+))$/' );					// remove formerly generated site files
 
 		$plugins	= $this->env->getBuilderPlugins();
 		foreach( $plugins as $plugin )
@@ -80,11 +87,15 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 			if( !class_exists( $className ) )
 				throw new RuntimeException( 'Invalid info site plugin "'.$plugin.'"' );
 			$reflection	= new ReflectionClass( $className );
-			$builder	= $reflection->newInstanceArgs( array( $this->env, &$linkList ) );
+			$arguments	= array( $this->env, &$this->linkList );
+			$builder	= $reflection->newInstanceArgs( $arguments );
 #				$builder->setProjectPath( $pathProject );
 			$builder->setTargetPath( $pathTarget );
 			$builder->createSite();
 		}
+		$this->createHtaccess( $pathTarget );
+		$this->createFrameset( $pathTarget );
+		$this->createControl( $pathTarget );
 	}
 }
 ?>

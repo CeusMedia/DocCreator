@@ -75,6 +75,8 @@ class Builder_HTML_CM1_Site_Info_Statistics extends Builder_HTML_CM1_Site_Info_A
 			$numberCodes		+= $stats['numberCodes'];
 			$numberDocs			+= $stats['numberDocs'];
 		}
+		if( !$numberFiles )
+			return;
 		$linesPerFile	= $numberLines / $numberFiles;
 		$data	= array(
 			'number'	=> array(
