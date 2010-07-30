@@ -279,6 +279,10 @@ class DocCreator_Core_Parser
 						$data[$matches[1]][]	= $matches[2];			
 						break;
 					case 'access':
+					case 'static':
+					case 'abstract':
+					case 'final':
+					case 'version':
 					case 'category':
 					case 'package':
 					case 'subpackage':

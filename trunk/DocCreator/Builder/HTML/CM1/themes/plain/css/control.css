@@ -40,7 +40,7 @@ ul.links>li>a.info:hover {
 ul.links>li>a.info:active,
 ul.links>li>a.info.current {
 	color: #000;
-	cursor: normal;
+	cursor: default;
 	}
 ul.links>li>a.info.current {
 	}

@@ -39,7 +39,7 @@ pre.text {
 	background: #F7F7F7;
 	border: 1px solid #EFEFEF;
 	padding: 0.5em;
-	font-family: Lucida Console, mono-face;
+	font-family: "Lucida Console", monospace;
 	font-size: 1.0em;
 	line-height: 1.2em;
 	}
