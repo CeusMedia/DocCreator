@@ -108,5 +108,5 @@
 
 #tree ul li a.current  {
 	background-color: #DDD;
-	cursor: normal;
+	cursor: default;
 	}

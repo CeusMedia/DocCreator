@@ -137,7 +137,7 @@ class Builder_HTML_CM1_Site_Package extends Builder_HTML_CM1_Abstract
 			'words'			=> $this->env->words['package'],
 			'icon'			=> 'images/mini/icon_package.png',
 			'packageName'	=> $packageName,
-			'packageKey'	=> "key-id:".$package->getId(),
+			'packageKey'	=> $package->getId(),
 			'packageList'	=> $packageList,
 			'classList'		=> $classList,
 			'interfaceList'	=> $interfaceList,
