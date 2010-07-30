@@ -314,11 +314,12 @@ abstract class Builder_HTML_CM1_Abstract
 
 	/**
 	 *	Returns the Doc URL from a Class Data Object.
+	 *	@static
 	 *	@access		protected
 	 *	@param		ADT_PHP_Class		$class			Class Object to get Doc URL for
 	 *	@return		string
 	 */
-	protected function getUrlFromClass( ADT_PHP_Class $class )
+	protected static function getUrlFromClass( ADT_PHP_Class $class )
 	{
 		$classId	= $class->getId();
 		$type		= get_class( $class );
@@ -383,11 +384,12 @@ abstract class Builder_HTML_CM1_Abstract
 
 	/**
 	 *	Returns Doc URL from Package Object.
+	 *	@static
 	 *	@access		protected
 	 *	@param		ADT_PHP_Package	$package		Package Data Object
 	 *	@return		string
 	 */
-	protected function getUrlFromPackage( ADT_PHP_Package $package )
+	protected static function getUrlFromPackage( ADT_PHP_Package $package )
 	{
 		return "package.".$package->getId().".html";
 	}
@@ -427,6 +429,13 @@ abstract class Builder_HTML_CM1_Abstract
 			$this->cacheTemplate[$fileHash]	= $content;
 		}
 		return UI_Template::renderString( $content, $data );
+	}
+
+	public static function removeFiles( $path, $pattern )
+	{
+		$index	= new File_RecursiveRegexFilter( $path, $pattern );									// index formerly generated or copied files
+		foreach( $index as $entry )																	// iterate index
+			@unlink( $entry->getPathname());														// remove outdated files
 	}
 }
 ?>

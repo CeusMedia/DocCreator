@@ -44,7 +44,7 @@ import( 'builder.html.cm1.classes.site.Builder' );
  *	@uses			Folder_RecursiveIterator
  *	@uses			UI_HTML_Elements
  *	@uses			Alg_Time_Clock
- *	@uses			Alg_StringTrimmer
+ *	@uses			Alg_Text_Trimmer
  *	@uses			DocCreator_Core_Environment
  *	@uses			Builder_HTML_CM1_Site_Control
  *	@uses			Builder_HTML_CM1_Site_Package
@@ -59,8 +59,6 @@ import( 'builder.html.cm1.classes.site.Builder' );
  */
 class Builder_HTML_CM1_Creator
 {
-	private $linkList			= array();
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -104,7 +102,6 @@ class Builder_HTML_CM1_Creator
 		else
 		{
 			$this->createSites();
-			$this->createControl();
 		}
 
 		if( $this->env->config->getSkip( 'resources' ) )
@@ -120,7 +117,7 @@ class Builder_HTML_CM1_Creator
 			$this->copyResourcesRecursive( $pathTheme.'images/', "images/", "Images" );
 		}
 	}
-	
+
 	protected function copyResourcesRecursive( $pathSource, $pathTarget, $label )
 	{
 		$pathSource	= $this->pathBuilder.$pathSource;
@@ -128,7 +125,8 @@ class Builder_HTML_CM1_Creator
 		if( !file_exists( $pathTarget ) )
 			mkDir( $pathTarget, 0775, TRUE );
 
-#		$index	= new Folder_RecursiveLister( $pathSource );
+		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
+
 		$index	= new Folder_RecursiveIterator( $pathSource );
 		$length	= strlen( $pathSource );
 		if( $this->env->verbose )
@@ -141,7 +139,7 @@ class Builder_HTML_CM1_Creator
 				if( preg_match( "@\.skip@i", $entry->getPathname() ) )
 					continue;
 #				if( $this->env->verbose )
-#					remark( "Copying: ".Alg_StringTrimmer::trimCentric( $pathTarget.$name, 70 ) );
+#					remark( "Copying: ".Alg_Text_Trimmer::trimCentric( $pathTarget.$name, 70 ) );
 				if( 1 || !file_exists( $pathTarget.$name ) )
 					if( !@copy( $entry->getPathname(), $pathTarget.$name ) )
 						throw new RuntimeException( 'File "'.$entry->getPathname().'" could not be copied to "'.$pathTarget.$name.'"' ); 
@@ -153,8 +151,9 @@ class Builder_HTML_CM1_Creator
 	
 	protected function createCategories( $prefix = "category." )
 	{
-
 		$pathTarget	= $this->env->getBuilderTargetPath();
+		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
+
 		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category )
 		{
@@ -162,23 +161,16 @@ class Builder_HTML_CM1_Creator
 			$fileName	= $prefix.$categoryId.".html";
 			$view		= $builder->buildView( $category );
 			if( $this->env->verbose )
-				remark( "Writing Category: ".Alg_StringTrimmer::trimCentric( $categoryId, 60 ) );
+				remark( "Writing Category: ".Alg_Text_Trimmer::trimCentric( $categoryId, 60 ) );
 			file_put_contents( $pathTarget.$fileName, $view );
 		}
-	}
-	
-	protected function createControl()
-	{
-		$builder	= new Builder_HTML_CM1_Site_Control( $this->env );
-		$builder->createControl( $this->linkList );
 	}
 
 	protected function createFiles()
 	{
 		$clock		= new Alg_Time_Clock;
 		$pathTarget	= $this->pathTarget;
-#		if( !file_exists( $pathTarget ) )
-#			mkDir( $pathTarget, 0775, TRUE );
+		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
 
 		$fileBuilder		= new Builder_HTML_CM1_File_Builder( $this->env );
 		$classBuilder		= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
@@ -193,7 +185,7 @@ class Builder_HTML_CM1_Creator
 					$classId	= $class->getId();
 					$docFile	= $pathTarget.'class.'.$classId.".html";
 					if( $this->env->verbose )
-						remark( "Creating: ".Alg_StringTrimmer::trimCentric( $classId, 68 )  );
+						remark( "Creating: ".Alg_Text_Trimmer::trimCentric( $classId, 68 )  );
 					$view		= $classBuilder->buildView( $file, $class );
 					file_put_contents( $docFile, $view );
 				}
@@ -205,7 +197,7 @@ class Builder_HTML_CM1_Creator
 					$interfaceId	= $interface->getId();
 					$docFile		= $pathTarget.'interface.'.$interfaceId.".html";
 					if( $this->env->verbose )
-						remark( "Creating: ".Alg_StringTrimmer::trimCentric( $interfaceId, 68 )  );
+						remark( "Creating: ".Alg_Text_Trimmer::trimCentric( $interfaceId, 68 )  );
 					$view		= $interfaceBuilder->buildView( $file, $interface );
 					file_put_contents( $docFile, $view );
 				}
@@ -230,7 +222,7 @@ class Builder_HTML_CM1_Creator
 			$fileName	= $prefix.$packageId.".html";
 			$view		= $builder->buildView( $package );
 			if( $this->env->verbose )
-				remark( "Writing Package: ".Alg_StringTrimmer::trimCentric( $packageId, 61 ) );
+				remark( "Writing Package: ".Alg_Text_Trimmer::trimCentric( $packageId, 61 ) );
 			file_put_contents( $pathTarget.$fileName, $view );
 			$this->createPackageRecursive( $package, $prefix );
 		}
@@ -239,6 +231,8 @@ class Builder_HTML_CM1_Creator
 	protected function createPackages( $prefix = "package." )
 	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
+		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
+
 		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category )
 			$this->createPackageRecursive( $category, $prefix );
@@ -247,7 +241,7 @@ class Builder_HTML_CM1_Creator
 	private function createSites()
 	{
 		$builder	= new Builder_HTML_CM1_Site_Builder( $this->env );
-		$builder->createSites( $this->linkList );
+		$builder->createSites();
 	}
 }
 ?>
