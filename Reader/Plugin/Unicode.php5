@@ -31,7 +31,7 @@ import( 'de.ceus-media.alg.StringUnicoder' );
  *	@category		cmTools
  *	@package		DocCreator_Reader_Plugin
  *	@extends		Reader_Plugin_Abstract
- *	@uses			Alg_StringUnicoder
+ *	@uses			Alg_Text_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -51,9 +51,9 @@ class Reader_Plugin_Unicode extends Reader_Plugin_Abstract
 		{
 			$file->unicode		= TRUE;
 			$sourceCode			= $file->getSourceCode();
-			if( !Alg_StringUnicoder::isUnicode( $sourceCode ) )
+			if( !Alg_Text_Unicoder::isUnicode( $sourceCode ) )
 			{
-				$sourceCode	= Alg_StringUnicoder::convertToUnicode( $sourceCode );
+				$sourceCode	= Alg_Text_Unicoder::convertToUnicode( $sourceCode );
 				$file->setSourceCode( $sourceCode );
 				$file->unicode		= FALSE;
 			}
