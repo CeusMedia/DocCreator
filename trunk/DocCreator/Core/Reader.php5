@@ -35,7 +35,7 @@ require_once( dirname( __FILE__ ).'/Parser.php5' );
  *	@package		DocCreator_Core
  *	@uses			File_PHP_Lister
  *	@uses			Alg_Time_Clock
- *	@uses			Alg_StringTrimmer
+ *	@uses			Alg_Text_Trimmer
  *	@uses			ADT_PHP_Container
  *	@uses			DocCreator_Core_Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -101,7 +101,7 @@ class DocCreator_Core_Reader
 				if( $this->verbose )
 				{
 					$filePath	= $innerPath.$fileName;								//  get full File Path
-					$fileLabel	= Alg_StringTrimmer::trimCentric( $filePath, 60 );	//  trim File Label
+					$fileLabel	= Alg_Text_Trimmer::trimCentric( $filePath, 60 );	//  trim File Label
 					remark( "Parsing: ".$fileLabel );
 				}
 #				ob_start();

@@ -408,8 +408,8 @@ class DocCreator_Core_Parser
 	public function parseFile( $fileName, $innerPath )
 	{
 		$content		= File_Reader::load( $fileName );
-		if( !Alg_StringUnicoder::isUnicode( $content ) )
-			$content		= Alg_StringUnicoder::convertToUnicode( $content );
+		if( !Alg_Text_Unicoder::isUnicode( $content ) )
+			$content		= Alg_Text_Unicoder::convertToUnicode( $content );
 
 		$lines			= explode( "\n", $content );
 		$fileBlock		= NULL;
