@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Defaults.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
-import( 'reader.plugin.Abstract' );
 /**
  *	...
  *	@category		cmTools

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Primitives.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
-import( 'reader.plugin.Abstract' );
 /**
  *	...
  *	@category		cmTools

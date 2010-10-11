@@ -24,9 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Search.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
-import( 'de.ceus-media.alg.text.Unicoder' );
-import( 'de.ceus-media.alg.text.TermExtractor' );
-import( 'reader.plugin.Abstract' );
 /**
  *	...
  *	@category		cmTools
