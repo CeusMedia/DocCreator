@@ -75,8 +75,8 @@ class Reader_Plugin_Search extends Reader_Plugin_Abstract
 						$facts['deprecations'][]	= $deprecation;
 				}
 				$document	= $this->getFactsDocument( $facts );
-				if( !Alg_StringUnicoder::isUnicode( $document ) )
-					$document	= Alg_StringUnicoder::convertToUnicode( $document );
+				if( !Alg_Text_Unicoder::isUnicode( $document ) )
+					$document	= Alg_Text_Unicoder::convertToUnicode( $document );
 
 				$terms		= Alg_Text_TermExtractor::getTerms( $document );
 				$data->getFile( $fileName )->getClass( $class->getName() )->search	= array(

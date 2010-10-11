@@ -24,12 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: DocCreator.php5 718 2009-10-19 01:34:14Z christian.wuerker $
  */
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.alg.time.Clock' );
-import( 'de.ceus-media.ui.DevOutput' );
-require_once( dirname( __FILE__ ).'/Configuration.php5' );
-require_once( dirname( __FILE__ ).'/Environment.php5' );
-require_once( dirname( __FILE__ ).'/Reader.php5' );
 /**
  *	General Runner of DocCreator Application.
  *	@category		cmTools

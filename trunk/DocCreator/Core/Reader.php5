@@ -24,11 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Reader.php5 739 2009-10-22 03:49:27Z christian.wuerker $
  */
-import( 'de.ceus-media.file.php.Lister' );
-import( 'de.ceus-media.alg.time.Clock' );
-import( 'de.ceus-media.alg.StringTrimmer' );
-import( 'de.ceus-media.adt.php.Container' );
-require_once( dirname( __FILE__ ).'/Parser.php5' );
 /**
  *	Recursive PHP File Reader for storing parsed Data.
  *	@category		cmTools

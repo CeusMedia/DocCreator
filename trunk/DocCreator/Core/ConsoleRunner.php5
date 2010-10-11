@@ -24,9 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: DocCreator.php5 718 2009-10-19 01:34:14Z christian.wuerker $
  */
-import( 'de.ceus-media.console.Application' );
-import( 'de.ceus-media.ui.DevOutput' );
-require_once( dirname( __FILE__ ).'/Runner.php5' );
 /**
  *	Main Class of DocCreator Application.
  *	@category		cmTools
