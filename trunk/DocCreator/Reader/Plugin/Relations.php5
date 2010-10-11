@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Relations.php5 740 2009-10-24 00:04:50Z christian.wuerker $
  */
-import( 'reader.plugin.Abstract' );
 /**
  *	Collects Relations between Classes.
  *	@category		cmTools

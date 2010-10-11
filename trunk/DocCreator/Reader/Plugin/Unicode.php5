@@ -24,8 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Unicode.php5 731 2009-10-21 06:11:05Z christian.wuerker $
  */
-import( 'reader.plugin.Abstract' );
-import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	...
  *	@category		cmTools
