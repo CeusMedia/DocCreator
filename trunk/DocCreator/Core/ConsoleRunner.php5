@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: DocCreator.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	Main Class of DocCreator Application.
@@ -33,7 +33,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: DocCreator.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  */
 class DocCreator_Core_ConsoleRunner extends Console_Application
 {

@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Primitives.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	...
@@ -32,7 +32,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Primitives.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id$
  */
 class Reader_Plugin_Primitives extends Reader_Plugin_Abstract
 {

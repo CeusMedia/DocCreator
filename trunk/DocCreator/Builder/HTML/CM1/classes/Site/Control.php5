@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ControlBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'builder.html.cm1.classes.Abstract' );
 import( 'builder.html.cm1.classes.site.Tree' );
@@ -35,7 +35,7 @@ import( 'builder.html.cm1.classes.site.Tree' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ControlBuilder.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  */
 class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
 {

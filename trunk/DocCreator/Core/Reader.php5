@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Reader.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	Recursive PHP File Reader for storing parsed Data.
@@ -36,7 +36,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Reader.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  *	@todo			fix error noted in 'setDefaultCategoryAndPackage'
  *	@todo			Code Doc (members)
  */

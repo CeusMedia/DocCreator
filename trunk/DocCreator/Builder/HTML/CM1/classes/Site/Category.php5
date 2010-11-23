@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: CategoryBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'builder.html.cm1.classes.Abstract' );
 /**
@@ -33,7 +33,7 @@ import( 'builder.html.cm1.classes.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: CategoryBuilder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
+ *	@version		$Id$
  */
 class Builder_HTML_CM1_Site_Category extends Builder_HTML_CM1_Abstract
 {

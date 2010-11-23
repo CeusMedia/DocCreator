@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: _template_.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'reader.plugin.Abstract' );
 /**
@@ -33,7 +33,7 @@ import( 'reader.plugin.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: _template_.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id$
  */
 class Reader_Plugin_Triggers extends Reader_Plugin_Abstract
 {

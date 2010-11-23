@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
  */
@@ -60,7 +60,7 @@ import( 'de.ceus-media.adt.php.Throws' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  *	@since			04.08.08
  *	@todo			Code Doc
  */

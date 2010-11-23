@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	Builds Class Information File.
@@ -39,7 +39,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
+ *	@version		$Id$
  */
 class Builder_HTML_CM1_Class_Builder extends Builder_HTML_CM1_Abstract
 {
