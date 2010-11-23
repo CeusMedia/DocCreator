@@ -83,6 +83,8 @@ class DocCreator_Core_Configuration
 	 */
 	public function getBuilderOptions( XML_Element $builder )
 	{
+		if( !$builder->options )
+			return new XML_Element( '<options/>' );
 		return $builder->options->option;
 	}
 	/**

@@ -1,17 +1,17 @@
 <?php
 /**
  *	@category		cmTools
- *	@package		DocCreator.test.interface
+ *	@package		DocCreator.Test.Interface
  *	@version		$Id$
  */
 require_once 'Documentable.php';
 /**
  *	@category		cmTools
- *	@package		DocCreator.test.interface
+ *	@package		DocCreator.Test.Interface
  *	@extends		Interface_Documentable
  *	@version		$Id$
  */
-interface Interface_ExtendedDocumentable extends Interface_Documentable
+interface Test_Interface_ExtendedDocumentable extends Test_Interface_Documentable
 {
 	public function toDoc();
 	
