@@ -10,7 +10,7 @@ require_once 'interface/Documentable.php';
  *	@extends		ArrayObject
  *	@implements		Test_Interface_Documentable
  */
-class Test_A extends ArrayObject implements Interface_Documentable
+class Test_A extends ArrayObject implements Test_Interface_Documentable
 {
 	/** @var	int		$a		Integer 1 */
 	public $a	= 1;

@@ -4,7 +4,7 @@
  */
 
 //  --  PLEASE SET UP YOUR ENVIRONMENT  --  //
-$configFile	= './config/doc.xml';												
+$configFile	= './config/doc.test.xml';												
 
 require_once 'cmClasses/0.7.0/autoload.php5';										//  load library importer
 CMC_Loader::registerNew( 'php5', 'DocCreator_' );

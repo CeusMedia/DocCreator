@@ -56,7 +56,7 @@ class Builder_HTML_CM1_Site_Info_Triggers extends Builder_HTML_CM1_Site_Info_Abs
 		{
 			$class	= $this->env->getClassFromId( $trigger['classId'] );
 			$uri	= 'class.'.$class->getId().'.html#class_method_'.$trigger['method'];
-			$method	= UI_HTML_Elements::Link( $url, $trigger['method'], 'method' );
+			$method	= UI_HTML_Elements::Link( $uri, $trigger['method'], 'method' );
 			$class	= $this->getTypeMarkUp( $class, TRUE );
 			
 			$info	= array();

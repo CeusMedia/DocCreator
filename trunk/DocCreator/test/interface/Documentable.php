@@ -1,15 +1,15 @@
 <?php
 /**
  *	@category		cmTools
- *	@package		DocCreator.test.interface
+ *	@package		DocCreator.Test.Interface
  *	@version		$Id$
  */
 /**
  *	@category		cmTools
- *	@package		DocCreator.test.interface
+ *	@package		DocCreator.Test.Interface
  *	@version		$Id$
  */
-interface Interface_Documentable
+interface Test_Interface_Documentable
 {
 	public function toDoc();
 }

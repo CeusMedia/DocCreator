@@ -8,10 +8,10 @@ require_once 'interface/AdvancedDocumentable.php';
  *	@category		cmTools
  *	@package		DocCreator_Test_B
  *	@extends		Test_A
- *	@implements		Interface_AdvancedDocumentable
+ *	@implements		Test_Interface_AdvancedDocumentable
  *	@author			Hans Wurst
  */
-final class Test_C extends Test_A implements Interface_AdvancedDocumentable
+final class Test_C extends Test_A implements Test_Interface_AdvancedDocumentable
 {
     /**	@var		Test_B		$b		... */
     public $b;

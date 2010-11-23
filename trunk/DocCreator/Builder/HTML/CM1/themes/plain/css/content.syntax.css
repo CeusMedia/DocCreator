@@ -10,8 +10,7 @@ a.method,
 a.var,
 a.member {
 	background-repeat: no-repeat;
-	padding-left: 20px;
-	height: 16px;
+	padding: 1px 5px 1px 20px;
 	font-style: italic;
 	}
 
@@ -68,7 +67,6 @@ span.type {
 	font-style: italic;
 	padding: 1px 6px;
 	margin-right: 4px;
-	background: #F7F7F7;
 	}
 
 span.type a {

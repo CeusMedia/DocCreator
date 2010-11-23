@@ -14,6 +14,8 @@ class TermSearch
 	public function __construct()
 	{
 		$this->data	= unserialize( file_get_contents( "terms.serial" ) );
+//		var_dump( $this->data );
+//		die;
 	}
 
 	/**
@@ -26,7 +28,7 @@ class TermSearch
 	{
 		$list			= array();
 		$queries		= self::getQueryParts( $query );
-		foreach( $this->data as $item )
+		foreach( $this->data as $key => $item )
 		{
 			$foundQueries	= array();
 			$foundCount 	= 0;
@@ -44,7 +46,8 @@ class TermSearch
 			if( !$foundCount )
 				continue;
 			$item['foundQueries']	= $foundQueries;
-			$item['foundCount']		= $foundCount;	
+			$item['foundCount']		= $foundCount;
+			$item['classId']		= $key;
 			$list[$foundCount][]	= $item;
 		}
 		krsort( $list );
@@ -120,12 +123,12 @@ class TermSearchResults
 		if( is_int( $limit ) && $limit )
 			$data	= array_slice( $data, 0, $limit );
 
-		foreach( $data as $entry )
+		foreach( $data as $key => $entry )
 		{
 			$facts		= $entry['facts'];
 			$queries	= array_keys( $entry['foundQueries'] );
 			$className	= self::hilight( $facts['className'], $queries );
-			$classUrl	= 'class.'.$facts['classId'].'.html';
+			$classUrl	= 'class.'.$entry['classId'].'.html';
 			$classLink	= '<a class="class" href="'.$classUrl.'?query='.urlencode($query).'">'.$className.'</a>&nbsp;<small>('.$entry['foundCount'].')</small>';
 			$classDesc	= "";
 			if( self::find( $facts['classDesc'], $queries ) )
@@ -183,7 +186,7 @@ class TermSearchResults
 						$deprecations[]	= '<div class="todo"><b>Deprecation: </b>'.self::hilight( $deprecation, $queries ).'</div>';
 			$deprecations	= implode( "\n", $deprecations );
 
-			$count	= '<span class="count">'.$entry['count'].'</span>';
+			$count	= '<span class="count">'.$entry['foundCount'].'</span>';
 			$list[]	= '<li class="class">'.$classLink/*.$count*/.$classDesc.$members.$methods.$todos.$deprecations.'</li>';
 		}
 		$list	= $list ? '<ul id="classes">'.join( $list ).'</ul>' : "";
