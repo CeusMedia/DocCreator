@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'builder.html.cm1.classes.file.Info' );
 /**
@@ -33,7 +33,7 @@ import( 'builder.html.cm1.classes.file.Info' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: InfoBuilder.php5 731 2009-10-21 06:11:05Z christian.wuerker $
+ *	@version		$Id$
  *	@todo			Code Doc
  */
 class Builder_HTML_CM1_Interface_Info extends Builder_HTML_CM1_File_Info

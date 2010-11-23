@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Statistics.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'builder.html.cm1.classes.site.info.Abstract' );
 import( 'de.ceus-media.alg.UnitFormater' );
@@ -42,7 +42,7 @@ import( 'de.ceus-media.alg.time.Clock' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Statistics.php5 721 2009-10-20 00:45:13Z christian.wuerker $
+ *	@version		$Id$
  *	@todo			Code Doc
  */
 class Builder_HTML_CM1_Site_Info_Statistics extends Builder_HTML_CM1_Site_Info_Abstract

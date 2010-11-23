@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 730 2009-10-21 01:44:20Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'de.ceus-media.file.Writer' );
 import( 'builder.html.cm1.classes.Abstract' );
@@ -35,7 +35,7 @@ import( 'builder.html.cm1.classes.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 730 2009-10-21 01:44:20Z christian.wuerker $
+ *	@version		$Id$
  */
 abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abstract
 {

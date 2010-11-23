@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Deprecations.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  */
 import( 'de.ceus-media.alg.UnusedVariableFinder' );
 import( 'builder.html.cm1.classes.site.info.Abstract' );
@@ -35,7 +35,7 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Deprecations.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  *	@todo			Code Doc
  */
 class Builder_HTML_CM1_Site_Info_UnresolvedRelations extends Builder_HTML_CM1_Site_Info_Abstract

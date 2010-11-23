@@ -22,7 +22,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Search.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	Builds Search File.
@@ -32,7 +32,7 @@
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Search.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  */
 class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstract
 {
