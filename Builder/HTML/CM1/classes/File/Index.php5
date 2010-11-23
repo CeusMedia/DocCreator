@@ -127,7 +127,10 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 		}
 
 		//  --  FILE SOURCE  --  //
-		$this->addMainLink( 'file-source', $words['sourceCode'] );
+		$options	= new ADT_List_Dictionary( $this->env->getBuilderOptions() );
+		if( $options->get( 'showSourceCode' ) )
+			$this->addMainLink( 'file-source', $words['sourceCode'] );
+
 
 		$indexList	= UI_HTML_Elements::unorderedList( $this->list );
 		$data		= array(
