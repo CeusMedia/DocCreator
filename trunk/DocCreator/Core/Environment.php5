@@ -126,6 +126,14 @@ class DocCreator_Core_Environment
 		return $this->config->getBuilderDocumentsPath( $this->builder );
 	}
 
+	public function getBuilderOptions()
+	{
+		$list	= array();
+		foreach( $this->config->getBuilderOptions( $this->builder ) as $option )
+			$list[$option->getAttribute( 'name' )]	= trim( $option );
+		return $list;
+	}
+
 	public function getBuilderPlugins()
 	{
 		$list	= array();

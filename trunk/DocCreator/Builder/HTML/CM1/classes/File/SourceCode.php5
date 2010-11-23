@@ -46,6 +46,9 @@ class Builder_HTML_CM1_File_SourceCode extends Builder_HTML_CM1_Abstract
 	 */
 	public function buildSourceCode( ADT_PHP_File $file, $isClass = FALSE )
 	{
+		$options	= new ADT_List_Dictionary( $this->env->getBuilderOptions() );
+		if( !$options->get( 'showSourceCode' ) )
+			return;
 		$regExHide	= array(
 			"@^/\*.*\*/$@",
 			"@^//@",

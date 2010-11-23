@@ -76,6 +76,16 @@ class DocCreator_Core_Configuration
 	}
 
 	/**
+	 *	Returns XML Element with one or more Builder Option Nodes of a give Builder Node.
+	 *	@access		public
+	 *	@param		XML_Element		$builder		Builder Node from XML File
+	 *	@return		XML_Element
+	 */
+	public function getBuilderOptions( XML_Element $builder )
+	{
+		return $builder->options->option;
+	}
+	/**
 	 *	Returns XML Element with one or more Builder Plugin Nodes of a give Builder Node.
 	 *	@access		public
 	 *	@param		XML_Element		$builder		Builder Node from XML File

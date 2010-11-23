@@ -24,13 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 732 2009-10-21 06:27:05Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.Abstract' );
-import( 'builder.html.cm1.classes.interface.Info' );
-import( 'builder.html.cm1.classes.interface.Methods' );
-import( 'builder.html.cm1.classes.file.Info' );
-import( 'builder.html.cm1.classes.file.Functions' );
-import( 'builder.html.cm1.classes.file.SourceCode' );
-import( 'builder.html.cm1.classes.file.Index' );
 /**
  *	Builds Interface Information File.
  *	@category		cmTools
