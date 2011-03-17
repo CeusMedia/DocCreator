@@ -53,6 +53,9 @@
       <author><![CDATA[Christian Würker <christian.wuerker@ceus-media.de>]]></author>
       <company>CeuS Media (ceus-media.de)</company>
       <timezone>Europe/Berlin</timezone>
+      <options>
+        <option name="showSourceCode">1</option>
+      </options>
       <plugins>
         <plugin>Home</plugin>
         <plugin>ClassList</plugin>
