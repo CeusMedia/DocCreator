@@ -45,6 +45,7 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 	protected $linkTarget	= 'content';
 	protected $fileNames	= array();
 	protected $key			= NULL;
+	protected $options		= array();
 
 	/**
 	 *	Constructor.
@@ -53,10 +54,11 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 	 *	@param		array						$linkList	Reference to list of Site links
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Environment $env, &$linkList )
+	public function __construct( DocCreator_Core_Environment $env, &$linkList, $options = array() )
 	{
 		parent::__construct( $env );
 		$this->linkList	=& $linkList;
+		$this->options	= $options;
 	}
 	
 	protected function appendLink( $url, $key, $count = NULL, $class = NULL )

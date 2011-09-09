@@ -39,6 +39,12 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 {
 	public $linkTarget = '_self';
 
+	private function getLabel( $artefact ){
+		if( !empty( $this->options['prefix'] ) )
+			return preg_replace( '/'.$this->options['prefix'].'/', '', $artefact->getName() );
+		return $artefact->getName();
+	}
+
 	private function buildClassList()
 	{
 		$divClear	= UI_HTML_Tag::create( 'div', '', array( 'style' => 'clear: both' ) );
@@ -49,7 +55,7 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 			foreach( $file->getClasses() as $classId => $class )
 			{
 				$uri	= 'class.'.$class->getId().'.html';
-				$label	= $class->getName();
+				$label	= $this->getLabel( $class );
 				$link	= UI_HTML_Elements::Link( $uri, $label, 'class', $this->linkTarget );
 				$type	= $this->getTypeMarkUp( $link );
 				$div	= UI_HTML_Tag::create( 'div', $link/*type*/, array( 'class' => 'class' ) );
@@ -58,7 +64,7 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 			foreach( $file->getInterfaces() as $interfaceId => $interface )
 			{
 				$uri	= 'interface.'.$interface->getId().'.html';
-				$label	= $interface->getName();
+				$label	= $this->getLabel( $interface );
 				$link	= UI_HTML_Elements::Link( $uri, $label, 'interface', $this->linkTarget );
 				$type	= $this->getTypeMarkUp( $link );
 				$div	= UI_HTML_Tag::create( 'div', $link/*type*/, array( 'class' => 'interface' ) );
