@@ -38,7 +38,7 @@ import( 'builder.html.cm1.classes.interface.Info' );
  */
 class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_Interface_Info
 {
-	private function buildRelationTree( ADT_PHP_Class $class )
+	private function buildRelationTree( ADT_PHP_Interface $class )
 	{
 		$classes = $this->getSuperClasses( $class );
 		if( !$classes )
@@ -54,7 +54,7 @@ class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_Interface_Info
 		return $this->buildParamList( $tree, 'inheritance' );
 	}
 	
-	public function buildView( ADT_PHP_Class $class )
+	public function buildView( ADT_PHP_Interface $class )
 	{
 		$this->type		= 'class';
 

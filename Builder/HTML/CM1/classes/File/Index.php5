@@ -67,7 +67,8 @@ class Builder_HTML_CM1_File_Index extends Builder_HTML_CM1_Abstract
 	 */
 	public function buildIndex( ADT_PHP_File $file )
 	{
-		$class		= array_shift( array_merge( $file->getClasses(), $file->getInterfaces() ) );
+		$all		= array_merge( $file->getClasses(), $file->getInterfaces() );
+		$class		= array_shift( $all );
 		$words		= $this->env->words['index'];
 		$this->list	= array();
 

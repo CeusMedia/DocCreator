@@ -105,9 +105,10 @@ class DocCreator_Core_ConsoleRunner extends Console_Application
 	/**
 	 *	Prints Usage Screen.
 	 *	@access		protected
+	 *	@param		string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage()
+	protected function showUsage( $message = NULL )
 	{
 		remark( "Usage: php create.php5 [OPTION]..." );
 		remark( "Options:" );
@@ -119,6 +120,8 @@ class DocCreator_Core_ConsoleRunner extends Console_Application
 		remark( "  --show-config           Show project config" );
 		remark( "  --show-config-only      Show project config and abort" );
 		remark( "" );
+		if( $message )
+			$this->showError( $message );
 	}
 }
 ?>

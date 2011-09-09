@@ -168,10 +168,10 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 	/**
 	 *	Builds View of Class Methods for Class Information File.
 	 *	@access		public
-	 *	@param		ADT_PHP_Class		$class			Class Object
+	 *	@param		ADT_PHP_Interface	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_Class $class )
+	public function buildView( ADT_PHP_Interface $class )
 	{
 		$this->type	= "class";
 		

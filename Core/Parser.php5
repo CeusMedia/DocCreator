@@ -202,7 +202,8 @@ class DocCreator_Core_Parser
 		{
 			case 'interface':
 				$artefact	= new ADT_PHP_Interface( $matches[4] );
-				$artefact->setExtendedInterface( isset( $matches[5] ) ? $matches[6] : NULL );
+				if( !empty( $matches[5] ) && !empty( $matches[6] ) )
+					$artefact->setExtendedInterface( $matches[6] );
 				break;
 			default:
 				$artefact	= new ADT_PHP_Class( $matches[4] );
@@ -462,13 +463,18 @@ class DocCreator_Core_Parser
 			{
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
-					if( trim( array_pop( array_slice( $matches, -1 ) ) ) == "{" )
+					$latest	= array_slice( $matches, -1 );
+					if( trim( array_pop( $latest ) ) == "{" )
 					{
 						array_pop( $matches );
 						$level++;
 					}
-					while( !trim( array_pop( array_slice( $matches, -1 ) ) ) )
+					$latest	= array_slice( $matches, -1 );
+					while( !trim( array_pop( $latest ) ) )
+					{
 						array_pop( $matches );
+						$latest	= array_slice( $matches, -1 );
+					}
 					$class	= $this->parseClassOrInterface( $file, $matches );
 					$openClass	= TRUE;
 				}

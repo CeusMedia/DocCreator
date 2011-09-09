@@ -55,8 +55,10 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 			remark( "Creating Tree" );
 
 		$tree		= $this->env->tree;
-		if( count( $tree->getPackages() ) == 1 )
-			$tree	= array_pop( $tree->getPackages() );
+		if( count( $tree->getPackages() ) == 1 ){
+			$packages	= $tree->getPackages();
+			$tree	= array_pop( $packages );
+		}
 
 		$menu		= new ADT_Tree_Menu_List();
 		$menu->setAttribute( 'class', NULL );
@@ -103,7 +105,8 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 		$list	= array();
 		foreach( $root->getClasses() as $class )
 		{
-			$name	= array_pop( explode( "_", $class->getName() ) );
+			$parts	= explode( "_", $class->getName() );
+			$name	= array_pop( $parts );
 			$item	= new ADT_Tree_Menu_Item( 'class.'.$class->getId().'.html', $name );
 			$item->setAttribute( 'class', 'class' );
 			$menu->addChild( $item );
@@ -115,7 +118,8 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 		$list	= array();
 		foreach( $root->getInterfaces() as $interface )
 		{
-			$name	= array_pop( explode( "_", $interface->getName() ) );
+			$parts	= explode( "_", $interface->getName() );
+			$name	= array_pop( $parts );
 			$item	= new ADT_Tree_Menu_Item( 'interface.'.$interface->getId().'.html', $name );
 			$item->setAttribute( 'class', 'interface' );
 			$menu->addChild( $item );
