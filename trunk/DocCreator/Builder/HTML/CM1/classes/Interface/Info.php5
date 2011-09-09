@@ -29,14 +29,14 @@ import( 'builder.html.cm1.classes.file.Info' );
  *	Builds Interface Information View.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_CM1_Interface
- *	@extends		Builder_HTML_CM1_File_Info
+ *	@extends		Builder_HTML_CM1_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Interface_Info extends Builder_HTML_CM1_File_Info
+class Builder_HTML_CM1_Interface_Info extends Builder_HTML_CM1_Abstract
 {	
 	protected function buildParamArtefactList( $parent, $value, $key, $list = array() )
 	{
@@ -63,6 +63,64 @@ class Builder_HTML_CM1_Interface_Info extends Builder_HTML_CM1_File_Info
 	protected function buildParamInterfaceList( $parent, $value, $key, $list = array() )
 	{
 		return $this->buildParamArtefactList( $parent, $value, $key, $list );
+	}
+	/**
+	 *	Builds List of License Attributes.
+	 *	@access		protected
+	 *	@param		array			$data		Array of File Data
+	 *	@param		array			$list		List to fill
+	 *	@return		array
+	 */
+	protected function buildParamLicenses( $data, $list = array() )
+	{
+		if( !$data->getLicenses() )
+			return "";
+		foreach( $data->getLicenses() as $license )
+		{
+			$label	= $license->getName();
+			if( $license->getUrl() )
+			{
+				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
+				$class	= 'file-info-license';
+				$label	= UI_HTML_Elements::Link( $url, $label, $class );
+			}
+			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
+		}
+		return $this->buildParamList( $list, 'licenses' );
+	}
+
+	/**
+	 *	Builds Return Description.
+	 *	@access		protected
+	 *	@param		ADT_PHP_Function	$data		Data object of function or method
+	 *	@return		string				Return Description
+	 */
+	protected function buildParamReturn( ADT_PHP_Function $data )
+	{
+		if( !$data->getReturn() )
+			return "";
+		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
+		if( $data->getReturn()->getDescription() )
+			$type	.= " ".$data->getReturn()->getDescription();
+		return $this->buildParamList( $type, 'return' );
+	}
+
+	/**
+	 *	Builds Authors Entry for Parameters List.
+	 *	@access		protected
+	 *	@param		array			$data		Authors Data Array
+	 *	@param		array			$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamThrows( $data, $list = array() )
+	{
+		foreach( $data->getThrows() as $throws )
+		{
+			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
+			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
+		}
+		return $this->buildParamList( $list, 'throws' );
 	}
 
 	private function buildRelationTree( ADT_PHP_Interface $interface )

@@ -348,7 +348,8 @@ class DocCreator_Core_Environment
 					continue;
 				$category	= $this->tree->getPackage( $class->getCategory() );
 				$name		= str_replace( ".", "_", $class->getPackage() );
-				$name		= array_pop( explode( "_", $name ) );
+				$parts		= explode( "_", $name );
+				$name		= array_pop( $parts );
 				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
 				$package->addClass( $class );
 				$category->setPackage( $class->getPackage(), $package );
@@ -363,7 +364,8 @@ class DocCreator_Core_Environment
 					continue;
 				$category	= $this->tree->getPackage( $interface->getCategory() );
 				$name		= str_replace( ".", "_", $interface->getPackage() );
-				$name		= array_pop( explode( "_", $name ) );
+				$parts		= explode( "_", $name );
+				$name		= array_pop( $parts );
 				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
 				$package->addInterface( $interface);
 				$category->setPackage( $interface->getPackage(), $package );
@@ -380,8 +382,8 @@ class DocCreator_Core_Environment
 	public function saveContainer( ADT_PHP_Container $data )
 	{
 		$serial	= serialize( $data );
-#		if( !file_exists( $this->path ) )
-#			mkDir( $this->path, 0775, TRUE );
+		if( !file_exists( $this->path ) )
+			mkDir( $this->path, 0775, TRUE );
 		
 		$fileArchive	= $this->config->getArchiveFileName();
 		$fileSerial		= $this->config->getSerialFileName();

@@ -132,7 +132,7 @@ class Builder_HTML_CM1_Class_Members extends Builder_HTML_CM1_Class_Info
 	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_Class $class )
+	public function buildView( ADT_PHP_Interface $class )
 	{
 		$this->type	= "class";
 		
