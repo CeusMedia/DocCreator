@@ -81,13 +81,13 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 		self::removeFiles( $pathTarget, '/^(([^.]+\.html)|(.+\.svg)|(\.ht.+))$/' );					// remove formerly generated site files
 
 		$plugins	= $this->env->getBuilderPlugins();
-		foreach( $plugins as $plugin )
+		foreach( $plugins as $plugin => $options )
 		{
 			$className	= 'Builder_'.$format.'_'.$converter.'_Site_Info_'.$plugin;
 			if( !class_exists( $className ) )
 				throw new RuntimeException( 'Invalid info site plugin "'.$plugin.'"' );
 			$reflection	= new ReflectionClass( $className );
-			$arguments	= array( $this->env, &$this->linkList );
+			$arguments	= array( $this->env, &$this->linkList, $options );
 			$builder	= $reflection->newInstanceArgs( $arguments );
 #				$builder->setProjectPath( $pathProject );
 			$builder->setTargetPath( $pathTarget );
