@@ -134,14 +134,20 @@ class DocCreator_Core_Environment
 		return $list;
 	}
 
+	/**
+	 *	Returns map of plugins and their attributes (used as options later).
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function getBuilderPlugins()
 	{
 		$list	= array();
 		foreach( $this->config->getBuilderPlugins( $this->builder ) as $plugin )
 			if( trim( $plugin ) )
-				$list[]	= trim( $plugin );
+				$list[trim( $plugin )]	= $plugin->getAttributes();
 		return $list;
 	}
+
 	/**
 	 *	Returns Path to save created Files in for currently selected Builder.
 	 *	@access		public
