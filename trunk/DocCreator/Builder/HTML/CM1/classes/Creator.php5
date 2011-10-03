@@ -175,6 +175,7 @@ class Builder_HTML_CM1_Creator
 		$fileBuilder		= new Builder_HTML_CM1_File_Builder( $this->env );
 		$classBuilder		= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
 		$interfaceBuilder	= new Builder_HTML_CM1_Interface_Builder( $this->env, $fileBuilder );
+		remark( '' );
 		foreach( $this->env->data->getFiles() as $fileName => $file )
 		{
 			$clock2		= new Alg_Time_Clock;
@@ -197,7 +198,7 @@ class Builder_HTML_CM1_Creator
 					$interfaceId	= $interface->getId();
 					$docFile		= $pathTarget.'interface.'.$interfaceId.".html";
 					if( $this->env->verbose )
-						remark( "Creating: ".Alg_Text_Trimmer::trimCentric( $interfaceId, 68 )  );
+						print( "\rCreating: ".Alg_Text_Trimmer::trimCentric( $interfaceId, 68 )  );
 					$view		= $interfaceBuilder->buildView( $file, $interface );
 					file_put_contents( $docFile, $view );
 				}

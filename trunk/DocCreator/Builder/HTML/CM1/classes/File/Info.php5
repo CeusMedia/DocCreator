@@ -126,7 +126,7 @@ class Builder_HTML_CM1_File_Info extends Builder_HTML_CM1_Abstract
 		);
 		$attributes	= max( $attributesData ) ? $this->loadTemplate( 'file.info.attributes', $attributesData ) : "";
 		$uiData	= array(
-			'description'	=> nl2br( trim( (string) $file->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $file->getDescription() ),
 			'attributes'	=> $attributes,
 		);
 		if( !max( $uiData ) )
