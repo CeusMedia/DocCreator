@@ -111,6 +111,8 @@ class Builder_HTML_CM1_File_SourceCode extends Builder_HTML_CM1_Abstract
 			if( $hide )
 				$classes[]	= "source-line-unimportant source-line-hidden";
 			$classes[]	= $number % 2 ? "type1" : "type2";
+			$line		= str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $line );
+
 			$data	= array(
 				'class'		=> implode( " ", $classes ),
 				'number'	=> $number,

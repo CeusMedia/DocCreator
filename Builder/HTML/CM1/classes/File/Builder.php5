@@ -68,7 +68,7 @@ class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Abstract
 			'fileName'		=> $file->getBasename(),
 			'pathName'		=> $file->getPathname(),
 			'index'			=> $this->builderIndex->buildIndex( $file ),
-			'description'	=> nl2br( trim( (string) $file->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $file->getDescription() ),
 			'fileInfo'		=> $this->builderFileInfo->buildView( $file ),
 			'fileFunctions'	=> $this->builderFileFunctions->buildView( $file ),
 			'fileSource'	=> $this->builderSourceCode->buildSourceCode( $file ),

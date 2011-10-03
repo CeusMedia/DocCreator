@@ -212,6 +212,13 @@ abstract class Builder_HTML_CM1_Abstract
 		return $templateUri;
 	}
 
+	protected function getFormatedDescription( $description ){
+		$description	= trim( (string) $description );
+		$description	= htmlentities( $description, ENT_QUOTES );
+		$description	= nl2br( $description );
+		return $description;
+	}
+
 	/**
 	 *	Returns Package Object from Package Name of resolvable, needs Category Name for resolution.
 	 *	@access		protected

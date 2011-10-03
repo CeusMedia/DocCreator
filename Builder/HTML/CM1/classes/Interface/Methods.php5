@@ -158,7 +158,7 @@ class Builder_HTML_CM1_Interface_Methods extends Builder_HTML_CM1_Interface_Info
 			'return'		=> $return,
 			'attributes'	=> $attributes,
 			'parameters'	=> $params,
-			'description'	=> nl2br( trim( $method->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $method->getDescription() ),
 		);
 		return $this->loadTemplate( 'interface.method', $data );
 	}

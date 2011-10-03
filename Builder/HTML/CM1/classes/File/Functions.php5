@@ -94,7 +94,7 @@ class Builder_HTML_CM1_File_Functions extends Builder_HTML_CM1_File_Info
 			'return'		=> $return,
 			'attributes'	=> $attributes,
 			'parameters'	=> $params,
-			'description'	=> nl2br( trim( $function->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $function->getDescription() ),
 		);
 		return $this->loadTemplate( 'file.function', $data );
 	}

@@ -64,7 +64,7 @@ class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_Interface_Info
 		$category		= $this->getTypeMarkUp( $category );
 
 		$attributeData	= array(
-			'description'	=> nl2br( trim( (string) $class->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $class->getDescription() ),
 			'category'		=> $this->buildParamStringList( $category, 'category' ),					//  category (linked if resolvable)
 			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $class->getVersion(), 'version' ),			//  version id

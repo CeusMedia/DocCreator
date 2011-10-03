@@ -109,7 +109,7 @@ class Builder_HTML_CM1_Class_Members extends Builder_HTML_CM1_Class_Info
 		$access		= $this->buildAccessLabel( $accessType );
 		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
-		$attributes['default']	= $this->buildParamStringList( $member->getDefault(), 'default' );
+		$attributes['default']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $member->getDefault() ), 'default' );
 
 		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
 	
@@ -119,9 +119,9 @@ class Builder_HTML_CM1_Class_Members extends Builder_HTML_CM1_Class_Info
 			'memberTitle'	=> '$'.$memberName,
 			'access'		=> $accessType,
 			'type'			=> $type,
-			'default'		=> $default,
+			'default'		=> str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $default ),
 			'attributes'	=> $attributes,
-			'description'	=> nl2br( trim( $member->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $member->getDescription() ),
 		);
 		return $this->loadTemplate( 'class.member', $data );
 	}

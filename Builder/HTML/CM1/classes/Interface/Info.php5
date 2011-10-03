@@ -147,7 +147,7 @@ class Builder_HTML_CM1_Interface_Info extends Builder_HTML_CM1_Abstract
 		$category		= $this->buildCategoryLink( $interface->getCategory() );
 
 		$attributeData	= array(
-			'description'	=> nl2br( trim( (string) $interface->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $interface->getDescription() ),
 			'category'		=> $this->buildParamStringList( $category, 'category' ),						//  category (linked if resolvable)
 			'package'		=> $this->buildParamStringList( $package, 'package' ),							//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $interface->getVersion(), 'version' ),			//  version id

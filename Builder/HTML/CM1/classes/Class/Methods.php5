@@ -103,8 +103,7 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 		$attributes	= array();
 
 		$attributes['name']			= $this->buildParamStringList( $method->getName(), 'name' );
-		$attributes['description']	= $this->buildParamStringList( $method->getDescription(), 'description' );
-
+		$attributes['description']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $method->getDescription() ), 'description' );
 
 		$attributes['abstract']		= $this->buildParamList( $method->isAbstract() ? " ": "", 'abstract' );
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
@@ -116,7 +115,7 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
-		$attributes['copyright']	= $this->buildParamStringList( $method->getCopyright(), 'copyright' );
+		$attributes['copyright']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $method->getCopyright() ), 'copyright' );
 		$attributes['deprecated']	= $this->buildParamStringList( $method->getDeprecations(), 'deprecated' );
 		$attributes['todo']			= $this->buildParamStringList( $method->getTodos(), 'todo' );
 
@@ -160,7 +159,7 @@ class Builder_HTML_CM1_Class_Methods extends Builder_HTML_CM1_Class_Info
 			'return'		=> $return,
 			'attributes'	=> $attributes,
 			'parameters'	=> $params,
-			'description'	=> nl2br( trim( $method->getDescription() ) ),
+			'description'	=> $this->getFormatedDescription( $method->getDescription() ),
 		);
 		return $this->loadTemplate( 'class.method', $data );
 	}
