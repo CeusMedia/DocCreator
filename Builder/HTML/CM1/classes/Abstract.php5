@@ -214,7 +214,7 @@ abstract class Builder_HTML_CM1_Abstract
 
 	protected function getFormatedDescription( $description ){
 		$description	= trim( (string) $description );
-		$description	= htmlentities( $description, ENT_QUOTES );
+		$description	= htmlentities( $description, ENT_QUOTES, 'UTF-8' );
 		$description	= nl2br( $description );
 		return $description;
 	}
