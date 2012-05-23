@@ -24,19 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.folder.RecursiveLister' );
-import( 'de.ceus-media.folder.RecursiveIterator' );
-import( 'de.ceus-media.alg.time.Clock' );
-import( 'de.ceus-media.alg.StringTrimmer' );
-import( 'core.Environment' );
-import( 'builder.html.cm1.classes.site.Control' );
-import( 'builder.html.cm1.classes.site.Category' );
-import( 'builder.html.cm1.classes.site.Package' );
-import( 'builder.html.cm1.classes.class.Builder' );
-import( 'builder.html.cm1.classes.interface.Builder' );
-import( 'builder.html.cm1.classes.file.Builder' );
-import( 'builder.html.cm1.classes.site.Builder' );
 /**
  *	Creates Documentation Files from Parser Data.
  *	@category		cmTools
@@ -130,7 +117,7 @@ class Builder_HTML_CM1_Creator
 		$index	= new Folder_RecursiveIterator( $pathSource );
 		$length	= strlen( $pathSource );
 		if( $this->env->verbose )
-			remark( "Copying: ".$label );
+			$this->env->out->sameLine( "Copying ".$label );
 		foreach( $index as $entry )
 		{
 			$name	= substr( $entry->getPathname(), $length );
@@ -161,7 +148,7 @@ class Builder_HTML_CM1_Creator
 			$fileName	= $prefix.$categoryId.".html";
 			$view		= $builder->buildView( $category );
 			if( $this->env->verbose )
-				remark( "Writing Category: ".Alg_Text_Trimmer::trimCentric( $categoryId, 60 ) );
+				$this->env->out->sameLine( "Creating category: ".$categoryId );
 			file_put_contents( $pathTarget.$fileName, $view );
 		}
 	}
@@ -175,7 +162,18 @@ class Builder_HTML_CM1_Creator
 		$fileBuilder		= new Builder_HTML_CM1_File_Builder( $this->env );
 		$classBuilder		= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
 		$interfaceBuilder	= new Builder_HTML_CM1_Interface_Builder( $this->env, $fileBuilder );
-		remark( '' );
+
+		if( $this->env->verbose ){
+			$total	= 0;
+			$count	= 0;
+			$this->env->out->newLine();
+			foreach( $this->env->data->getFiles() as $fileName => $file ){
+				$total	+= count( $file->getClasses() );
+				$total	+= count( $file->getInterfaces() );
+			}
+		}
+		
+		
 		foreach( $this->env->data->getFiles() as $fileName => $file )
 		{
 			$clock2		= new Alg_Time_Clock;
@@ -183,10 +181,13 @@ class Builder_HTML_CM1_Creator
 			{
 				foreach( $file->getClasses() as $class )
 				{
+					$count++;
 					$classId	= $class->getId();
 					$docFile	= $pathTarget.'class.'.$classId.".html";
-					if( $this->env->verbose )
-						remark( "Creating: ".Alg_Text_Trimmer::trimCentric( $classId, 68 )  );
+					if( $this->env->verbose ){
+						$percentage	= str_pad( round( $count / $total * 100 ), 2, " ", STR_PAD_LEFT );
+						$this->env->out->sameLine( "Create (".$percentage."%) ".$classId );
+					}
 					$view		= $classBuilder->buildView( $file, $class );
 					file_put_contents( $docFile, $view );
 				}
@@ -195,10 +196,13 @@ class Builder_HTML_CM1_Creator
 			{
 				foreach( $file->getInterfaces() as $interface )
 				{
+					$count++;
 					$interfaceId	= $interface->getId();
 					$docFile		= $pathTarget.'interface.'.$interfaceId.".html";
-					if( $this->env->verbose )
-						print( "\rCreating: ".Alg_Text_Trimmer::trimCentric( $interfaceId, 68 )  );
+					if( $this->env->verbose ){
+						$percentage	= str_pad( round( $count / $total * 100 ), 2, " ", STR_PAD_LEFT );
+						$this->env->out->sameLine( "Creating (".$percentage."%) ".$interfaceId );
+					}
 					$view		= $interfaceBuilder->buildView( $file, $interface );
 					file_put_contents( $docFile, $view );
 				}
@@ -209,6 +213,10 @@ class Builder_HTML_CM1_Creator
 				file_put_contents( $docFile, $view );
 			}*/
 			$file->timeBuild	= $clock2->stop( 6, 0 );
+		}
+		if( $this->env->verbose ){
+			$this->env->out->sameLine( "Creating done." );
+			$this->env->out->newLine();
 		}
 		$this->env->timeBuild	= $clock->stop( 6, 0 );
 	}
@@ -223,7 +231,7 @@ class Builder_HTML_CM1_Creator
 			$fileName	= $prefix.$packageId.".html";
 			$view		= $builder->buildView( $package );
 			if( $this->env->verbose )
-				remark( "Writing Package: ".Alg_Text_Trimmer::trimCentric( $packageId, 61 ) );
+				$this->env->out->sameLine( "Creating package: ".$packageId );
 			file_put_contents( $pathTarget.$fileName, $view );
 			$this->createPackageRecursive( $package, $prefix );
 		}
@@ -243,6 +251,10 @@ class Builder_HTML_CM1_Creator
 	{
 		$builder	= new Builder_HTML_CM1_Site_Builder( $this->env );
 		$builder->createSites();
+		if( $this->env->verbose ){
+			$this->env->out->sameLine( "Sites created." );
+			$this->env->out->newLine();
+		}
 	}
 }
 ?>

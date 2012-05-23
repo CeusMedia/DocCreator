@@ -41,9 +41,9 @@ abstract class Reader_Plugin_Abstract
 	 *	@param		ArrayObject		$config		Configuration Array Object 
 	 *	@return		void
 	 */
-	public function __construct( $config, $verbose )
+	public function __construct( $env, $verbose )
 	{
-		$this->config	= $config;
+		$this->env	= $env;
 		$this->verbose	= $verbose;
 		$this->setUp();
 	}

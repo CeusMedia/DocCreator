@@ -57,6 +57,7 @@ class DocCreator_Core_Runner
 	{
 		CMC_Loader::registerNew( 'php5' );
 		$this->loadToolConfig();
+		$this->out		= new DocCreator_Core_Output_Console();		
 		$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
 			$this->setVerbose( $verbose );
@@ -173,7 +174,7 @@ class DocCreator_Core_Runner
 			throw new RuntimeException( 'Config file "'.$this->configFile.'" not found' );
 
 		$this->configProject	= new DocCreator_Core_Configuration( $this->configFile );
-		$this->env				= new DocCreator_Core_Environment( $this->configProject, $this->configTool );
+		$this->env				= new DocCreator_Core_Environment( $this->configProject, $this->configTool, $this->out );
 		$this->setVerbose( $this->configProject->getVerbose() );
 	}
 
@@ -209,10 +210,10 @@ class DocCreator_Core_Runner
 
 			if( $this->configProject->getVerbose() )
 			{
-				remark( "run ".$this->configTool['application']['name']." v".$this->configTool['application']['version'] );
+				$this->out->newLine( $this->configTool['application']['name']." v".$this->configTool['application']['version'] );
 #				remark( "for ".$this->configProject['project.name']." v".$this->configProject['project.version'] );
-				remark( "" );
-				remark( "Project Config: ".$this->configFile );
+				$this->out->newLine();
+				$this->out->newLine( "Project Config: ".$this->configFile );
 #				if( $this->getOption( 'showConfig' ) )
 #					$this->showConfig();
 			}
@@ -224,13 +225,15 @@ class DocCreator_Core_Runner
 			}
 			else
 			{
-				$doc	= new DocCreator_Core_Reader( $this->configProject, $this->configProject->getVerbose() );
+				$doc	= new DocCreator_Core_Reader( $this->env, $this->configProject->getVerbose() );
 				$data	= $doc->readFiles();
 				$this->env->saveContainer( $data );												//  save Data to Serial File
 			}
 			
+			$this->out->newLine();
 			$this->runCreator();
-			remark( "Time: ".$clock->stop( 0, 1 )." seconds" );
+			$this->out->newLine( "Done in ".$clock->stop( 0, 1 )." seconds" );
+			$this->out->newLine();
 
 #			if( !empty( $this->configProject['quite'] ) )
 #				ob_get_clean();

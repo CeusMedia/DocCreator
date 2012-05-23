@@ -51,12 +51,14 @@ class DocCreator_Core_Reader
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		DocCreator_Core_Configuration	$config		Configuration Array Object
+	 *	@param		Console_Output					$out		Instance of output handler.
 	 *	@param		bool							$verbose	Flag: show Pregress in Console.
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Configuration $config, $verbose = TRUE )
+	public function __construct( $env, $verbose = TRUE )
 	{
-		$this->config	= $config;
+		$this->env		= $env;
+		$this->config	= $env->config;
 		$this->verbose	= $verbose;
 		$this->registerPlugins();
 		set_time_limit( $this->config->getTimeLimit() );
@@ -83,31 +85,58 @@ class DocCreator_Core_Reader
 			if( !file_exists( $pathSource ) )
 				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
 			$lister		= new File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
+			$list[$pathSource]	= array();
 
 			foreach( $lister as $entry )
 			{
 #				if( !preg_match( "@^[A-Z]@", $entry->getFilename() ) )
 #					continue;
+				$list[$pathSource][]	= $entry;
+			}
+		}
+		return $list;
+	}
 
-				$fileName	= str_replace( "\\", "/", basename( $entry->getPathname() ) );
-				$pathName	= dirname( str_replace( "\\", "/", $entry->getPathname() ) )."/";
-				$innerPath	= substr( $pathName, strlen( $pathSource ) );			//  get inner Path Name
+	protected function parseFiles( ADT_PHP_Container $data, $project, $list )
+	{
+		$sources	= explode( ",", $this->config->getProjectPath( $project ) );
+		if( $this->verbose ){
+			$count	= 0;
+			$total	= 0;
+			foreach( $sources as $pathSource )
+				$total	= count( $list[$pathSource] );
+			$this->env->out->newLine( "Found ".$total." files." );
+			$this->env->out->newLine();
+		}
 
+		foreach( $sources as $pathSource )
+		{
+			foreach( $list[$pathSource] as $entry )
+			{
 				if( $this->verbose )
 				{
+					$count++;
+					$fileName	= str_replace( "\\", "/", basename( $entry->getPathname() ) );
+					$pathName	= dirname( str_replace( "\\", "/", $entry->getPathname() ) )."/";
+					$innerPath	= substr( $pathName, strlen( $pathSource ) );		//  get inner Path Name
 					$filePath	= $innerPath.$fileName;								//  get full File Path
-					$fileLabel	= Alg_Text_Trimmer::trimCentric( $filePath, 60 );	//  trim File Label
-					remark( "Parsing: ".$fileLabel );
+					$percentage	= str_pad( round( $count / $total * 100 ), 2, " ", STR_PAD_LEFT );
+					$this->env->out->sameLine( "Parsing (".$percentage."%) ".$filePath );
 				}
 #				ob_start();
 				$clock	= new Alg_Time_Clock();										//  setup Clock
-				$parser	= new DocCreator_Core_Parser();								//  setup Parser
+#				$parser	= new DocCreator_Core_Parser();								//  setup Parser
+				$parser	= new File_PHP_Parser_Regular();							//  setup Parser
 
 				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );	//  parse File and return Data Object
 				$file->errors			= ob_get_clean();							//  store Parser Errors
 				$file->time['parse']	= $clock->stop( 6, 0 );						//  store time needed
 				$data->setFile( $file->getId(), $file );							//  store File in Data Container
 			}
+		}
+		if( $this->verbose ){
+			$this->env->out->sameLine( "Parsing done." );
+			$this->env->out->newLine();
 		}
 	}
 
@@ -126,7 +155,8 @@ class DocCreator_Core_Reader
 		$clock2	= new Alg_Time_Clock();												//  start inner Clock
 		foreach( $this->config->getProjects() as $project )
 		{
-			$this->listClassFiles( $data, $project );
+			$fileList	= $this->listClassFiles( $data, $project );
+			$this->parseFiles( $data, $project, $fileList );
 			$this->setDefaultCategoryAndPackage( $data, $project );
 		}
 		$data->indexClasses();														//  create class index in container
@@ -137,9 +167,11 @@ class DocCreator_Core_Reader
 		$clock2	= new Alg_Time_Clock();												//  start inner Clock
 		foreach( $this->plugins as $pluginName => $plugin )							//  iterate registered Plugins
 		{
-			remark( "Plugin: ".$pluginName );
+			$this->env->out->sameLine( "Plugin: ".$pluginName );
 			$plugin->extendData( $data );											//  apply plugin
 		}
+		$this->env->out->sameLine( "Plugins applied." );
+		$this->env->out->newLine();
 		$data->timeRelations	= $clock2->stop( 6, 0 );							//  note needed time
 
 		//  --  SAVE DATA  --  //		
@@ -161,7 +193,7 @@ class DocCreator_Core_Reader
 			if( !class_exists( $className ) )
 				throw new RuntimeException( 'Invalid reader plugin "'.$pluginName.'"' );
 			$reflection	= new ReflectionClass( $className );
-			$plugin		= $reflection->newInstanceArgs( array( $this->config, $this->verbose ) );
+			$plugin		= $reflection->newInstanceArgs( array( $this->env, $this->verbose ) );
 			$this->plugins[$pluginName]	= $plugin;
 		}
 	}
@@ -203,4 +235,5 @@ class DocCreator_Core_Reader
 		}
 	}
 }
+
 ?>
