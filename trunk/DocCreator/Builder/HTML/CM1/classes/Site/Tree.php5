@@ -52,7 +52,7 @@ class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
 	public function buildTree()
 	{
 		if( $this->env->verbose )
-			remark( "Creating Tree" );
+			$this->env->out->sameLine( "Creating tree" );
 
 		$tree		= $this->env->tree;
 		if( count( $tree->getPackages() ) == 1 ){

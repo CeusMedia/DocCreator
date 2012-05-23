@@ -119,7 +119,7 @@ class Builder_HTML_CM1_Site_Info_ClassList extends Builder_HTML_CM1_Site_Info_Ab
 	public function createSite()
 	{
 		if( $this->env->verbose )
-			remark( "Creating Site: Class List" );
+			$this->env->out->sameLine( "Creating: Class List" );
 		$uiData	= array(
 			'words'		=> $this->env->words['classList'],
 			'list'		=> $this->buildClassList(),

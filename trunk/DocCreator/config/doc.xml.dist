@@ -45,7 +45,7 @@
 
   <!--  BUILDERS -->  
   <builders>
-    <builder format="html" converter="cm1" theme="plain">
+    <builder format="HTML" converter="CM1" theme="plain">
       <path type="target" alt="must be absolute">/path/to/DocCreator/doc/api2/</path>
       <path type="documents" alt="must be absolute">/path/to/DocCreator/doc/</path>
       <language>en</language>

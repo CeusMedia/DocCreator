@@ -87,7 +87,7 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 			throw new Exception( 'No files set' );
 		if( !$this->key )
 			throw new Exception( 'No key set' );
-
+		
 		$list		= array();
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
 		if( !$pathDocs )
@@ -149,7 +149,7 @@ abstract class Builder_HTML_CM1_Site_Info_Abstract extends Builder_HTML_CM1_Abst
 			return;
 		$words	= $this->env->words['links'];
 		$label	= isset( $words[$key] ) ? $words[$key] : $key;
-		remark( "Creating Info Site: ".$label );
+		$this->env->out->sameLine( "Creating site: ".$label );
 	}
 }
 ?>

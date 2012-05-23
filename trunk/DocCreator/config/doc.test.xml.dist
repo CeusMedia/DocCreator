@@ -45,13 +45,13 @@
 
   <!--  BUILDERS -->  
   <builders>
-    <builder format="html" converter="cm1" theme="plain">
+    <builder format="HTML" converter="CM1" theme="plain">
       <path type="target" alt="must be absolute">/path/to/DocCreator/doc/api2/</path>
       <path type="documents" alt="must be absolute">/path/to/DocCreator/doc/</path>
       <language>en</language>
       <title>DocCreator API</title>
       <author><![CDATA[Christian Würker <christian.wuerker@ceus-media.de>]]></author>
-      <company>CeuS Media (ceus-media.de)</company>
+      <company>Ceus Media (ceusmedia.de)</company>
       <timezone>Europe/Berlin</timezone>
       <plugins>
         <plugin>Home</plugin>

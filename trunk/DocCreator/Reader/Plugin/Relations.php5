@@ -45,7 +45,7 @@ class Reader_Plugin_Relations extends Reader_Plugin_Abstract
 	public function extendData( ADT_PHP_Container $data )
 	{
 		if( $this->verbose )
-			remark( "Finding Class/Interface Relations..." );
+			$this->env->out->sameLine( "Plugin: Class/Interface Relations" );
 
 		foreach( $data->getFiles() as $fileName => $file )
 		{

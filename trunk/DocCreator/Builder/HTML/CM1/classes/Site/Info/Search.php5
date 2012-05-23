@@ -73,7 +73,7 @@ class Builder_HTML_CM1_Site_Info_Search extends Builder_HTML_CM1_Site_Info_Abstr
 	public function createSite()
 	{
 		if( $this->env->verbose )
-			remark( "Creating Site: Search" );
+			$this->env->out->sameLine( "Creating site: Search" );
 		$this->createTermList( $this->pathTarget );
 		$uiData	= array(
 			'words'		=> $this->env->words['search'],

@@ -59,10 +59,11 @@ class DocCreator_Core_Environment
 	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Configuration $config, $configTool )
+	public function __construct( DocCreator_Core_Configuration $config, $configTool, $out )
 	{
 		$this->config	=& $config;
 		$this->tool		= $configTool;
+		$this->out		= $out;
 		$this->verbose	= $config->getVerbose();
 		$this->path		= './';
 

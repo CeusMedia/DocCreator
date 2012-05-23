@@ -59,8 +59,7 @@ class Builder_HTML_CM1_Site_Info_EncodingErrorBuilder extends Builder_HTML_CM1_A
 		if( $list )
 		{
 			if( $this->env->verbose )
-				remark( "Creating Site: ".$this->env->words['links']['encodingErrors'] );
-
+				$this->env->out->sameLine( "Creating site: ".$this->env->words['links']['encodingErrors'] );
 			$uiData	= array(
 				'list'	=> UI_HTML_Elements::unorderedList( $list ),
 				'words'	=> $this->env->words['encoding'],

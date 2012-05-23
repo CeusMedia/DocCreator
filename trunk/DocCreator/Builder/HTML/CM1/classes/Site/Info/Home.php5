@@ -46,7 +46,7 @@ class Builder_HTML_CM1_Site_Info_Home extends Builder_HTML_CM1_Site_Info_Abstrac
 	public function createSite()
 	{
 		if( $this->env->verbose )
-			remark( "Creating Site: Home" );
+			$this->env->out->sameLine( "Creating site: Home" );
 		$config		= $this->env->config;
 		$words		= $this->env->words['home'];
 		date_default_timezone_set( $this->env->builder->timezone->getValue() );

@@ -59,7 +59,7 @@ class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
 	protected function createHtaccess( $pathTarget )
 	{
 		if( $this->env->verbose )
-			remark( "Creating Site: Htaccess" );
+			$this->env->out->sameLine( "Creating: .htaccess" );
 		$source		= $this->pathTheme.'templates/htaccess';
 		$htaccess	= file_get_contents( $source );
 		file_put_contents( $pathTarget.".htaccess", $htaccess );

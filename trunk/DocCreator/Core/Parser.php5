@@ -26,20 +26,6 @@
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.alg.StringUnicoder' );
-import( 'de.ceus-media.adt.php.File' );
-import( 'de.ceus-media.adt.php.Interface' );
-import( 'de.ceus-media.adt.php.Class' );
-import( 'de.ceus-media.adt.php.Variable' );
-import( 'de.ceus-media.adt.php.Member' );
-import( 'de.ceus-media.adt.php.Function' );
-import( 'de.ceus-media.adt.php.Method' );
-import( 'de.ceus-media.adt.php.Parameter' );
-import( 'de.ceus-media.adt.php.Author' );
-import( 'de.ceus-media.adt.php.License' );
-import( 'de.ceus-media.adt.php.Return' );
-import( 'de.ceus-media.adt.php.Throws' );
 /**
  *	Parses PHP Files containing a Class or Methods.
  *	@category		cmTools
