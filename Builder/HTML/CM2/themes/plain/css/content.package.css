@@ -1,0 +1,32 @@
+#package #package_info,
+#package #package_files,
+#package #package_packages {
+	margin-top: 1em;
+	}
+#package #package_info{
+	}
+#package #package_files{
+	}
+#package #package_packages{
+	}
+
+/*
+#package #package_files li,
+#package #package_classes li,
+#package #package_packages li {
+	padding-left: 20px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	list-style: none;
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+	}
+#package #package_files li {
+	background-image: url(../images/mini/page_php.png);
+	}
+#package #package_packages li {
+	background-image: url(../images/mini/icon_package.png);
+	padding-top: 1px;
+	padding-bottom: 1px;
+	}
+*/	
