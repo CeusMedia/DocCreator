@@ -52,11 +52,9 @@ class Builder_HTML_CM2_File_SourceCode extends Builder_HTML_CM2_Abstract
 		$code		= $file->getSourceCode();
 		$data	= array(
 			'words'	=> $this->env->words['source'],
-			'code'	=> $code,
+			'code'	=> htmlspecialchars( $code ),
 		);
 		return $this->loadTemplate( "file.source.list", $data);
-
-
 
 		$regExHide	= array(
 			"@^/\*.*\*/$@",
