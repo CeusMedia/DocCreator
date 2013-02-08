@@ -28,21 +28,21 @@ import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Creates Documentation Sites from Parser Data.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site
- *	@extends		Builder_HTML_CM1_Abstract
+ *	@package		DocCreator_Builder_HTML_CM2_Site
+ *	@extends		Builder_HTML_CM2_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Site_Builder extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM2_Site_Builder extends Builder_HTML_CM2_Abstract
 {
 	protected $linkList			= array();
 
 	protected function createControl( $pathTarget )
 	{
-		$builder	= new Builder_HTML_CM1_Site_Control( $this->env );
+		$builder	= new Builder_HTML_CM2_Site_Control( $this->env );
 		$builder->createControl( $this->linkList );
 	}
 

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site
+ *	@package		DocCreator_Builder_HTML_CM2_Site
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,8 +30,8 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		cmTools
- *	@extends		Builder_HTML_CM1_Abstract
- *	@package		DocCreator_Builder_HTML_CM1_Site
+ *	@extends		Builder_HTML_CM2_Abstract
+ *	@package		DocCreator_Builder_HTML_CM2_Site
  *	@uses			Folder_Iterator
  *	@uses			ADT_Tree_Menu_Item
  *	@uses			UI_HTML_Tree_Menu
@@ -40,7 +40,7 @@ import( 'de.ceus-media.ui.html.tree.Menu' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Tree.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_Tree extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM2_Site_Tree extends Builder_HTML_CM2_Abstract
 {
 	/**
 	 *	Builds Tree View.

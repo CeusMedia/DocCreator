@@ -33,18 +33,18 @@
  *	@uses			Alg_Time_Clock
  *	@uses			Alg_Text_Trimmer
  *	@uses			DocCreator_Core_Environment
- *	@uses			Builder_HTML_CM1_Site_Control
- *	@uses			Builder_HTML_CM1_Site_Package
- *	@uses			Builder_HTML_CM1_Class_Builder
- *	@uses			Builder_HTML_CM1_Interface_Builder
- *	@uses			Builder_HTML_CM1_File_Builder
- *	@uses			Builder_HTML_CM1_Site_Builder
+ *	@uses			Builder_HTML_CM2_Site_Control
+ *	@uses			Builder_HTML_CM2_Site_Package
+ *	@uses			Builder_HTML_CM2_Class_Builder
+ *	@uses			Builder_HTML_CM2_Interface_Builder
+ *	@uses			Builder_HTML_CM2_File_Builder
+ *	@uses			Builder_HTML_CM2_Site_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Creator.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class Builder_HTML_CM1_Creator
+class Builder_HTML_CM2_Creator
 {
 	/**
 	 *	Constructor.
@@ -62,7 +62,7 @@ class Builder_HTML_CM1_Creator
 		$this->env->openBuilder( $builder );
 		$this->env->load();
 
-		$this->siteBuilder	= new Builder_HTML_CM1_Site_Builder( $this->env );
+		$this->siteBuilder	= new Builder_HTML_CM2_Site_Builder( $this->env );
 
 		$this->pathBuilder	= dirname( dirname( __FILE__ ) )."/";
 		$this->pathTarget	= $this->env->getBuilderTargetPath();
@@ -112,7 +112,7 @@ class Builder_HTML_CM1_Creator
 		if( !file_exists( $pathTarget ) )
 			mkDir( $pathTarget, 0775, TRUE );
 
-		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
+		Builder_HTML_CM2_Abstract::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
 
 		$index	= new Folder_RecursiveIterator( $pathSource );
 		$length	= strlen( $pathSource );
@@ -139,9 +139,9 @@ class Builder_HTML_CM1_Creator
 	protected function createCategories( $prefix = "category." )
 	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
+		Builder_HTML_CM2_Abstract::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
 
-		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
+		$builder	= new Builder_HTML_CM2_Site_Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category )
 		{
 			$categoryId	= $category->getId();
@@ -157,11 +157,11 @@ class Builder_HTML_CM1_Creator
 	{
 		$clock		= new Alg_Time_Clock;
 		$pathTarget	= $this->pathTarget;
-		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
+		Builder_HTML_CM2_Abstract::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
 
-		$fileBuilder		= new Builder_HTML_CM1_File_Builder( $this->env );
-		$classBuilder		= new Builder_HTML_CM1_Class_Builder( $this->env, $fileBuilder );
-		$interfaceBuilder	= new Builder_HTML_CM1_Interface_Builder( $this->env, $fileBuilder );
+		$fileBuilder		= new Builder_HTML_CM2_File_Builder( $this->env );
+		$classBuilder		= new Builder_HTML_CM2_Class_Builder( $this->env, $fileBuilder );
+		$interfaceBuilder	= new Builder_HTML_CM2_Interface_Builder( $this->env, $fileBuilder );
 
 		if( $this->env->verbose ){
 			$total	= 0;
@@ -224,7 +224,7 @@ class Builder_HTML_CM1_Creator
 	private function createPackageRecursive( ADT_PHP_Category $superPackage, $prefix = "package." )
 	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new Builder_HTML_CM1_Site_Package( $this->env );
+		$builder	= new Builder_HTML_CM2_Site_Package( $this->env );
 		foreach( $superPackage->getPackages() as $package )
 		{
 			$packageId	= $package->getId();
@@ -240,16 +240,16 @@ class Builder_HTML_CM1_Creator
 	protected function createPackages( $prefix = "package." )
 	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		Builder_HTML_CM1_Abstract::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
+		Builder_HTML_CM2_Abstract::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
 
-		$builder	= new Builder_HTML_CM1_Site_Category( $this->env );
+		$builder	= new Builder_HTML_CM2_Site_Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category )
 			$this->createPackageRecursive( $category, $prefix );
 	}
 	
 	private function createSites()
 	{
-		$builder	= new Builder_HTML_CM1_Site_Builder( $this->env );
+		$builder	= new Builder_HTML_CM2_Site_Builder( $this->env );
 		$builder->createSites();
 		if( $this->env->verbose ){
 			$this->env->out->sameLine( "Sites created." );

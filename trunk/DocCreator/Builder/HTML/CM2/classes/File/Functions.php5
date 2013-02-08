@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_File
+ *	@package		DocCreator_Builder_HTML_CM2_File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,14 +28,14 @@ import( 'builder.html.cm1.classes.file.Info' );
 /**
  *	Builder for File Function View.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_File
- *	@extends		Builder_HTML_CM1_File_Info
+ *	@package		DocCreator_Builder_HTML_CM2_File
+ *	@extends		Builder_HTML_CM2_File_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Functions.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class Builder_HTML_CM1_File_Functions extends Builder_HTML_CM1_File_Info
+class Builder_HTML_CM2_File_Functions extends Builder_HTML_CM2_File_Info
 {
 	/**
 	 *	Builds View of a Function with all Information.
