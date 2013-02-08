@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Class
+ *	@package		DocCreator_Builder_HTML_CM2_Class
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,15 +28,15 @@ import( 'builder.html.cm1.classes.interface.Info' );
 /**
  *	Builds Class Information View.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Class
- *	@extends		Builder_HTML_CM1_Interface_Info
+ *	@package		DocCreator_Builder_HTML_CM2_Class
+ *	@extends		Builder_HTML_CM2_Interface_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Class_Info extends Builder_HTML_CM1_Interface_Info
+class Builder_HTML_CM2_Class_Info extends Builder_HTML_CM2_Interface_Info
 {
 	private function buildRelationTree( ADT_PHP_Interface $class )
 	{

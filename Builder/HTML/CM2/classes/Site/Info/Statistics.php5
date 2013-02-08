@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site_Info
+ *	@package		DocCreator_Builder_HTML_CM2_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,8 +33,8 @@ import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Builds Statistics Info Site File.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site_Info
- *	@extends		Builder_HTML_CM1_Site_Info_Abstract
+ *	@package		DocCreator_Builder_HTML_CM2_Site_Info
+ *	@extends		Builder_HTML_CM2_Site_Info_Abstract
  *	@uses			Alg_UnitFormater
  *	@uses			UI_SVG_Chart
  *	@uses			UI_SVG_ChartData
@@ -45,7 +45,7 @@ import( 'de.ceus-media.alg.time.Clock' );
  *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Site_Info_Statistics extends Builder_HTML_CM1_Site_Info_Abstract
+class Builder_HTML_CM2_Site_Info_Statistics extends Builder_HTML_CM2_Site_Info_Abstract
 {
 	/**
 	 *	Creates Statistics Info Site File.

@@ -29,15 +29,15 @@ import( 'builder.html.cm1.classes.site.Tree' );
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		cmTools
- *	@extends		Builder_HTML_CM1_Abstract
- *	@package		DocCreator_Builder_HTML_CM1_Site
- *	@uses			Builder_HTML_CM1_Site_Tree
+ *	@extends		Builder_HTML_CM2_Abstract
+ *	@package		DocCreator_Builder_HTML_CM2_Site
+ *	@uses			Builder_HTML_CM2_Site_Tree
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM2_Site_Control extends Builder_HTML_CM2_Abstract
 {
 	protected $linkTarget	= "content";
 
@@ -70,7 +70,7 @@ class Builder_HTML_CM1_Site_Control extends Builder_HTML_CM1_Abstract
 	public function createControl( $linkList )
 	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new Builder_HTML_CM1_Site_Tree( $this->env );
+		$builder	= new Builder_HTML_CM2_Site_Tree( $this->env );
 		$tree		= $builder->buildTree();
 
 		$uiData	= array(

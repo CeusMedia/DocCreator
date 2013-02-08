@@ -38,7 +38,7 @@ import( 'de.ceus-media.ui.Template' );
  *	@version		$Id: Abstract.php5 86 2012-05-23 12:18:48Z christian.wuerker $
  *	@todo			Code Doc
  */
-abstract class Builder_HTML_CM1_Abstract
+abstract class Builder_HTML_CM2_Abstract
 {
 	/**	@var		DocCreator_Core_Environment		$env 		Environment Object */
 	protected $env;

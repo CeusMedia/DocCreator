@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_File
+ *	@package		DocCreator_Builder_HTML_CM2_File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,18 +27,18 @@
 /**
  *	Builds File Information File.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_File
- *	@extends		Builder_HTML_CM1_Abstract
- *	@uses			Builder_HTML_CM1_File_Info
- *	@uses			Builder_HTML_CM1_File_Functions
- *	@uses			Builder_HTML_CM1_File_SourceCode
- *	@uses			Builder_HTML_CM1_File_Index
+ *	@package		DocCreator_Builder_HTML_CM2_File
+ *	@extends		Builder_HTML_CM2_Abstract
+ *	@uses			Builder_HTML_CM2_File_Info
+ *	@uses			Builder_HTML_CM2_File_Functions
+ *	@uses			Builder_HTML_CM2_File_SourceCode
+ *	@uses			Builder_HTML_CM2_File_Index
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM2_File_Builder extends Builder_HTML_CM2_Abstract
 {
 	/**
 	 *	Constructor.
@@ -49,10 +49,10 @@ class Builder_HTML_CM1_File_Builder extends Builder_HTML_CM1_Abstract
 	public function __construct( $env )
 	{
 		parent::__construct( $env );
-		$this->builderFileInfo		= new Builder_HTML_CM1_File_Info( $env );
-		$this->builderFileFunctions	= new Builder_HTML_CM1_File_Functions( $env );
-		$this->builderSourceCode	= new Builder_HTML_CM1_File_SourceCode( $env );
-		$this->builderIndex			= new Builder_HTML_CM1_File_Index( $env );
+		$this->builderFileInfo		= new Builder_HTML_CM2_File_Info( $env );
+		$this->builderFileFunctions	= new Builder_HTML_CM2_File_Functions( $env );
+		$this->builderSourceCode	= new Builder_HTML_CM2_File_SourceCode( $env );
+		$this->builderIndex			= new Builder_HTML_CM2_File_Index( $env );
 	}
 
 	/**

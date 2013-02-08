@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site_Info
+ *	@package		DocCreator_Builder_HTML_CM2_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,15 +28,15 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
  *	Builds Todo Info Site File.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Site_Info
- *	@extends		Builder_HTML_CM1_Site_Info_Abstract
+ *	@package		DocCreator_Builder_HTML_CM2_Site_Info
+ *	@extends		Builder_HTML_CM2_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Site_Info_Todos extends Builder_HTML_CM1_Site_Info_Abstract
+class Builder_HTML_CM2_Site_Info_Todos extends Builder_HTML_CM2_Site_Info_Abstract
 {
 	/**
 	 *	Creates Todo Info Site File.

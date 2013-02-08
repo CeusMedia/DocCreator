@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Interface
+ *	@package		DocCreator_Builder_HTML_CM2_Interface
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,15 +28,15 @@ import( 'builder.html.cm1.classes.file.Info' );
 /**
  *	Builds Interface Information View.
  *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_CM1_Interface
- *	@extends		Builder_HTML_CM1_Abstract
+ *	@package		DocCreator_Builder_HTML_CM2_Interface
+ *	@extends		Builder_HTML_CM2_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Builder_HTML_CM1_Interface_Info extends Builder_HTML_CM1_Abstract
+class Builder_HTML_CM2_Interface_Info extends Builder_HTML_CM2_Abstract
 {	
 	protected function buildParamArtefactList( $parent, $value, $key, $list = array() )
 	{
