@@ -1,7 +1,0 @@
-/* fix for IE6 */
-* html div.hitarea {
-	background: #fff;
-	filter: alpha(opacity=0);
-	display: inline;
-	float:none;
-	}

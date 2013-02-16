@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Code Statistics</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/jquery.svg.css"/>
+    <link rel="stylesheet" href="css/content.css"/>
+    <link rel="stylesheet" href="css/content.syntax.css"/>
+    <link rel="stylesheet" href="css/content.site.statistics.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.svg.pack.js"></script>
+    <script type="text/javascript" src="js/jquery.svgfilter.pack.js"></script>
+    <script type="text/javascript" src="js/jquery.svggraph.pack.js"></script>
+    <script type="text/javascript" src="js/dynamic.js"></script>
+  </head>
+  <body class="content site-info">
+    <div id="info-statistics">
+      <h1><a name="top"><%words.statistics.heading%></a></h1>
+      <p><%words.statistics.description%></p>
+      <div id="codeTable">
+        <table class="grid" width="500px">
+          <caption><b><%words.statisticsCode.caption%></b></caption>
+          <colgroup>
+            <col width="40%"/>
+            <col width="20%"/>
+            <col width="20%"/>
+            <col width="20%"/>
+          </colgroup>
+          <tr>
+            <th></th>
+            <th><%words.statisticsCode.headTotal%></th>
+            <th><%words.statisticsCode.headPerFile%></th>
+            <th><%words.statisticsCode.headPercentage%></th>
+          </tr>
+          <tr>
+            <td><%words.statisticsCode.linesTotal%></th>
+            <td><%?data.number.lines%></td>
+            <td><%?data.ratio.linesPerFile%></td>
+            <td><small>100 %</small></td>
+          </tr>
+          <tr class="codes">
+            <td><%words.statisticsCode.linesCode%></th>
+            <td><b><%?data.number.codes%></b></td>
+            <td><b><%?data.ratio.codesPerFile%></b></td>
+            <td><b><%?data.ratio.codesPerFile%%> %</b></td>
+          </tr>
+          <tr class="docs">
+            <td><%words.statisticsCode.linesDoc%></th>
+            <td><%?data.number.docs%></td>
+            <td><%?data.ratio.docsPerFile%></td>
+            <td><%?data.ratio.docsPerFile%%> %</td>
+          </tr>
+          <tr class="strips">
+            <td><%words.statisticsCode.linesStripped%></th>
+            <td><%?data.number.strips%></td>
+            <td><%?data.ratio.stripsPerFile%></td>
+            <td><%?data.ratio.stripsPerFile%%> %</td>
+          </tr>
+        </table>
+        <br/>
+      </div>
+      <div id="metricsTable">
+        <table class="grid" width="500px">
+          <caption><b><%words.statisticsMetrics.caption%></b></caption>
+          <colgroup>
+            <col width="40%"/>
+            <col width="30%"/>
+            <col width="30%"/>
+          </colgroup>
+          <tr>
+            <th></th>
+            <th><%words.statisticsMetrics.headTotal%></th>
+            <th><%words.statisticsMetrics.headPerFile%></th>
+          </tr>
+          <tr>
+            <td><%words.statisticsMetrics.files%></td>
+            <td><%?data.number.files%></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><%words.statisticsMetrics.length%></td>
+            <td><%?data.length.total%></td>
+            <td><%?data.length.perFile%></td>
+          </tr>
+<!--          <tr>
+            <td><%words.statisticsMetrics.timeAnalysis%></td>
+            <td><%?data.time.stats.total%></td>
+            <td><%?data.time.stats.perFile%></td>
+          </tr>
+          <tr>
+            <td><%words.statisticsMetrics.timeParse%></td>
+            <td><%?data.time.parse.total%></td>
+            <td><%?data.time.parse.perFile%></td>
+          </tr>
+          <tr>
+            <td><%words.statisticsMetrics.timeBuild%></td>
+            <td><%?data.time.build.total%></td>
+            <td><%?data.time.build.perFile%></td>
+          </tr>-->
+        </table>
+        <br/>
+      </div>
+      <div id="graph">
+        <embed src="<%?graphFile%>" width="518" height="400">
+      </div>
+    </div>
+    <%?footer%>
+  </body>
+</html>
