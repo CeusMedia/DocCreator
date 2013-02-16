@@ -402,8 +402,8 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	}
 
 	protected function realizeInlineLinks( $string ){
-		$string	= preg_replace( "/\{@link (\S)+ (\S)+\}/", '<a href="\\1">\\2</a>', $string );
-		$string	= preg_replace( "/\{@link (\S)+\}/", '<a href="\\1">\\1</a>', $string );
+		$string	= preg_replace( "/\{@link (\S+) (\S+)\}/U", '<a href="\\1">\\2</a>', $string );
+		$string	= preg_replace( "/\{@link (\S+)\}/U", '<a href="\\1">\\1</a>', $string );
 		return $string;
 	}
 }
