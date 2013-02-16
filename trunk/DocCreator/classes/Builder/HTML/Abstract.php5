@@ -170,8 +170,10 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	protected function buildParamStringList( $value, $key, $list = array() ){
 		if( !is_array( $value ) )
 			return $this->buildParamList( $value, $key );
-		foreach( $value as $label )
+		foreach( $value as $label ){
+			$label	= $this->realizeInlineLinks( $label );
 			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $label ) );
+		}
 		return $this->buildParamList( $list, $key );
 	}
 
@@ -196,6 +198,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 		$description	= trim( (string) $description );
 		$description	= htmlentities( $description, ENT_QUOTES, 'UTF-8' );
 		$description	= nl2br( $description );
+		$description	= $this->realizeInlineLinks( $description );
 		return $description;
 	}
 
@@ -396,6 +399,12 @@ abstract class DocCreator_Builder_HTML_Abstract{
 		$index	= new File_RecursiveRegexFilter( $path, $pattern );									// index formerly generated or copied files
 		foreach( $index as $entry )																	// iterate index
 			@unlink( $entry->getPathname());														// remove outdated files
+	}
+
+	protected function realizeInlineLinks( $string ){
+		$string	= preg_replace( "/\{@link (\S)+ (\S)+\}/", '<a href="\\1">\\2</a>', $string );
+		$string	= preg_replace( "/\{@link (\S)+\}/", '<a href="\\1">\\1</a>', $string );
+		return $string;
 	}
 }
 ?>
