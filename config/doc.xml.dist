@@ -14,7 +14,7 @@
   <!--  PROJECTS  -->  
   <projects>
     <project label="DocCreator" version="0.8" date="" revision="">
-      <path alt="must be absolute">/var/www/lib/cmTools/DocCreator2/</path>
+      <path alt="must be absolute">/var/www/lib/cmTools/DocCreator/</path>
       <extensions>
         <extension>php5</extension>
       </extensions>
@@ -35,8 +35,8 @@
   <!--  BUILDERS -->  
   <builders>
     <builder format="HTML" theme="HTML">
-      <path type="target" alt="must be absolute">/var/www/lib/cmTools/DocCreator2/doc/API/</path>
-      <path type="documents" alt="must be absolute">/var/www/lib/cmTools/DocCreator2/doc/</path>
+      <path type="target" alt="must be absolute">/var/www/lib/cmTools/DocCreator/doc/API/</path>
+      <path type="documents" alt="must be absolute">/var/www/lib/cmTools/DocCreator/doc/</path>
       <language>en</language>
       <title>DocCreator API</title>
       <author><![CDATA[Christian Würker <christian.wuerker@ceusmedia.de>]]></author>
