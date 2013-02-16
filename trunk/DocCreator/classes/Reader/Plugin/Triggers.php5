@@ -43,6 +43,7 @@ class DocCreator_Reader_Plugin_Triggers extends DocCreator_Reader_Plugin_Abstrac
 	 *	@return		void
 	 */
 	public function extendData( ADT_PHP_Container $data ){
+		$data->triggers	= array();
 		foreach( $data->getFiles() as $file ){
 			$source	= $file->getSourceCode();
 			if( !preg_match( '/@trigger\s/si', $source ) )
