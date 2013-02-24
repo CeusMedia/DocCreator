@@ -49,7 +49,8 @@ class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML
 		'class.author.missing'		=> 5,
 		'class.version.missing'		=> 5,
 	);
-		
+	public $checkClassVersion	= FALSE;
+	public $checkClassLicense	= FALSE;
 
 	/**
 	 *	Creates Deprecation Info Site File.
@@ -72,8 +73,9 @@ class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML
 					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.category.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getPackage() ) )
 					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.package.missing'] );
-				if( !preg_match( '/^.{4,}$/s', $class->getVersion() ) )
-					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.version.missing'] );
+				if( $this->checkClassVersion )
+					if( !preg_match( '/^.{4,}$/s', $class->getVersion() ) )
+						$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.version.missing'] );
 
 				$authors	= $class->getAuthors();
 				if( !$authors )
@@ -83,13 +85,15 @@ class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML
 						if( !$author->getEmail() )
 							$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.author.email.missing'] );
 
-				$licenses	= $class->getLicenses();
-				if( !$licenses )
-					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.license.missing'] );
-				else
-					foreach( $licenses as $license )
-						if( !$license->getUrl() )
-							$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.license.url.missing'] );
+				if( $this->checkClassLicense ){
+					$licenses	= $class->getLicenses();
+					if( !$licenses )
+						$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.license.missing'] );
+					else
+						foreach( $licenses as $license )
+							if( !$license->getUrl() )
+								$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.license.url.missing'] );
+				}
 
 				foreach( $class->getMethods() as $method )
 				{
