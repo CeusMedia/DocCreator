@@ -11,9 +11,9 @@
  */
 
 $cmcPath	= __DIR__.'/lib/cmClasses/';								//  if cmClasses is provided within tool's lib folder 
-$cmcPath	= 'cmClasses/';												//  if folder containing cmClasses is in PHP include path
+$cmcPath	= __DIR__.'/../lib/cmClasses/';												//  if folder containing cmClasses is in PHP include path
  
-require_once $cmcPath.'/autoload.php5';									//  try to load cmClasses
+require_once $cmcPath.'autoload.php5';									//  try to load cmClasses
 CMC_Loader::registerNew( 'php5', 'DocCreator_', __DIR__.'/classes/' );	//  enable class auto loading for DocCreator
 new DocCreator_Core_ConsoleRunner();									//  open new starter
 ?>
