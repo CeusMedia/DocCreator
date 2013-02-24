@@ -2,7 +2,7 @@
 /**
  *	Builds Trigger Info Site File.
  *
- *	Copyright (c) 2008-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,45 +20,43 @@
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008-2009 Christian Würker
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
  *	Builds Trigger Info Site File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008-2009 Christian Würker
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Triggers extends DocCreator_Builder_HTML_Site_Info_Abstract
-{
+class DocCreator_Builder_HTML_Site_Info_Triggers extends DocCreator_Builder_HTML_Site_Info_Abstract{
+
 	/**
 	 *	Creates Trigger Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite()
-	{
+	public function createSite(){
 		if( !isset( $this->env->data->triggers ) )
 			return FALSE;
 		if( !$this->env->data->triggers )
 			return FALSE;
-		
+
 		$this->verboseCreation( 'triggers' );
 
 		$list		= array();
-		foreach( $this->env->data->triggers as $nr => $trigger )
-		{
+		foreach( $this->env->data->triggers as $triggerName => $triggers )
+			foreach( $triggers as $nr => $trigger ){
 			$class	= $this->env->getClassFromId( $trigger['classId'] );
 			$uri	= 'class.'.$class->getId().'.html#class_method_'.$trigger['method'];
 			$method	= UI_HTML_Elements::Link( $uri, $trigger['method'], 'method' );
 			$class	= $this->getTypeMarkUp( $class, TRUE );
-			
+
 			$info	= array();
 			$info[]	= UI_HTML_Elements::ListItem( 'Class: '.$class );
 			$info[]	= UI_HTML_Elements::ListItem( 'Method: '.$method );
