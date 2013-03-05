@@ -271,9 +271,6 @@ class DocCreator_Core_Environment{
 	private function readClassIndex(){
 		foreach( $this->data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $className => $class ){
-#				$category	= $this->config->data->['project.category.default'];
-#				$package	= $this->config['project.package.default'];
-
 				$category	= 'default';
 				$package	= 'default';
 
@@ -351,7 +348,7 @@ class DocCreator_Core_Environment{
 		$serial	= serialize( $data );
 		if( !file_exists( $this->path ) )
 			mkDir( $this->path, 0775, TRUE );
-		
+
 		$fileArchive	= $this->config->getArchiveFileName();
 		$fileSerial		= $this->config->getSerialFileName();
 		if( !empty( $fileArchive ) ){

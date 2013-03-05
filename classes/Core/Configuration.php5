@@ -147,6 +147,20 @@ class DocCreator_Core_Configuration{
 		return $list;
 	}
 
+	public function getProjectForcedCategory( XML_Element $project ){
+		if( $project->category->hasAttribute( "by" ) )
+			if( $project->category->getAttribute( "by" ) == "force" )
+				return $project->category->getValue();
+		return NULL;
+	}
+
+	public function getProjectForcedPackage( XML_Element $project ){
+		if( $project->package->hasAttribute( "by" ) )
+			if( $project->package->getAttribute( "by" ) == "force" )
+				return $project->package->getValue();
+		return NULL;
+	}
+
 	/**
 	 *	Returns List of regex patterns of Files which should be ignored by Parser for a given Project Node.
 	 *	@access		public
