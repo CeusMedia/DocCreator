@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
  *	Builds Todo Info Site File.
  *	@category		cmTools
@@ -36,37 +35,32 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
  *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  *	@todo			Code Doc
  */
-class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Site_Info_Abstract
-{
+class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Site_Info_Abstract{
+
 	/**
 	 *	Creates Todo Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 *	@todo		support Interfaces, too
 	 */
-	public function createSite()
-	{
+	public function createSite(){
 		$content	= "";
 		$todos		= array();
-		foreach( $this->env->data->getFiles() as $fileId => $file )
-		{
-			foreach( $file->getClasses() as $classId => $class )
-			{
+		foreach( $this->env->data->getFiles() as $fileId => $file ){
+			foreach( $file->getClasses() as $classId => $class ){
 				$classTodos		= array();
 				$methodTodos	= array();
 
 				$classUri	= "class.".$class->getId().".html";
 				$classLink	= UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
 
-				if( $class->getTodos() )
-				{
+				if( $class->getTodos() ){
 					foreach( $class->getTodos() as $todo )
 						$classTodos[]	= UI_HTML_Elements::ListItem( $todo, 1, array( 'class' => "classItem" ) );
 					$this->count	+= count( $classTodos );
 				}
 
-				foreach( $class->getMethods() as $methodName => $methodData )
-				{
+				foreach( $class->getMethods() as $methodName => $methodData ){
 					if( !$methodData->getTodos() )
 						continue;
 					$list	= array();
@@ -86,8 +80,7 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 				$todos[]		= UI_HTML_Elements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
 			}
 		}
-		if( $todos )
-		{
+		if( $todos ){
 			$this->verboseCreation( 'todos' );
 
 			$words	= isset( $this->env->words['todos'] ) ? $this->env->words['todos'] : array();
@@ -109,3 +102,4 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 	}
 }
 ?>
+
