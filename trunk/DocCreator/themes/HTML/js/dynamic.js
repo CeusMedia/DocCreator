@@ -115,8 +115,8 @@ $(document).ready(function(){
 		}
 		openTreeToLink(document.location.href.split("/").pop());
 		if($("body.content-artefact").size()){
-			if($("#index").size())
-				initIndex();
+//			if($("#index").size())
+//				initIndex();
 		}
 		else{
 			if(!$("#file_info").size())
