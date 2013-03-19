@@ -261,6 +261,50 @@ class DocCreator_Core_Configuration{
 		$node[$type]	= $value;
 	}
 
+	public function setProjectBasePath( $path = NULL ){
+		foreach( $this->data->projects->project as $project ){
+			$value	= (string) $project->path;
+			if( $path === NULL )
+				$value = str_replace( array( "[", "]" ), "", $value );
+			else if( preg_match( "/\[.*\]/", $value ) )
+				$value	= preg_replace( "/\[.*\]/", $path, $value );
+			else
+				$value	= $path;
+			$project->path->setValue( $value );
+		}
+	}
+
+	public function getBuilderLogo( XML_Element $builder ){
+		$logo		= (object) array(
+			'source'	=> NULL,
+			'title'		=> NULL,
+			'link'		=> NULL
+		);
+		if( isset( $builder->logo ) ){
+			$logo->source = $builder->logo->source->getValue();
+			if( isset( $builder->logo->title ) )
+				$logo->title = $builder->logo->title->getValue();
+			if( isset( $builder->logo->link ) )
+				$logo->link = $builder->logo->link->getValue();
+		}
+		return $logo;
+	}
+
+	public function setBuilderTargetPath( $path = NULL ){
+		foreach( $this->data->builders->builder as $builder ){
+			foreach( $builder->path as $builderPath ){
+				$value	= (string) $builderPath->getValue();
+				if( $path === NULL )
+					$value = str_replace( array( "[", "]" ), "", $value );
+				else if( preg_match( "/\[.*\]/", $value ) )
+					$value	= preg_replace( "/\[.*\]/", $path, $value );
+				else
+					$value	= $path;
+				$builderPath->setValue( $value );
+			}
+		}
+	}
+
 	/**
 	 *	Sets number of maximum seconds of execution.
 	 *	@access		public
