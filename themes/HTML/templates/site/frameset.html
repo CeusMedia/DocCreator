@@ -1,20 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
-  <head>
-    <title><%title%></title>
-    <link rel="icon" href="images/book_closed_blue_enhanced.png"/>
-    <script src="js/jquery-1.9.1.min.js"></script>
-  </head>
-  <noscript>
-    <body>
-      <b>You need JavaScript to be enabled to view this site.</b>
-    </body>
-  </noscript>
-  <script language="javascript" type="text/javascript">
+	<head>
+		<title><%title%></title>
+		<link rel="icon" href="images/book_closed_blue_enhanced.png"/>
+		<script src="js/jquery-1.9.1.min.js"></script>
+	</head>
+	<noscript>
+		<body>
+			<b>You need JavaScript to be enabled to view this site.</b>
+		</body>
+	</noscript>
+	<script language="javascript" type="text/javascript">
 origURL = parent.document.URL
 contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length)
 if(origURL==contentURL)
-  contentURL='home.html';
+	contentURL='home.html';
 document.write('<frameset cols="250,*"><frame src="control.html" name="control"><frame src="' + contentURL + '" name="content"></frameset>');
-  </script>
+	</script>
 </html>

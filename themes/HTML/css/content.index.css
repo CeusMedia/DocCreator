@@ -1,16 +1,19 @@
 /*  --  GENERAL  --  */
 #index {
 	position: fixed;
-	background-color: #FFF;
-	right: -1px;
-	top: -1px;
-	border: 1px solid gray;
-	background-image: url(../images/lighter25.png);
+	left: 10px;
+	top: 0px;
+	width: 23%;
+	height: 100%;
 	opacity: 0.85;
-	width: 16em;
-	max-height: 100%;
 	overflow: auto;
 	z-index: 1000;
+
+	border-width: 0px 2px 0px 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: #FFF;
+	background-image: url(../images/lighter25.png);
 	font-size: 0.9em;
 	}
 #index #index-list {
@@ -44,6 +47,7 @@
 
 
 /*  --  MAIN LINKS  --  */
+/*
 #index ul li.index-file-info,
 #index ul li.index-class-info {
 	}
@@ -91,7 +95,21 @@
 	}
 #index ul li.index-class-members-inherited,
 #index ul li.index-class-methods-inherited {
-/*	opacity: 0.75;*/
+	font-size: 0.9em;
+	}
+*/
+#index ul li.index-file-info>a,
+#index ul li.index-file-source>a,
+#index ul li.index-file-functions>a,
+#index ul li.index-class-info>a,
+#index ul li.index-class-members>a,
+#index ul li.index-class-members-inherited>a,
+#index ul li.index-class-methods>a,
+#index ul li.index-class-methods-inherited>a {
+	font-weight: bold;
+	}
+#index ul li.index-class-members-inherited,
+#index ul li.index-class-methods-inherited {
 	font-size: 0.9em;
 	}
 

@@ -1,20 +1,5 @@
-      <div><b><%words.heading%></b></div>
-      <div id="tree_container" class="treeview-famfamfam">
-        <%tree%>
-        <div class="msgTreeEmpty" style="display:none">Keine Einträge vorhanden.</div>
-      </div>
-      <script>
-<!--
-$(document).ready(function(){
-  if($("#tree_container li").size()){
-    $("#tree_container").treeview({
-      animated: "fast",
-      collapsed: true,
-      persist: "cookie",
-      cookieId: "<%cookieId%>"
-    });
-  }else{
-    $(".msgTreeEmpty").show();
-  }
-});
--->      </script>
+			<div><b><%words.heading%></b></div>
+			<div id="tree_container" class="treeview-famfamfam">
+				<%tree%>
+				<div class="msgTreeEmpty" style="display:none">Keine Einträge vorhanden.</div>
+			</div>
