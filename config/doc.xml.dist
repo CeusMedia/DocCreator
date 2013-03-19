@@ -1,80 +1,85 @@
 <?xml version="1.0"?>
 <config>
 
-  <!--  READER SETTINGS  -->  
-  <reader>
-    <plugin>Statistics</plugin>
-    <plugin>Unicode</plugin>
-    <plugin>Defaults</plugin>
-    <plugin>Relations</plugin>
-    <plugin>Primitives</plugin>
-    <plugin>Search</plugin>
-  </reader>
+	<!--  READER SETTINGS  -->  
+	<reader>
+		<plugin>Statistics</plugin>
+		<plugin>Unicode</plugin>
+		<plugin>Defaults</plugin>
+		<plugin>Relations</plugin>
+		<plugin>Primitives</plugin>
+		<plugin>Search</plugin>
+	</reader>
 
-  <!--  PROJECTS  -->  
-  <projects>
-    <project label="DocCreator" version="0.8" date="" revision="">
-      <path alt="must be absolute">/var/www/lib/cmTools/DocCreator/</path>
-      <extensions>
-        <extension>php5</extension>
-      </extensions>
-      <ignore>
-        <file alt="regular expression">/^(_|[a-z])/</file>
-        <folder alt="regular expression">#^doc/#</folder>
-      </ignore>
-      <category lowercase="">
-        <default>unknown</default>
-      </category>
-      <package lowercase="">
-        <default>unknown</default>
-        <uppercase alt="comma seperated"></uppercase>
-      </package>
-    </project>
-  </projects>
+	<!--  PROJECTS  -->  
+	<projects>
+		<project label="DocCreator" version="0.8" date="" revision="">
+			<path alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/</path>
+			<extensions>
+				<extension>php5</extension>
+			</extensions>
+			<ignore>
+				<file alt="regular expression">/^(_|[a-z])/</file>
+				<folder alt="regular expression">#^doc/#</folder>
+			</ignore>
+			<category lowercase="">
+				<default>unknown</default>
+			</category>
+			<package lowercase="">
+				<default>unknown</default>
+				<uppercase alt="comma seperated"></uppercase>
+			</package>
+		</project>
+	</projects>
 
-  <!--  BUILDERS -->  
-  <builders>
-    <builder format="HTML" theme="HTML">
-      <path type="target" alt="must be absolute">/var/www/lib/cmTools/DocCreator/doc/API/</path>
-      <path type="documents" alt="must be absolute">/var/www/lib/cmTools/DocCreator/doc/</path>
-      <language>en</language>
-      <title>DocCreator API</title>
-      <author><![CDATA[Christian Würker <christian.wuerker@ceusmedia.de>]]></author>
-      <company>CeuS Media (ceusmedia.de)</company>
-      <timezone>Europe/Berlin</timezone>
-      <options>
-        <option name="showSourceCode">1</option>
-      </options>
-      <plugins>
-        <plugin>Home</plugin>
-        <plugin>ClassList</plugin>
-        <plugin>Search</plugin>
-        <plugin>About</plugin>
-        <plugin>Installation</plugin>
-        <plugin>History</plugin>
-        <plugin>Changes</plugin>
-        <plugin>Deprecations</plugin>
-        <plugin>Todos</plugin>
-        <plugin>Bugs</plugin>
-        <plugin>ParseErrors</plugin>
-        <plugin>Statistics</plugin>
-        <plugin>UnusedVariables</plugin>
-        <plugin>MethodOrder</plugin>
-        <plugin>MethodAccess</plugin>
-        <plugin>DocHints</plugin>
-      </plugins>
-    </builder>
-  </builders>
+	<!--  BUILDERS -->  
+	<builders>
+		<builder format="HTML" theme="HTML">
+			<path type="target" alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/doc/API/</path>
+			<path type="documents" alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/doc/</path>
+			<language>en</language>
+			<title>DocCreator API</title>
+			<logo>
+				<source></source>
+				<title>DocCreator @ Ceus Media</title>
+				<link>http://ceusmedia.de/tools/DocCreator/</link>
+			</logo>
+			<author><![CDATA[Christian Würker <christian.wuerker@ceusmedia.de>]]></author>
+			<company>CeuS Media (ceusmedia.de)</company>
+			<timezone>Europe/Berlin</timezone>
+			<options>
+				<option name="showSourceCode">1</option>
+			</options>
+			<plugins>
+				<plugin>Home</plugin>
+				<plugin>ClassList</plugin>
+				<plugin>Search</plugin>
+				<plugin>About</plugin>
+				<plugin>Installation</plugin>
+				<plugin>History</plugin>
+				<plugin>Changes</plugin>
+				<plugin>Deprecations</plugin>
+				<plugin>Todos</plugin>
+				<plugin>Bugs</plugin>
+				<plugin>ParseErrors</plugin>
+				<plugin>Statistics</plugin>
+				<plugin>UnusedVariables</plugin>
+				<plugin>MethodOrder</plugin>
+				<plugin>MethodAccess</plugin>
+				<plugin>DocHints</plugin>
+			</plugins>
+		</builder>
+	</builders>
 
-  <!--  GENERAL SETTINGS  -->  
-  <creator>
-    <timeLimit>360</timeLimit>
-    <mail></mail>
-    <file type="serial" alt="relative to 'doc.path'">doc.serial</file>
-    <file type="archive" alt="relative to 'doc.path'">doc.serial.gz</file>
-    <file type="errors">logs/docCreatorErrors.log</file>
-    <skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
-    <verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE"/>
-  </creator>
+	<!--  GENERAL SETTINGS  -->  
+	<creator>
+		<timeLimit>360</timeLimit>
+		<mail></mail>
+		<file type="serial" alt="relative to 'doc.path'">doc.serial</file>
+		<file type="archive" alt="relative to 'doc.path'">doc.serial.gz</file>
+		<file type="errors">logs/docCreatorErrors.log</file>
+		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
+		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE"/>
+	</creator>
 
 </config>

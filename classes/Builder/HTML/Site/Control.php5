@@ -56,7 +56,21 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 		);
 		return $this->loadTemplate( "site/links", $uiData );
 	}
-	
+
+	protected function buildLogo(){
+		$logo = $this->env->config->getBuilderLogo( $this->env->builder );
+		if( $logo->source ){
+			$attributes	= array(
+				'src'	=> 'images/'.$logo->source,
+				'alt'	=> $logo->title
+			);
+			$image		= UI_HTML_Tag::create( 'img', NULL, $attributes );
+			if( $logo->link )
+				$image	= UI_HTML_Tag::create( 'a', $image, array( 'href' => $logo->link ) );
+			return $image;
+		}
+	}
+
 	/**
 	 *	Builds complete Control Frame View.
 	 *	@access		public
@@ -67,10 +81,12 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 		$pathTarget	= $this->env->getBuilderTargetPath();
 		$builder	= new DocCreator_Builder_HTML_Site_Tree( $this->env );
 		$tree		= $builder->buildTree();
+		$logo		= $this->buildLogo();
 
 		$uiData	= array(
 			'tree'		=> $tree,
 			'links'		=> $this->buildLinks( $linkList ),
+			'logo'		=> $logo,
 		);
 		$content	= $this->loadTemplate( "site/control", $uiData );
 		File_Writer::save( $pathTarget."control.html", $content );

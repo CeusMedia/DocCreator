@@ -43,6 +43,8 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 
 	protected $shortCuts		= array(
 		'-c'	=> '--config-file',
+		'-s'	=> '--source-folder',
+		'-t'	=> '--target-folder',
 		'-h'	=> '--help',
 		'-l'	=> '--log-errors',
 		'-m'	=> '--mail-errors',
@@ -76,6 +78,8 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 
 		$mapSkip	= array(
 			'--config-file'		=> 'setConfigFile',
+			'--source-folder'	=> 'setProjectBasePath',
+			'--target-folder'	=> 'setBuilderTargetPath',
 			'--log-error'		=> 'setErrorLog',
 			'--mail-error'		=> 'setErrorMail',
 			'--skip-parser'		=> 'enableParser',
