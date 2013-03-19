@@ -115,6 +115,7 @@ $(document).ready(function(){
 		}
 		openTreeToLink(document.location.href.split("/").pop());
 		if($("body.content-artefact").size()){
+			applyCodeMirror("textarea#source-code");
 //			if($("#index").size())
 //				initIndex();
 		}
