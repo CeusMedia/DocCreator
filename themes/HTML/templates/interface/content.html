@@ -24,16 +24,22 @@
 		<script type="text/javascript" src="js/codemirror-3.02/mode/javascript/javascript.js"></script>
 	</head>
 	<body class='content content-artefact content-interface'>
-		<%index%>
-		<div id="artefact">
-			<h1><a name="top"><%words.type%>: <%interfaceName%></a></h1>
-			<small>File: <a href="#file_source"><%pathName%></a></small><br/>
-			<%fileInfo%>
-			<%interfaceInfo%>
-			<%interfaceMethods%>
-			<%fileFunctions%>
-			<%?fileSource%>
+		<div class="row-fluid">
+			<div class="span3" style="position: relative">
+				<%index%>
+			</div>
+			<div class="span9">
+				<div id="artefact">
+					<h1><a name="top"><%words.type%>: <%interfaceName%></a></h1>
+					<small>File: <a href="#file_source"><%pathName%></a></small><br/>
+					<%fileInfo%>
+					<%interfaceInfo%>
+					<%interfaceMethods%>
+					<%fileFunctions%>
+					<%?fileSource%>
+				</div>
+				<%?footer%>
+			</div>
 		</div>
-	<%?footer%>
 	</body>
 </html>
