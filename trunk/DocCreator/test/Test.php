@@ -24,5 +24,10 @@ class Test extends ArrayObject
 	public function __construct( ArrayObject $a, $b, $c = NULL )
 	{
 	}
+
+	static public function staticMethod( $a, $b )
+	{
+		return array( $a, $b );
+	}
 }
 ?>
