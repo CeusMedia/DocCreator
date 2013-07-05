@@ -221,7 +221,9 @@ class DocCreator_Builder_HTML_File_Index extends DocCreator_Builder_HTML_Abstrac
 		$desc	= explode( "\n", $methodData->getDescription() );
 		$desc	= array_shift( $desc );
 		$label	= $desc ? UI_HTML_Elements::Acronym( $methodName, $desc ) : $methodName;
-		$uri	= 'class.'.$class->getId().".html#class_method_".$methodName;
+		$uri	= 'interface.'.$class->getId().".html#interface_method_".$methodName;
+		if( $class instanceof ADT_PHP_Class )
+			$uri	= 'class.'.$class->getId().".html#class_method_".$methodName;
 		$link	= UI_HTML_Elements::Link( $uri, $label );
 		$class	= 'index-method-'.$methodData->getAccess();
 		return UI_HTML_Elements::ListItem( $link, 1, array( 'class' => $class ) ); 
