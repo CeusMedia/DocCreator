@@ -61,12 +61,16 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 		$logo = $this->env->config->getBuilderLogo( $this->env->builder );
 		if( $logo->source ){
 			$attributes	= array(
-				'src'	=> 'images/'.$logo->source,
-				'alt'	=> $logo->title
+				'src'		=> 'images/'.$logo->source,
+				'alt'		=> $logo->title,
 			);
 			$image		= UI_HTML_Tag::create( 'img', NULL, $attributes );
-			if( $logo->link )
-				$image	= UI_HTML_Tag::create( 'a', $image, array( 'href' => $logo->link ) );
+			if( $logo->link ){
+				$image	= UI_HTML_Tag::create( 'a', $image, array(
+					'href'		=> $logo->link,
+					'target'	=> '_top',
+				) );
+			}
 			return $image;
 		}
 	}
