@@ -63,7 +63,7 @@ class DocCreator_Builder_HTML_Site_Info_Triggers extends DocCreator_Builder_HTML
 			$info	= UI_HTML_Elements::unorderedList( $info );
 
 			$type	= UI_HTML_Tag::create( 'dt', $trigger['name'] );
-			$def	= UI_HTML_Tag::create( 'dd', $trigger['text'].$info );
+			$def	= UI_HTML_Tag::create( 'dd', $info.'<pre>'.$trigger['text'].'</pre>' );
 			$list[]	= $type.$def;
 		}
 		$content	= UI_HTML_Tag::create( 'dl', implode( "\n", $list ) );
