@@ -80,9 +80,10 @@ class DocCreator_Builder_HTML_Site_Info_UnusedVariables extends DocCreator_Build
 				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$list	= UI_HTML_Elements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
 				$item	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
-				$classList[]	= $item;
+				$classList[$class->getName()]	= $item;
 			}
 		}
+		ksort( $classList );
 		if( $count )
 		{
 			$this->verboseCreation( 'unusedVariables' );

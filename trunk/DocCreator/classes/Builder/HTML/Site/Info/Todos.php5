@@ -76,9 +76,10 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 
 				$methodTodos	= UI_HTML_Elements::unorderedList( $methodTodos, 1, array( 'class' => "methods" ) );
 				$classTodos		= UI_HTML_Elements::unorderedList( $classTodos, 1, array( 'class' => "classList" ) );
-				$todos[]		= UI_HTML_Elements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
+				$todos[$class->getName()]		= UI_HTML_Elements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
 			}
 		}
+		ksort( $todos );
 		if( $todos ){
 			$this->verboseCreation( 'todos' );
 
