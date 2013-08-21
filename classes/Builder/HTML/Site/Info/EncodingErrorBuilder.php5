@@ -33,7 +33,6 @@
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: EncodingErrorBuilder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
- *	@todo			Code Doc
  */
 class DocCreator_Builder_HTML_Site_Info_EncodingErrorBuilder extends DocCreator_Builder_HTML_Abstract{
 

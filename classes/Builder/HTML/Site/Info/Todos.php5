@@ -33,7 +33,6 @@
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
- *	@todo			Code Doc
  */
 class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Site_Info_Abstract{
 

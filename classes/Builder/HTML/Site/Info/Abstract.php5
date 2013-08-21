@@ -24,8 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'builder.html.cm1.classes.Abstract' );
 /**
  *	Abstract Site Info Builder.
  *	@category		cmTools

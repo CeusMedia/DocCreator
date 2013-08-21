@@ -34,7 +34,6 @@
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 86 2012-05-23 12:18:48Z christian.wuerker $
- *	@todo			Code Doc
  */
 abstract class DocCreator_Builder_HTML_Abstract{
 
@@ -395,16 +394,16 @@ abstract class DocCreator_Builder_HTML_Abstract{
 		return UI_Template::renderString( $content, $data );
 	}
 
-	public static function removeFiles( $path, $pattern ){
-		$index	= new File_RecursiveRegexFilter( $path, $pattern );									// index formerly generated or copied files
-		foreach( $index as $entry )																	// iterate index
-			@unlink( $entry->getPathname());														// remove outdated files
-	}
-
 	protected function realizeInlineLinks( $string ){
 		$string	= preg_replace( "/\{@link (\S+) (\S+)\}/U", '<a href="\\1">\\2</a>', $string );
 		$string	= preg_replace( "/\{@link (\S+)\}/U", '<a href="\\1">\\1</a>', $string );
 		return $string;
+	}
+
+	public static function removeFiles( $path, $pattern ){
+		$index	= new File_RecursiveRegexFilter( $path, $pattern );									// index formerly generated or copied files
+		foreach( $index as $entry )																	// iterate index
+			@unlink( $entry->getPathname());														// remove outdated files
 	}
 }
 ?>

@@ -100,7 +100,8 @@ class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract
 			$name	= array_pop( $parts );
 			$item	= new ADT_Tree_Menu_Item( 'class.'.$class->getId().'.html', $name );
 			$item->setAttribute( 'class', 'class' );
-			$menu->addChild( $item );
+			$uniqueKey	= $class->getName()."_".uniqid();
+			$list[$uniqueKey]	= $item;
 		}
 		ksort( $list );
 		foreach( $list as $item )
@@ -112,7 +113,8 @@ class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract
 			$name	= array_pop( $parts );
 			$item	= new ADT_Tree_Menu_Item( 'interface.'.$interface->getId().'.html', $name );
 			$item->setAttribute( 'class', 'interface' );
-			$menu->addChild( $item );
+			$uniqueKey	= $interface->getName()."_".uniqid();
+			$list[$uniqueKey]	= $item;
 		}
 		ksort( $list );
 		foreach( $list as $item )

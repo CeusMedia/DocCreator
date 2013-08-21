@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodAccess.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
  *	...
  *	@category		cmTools
