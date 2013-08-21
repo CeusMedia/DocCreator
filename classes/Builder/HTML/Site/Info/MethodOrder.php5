@@ -63,9 +63,10 @@ class DocCreator_Builder_HTML_Site_Info_MethodOrder extends DocCreator_Builder_H
 				$count++;
 				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$label	= $link.": ".$line1." | ".$line2;
-				$list[]	= UI_HTML_Elements::ListItem( $label, 0, array( 'class' => 'class' ) );
+				$list[$class->getName()]	= UI_HTML_Elements::ListItem( $label, 0, array( 'class' => 'class' ) );
 			}
 		}
+		ksort( $list );
 		if( !$count )
 			return FALSE;
 
