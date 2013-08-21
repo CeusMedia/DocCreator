@@ -166,14 +166,14 @@ class DocCreator_Core_Configuration{
 	public function getProjectForcedCategory( XML_Element $project ){
 		if( $project->category->hasAttribute( "by" ) )
 			if( $project->category->getAttribute( "by" ) == "force" )
-				return $project->category->default->getValue();
+				return $project->category->getValue();
 		return NULL;
 	}
 
 	public function getProjectForcedPackage( XML_Element $project ){
 		if( $project->package->hasAttribute( "by" ) )
 			if( $project->package->getAttribute( "by" ) == "force" )
-				return $project->package->default->getValue();
+				return $project->package->getValue();
 		return NULL;
 	}
 
