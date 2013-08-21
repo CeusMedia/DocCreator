@@ -49,7 +49,6 @@ class DocCreator_Reader_Plugin_Triggers extends DocCreator_Reader_Plugin_Abstrac
 			if( !preg_match( '/@trigger\s/i', $source ) )
 				continue;
 			foreach( $file->getClasses() as $class ){
-//remark( 'Class: '.$class->getName().' (has '.count( $class->getMethods() ).' methods)' );
 				foreach( $class->getMethods() as $method ){
 					if( !$method->getSourceCode() )
 						continue;
@@ -58,13 +57,10 @@ class DocCreator_Reader_Plugin_Triggers extends DocCreator_Reader_Plugin_Abstrac
 						continue;
 					$matches	= array();
 					preg_match_all( '@/\*\*.+\*/@Us', $body, $matches );
-//remark( 'Method: '.$method->getName().' (has '.count( $matches[0] ).' inline doc blocks)' );
 					foreach( $matches[0] as $nr => $match ){
-//remark( 'Match #'.$nr );
 						$match	= preg_replace( '@\n\s*\*\s+@Us', ' ', $match );
 						$parts	= array();
 						preg_match_all( '/^\/\*+\s+@trigger\s+(\w+)\s+(.+)?\s*\*+\/$/Us', $match, $parts );
-//print_m( $parts );
 
 						if( empty( $parts[1] ) )
 							continue;
@@ -81,8 +77,6 @@ class DocCreator_Reader_Plugin_Triggers extends DocCreator_Reader_Plugin_Abstrac
 				}
 			}
 		}
-//print_m( $data->triggers );
-//die;
 		ksort( $data->triggers );
 	}
 }

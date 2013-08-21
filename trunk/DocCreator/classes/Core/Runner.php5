@@ -200,6 +200,10 @@ class DocCreator_Core_Runner{
 		}
 	}
 
+	public function setBuilderTargetPath( $path = NULL ){
+		$this->configProject->setBuilderTargetPath( $path );
+	}
+
 	/**
 	 *	Set an other XML Configuration File and load it.
 	 *	@access		public
@@ -211,22 +215,17 @@ class DocCreator_Core_Runner{
 		$this->loadProjectConfig();
 	}
 
+	public function setErrorMail( $mail ){
+		$this->configProject->setMailReceiver( $mail );
+	}
 
 	public function setProjectBasePath( $path ){
 		$this->configProject->setProjectBasePath( $path );
 	}
 
-	public function setBuilderTargetPath( $path = NULL ){
-		$this->configProject->setBuilderTargetPath( $path );
-	}
-
 #	public function setErrorLog( $fileName ){
 #		$this->setOption( 'file.log.error', $fileName );
 #	}
-
-	public function setErrorMail( $mail ){
-		$this->configProject->setMailReceiver( $mail );
-	}
 	
 #	public function setOption( $key, $value ){
 #		$this->configProject['creator.'.$key]	= $value;

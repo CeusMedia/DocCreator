@@ -71,6 +71,22 @@ class DocCreator_Core_Configuration{
 				return $path->getValue();
 	}
 
+	public function getBuilderLogo( XML_Element $builder ){
+		$logo		= (object) array(
+			'source'	=> NULL,
+			'title'		=> NULL,
+			'link'		=> NULL
+		);
+		if( isset( $builder->logo ) ){
+			$logo->source = $builder->logo->source->getValue();
+			if( isset( $builder->logo->title ) )
+				$logo->title = $builder->logo->title->getValue();
+			if( isset( $builder->logo->link ) )
+				$logo->link = $builder->logo->link->getValue();
+		}
+		return $logo;
+	}
+
 	/**
 	 *	Returns XML Element with one or more Builder Option Nodes of a give Builder Node.
 	 *	@access		public
@@ -150,14 +166,14 @@ class DocCreator_Core_Configuration{
 	public function getProjectForcedCategory( XML_Element $project ){
 		if( $project->category->hasAttribute( "by" ) )
 			if( $project->category->getAttribute( "by" ) == "force" )
-				return $project->category->getValue();
+				return $project->category->default->getValue();
 		return NULL;
 	}
 
 	public function getProjectForcedPackage( XML_Element $project ){
 		if( $project->package->hasAttribute( "by" ) )
 			if( $project->package->getAttribute( "by" ) == "force" )
-				return $project->package->getValue();
+				return $project->package->default->getValue();
 		return NULL;
 	}
 
@@ -255,10 +271,19 @@ class DocCreator_Core_Configuration{
 		return $value;
 	}
 
-	public function setSkip( $type, $value ){
-		$value	= $value ? TRUE : FALSE;
-		$node	= $this->data->creator->skip;
-		$node[$type]	= $value;
+	public function setBuilderTargetPath( $path = NULL ){
+		foreach( $this->data->builders->builder as $builder ){
+			foreach( $builder->path as $builderPath ){
+				$value	= (string) $builderPath->getValue();
+				if( $path === NULL )
+					$value = str_replace( array( "[", "]" ), "", $value );
+				else if( preg_match( "/\[.*\]/", $value ) )
+					$value	= preg_replace( "/\[.*\]/", $path, $value );
+				else
+					$value	= $path;
+				$builderPath->setValue( $value );
+			}
+		}
 	}
 
 	public function setProjectBasePath( $path = NULL ){
@@ -274,35 +299,10 @@ class DocCreator_Core_Configuration{
 		}
 	}
 
-	public function getBuilderLogo( XML_Element $builder ){
-		$logo		= (object) array(
-			'source'	=> NULL,
-			'title'		=> NULL,
-			'link'		=> NULL
-		);
-		if( isset( $builder->logo ) ){
-			$logo->source = $builder->logo->source->getValue();
-			if( isset( $builder->logo->title ) )
-				$logo->title = $builder->logo->title->getValue();
-			if( isset( $builder->logo->link ) )
-				$logo->link = $builder->logo->link->getValue();
-		}
-		return $logo;
-	}
-
-	public function setBuilderTargetPath( $path = NULL ){
-		foreach( $this->data->builders->builder as $builder ){
-			foreach( $builder->path as $builderPath ){
-				$value	= (string) $builderPath->getValue();
-				if( $path === NULL )
-					$value = str_replace( array( "[", "]" ), "", $value );
-				else if( preg_match( "/\[.*\]/", $value ) )
-					$value	= preg_replace( "/\[.*\]/", $path, $value );
-				else
-					$value	= $path;
-				$builderPath->setValue( $value );
-			}
-		}
+	public function setSkip( $type, $value ){
+		$value	= $value ? TRUE : FALSE;
+		$node	= $this->data->creator->skip;
+		$node[$type]	= $value;
 	}
 
 	/**

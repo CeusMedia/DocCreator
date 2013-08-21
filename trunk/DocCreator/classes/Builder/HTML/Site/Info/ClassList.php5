@@ -38,12 +38,6 @@ class DocCreator_Builder_HTML_Site_Info_ClassList extends DocCreator_Builder_HTM
 
 	public $linkTarget = '_self';
 
-	private function getLabel( $artefact ){
-		if( !empty( $this->options['prefix'] ) )
-			return preg_replace( '/'.$this->options['prefix'].'/', '', $artefact->getName() );
-		return $artefact->getName();
-	}
-
 	private function buildClassList(){
 		$divClear	= UI_HTML_Tag::create( 'div', '', array( 'style' => 'clear: both' ) );
 		$list		= array();
@@ -115,6 +109,12 @@ class DocCreator_Builder_HTML_Site_Info_ClassList extends DocCreator_Builder_HTM
 		$content	= $this->loadTemplate( "site/info/classList", $uiData );
 		$this->saveFile( "classes.html", $content );
 		$this->appendLink( 'classes.html', 'classList' );
+	}
+
+	private function getLabel( $artefact ){
+		if( !empty( $this->options['prefix'] ) )
+			return preg_replace( '/'.$this->options['prefix'].'/', '', $artefact->getName() );
+		return $artefact->getName();
 	}
 }
 ?>

@@ -24,8 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: UnresolvedRelations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-import( 'de.ceus-media.alg.UnusedVariableFinder' );
-import( 'builder.html.cm1.classes.site.info.Abstract' );
 /**
  *	Builds Deprecation Info Site File.
  *	@category		cmTools
@@ -36,7 +34,6 @@ import( 'builder.html.cm1.classes.site.info.Abstract' );
  *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: UnresolvedRelations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
- *	@todo			Code Doc
  */
 class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_Builder_HTML_Site_Info_Abstract
 {

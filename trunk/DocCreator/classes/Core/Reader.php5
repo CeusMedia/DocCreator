@@ -130,43 +130,6 @@ class DocCreator_Core_Reader{
 		}
 	}
 
-	protected function realizeCategoryAndPackage( $file, $project ){
-		if( $category = $project->category->getValue() ){
-			if( !$file->getCategory() )
-				$file->setCategory( $category );
-			foreach( $file->getClasses() as $class )
-				if( !$class->getCategory() )
-					$class->setCategory( $category );
-			foreach( $file->getInterfaces() as $interface )
-				if( !$interface->getCategory() )
-					$interface->setCategory( $category );
-		}
-		if( $package = $project->package->getValue() ){
-			if( !$file->getPackage() )
-				$file->setPackage( $package );
-			foreach( $file->getClasses() as $class )
-				if( !$class->getPackage() )
-					$class->setPackage( $package );
-			foreach( $file->getInterfaces() as $interface )
-				if( !$interface->getPackage() )
-					$interface->setPackage( $package );
-		}
-		if( $category =  $this->env->config->getProjectForcedCategory( $project ) ){
-			$file->setCategory( $category );
- 			foreach( $file->getClasses() as $class )
-				$class->setCategory( $category );
-			foreach( $file->getInterfaces() as $interface )
-				$interface->setCategory( $category );
-		}
-		if( $package = $this->env->config->getProjectForcedPackage( $project ) ){
-			$file->setPackage( $package );
- 			foreach( $file->getClasses() as $class )
-				$class->setPackage( $package );
-			foreach( $file->getInterfaces() as $interface )
-				$interface->setPackage( $package );
-		}
-	}
-
 	/**
 	 *	Reads all suitable Files for all defined Projects, created Indices and applies Reader Plugins.
 	 *	@access		public
@@ -204,6 +167,45 @@ class DocCreator_Core_Reader{
 		return $data;
 	}
 
+	protected function realizeCategoryAndPackage( $file, $project ){
+		if( isset( $project->category ) ){
+			$category = $project->category->default->getValue();
+			if( !$file->getCategory() )
+				$file->setCategory( $category );
+			foreach( $file->getClasses() as $class )
+				if( !$class->getCategory() )
+					$class->setCategory( $category );
+			foreach( $file->getInterfaces() as $interface )
+				if( !$interface->getCategory() )
+					$interface->setCategory( $category );
+		}
+		if( isset( $project->package ) ){
+			$package = $project->package->default->getValue();
+			if( !$file->getPackage() )
+				$file->setPackage( $package );
+			foreach( $file->getClasses() as $class )
+				if( !$class->getPackage() )
+					$class->setPackage( $package );
+			foreach( $file->getInterfaces() as $interface )
+				if( !$interface->getPackage() )
+					$interface->setPackage( $package );
+		}
+		if( $category =  $this->env->config->getProjectForcedCategory( $project ) ){
+			$file->setCategory( $category );
+ 			foreach( $file->getClasses() as $class )
+				$class->setCategory( $category );
+			foreach( $file->getInterfaces() as $interface )
+				$interface->setCategory( $category );
+		}
+		if( $package = $this->env->config->getProjectForcedPackage( $project ) ){
+			$file->setPackage( $package );
+ 			foreach( $file->getClasses() as $class )
+				$class->setPackage( $package );
+			foreach( $file->getInterfaces() as $interface )
+				$interface->setPackage( $package );
+		}
+	}
+
 	/** 
 	 *	Assigns Reader Plugins to be applied after parsing all Projects.
 	 *	@access		protected
@@ -231,25 +233,31 @@ class DocCreator_Core_Reader{
 	 *	@todo		There is a possible error if a project does not set defaults but the next project is. Than all incomplete files of the last project will be assigned to the next one. A workaround would be to have several containers which will be merged in the end.
 	 */
 	protected function setDefaultCategoryAndPackage( $data, XML_Element $project ){
-		if( $category = $project->category->getValue() ){
+		$category = $project->category->default->getValue();
+		if( $category ){
 			foreach( $data->getFiles() as $file ){
 				if( !$file->getCategory() )
 					$file->setCategory( $category );
- 				foreach( $file->getClasses() as $class )
+ 				foreach( $file->getClasses() as $class ){
+					remark( 'Category: '.$class->getName().' :: '.$class->getCategory() );
 					if( !$class->getCategory() )
 						$class->setCategory( $category );
+				}
 				foreach( $file->getInterfaces() as $interface )
 					if( !$interface->getCategory() )
 						$interface->setCategory( $category );
 			}
 		}
-		if( $package = $project->package->getValue() ){
+		$package = $project->package->default->getValue();
+		if( $package ){
 			foreach( $data->getFiles() as $file ){
 				if( !$file->getPackage() )
 					$file->setPackage( $package );
- 				foreach( $file->getClasses() as $class )
+ 				foreach( $file->getClasses() as $class ){
+					remark( 'Package: '.$class->getName().' :: '.$class->getPackage() );
 					if( !$class->getPackage() )
 						$class->setPackage( $package );
+				}
 				foreach( $file->getInterfaces() as $interface )
 					if( !$interface->getPackage() )
 						$interface->setPackage( $package );

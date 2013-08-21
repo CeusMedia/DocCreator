@@ -96,7 +96,7 @@ class DocCreator_Core_Environment{
 #				$part	= strtoupper( $part );
 #			$packageParts[$nr]	= $part;
 #		}
-#		$packageName	= implode( "_", $packageParts );
+#		$packageName	= implode( $separator, $packageParts );
 		return $packageName;
 	}
 	
