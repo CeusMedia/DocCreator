@@ -169,7 +169,7 @@ class DocCreator_Core_Reader{
 
 	protected function realizeCategoryAndPackage( $file, $project ){
 		if( isset( $project->category ) ){
-			$category = $project->category->default->getValue();
+			$category = $project->category->getValue();
 			if( !$file->getCategory() )
 				$file->setCategory( $category );
 			foreach( $file->getClasses() as $class )
@@ -180,7 +180,7 @@ class DocCreator_Core_Reader{
 					$interface->setCategory( $category );
 		}
 		if( isset( $project->package ) ){
-			$package = $project->package->default->getValue();
+			$package = $project->package->getValue();
 			if( !$file->getPackage() )
 				$file->setPackage( $package );
 			foreach( $file->getClasses() as $class )
@@ -233,7 +233,7 @@ class DocCreator_Core_Reader{
 	 *	@todo		There is a possible error if a project does not set defaults but the next project is. Than all incomplete files of the last project will be assigned to the next one. A workaround would be to have several containers which will be merged in the end.
 	 */
 	protected function setDefaultCategoryAndPackage( $data, XML_Element $project ){
-		$category = $project->category->default->getValue();
+		$category = $project->category->getValue();
 		if( $category ){
 			foreach( $data->getFiles() as $file ){
 				if( !$file->getCategory() )
@@ -248,7 +248,7 @@ class DocCreator_Core_Reader{
 						$interface->setCategory( $category );
 			}
 		}
-		$package = $project->package->default->getValue();
+		$package = $project->package->getValue();
 		if( $package ){
 			foreach( $data->getFiles() as $file ){
 				if( !$file->getPackage() )
