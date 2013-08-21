@@ -1,11 +1,11 @@
 function appendTitle( string ) {
 	var base	= "cmClasses Docs";
 	var obj	= document.title;
-	top.document.title	= obj + " @ " + base;
+	parent.document.title	= obj + " @ " + base;
 }
 
 function openTreeToLink(href){
-	var doc = $(top.control.document);
+	var doc = $(parent.control.document);
 	var tree = doc.find("body #tree_container");
 	tree.find("a").each(function(){
 		if($(this).attr("href") == href){
@@ -109,8 +109,8 @@ $(document).ready(function(){
 		});
 	}
 	else if($("body.content").size()){
-		if(top.location == self.location){
-			top.location.href="index.html?" + document.URL;
+		if(parent.location == self.location){
+			parent.location.href="index.html?" + document.URL;
 			return false;
 		}
 		openTreeToLink(document.location.href.split("/").pop());
