@@ -58,9 +58,10 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 	 *	@param		bool			$verbose		Flag: show Information during Creation
 	 *	@return		void
 	 */
-	public function __construct( $configFile = NULL, $verbose = NULL ){
+	public function __construct( $configFile = NULL, $verbose = NULL, $trace = NULL ){
 		$this->configFile	= $configFile;
 		$this->verbose		= $verbose;
+		$this->trace		= $trace;
 		parent::__construct( $this->shortCuts );
 	}
 
@@ -74,7 +75,7 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 			die( $this->showUsage() );
 
 #		set_error_handler( array( $this, 'handleError' ) );
-		$creator	= new DocCreator_Core_Runner( $this->configFile, $this->verbose );
+		$creator	= new DocCreator_Core_Runner( $this->configFile, $this->verbose, $this->trace );
 
 		$mapSkip	= array(
 			'--config-file'		=> 'setConfigFile',
@@ -87,6 +88,7 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 			'--skip-info'		=> 'enableInfo',
 			'--skip-resources'	=> 'enableResources',
 			'--quite'			=> 'setQuite',
+			'--trace'			=> 'setTrace'
 		);
 		
 		foreach( $this->arguments->getAll() as $key => $value )

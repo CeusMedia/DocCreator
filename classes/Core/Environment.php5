@@ -254,7 +254,7 @@ class DocCreator_Core_Environment{
 				return $data;
 			}
 		}
-		throw new RuntimeException( 'No data file existing' );
+		throw new RuntimeException( 'No data file existing - you need to parse' );
 	}
 
 	public function openBuilder( XML_Element $builder ){

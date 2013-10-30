@@ -257,6 +257,10 @@ class DocCreator_Core_Configuration{
 		return $this->data->creator->timeLimit->getValue();
 	}
 
+	public function getTrace(){
+		return (boolean) $this->getVerbose( "trace" );
+	}
+
 	public function getVerbose( $type = NULL ){
 		$type	= $type ? $type : "general";
 		$node	= $this->data->creator->verbose;
@@ -313,6 +317,16 @@ class DocCreator_Core_Configuration{
 	 */
 	public function setTimeLimit( $seconds ){
 		return $this->data->creator->timeLimit->setValue( (int) $seconds );
+	}
+
+	/**
+	 *	Switches display of exception trace on error.
+	 *	@access		public
+	 *	@param		int			$boolean		Flag: show exception trace on error
+	 *	@return		void
+	 */
+	public function setTrace( $boolean ){
+		return $this->setVerbose( 'trace', (boolean) $boolean );
 	}
 
 	public function setVerbose( $type, $value ){
