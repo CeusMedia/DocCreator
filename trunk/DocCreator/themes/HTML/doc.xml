@@ -75,8 +75,8 @@
 	<creator>
 		<timeLimit>360</timeLimit>
 		<mail></mail>
-		<file type="serial" alt="relative to 'doc.path'">doc.theme.html.serial</file>
-		<file type="archive" alt="relative to 'doc.path'">doc.theme.html.serial.gz</file>
+		<file type="serial" alt="relative to 'doc.path'">tmp/doc.theme.html.serial</file>
+		<file type="archive" alt="relative to 'doc.path'">tmp/doc.theme.html.serial.gz</file>
 		<file type="errors">logs/docCreatorErrors.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
 		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE"/>
