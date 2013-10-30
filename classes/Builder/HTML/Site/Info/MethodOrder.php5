@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008-2013 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_Site_Info
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodOrder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
@@ -29,8 +29,8 @@
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodOrder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */

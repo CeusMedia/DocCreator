@@ -2,7 +2,7 @@
 /**
  *	Collects Relations between Classes.
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008-2013 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@category		cmTools
  *	@package		DocCreator_Reader_Plugin
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Relations.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
@@ -29,8 +29,8 @@
  *	@category		cmTools
  *	@package		DocCreator_Reader_Plugin
  *	@extends		DocCreator_Reader_Plugin_Abstract
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Relations.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */

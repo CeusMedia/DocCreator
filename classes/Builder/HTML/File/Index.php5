@@ -2,7 +2,7 @@
 /**
  *	Builder for Index View.
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008-2013 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_File
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Index.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
@@ -31,8 +31,8 @@ define( 'RELATION_IMPLEMENTS', 2 );
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_File
  *	@extends		DocCreator_Builder_HTML_Abstract
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Index.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
