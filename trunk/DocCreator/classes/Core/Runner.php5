@@ -51,14 +51,17 @@ class DocCreator_Core_Runner{
 	 *	@access		public
 	 *	@param		string		$configFile		Name of Configuration File, absolute or relative
 	 *	@param		bool		$verbose		Flag: show Information
+	 *	@param		bool		$trace			Flag: show Exception Trace
 	 *	@return		void
 	 */
-	public function __construct( $configFile, $verbose = NULL ){
+	public function __construct( $configFile, $verbose = NULL, $trace = NULL ){
 		$this->loadToolConfig();
 		$this->out		= new Console_Output();
 //		$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
 			$this->setVerbose( $verbose );
+		if( !is_null( $trace ) )
+			$this->setTrace( $trace );
 	}
 	
 	/** 
@@ -174,13 +177,18 @@ class DocCreator_Core_Runner{
 #				ob_get_clean();
 		}
 		catch( Exception $e ){
-			$trace	= $e->getTraceAsString();
-			$trace	= preg_replace( '/#([0-9])+ /', "#\\1\t", $trace );
-			$trace	= str_replace( "): ", "):\n\t", $trace );
-			remark( "\n".$e->getMessage() );
-			remark( "\nFile: ".$e->getFile() );
-			remark( "Line: ".$e->getLine() );
-			remark( "Trace:\n".$trace );
+			if( !$this->configProject->getTrace() ){
+				remark( "\nError: ".$e->getMessage() );
+			}
+			else{
+				$trace	= $e->getTraceAsString();
+				$trace	= preg_replace( '/#([0-9])+ /', "#\\1\t", $trace );
+				$trace	= str_replace( "): ", "):\n\t", $trace );
+				remark( "\nException: ".$e->getMessage() );
+				remark( "\nFile: ".$e->getFile() );
+				remark( "Line: ".$e->getLine() );
+				remark( "Trace:\n".$trace );
+			}
 		}
 	}
 
@@ -233,6 +241,10 @@ class DocCreator_Core_Runner{
 
 	public function setQuite(){
 		$this->setVerbose( FALSE );
+	}
+
+	public function setTrace(){
+		$this->configProject->setTrace( TRUE );
 	}
 	
 	public function setVerbose( $bool = TRUE ){
