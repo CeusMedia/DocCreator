@@ -14,7 +14,7 @@
 	<!--  PROJECTS  -->  
 	<projects>
 		<project label="DocCreator HTML Builder" version="0.8" date="" revision="">
-			<path alt="must be absolute">classes/Builder/HTML</path>
+			<path alt="must be absolute">[/path/to/DocCreator/]classes/Builder/HTML</path>
 			<extensions>
 				<extension>php5</extension>
 			</extensions>
@@ -35,8 +35,8 @@
 	<!--  BUILDERS -->  
 	<builders>
 		<builder format="HTML" theme="HTML">
-			<path type="target" alt="must be absolute">themes/HTML/demo/]</path>
-			<path type="documents" alt="must be absolute">themes/HTML/docs</path>
+			<path type="target" alt="must be absolute">[/path/to/DocCreator/]themes/HTML/demo/]</path>
+			<path type="documents" alt="must be absolute">[/path/to/DocCreator/]themes/HTML/docs</path>
 			<language>en</language>
 			<title>Demo of HTML Theme for DocCreator</title>
 			<logo>
