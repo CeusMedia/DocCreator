@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<title>Code Statistics</title>
+		<title><%?topic%> - <%?title%></title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="css/jquery.svg.css"/>
 		<link rel="stylesheet" href="css/content.css"/>
@@ -16,7 +16,8 @@
 	</head>
 	<body class="content content-site site-info">
 		<div id="info-statistics">
-			<h1><a name="top"><%words.statistics.heading%></a></h1>
+			<h1><a name="top"><%?title%></a></h1>
+			<h2><%?words.statistics.heading%></h2>
 			<p><%words.statistics.description%></p>
 			<div id="codeTable">
 				<table class="grid" width="500px">

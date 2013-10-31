@@ -74,9 +74,10 @@ class DocCreator_Builder_HTML_Site_Info_MethodOrder extends DocCreator_Builder_H
 
 		$words	= isset( $this->env->words['methodOrder'] ) ? $this->env->words['methodOrder'] : array();
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'methodOrder',
 			'id'		=> 'info-methodOrder',
-			'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
+			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
 			'content'	=> UI_HTML_Elements::unorderedList( $list ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

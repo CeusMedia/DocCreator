@@ -85,9 +85,10 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 
 			$words	= isset( $this->env->words['todos'] ) ? $this->env->words['todos'] : array();
 			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'todos',
 				'id'		=> 'info-todos',
-				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
 				'content'	=> UI_HTML_Elements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

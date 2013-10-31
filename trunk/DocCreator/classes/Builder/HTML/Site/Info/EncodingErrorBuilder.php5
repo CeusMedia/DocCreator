@@ -56,8 +56,10 @@ class DocCreator_Builder_HTML_Site_Info_EncodingErrorBuilder extends DocCreator_
 			if( $this->env->verbose )
 				$this->env->out->sameLine( "Creating site: ".$this->env->words['links']['encodingErrors'] );
 			$uiData	= array(
-				'list'	=> UI_HTML_Elements::unorderedList( $list ),
-				'words'	=> $this->env->words['encoding'],
+				'title'		=> $this->env->builder->title->getValue(),
+				'topic'		=> $this->env->words['encoding']['heading'],
+				'list'		=> UI_HTML_Elements::unorderedList( $list ),
+				'words'		=> $this->env->words['encoding'],
 				'footer'	=> $this->buildFooter(),
 			);
 			$content	= $this->loadTemplate( 'site/info/encoding', $uiData );

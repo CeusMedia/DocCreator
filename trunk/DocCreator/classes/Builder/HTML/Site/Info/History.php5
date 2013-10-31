@@ -42,6 +42,7 @@ class DocCreator_Builder_HTML_Site_Info_History extends DocCreator_Builder_HTML_
 		'history.txt',
 		'history.log',
 		'history.nfo',
+		'history.md',
 	);
 
 	/**

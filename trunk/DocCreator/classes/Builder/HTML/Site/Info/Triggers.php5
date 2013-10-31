@@ -70,9 +70,10 @@ class DocCreator_Builder_HTML_Site_Info_Triggers extends DocCreator_Builder_HTML
 
 		$words	= isset( $this->env->words['triggers'] ) ? $this->env->words['triggers'] : array();
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'triggers',
 			'id'		=> 'info-triggers',
-			'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'triggers',
+			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'triggers',
 			'content'	=> $content,
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

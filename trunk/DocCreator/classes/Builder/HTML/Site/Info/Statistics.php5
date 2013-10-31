@@ -127,6 +127,8 @@ class DocCreator_Builder_HTML_Site_Info_Statistics extends DocCreator_Builder_HT
 		}
 
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
+			'topic'		=> $this->env->words['statistics']['heading'],
 			'data'		=> $data,
 			'graphFile'	=> $graphFile,
 			'words'		=> $this->env->words,

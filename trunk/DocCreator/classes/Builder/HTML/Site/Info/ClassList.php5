@@ -102,6 +102,8 @@ class DocCreator_Builder_HTML_Site_Info_ClassList extends DocCreator_Builder_HTM
 		if( $this->env->verbose )
 			$this->env->out->sameLine( "Creating: Class List" );
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
+			'topic'		=> $this->env->words['classList']['heading'],
 			'words'		=> $this->env->words['classList'],
 			'list'		=> $this->buildClassList(),
 			'footer'	=> $this->buildFooter(),

@@ -96,7 +96,18 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 			if( file_exists( $fileName ) )
 			{
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
-				$content	= '<pre class="text">'.File_Reader::load( $fileName ).'</pre>';
+				$content	= File_Reader::load( $fileName );
+				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
+				switch( $extension ){
+					case 'md':
+						$content	= Michelf\Markdown::defaultTransform( $content );
+						break;
+					case 'html':
+					case 'htm':
+						break;
+					default:
+						$content	= '<pre class="text">'.$content.'</pre>';
+				}
 				$list[]		= $header.$content;
 			}
 		}
@@ -105,11 +116,12 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 			$this->verboseCreation( $this->key );
 			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
 			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
 				'words'		=> $words,
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
 				'content'	=> implode( "\n\n", $list ),
-				'title'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
 				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/'.$this->key;
