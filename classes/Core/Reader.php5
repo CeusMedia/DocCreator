@@ -77,7 +77,7 @@ class DocCreator_Core_Reader{
 
 		$sources	= explode( ",", $pathSource );
 		foreach( $sources as $pathSource ){
-			if( !file_exists( $pathSource ) )
+			if( !file_exists( ( $pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./" ) ) )
 				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
 			$lister		= new File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
 			$list[$pathSource]	= array();
@@ -96,13 +96,16 @@ class DocCreator_Core_Reader{
 		if( $this->verbose ){
 			$count	= 0;
 			$total	= 0;
-			foreach( $sources as $pathSource )
+			foreach( $sources as $pathSource ){
+				$pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./";
 				$total	= count( $list[$pathSource] );
+			}
 			$this->env->out->newLine( "Found ".$total." files." );
 			$this->env->out->newLine();
 		}
 
 		foreach( $sources as $pathSource ){
+			$pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./";
 			foreach( $list[$pathSource] as $entry ){
 				if( $this->verbose ){
 					$count++;
