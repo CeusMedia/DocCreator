@@ -14,7 +14,7 @@
   <!--  PROJECTS  -->  
   <projects>
     <project label="Test" version="1" date="" revision="">
-      <path alt="must be absolute">/var/www/lib/cmTools/DocCreator/test/</path>
+      <path alt="must be absolute">[/path/to]DocCreator/test/</path>
       <extensions>
         <extension>php</extension>
       </extensions>
@@ -35,7 +35,7 @@
   <!--  BUILDERS -->  
   <builders>
     <builder format="HTML" theme="HTML">
-      <path type="target" alt="must be absolute">/var/www/lib/cmTools/DocCreator/test/doc/</path>
+      <path type="target" alt="must be absolute">[/path/to]DocCreator/test/docs/</path>
       <path type="documents" alt="must be absolute"></path>
       <language>en</language>
       <title>Test</title>

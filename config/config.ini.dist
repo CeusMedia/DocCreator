@@ -1,7 +1,7 @@
 [application]
 name				= "DocCreator"
-version				= "0.7"
-date				= "22.11.2010"
+version				= "0.8.1"
+date				= "30.10.2013"
 author				= "Christian Würker <christian.wuerker@ceusmedia.de>"
 company				= "CeuS Media (ceusmedia.de)"
 link				= "http://code.google.com/p/cmtools/"
