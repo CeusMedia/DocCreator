@@ -46,6 +46,8 @@ class DocCreator_Builder_HTML_Site_Info_Search extends DocCreator_Builder_HTML_S
 			$this->env->out->sameLine( "Creating site: Search" );
 		$this->createTermList( $this->pathTarget );
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
+			'topics'	=> $this->env->words['search']['heading'],
 			'words'		=> $this->env->words['search'],
 			'footer'	=> $this->buildFooter(),
 		);

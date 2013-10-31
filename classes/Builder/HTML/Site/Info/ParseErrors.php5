@@ -60,9 +60,10 @@ class DocCreator_Builder_HTML_Site_Info_ParseErrors extends DocCreator_Builder_H
 
 		$words	= isset( $this->env->words['parseErrors'] ) ? $this->env->words['parseErrors'] : array();
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'parseErrors',
 			'id'		=> 'info-parseErrors',
-			'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'parseErrors',
+			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'parseErrors',
 			'content'	=> UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

@@ -91,9 +91,10 @@ class DocCreator_Builder_HTML_Site_Info_Deprecations extends DocCreator_Builder_
 
 			$words	= isset( $this->env->words['deprecations'] ) ? $this->env->words['deprecations'] : array();
 			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'deprecations',
 				'id'		=> 'info-deprecations',
-				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
 				'content'	=> UI_HTML_Elements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

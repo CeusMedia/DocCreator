@@ -1,3 +1,0 @@
-0.6: Separate builder architecture.
-0.5: Data structure completely OO.
-0.4: More information.

@@ -125,9 +125,10 @@ class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML
 			$this->verboseCreation( $this->key );
 
 			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
-				'title'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
 				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $list ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

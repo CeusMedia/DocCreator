@@ -94,9 +94,10 @@ class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_B
 
 			$words	= isset( $this->env->words['unresolvedRelations'] ) ? $this->env->words['unresolvedRelations'] : array();
 			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unresolvedRelations',
 				'id'		=> 'info-unresolvedRelations',
-				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'unresolvedRelations',
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unresolvedRelations',
 				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

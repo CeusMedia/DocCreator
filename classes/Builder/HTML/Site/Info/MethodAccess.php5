@@ -76,9 +76,10 @@ class DocCreator_Builder_HTML_Site_Info_MethodAccess extends DocCreator_Builder_
 
 		$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> $this->key,
 			'id'		=> 'info-'.$this->key,
-			'title'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
 			'content'	=> UI_HTML_Elements::unorderedList( $classList ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

@@ -55,18 +55,18 @@
 				<plugin>ClassList</plugin>
 				<plugin>Search</plugin>
 				<plugin>About</plugin>
-				<plugin>Installation</plugin>
+<!--				<plugin>Installation</plugin>-->
 				<plugin>History</plugin>
-				<plugin>Changes</plugin>
-				<plugin>Deprecations</plugin>
-				<plugin>Todos</plugin>
-				<plugin>Bugs</plugin>
+<!--				<plugin>Changes</plugin>-->
+<!--				<plugin>Deprecations</plugin>-->
+<!--				<plugin>Todos</plugin>-->
+<!--				<plugin>Bugs</plugin>-->
 				<plugin>ParseErrors</plugin>
 				<plugin>Statistics</plugin>
 				<plugin>UnusedVariables</plugin>
 				<plugin>MethodOrder</plugin>
 				<plugin>MethodAccess</plugin>
-				<plugin>DocHints</plugin>
+<!--				<plugin>DocHints</plugin>-->
 			</plugins>
 		</builder>
 	</builders>

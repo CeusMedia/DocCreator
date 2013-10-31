@@ -90,9 +90,10 @@ class DocCreator_Builder_HTML_Site_Info_UnusedVariables extends DocCreator_Build
 
 			$words	= isset( $this->env->words['unusedVariables'] ) ? $this->env->words['unusedVariables'] : array();
 			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unusedVariables',
 				'id'		=> 'info-unusedVariables',
-				'title'		=> isset( $words['heading'] ) ? $words['heading'] : 'unusedVariables',
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unusedVariables',
 				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

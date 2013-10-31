@@ -36,25 +36,22 @@
  */
 class DocCreator_Builder_HTML_Site_Info_Home extends DocCreator_Builder_HTML_Site_Info_Abstract{
 
+	protected $key			= 'home';
+	protected $fileNames	= array(
+		'home',
+		'home.txt',
+		'home.html',
+		'home.md',
+	);
+
 	/**
-	 *	Creates Home Site from Template and Locales.
+	 *	Creates History Info Site File.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite(){
-		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating site: Home" );
-		$words		= $this->env->words['home'];
-		date_default_timezone_set( $this->env->builder->timezone->getValue() );
-		$data		= array(
-			'title'		=> $this->env->builder->title->getValue(),
-			'words'		=> $words,
-			'date'		=> date( $words['formatDate'], time() ),
-			'footer'	=> $this->buildFooter(),
-		);
-		$home	= $this->loadTemplate( 'site/home', $data );
-		$this->saveFile( 'home.html', $home );
-		$this->appendLink( 'home.html', 'home' );
+	public function createSite()
+	{
+		return parent::createSiteByFile();
 	}
 }
 ?>
