@@ -20,7 +20,7 @@
       </extensions>
       <ignore>
         <file alt="regular expression">/^(_|[a-z])/</file>
-        <folder alt="regular expression">#^doc/#</folder>
+        <folder alt="regular expression">#^(doc|lib)/#</folder>
       </ignore>
       <category lowercase="">
         <default>unknown</default>
