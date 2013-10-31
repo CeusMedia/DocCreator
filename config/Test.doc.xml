@@ -1,17 +1,6 @@
 <?xml version="1.0"?>
 <config>
 
-  <!--  GENERAL SETTINGS  -->  
-  <creator>
-    <timeLimit>360</timeLimit>
-    <mail></mail>
-    <file type="serial" alt="relative to 'doc.path'">doc.serial</file>
-    <file type="archive" alt="relative to 'doc.path'">doc.serial.gz</file>
-    <file type="errors">logs/docCreatorErrors.log</file>
-    <skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
-    <verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE"/>
-  </creator>
-
   <!--  READER SETTINGS  -->  
   <reader>
     <plugin>Statistics</plugin>
@@ -24,10 +13,10 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="DocCreator" version="0.6dev" date="" revision="">
-      <path alt="must be absolute">/path/to/DocCreator/</path>
+    <project label="Test" version="1" date="" revision="">
+      <path alt="must be absolute">/var/www/lib/cmTools/DocCreator/test/</path>
       <extensions>
-        <extension>php5</extension>
+        <extension>php</extension>
       </extensions>
       <ignore>
         <file alt="regular expression">/^(_|[a-z])/</file>
@@ -45,14 +34,17 @@
 
   <!--  BUILDERS -->  
   <builders>
-    <builder format="HTML" converter="CM1" theme="plain">
-      <path type="target" alt="must be absolute">/path/to/DocCreator/doc/api2/</path>
-      <path type="documents" alt="must be absolute">/path/to/DocCreator/doc/</path>
+    <builder format="HTML" theme="HTML">
+      <path type="target" alt="must be absolute">/var/www/lib/cmTools/DocCreator/test/doc/</path>
+      <path type="documents" alt="must be absolute"></path>
       <language>en</language>
-      <title>DocCreator API</title>
+      <title>Test</title>
       <author><![CDATA[Christian Würker <christian.wuerker@ceus-media.de>]]></author>
       <company>Ceus Media (ceusmedia.de)</company>
       <timezone>Europe/Berlin</timezone>
+      <options>
+        <option name="showSourceCode">1</option>
+      </options>
       <plugins>
         <plugin>Home</plugin>
         <plugin>ClassList</plugin>
@@ -73,22 +65,15 @@
     </builder>
   </builders>
 
-  <!--  FEEDS  -->  
-  <feeds>
-    <feed format="rss">´
-      <timezone>+0100</timezone>
-      <title>DocCreator RSS Feed</title>
-      <description>DocCreator</description>
-      <copyright>2008 DocCreator</copyright>
-      <doc>http://blogs.law.harvard.edu/tech/rss</doc>
-      <manager>christian.wuerker@ceus-media.de (Christian Würker)</manager>
-      <webmaster>christian.wuerker@ceus-media.de (Christian Würker)</webmaster>
-      <language>en</language>
-      <ttl>120</ttl>
-      <item>
-        <url/>
-      </item>
-    </feed>
-  </feeds>
+  <!--  GENERAL SETTINGS  -->  
+  <creator>
+    <timeLimit>360</timeLimit>
+    <mail></mail>
+    <file type="serial" alt="relative to 'doc.path'">doc.serial</file>
+    <file type="archive" alt="relative to 'doc.path'">doc.serial.gz</file>
+    <file type="errors">logs/docCreatorErrors.log</file>
+    <skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
+    <verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE"/>
+  </creator>
 
 </config>

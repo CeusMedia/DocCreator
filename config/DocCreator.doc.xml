@@ -13,14 +13,14 @@
 
 	<!--  PROJECTS  -->  
 	<projects>
-		<project label="DocCreator" version="0.8" date="" revision="">
+		<project label="DocCreator" version="0.9" date="" revision="">
 			<path alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/</path>
 			<extensions>
 				<extension>php5</extension>
 			</extensions>
 			<ignore>
 				<file alt="regular expression">/^(_|[a-z])/</file>
-				<folder alt="regular expression">#^doc/#</folder>
+				<folder alt="regular expression">#^docs/#</folder>
 			</ignore>
 			<category lowercase="">
 				<default>unknown</default>
@@ -35,8 +35,8 @@
 	<!--  BUILDERS -->  
 	<builders>
 		<builder format="HTML" theme="HTML">
-			<path type="target" alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/doc/API/</path>
-			<path type="documents" alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/doc/</path>
+			<path type="target" alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/docs/API/</path>
+			<path type="documents" alt="must be absolute">[/var/www/lib/cmTools/]DocCreator/docs/</path>
 			<language>en</language>
 			<title>DocCreator API</title>
 			<logo>
@@ -75,11 +75,11 @@
 	<creator>
 		<timeLimit>360</timeLimit>
 		<mail></mail>
-		<file type="serial" alt="relative to 'doc.path'">doc.serial</file>
-		<file type="archive" alt="relative to 'doc.path'">doc.serial.gz</file>
+		<file type="serial" alt="relative to 'doc.path'">tmp/docs.DocCreator.serial</file>
+		<file type="archive" alt="relative to 'doc.path'">tmp/docs.DocCreator.serial.gz</file>
 		<file type="errors">logs/docCreatorErrors.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
-		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE"/>
+		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE" trace="FALSE"/>
 	</creator>
 
 </config>
