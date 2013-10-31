@@ -68,7 +68,7 @@ class DocCreator_Core_Configuration{
 	public function getBuilderDocumentsPath( XML_Element $builder ){
 		foreach( $builder->path as $path )
 			if( $path->getAttribute( 'type' ) == "documents" )
-				return $path->getValue();
+				return preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
 	}
 
 	public function getBuilderLogo( XML_Element $builder ){
@@ -125,9 +125,12 @@ class DocCreator_Core_Configuration{
 	 *	@return		string
 	 */
 	public function getBuilderTargetPath( XML_Element $builder ){
-		foreach( $builder->path as $path )
-			if( $path->getAttribute( 'type' ) == "target" )
-				return $path->getValue();
+		foreach( $builder->path as $path ){
+			if( $path->getAttribute( 'type' ) == "target" ){
+				$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
+				return str_replace( array( "[", "]" ), "", $path );
+			}
+		}
 	}
 
 	/**
@@ -210,7 +213,8 @@ class DocCreator_Core_Configuration{
 	 *	@return		string
 	 */
 	public function getProjectPath( XML_Element $project ){
-		return $project->path->getValue();	
+		$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $project->path->getValue() );
+		return str_replace( array( "[", "]" ), "", $path );
 	}
 
 	/**

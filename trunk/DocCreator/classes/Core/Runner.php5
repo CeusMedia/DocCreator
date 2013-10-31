@@ -140,8 +140,8 @@ class DocCreator_Core_Runner{
 		$this->pathTool	= dirname( dirname( dirname( __FILE__ ) ) );
 		try{
 			$clock		= new Alg_Time_Clock;
-			$this->setProjectBasePath( NULL );														//  realize project paths by removing base path placeholders in project config structure
-			$this->setBuilderTargetPath( NULL );
+#			$this->setProjectBasePath( NULL );														//  realize project paths by removing base path placeholders in project config structure
+#			$this->setBuilderTargetPath( NULL );
 #			if( $this->getOption( 'showConfigOnly' ) )
 #			{
 #				$this->showConfig();
