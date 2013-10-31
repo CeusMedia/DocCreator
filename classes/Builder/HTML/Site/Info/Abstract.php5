@@ -96,7 +96,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 			if( file_exists( $fileName ) )
 			{
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
-				$content	= '<pre class="text">'.File_Reader::load( $fileName ).'</xmp>';
+				$content	= '<pre class="text">'.File_Reader::load( $fileName ).'</pre>';
 				$list[]		= $header.$content;
 			}
 		}

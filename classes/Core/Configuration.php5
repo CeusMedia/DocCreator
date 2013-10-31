@@ -127,6 +127,7 @@ class DocCreator_Core_Configuration{
 	public function getBuilderTargetPath( XML_Element $builder ){
 		foreach( $builder->path as $path ){
 			if( $path->getAttribute( 'type' ) == "target" ){
+//				remark("getBuilderTargetPath: ".$path->getValue());
 				$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
 				return str_replace( array( "[", "]" ), "", $path );
 			}
@@ -280,6 +281,7 @@ class DocCreator_Core_Configuration{
 	}
 
 	public function setBuilderTargetPath( $path = NULL ){
+//		remark( "setBuilderTargetPath: ".$path );
 		foreach( $this->data->builders->builder as $builder ){
 			foreach( $builder->path as $builderPath ){
 				$value	= (string) $builderPath->getValue();
