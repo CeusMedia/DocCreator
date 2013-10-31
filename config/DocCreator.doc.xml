@@ -14,7 +14,7 @@
 	<!--  PROJECTS  -->  
 	<projects>
 		<project label="DocCreator" version="0.8.1" date="" revision="">
-			<path alt="must be absolute">[/path/to]DocCreator/</path>
+			<path alt="must be absolute">[/path/to/DocCreator]/</path>
 			<extensions>
 				<extension>php5</extension>
 			</extensions>
@@ -35,8 +35,8 @@
 	<!--  BUILDERS -->  
 	<builders>
 		<builder format="HTML" theme="HTML">
-			<path type="target" alt="must be absolute">[/path/to]DocCreator/docs/API/</path>
-			<path type="documents" alt="must be absolute">[/path/to]DocCreator/docs/</path>
+			<path type="target" alt="must be absolute">[/path/to/DocCreator]/docs/API/</path>
+			<path type="documents" alt="must be absolute">[/path/to/DocCreator]/docs/</path>
 			<language>en</language>
 			<title>DocCreator API</title>
 			<logo>
