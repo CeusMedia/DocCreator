@@ -49,6 +49,7 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 		'-l'	=> '--log-errors',
 		'-m'	=> '--mail-errors',
 		'-q'	=> '--quite',
+		'-t'	=> '--trace',
 	);
 
 	/**
@@ -112,10 +113,13 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 		remark( "Usage: php create.php5 [OPTION]..." );
 		remark( "Options:" );
 		remark( "  -c, --config-file       URI of config file of project" );
-		remark( "  -q, --quite             No output to console" );
+		remark( "  -s, --source-folder     Override base source folder" );
+		remark( "  -t, --target-folder     Override base target folder" );
 		remark( "  -sc, --skip-creator     Skip file creation process" );
 		remark( "  -sp, --skip-parser      Skip file parsing process" );
 		remark( "  -sr, --skip-resources   Skip coping of resources files" );
+		remark( "  -q, --quite             No output to console" );
+		remark( "  -t, --trace             Show trace of exception" );
 		remark( "  --show-config           Show project config" );
 		remark( "  --show-config-only      Show project config and abort" );
 		remark( "" );
