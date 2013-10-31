@@ -9,11 +9,15 @@
  *	Therefore the first 2 lines give to possible presettings.
  *	Please select one and remove the other.
  */
+$pathLib			= __DIR__."/lib/";
+$pathCmClasses		= file_exists( $pathLib ) ? $pathLib."cmClasses/" : "cmClasses/trunk/";
+$pathPhpMarkdown	= file_exists( $pathLib ) ? $pathLib."php-markdown/" : "php-markdown/";
 
-$pathCmClasses  = file_exists( __DIR__."/lib" ) ? __DIR__."/lib/cmClasses/" : "cmClasses/trunk/";
 @require_once $pathCmClasses.'autoload.php5';
 if( !class_exists( 'CMC_Loader' ) ) die( "Please install cmClasses first!");
 
+CMC_Loader::registerNew( 'php', 'Michelf\\', $pathPhpMarkdown.'Michelf/' );
 CMC_Loader::registerNew( 'php5', 'DocCreator_', __DIR__.'/classes/' );	//  enable class auto loading for DocCreator
+
 new DocCreator_Core_ConsoleRunner();									//  open new starter
 ?>

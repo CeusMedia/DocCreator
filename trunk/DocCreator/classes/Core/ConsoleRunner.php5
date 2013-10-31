@@ -49,7 +49,6 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 		'-l'	=> '--log-errors',
 		'-m'	=> '--mail-errors',
 		'-q'	=> '--quite',
-		'-t'	=> '--trace',
 	);
 
 	/**
@@ -91,7 +90,6 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 			'--quite'			=> 'setQuite',
 			'--trace'			=> 'setTrace'
 		);
-		
 		foreach( $this->arguments->getAll() as $key => $value )
 			if( array_key_exists( $key, $mapSkip ) )
 				$creator->$mapSkip[$key]( $value );
@@ -119,7 +117,7 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 		remark( "  -sp, --skip-parser      Skip file parsing process" );
 		remark( "  -sr, --skip-resources   Skip coping of resources files" );
 		remark( "  -q, --quite             No output to console" );
-		remark( "  -t, --trace             Show trace of exception" );
+		remark( "  --trace                 Show trace of exception" );
 		remark( "  --show-config           Show project config" );
 		remark( "  --show-config-only      Show project config and abort" );
 		remark( "" );
