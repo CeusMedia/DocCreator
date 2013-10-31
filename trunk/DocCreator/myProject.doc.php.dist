@@ -9,6 +9,6 @@ $pathToDocCreator	= "/var/www/lib/cmTools/DocCreator/";
 /*  --  NO CHANGES BELOW NEEDED  --  */
 if( !realpath( $yourDocConfigFile ) )
 	die( 'Your doc config file "'.$yourDocConfigFile.'" is not existing.'."\n" );
-exec( "php ".$pathToDocCreator."create.php5 --config-file=".$yourDocConfigFile );
+exec( "php ".$pathToDocCreator."create.php --config-file=".$yourDocConfigFile );
 ?>
 
