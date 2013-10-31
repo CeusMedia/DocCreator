@@ -35,7 +35,7 @@
 	<!--  BUILDERS -->  
 	<builders>
 		<builder format="HTML" theme="HTML">
-			<path type="target" alt="must be absolute">[/path/to/DocCreator/]themes/HTML/demo/]</path>
+			<path type="target" alt="must be absolute">[/path/to/DocCreator/]themes/HTML/demo/</path>
 			<path type="documents" alt="must be absolute">[/path/to/DocCreator/]themes/HTML/docs</path>
 			<language>en</language>
 			<title>Demo of HTML Theme for DocCreator</title>
