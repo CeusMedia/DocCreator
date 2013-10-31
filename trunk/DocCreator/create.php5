@@ -10,12 +10,10 @@
  *	Please select one and remove the other.
  */
 
-$cmcPath	= 'cmClasses/';
-$cmcPath	= __DIR__.'/../lib/cmClasses/';												//  if folder containing cmClasses is in PHP include path
-$cmcPath	= '/var/www/lib/cmClasses/trunk/';
-$cmcPath	= __DIR__.'/lib/cmClasses/';												//  if folder containing cmClasses is in PHP include path
+$pathCmClasses  = file_exists( __DIR__."/lib" ) ? __DIR__."/lib/cmClasses/" : "cmClasses/trunk/";
+@require_once $pathCmClasses.'autoload.php5';
+if( !class_exists( 'CMC_Loader' ) ) die( "Please install cmClasses first!");
 
-require_once $cmcPath.'autoload.php5';									//  try to load cmClasses
 CMC_Loader::registerNew( 'php5', 'DocCreator_', __DIR__.'/classes/' );	//  enable class auto loading for DocCreator
 new DocCreator_Core_ConsoleRunner();									//  open new starter
 ?>
