@@ -1,0 +1,3 @@
+Options -MultiViews +FollowSymLinks
+#RewriteEngine off
+#FileETag none

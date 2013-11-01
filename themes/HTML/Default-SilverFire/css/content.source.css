@@ -1,0 +1,34 @@
+#source {
+	border: 1px solid #AAA;
+	}
+#source li {
+	list-style: none;
+	}
+#source div.source {
+	}
+#source div.source-line-hidden {
+	display: none;
+	}
+#source span.source-number {
+	clear: both;
+	display: block;
+	float: left;
+	background-color: #EEE;
+	width: 40px;
+	border-right: 1px solid #AAA;
+	padding-right: 8px;
+	text-align: right;
+	height: 20px;
+	}
+#source .source-code {
+	display: block;
+	font-family: "Lucida Console", monospace;
+	font-size: 0.9em;
+	margin: 0px;
+	margin-left: 48px;
+	height: 19px;
+	border-bottom: 1px solid #EEE;
+	}
+#source-line-hide-caller{
+	display: none;
+	}
