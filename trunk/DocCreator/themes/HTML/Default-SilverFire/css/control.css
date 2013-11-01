@@ -117,6 +117,9 @@ div {
 #control ul.links>li>a.info.bugs {
 	background-image: url(../images/silk/bug.png);
 	}
+#control ul.links li a.info.licenses {
+	background-image: url(../images/mini/page_bookmark.png);
+	}
 #control ul.links>li>a.info.triggers {
 	background-image: url(../images/mini/action_go.png);
 	}
