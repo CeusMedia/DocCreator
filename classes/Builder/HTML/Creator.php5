@@ -65,15 +65,16 @@ class DocCreator_Builder_HTML_Creator{
 		$this->createPackages();
 		$this->createCategories();
 		$this->createSites();
-		$pathTheme	= 'themes/'.$this->env->getBuilderTheme().'/';
+		$pathTheme	= $this->env->getBuilderThemePath();
 		$this->copyResourcesRecursive( $pathTheme.'js/', 'js/', "JavaScripts" );
 		$this->copyResourcesRecursive( $pathTheme.'css/', 'css/', "Stylesheets" );
 		$this->copyResourcesRecursive( $pathTheme.'images/', "images/", "Images" );
+		$this->copyResourcesRecursive( $pathTheme.'fonts/', "fonts/", "Fonts" );
 		$this->env->out->sameLine( "Copy done." );
 	}
 
 	protected function copyResourcesRecursive( $pathSource, $pathTarget, $label ){
-		$pathSource	= $this->env->path.$pathSource;
+		$pathSource	= $pathSource;
 		$pathTarget	= $this->pathTarget.$pathTarget;
 		if( !file_exists( $pathTarget ) )
 			mkDir( $pathTarget, 0775, TRUE );

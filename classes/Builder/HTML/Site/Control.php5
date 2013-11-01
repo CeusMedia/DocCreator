@@ -88,6 +88,7 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 		$logo		= $this->buildLogo();
 
 		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
 			'tree'		=> $tree,
 			'links'		=> $this->buildLinks( $linkList ),
 			'logo'		=> $logo,

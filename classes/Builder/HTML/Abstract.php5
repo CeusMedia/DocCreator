@@ -235,9 +235,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@return		string
 	 */
 	protected function getThemePath(){
-		$themeKey		= $this->env->getBuilderTheme();
-		$themePath		= $this->env->path.'themes/'.$themeKey.'/';
-		return $themePath;
+		return $this->env->getBuilderThemePath();
 	}
 	
 	protected function getTypeMarkUp( $type ){
