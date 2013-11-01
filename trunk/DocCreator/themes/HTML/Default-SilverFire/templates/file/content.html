@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="../css/content.css"/>
+		<link rel="stylesheet" href="../css/content.index.css"/>
+		<link rel="stylesheet" href="../css/content.artefact.css"/>
+		<link rel="stylesheet" href="../css/content.syntax.css"/>
+		<link rel="stylesheet" href="../css/content.source.css"/>
+		<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	</head>
+	<body class='content content-file'>
+		<a name="top"></a>
+		<div id="artefact">
+			<%index%>
+			<h1>File: <%fileName%></h1>
+			<small>File: <a href="#file_source"><%pathName%></a></small><br/>
+			<%fileInfo%>
+			<%fileFunctions%>
+			<%?fileSource%>
+		</div>
+		<%?footer%>
+	</body>
+	<script type="text/javascript" src="../js/cookie.pack.js"></script>
+	<script type="text/javascript" src="../js/dynamic.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/lib/codemirror.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/mode/htmlmixed/htmlmixed.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/mode/xml/xml.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/mode/clike/clike.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/mode/css/css.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/mode/php/php.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/mode/javascript/javascript.js"></script>
+	<script type="text/javascript" src="../js/codemirror-3.19/addon/edit/matchbrackets.js"></script>
+</html>

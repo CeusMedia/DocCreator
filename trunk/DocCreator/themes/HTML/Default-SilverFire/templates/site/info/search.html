@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title><%?topic%> - <%?title%></title>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/content.css"/>
+		<link rel="stylesheet" href="css/content.syntax.css"/>
+		<link rel="stylesheet" href="css/content.site.search.css"/>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/dynamic.js"></script>
+	</head>
+	<body class="content content-site site-info">
+		<div id="info-search">
+			<h1><a name="top"><%title%></a></h1>
+			<h2><%?words.heading%></h2>
+			<p><%?words.description%></p>
+			<form onsubmit="sendQuery(); return false">
+				<input id="search-query" type="text" name="query" value=""/>
+			</form>
+			<div id="list">
+			</div>
+		</div>
+		<%?footer%>
+	</body>
+</html>
