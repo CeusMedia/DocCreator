@@ -57,7 +57,8 @@ class DocCreator_Core_Runner{
 	public function __construct( $configFile, $verbose = NULL, $trace = NULL ){
 		$this->loadToolConfig();
 		$this->out		= new Console_Output();
-//		$this->setConfigFile( $configFile );
+		if( $configFile )
+			$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
 			$this->setVerbose( $verbose );
 		if( !is_null( $trace ) )
