@@ -54,7 +54,7 @@
 				<plugin>Home</plugin>
 				<plugin>ClassList</plugin>
 				<plugin>Search</plugin>
-				<plugin>About</plugin>
+<!--				<plugin>About</plugin>-->
 <!--				<plugin>Installation</plugin>-->
 				<plugin>History</plugin>
 <!--				<plugin>Changes</plugin>-->
@@ -66,6 +66,7 @@
 				<plugin>UnusedVariables</plugin>
 				<plugin>MethodOrder</plugin>
 				<plugin>MethodAccess</plugin>
+				<plugin>License</plugin>
 <!--				<plugin>DocHints</plugin>-->
 			</plugins>
 		</builder>

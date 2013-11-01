@@ -42,6 +42,7 @@ class DocCreator_Builder_HTML_Site_Info_Home extends DocCreator_Builder_HTML_Sit
 		'home.txt',
 		'home.html',
 		'home.md',
+		'readme.md',
 	);
 
 	/**
