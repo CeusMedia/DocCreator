@@ -11,7 +11,7 @@
  */
 $pathLib			= __DIR__."/lib/";
 $pathCmClasses		= file_exists( $pathLib ) ? $pathLib."cmClasses/" : "cmClasses/trunk/";
-$pathPhpMarkdown	= file_exists( $pathLib ) ? $pathLib."php-markdown/" : "php-markdown/";
+$pathPhpMarkdown	= file_exists( $pathLib ) ? $pathLib."php-markdown/" : "/var/www/lib/php-markdown/";
 
 @require_once $pathCmClasses.'autoload.php5';
 if( !class_exists( 'CMC_Loader' ) ) die( "Please install cmClasses first!");

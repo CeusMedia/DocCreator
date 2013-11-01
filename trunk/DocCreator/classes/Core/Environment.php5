@@ -120,6 +120,10 @@ class DocCreator_Core_Environment{
 		return $this->config->getBuilderDocumentsPath( $this->builder );
 	}
 
+	public function getBuilderFormat(){
+		return $this->builder->getAttribute( 'format' );
+	}
+
 	public function getBuilderOptions(){
 		$list	= array();
 		foreach( $this->config->getBuilderOptions( $this->builder ) as $option )
@@ -147,10 +151,6 @@ class DocCreator_Core_Environment{
 	 */
 	public function getBuilderTargetPath(){
 		return $this->config->getBuilderTargetPath( $this->builder );
-	}
-
-	public function getBuilderFormat(){
-		return $this->builder->getAttribute( 'format' );
 	}
 	
 	public function getBuilderTheme(){
