@@ -34,13 +34,13 @@
 
 	<!--  BUILDERS -->  
 	<builders>
-		<builder format="HTML" theme="HTML">
+		<builder format="HTML" theme="Default-OntoWiki">
 			<path type="target" alt="must be absolute">[/path/to/DocCreator/]docs/API/</path>
 			<path type="documents" alt="must be absolute">[/path/to/DocCreator/]docs/</path>
 			<language>en</language>
-			<title>DocCreator API</title>
+			<title>DocCreator</title>
 			<logo>
-				<source></source>
+				<source>book_closed_blue_enhanced_64.png</source>
 				<title>DocCreator @ Ceus Media</title>
 				<link>http://ceusmedia.de/tools/DocCreator/</link>
 			</logo>
