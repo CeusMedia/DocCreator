@@ -34,6 +34,7 @@ function applyCodeMirror(selector){
 		enterMode: "keep",
 		mode: "php"
 	});
+    $("body").data("mirror", mirror);
 }
 
 function initTree(){
@@ -96,6 +97,15 @@ function sendQuery(){
 			alert(msg);
 		}
 	});
+}
+
+function jumpToLine(number){
+    var mirror = $("body").data("mirror");
+    if(mirror){
+        mirror.setCursor(Number(number)-1, 0);
+        mirror.setSelection({line:Number(number)-1,ch:0},{line:Number(number),ch:0});
+        mirror.focus();
+    }
 }
 
 $(document).ready(function(){
