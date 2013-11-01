@@ -35,16 +35,16 @@
 	<!--  BUILDERS -->  
 	<builders>
 		<builder format="HTML" theme="Default-SilverFire">
-			<path type="target" alt="must be absolute">[/path/to/DocCreator/]docs/API/</path>
-			<path type="documents" alt="must be absolute">[/path/to/DocCreator/]docs/</path>
+			<path type="target" alt="must be absolute">[/path/to/MyProject/]docs/</path>
+			<path type="documents" alt="must be absolute">[/path/to/MyProject/]</path>
 			<language>en</language>
-			<title>DocCreator</title>
+			<title>MyProject</title>
 			<logo>
-				<source>logo/book_64.png</source>
-				<title>DocCreator @ Ceus Media</title>
-				<link>http://ceusmedia.de/tools/DocCreator/</link>
+				<source>logo/construction.png</source>
+				<title>MyProject @ Your Company</title>
+				<link>http://yourcompany.tld/</link>
 			</logo>
-			<author><![CDATA[Christian Würker <christian.wuerker@ceusmedia.de>]]></author>
+			<author><![CDATA[Your Name <your.name@company.tld>]]></author>
 			<company>CeuS Media (ceusmedia.de)</company>
 			<timezone>Europe/Berlin</timezone>
 			<options>
@@ -54,12 +54,12 @@
 				<plugin>Home</plugin>
 				<plugin>ClassList</plugin>
 				<plugin>Search</plugin>
-<!--				<plugin>About</plugin>-->
-<!--				<plugin>Installation</plugin>-->
+				<plugin>About</plugin>
+				<plugin>Installation</plugin>
 				<plugin>History</plugin>
 				<plugin>Changes</plugin>
-				<plugin>Deprecations</plugin>-->
-				<plugin>Todos</plugin>-->
+				<plugin>Deprecations</plugin>
+				<plugin>Todos</plugin>
 				<plugin>Bugs</plugin>
 				<plugin>ParseErrors</plugin>
 				<plugin>Statistics</plugin>
@@ -67,7 +67,7 @@
 				<plugin>MethodOrder</plugin>
 				<plugin>MethodAccess</plugin>
 				<plugin>License</plugin>
-<!--				<plugin>DocHints</plugin>-->
+				<plugin>DocHints</plugin>
 			</plugins>
 		</builder>
 	</builders>
