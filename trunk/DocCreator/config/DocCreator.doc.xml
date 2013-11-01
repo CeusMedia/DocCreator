@@ -34,7 +34,7 @@
 
 	<!--  BUILDERS -->  
 	<builders>
-		<builder format="HTML" theme="Default-OntoWiki">
+		<builder format="HTML" theme="Default-SilverFire">
 			<path type="target" alt="must be absolute">[/path/to/DocCreator/]docs/API/</path>
 			<path type="documents" alt="must be absolute">[/path/to/DocCreator/]docs/</path>
 			<language>en</language>
