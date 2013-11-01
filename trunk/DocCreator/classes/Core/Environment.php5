@@ -148,9 +148,24 @@ class DocCreator_Core_Environment{
 	public function getBuilderTargetPath(){
 		return $this->config->getBuilderTargetPath( $this->builder );
 	}
+
+	public function getBuilderFormat(){
+		return $this->builder->getAttribute( 'format' );
+	}
 	
 	public function getBuilderTheme(){
 		return $this->builder->getAttribute( 'theme' );
+	}
+
+	/**
+	 *	Returns full Path to Builder Theme.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getBuilderThemePath(){
+		$format		= $this->getBuilderFormat();
+		$theme		= $this->getBuilderTheme();
+		return $this->path.'themes/'.$format.'/'.$theme.'/';
 	}
 
 	/**
@@ -259,7 +274,9 @@ class DocCreator_Core_Environment{
 
 	public function openBuilder( XML_Element $builder ){
 		$this->builder	= $builder;
-		$pathTheme		= $this->path.'themes/'.$builder->getAttribute( 'theme' ).'/';
+		$format			= $builder->getAttribute( 'format' );
+		$theme			= $builder->getAttribute( 'theme' );
+		$pathTheme		= $this->path.'themes/'.$format.'/'.$theme.'/';
 		$fileLocales	= $pathTheme.'locales/'.$builder->language->getValue().".ini";
 		$reader			= new File_INI_Reader( $fileLocales, TRUE );
 		$this->words	= $reader->toArray();
