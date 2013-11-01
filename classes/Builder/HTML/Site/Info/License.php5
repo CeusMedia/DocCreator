@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builds Change Log Info Site File.
+ *	Builds License Info Site File.
  *
  *	Copyright (c) 2008-2013 Christian Würker (ceusmedia.de)
  *
@@ -22,41 +22,36 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Changes.php5 77 2010-11-23 06:31:24Z christian.wuerker $
+ *	@version		$Id: Bugs.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 /**
- *	Builds Change Log Info Site File.
+ *	Builds License Info Site File.
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Changes.php5 77 2010-11-23 06:31:24Z christian.wuerker $
+ *	@version		$Id: Bugs.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Changes extends DocCreator_Builder_HTML_Site_Info_Abstract
+class DocCreator_Builder_HTML_Site_Info_License extends DocCreator_Builder_HTML_Site_Info_Abstract
 {
-	protected $key			= 'changes';
+	protected $key			= 'license';
 	protected $fileNames	= array(
-		'changes',
-		'changes.txt',
-		'changes.log',
-		'changes.nfo',
-		'changes.md',
-		'changelog',
-		'changelog.txt',
-		'changelog.nfo',
-		'changelog.md',
+		'license',
+		'license.txt',
+		'license.nfo',
+		'license.md',
 	);
 
 	/**
-	 *	Creates Change Log Info Site File.
+	 *	Creates Bug Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
 	public function createSite()
 	{
-		return parent::createSiteByFile();
+		parent::createSiteByFile();
 	}
 }
 ?>
