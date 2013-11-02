@@ -1,7 +1,14 @@
 
+###Updated svn log utility and changelog.
+
+r141 | christian.wuerker | 2013-11-02 05:48:08 +0100 (Sa, 02. Nov 2013)
+
+- M /trunk/DocCreator/docs/changes.md
+- M /trunk/DocCreator/util/svn.changes.php
+
 ###Changed configuration.
 
-r140 | christian.wuerker | 2013-11-02 05:36:53 +0100 (Sa, 02. Nov 2013) 
+r140 | christian.wuerker | 2013-11-02 05:36:53 +0100 (Sa, 02. Nov 2013)
 
 - A /trunk/DocCreator/classes/Builder/Abstract.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Class/Methods.php5
@@ -18,7 +25,7 @@ r140 | christian.wuerker | 2013-11-02 05:36:53 +0100 (Sa, 02. Nov 2013)
 
 ###Updated themes.
 
-r139 | christian.wuerker | 2013-11-01 22:57:14 +0100 (Fr, 01. Nov 2013) 
+r139 | christian.wuerker | 2013-11-01 22:57:14 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/themes/HTML/Default/css/content.artefact.css
 - M /trunk/DocCreator/themes/HTML/Default/css/content.index.css
@@ -36,7 +43,7 @@ r139 | christian.wuerker | 2013-11-01 22:57:14 +0100 (Fr, 01. Nov 2013)
 
 ###Updated documents and purified config folder.
 
-r138 | christian.wuerker | 2013-11-01 16:43:20 +0100 (Fr, 01. Nov 2013) 
+r138 | christian.wuerker | 2013-11-01 16:43:20 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator
 - M /trunk/DocCreator/config/DocCreator.doc.xml
@@ -50,27 +57,27 @@ r138 | christian.wuerker | 2013-11-01 16:43:20 +0100 (Fr, 01. Nov 2013)
 
 ###Removed test folder completely.
 
-r137 | christian.wuerker | 2013-11-01 16:41:47 +0100 (Fr, 01. Nov 2013) 
+r137 | christian.wuerker | 2013-11-01 16:41:47 +0100 (Fr, 01. Nov 2013)
 
 - D /trunk/DocCreator/test
 
 ###Added utility to generate change log from svn log.
 
-r136 | christian.wuerker | 2013-11-01 16:39:14 +0100 (Fr, 01. Nov 2013) 
+r136 | christian.wuerker | 2013-11-01 16:39:14 +0100 (Fr, 01. Nov 2013)
 
 - A /trunk/DocCreator/util
 - A /trunk/DocCreator/util/svn.changes.php
 
 ###Added license site support and extend change log site by markdown support.
 
-r135 | christian.wuerker | 2013-11-01 16:38:23 +0100 (Fr, 01. Nov 2013) 
+r135 | christian.wuerker | 2013-11-01 16:38:23 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Changes.php5
 - A /trunk/DocCreator/classes/Builder/HTML/Site/Info/License.php5
 
 ###Rearranged images in themes.
 
-r134 | christian.wuerker | 2013-11-01 15:24:33 +0100 (Fr, 01. Nov 2013) 
+r134 | christian.wuerker | 2013-11-01 15:24:33 +0100 (Fr, 01. Nov 2013)
 
 - D /trunk/DocCreator/themes/HTML/Default/images/book.png
 - A /trunk/DocCreator/themes/HTML/Default/images/logo
@@ -98,7 +105,7 @@ r134 | christian.wuerker | 2013-11-01 15:24:33 +0100 (Fr, 01. Nov 2013)
 
 ###Updated themes.
 
-r133 | christian.wuerker | 2013-11-01 15:09:14 +0100 (Fr, 01. Nov 2013) 
+r133 | christian.wuerker | 2013-11-01 15:09:14 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/themes/HTML/Default/css/control.css
 - M /trunk/DocCreator/themes/HTML/Default/css/control.min.css
@@ -116,7 +123,7 @@ r133 | christian.wuerker | 2013-11-01 15:09:14 +0100 (Fr, 01. Nov 2013)
 
 ###Updated classes and documents.
 
-r132 | christian.wuerker | 2013-11-01 15:00:30 +0100 (Fr, 01. Nov 2013) 
+r132 | christian.wuerker | 2013-11-01 15:00:30 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Home.php5
 - M /trunk/DocCreator/classes/Core/Environment.php5
@@ -128,7 +135,7 @@ r132 | christian.wuerker | 2013-11-01 15:00:30 +0100 (Fr, 01. Nov 2013)
 
 ###Updated themes.
 
-r131 | christian.wuerker | 2013-11-01 15:00:01 +0100 (Fr, 01. Nov 2013) 
+r131 | christian.wuerker | 2013-11-01 15:00:01 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/themes/HTML/Default/locales/de.ini
 - M /trunk/DocCreator/themes/HTML/Default/locales/en.ini
@@ -137,20 +144,20 @@ r131 | christian.wuerker | 2013-11-01 15:00:01 +0100 (Fr, 01. Nov 2013)
 
 ###Updated.
 
-r130 | christian.wuerker | 2013-11-01 04:20:14 +0100 (Fr, 01. Nov 2013) 
+r130 | christian.wuerker | 2013-11-01 04:20:14 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/classes/Core/Runner.php5
 - M /trunk/DocCreator/config/DocCreator.doc.xml
 
 ###Update.
 
-r129 | christian.wuerker | 2013-11-01 03:33:01 +0100 (Fr, 01. Nov 2013) 
+r129 | christian.wuerker | 2013-11-01 03:33:01 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/config/DocCreator.doc.xml
 
 ###Updated classes.
 
-r128 | christian.wuerker | 2013-11-01 03:29:39 +0100 (Fr, 01. Nov 2013) 
+r128 | christian.wuerker | 2013-11-01 03:29:39 +0100 (Fr, 01. Nov 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Abstract.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Creator.php5
@@ -159,7 +166,7 @@ r128 | christian.wuerker | 2013-11-01 03:29:39 +0100 (Fr, 01. Nov 2013)
 
 ###Added new theme Default-SilverFire with new Firefox OS font Fira.
 
-r127 | christian.wuerker | 2013-11-01 03:21:01 +0100 (Fr, 01. Nov 2013) 
+r127 | christian.wuerker | 2013-11-01 03:21:01 +0100 (Fr, 01. Nov 2013)
 
 - A /trunk/DocCreator/themes/HTML/Default-SilverFire
 - A /trunk/DocCreator/themes/HTML/Default-SilverFire/css
@@ -895,7 +902,7 @@ r127 | christian.wuerker | 2013-11-01 03:21:01 +0100 (Fr, 01. Nov 2013)
 
 ###Moved HTML theme into format folder.
 
-r126 | christian.wuerker | 2013-10-31 23:18:23 +0100 (Do, 31. Okt 2013) 
+r126 | christian.wuerker | 2013-10-31 23:18:23 +0100 (Do, 31. Okt 2013)
 
 - D /trunk/DocCreator/themes/HTML/.htaccess
 - A /trunk/DocCreator/themes/HTML/Default
@@ -915,7 +922,7 @@ r126 | christian.wuerker | 2013-10-31 23:18:23 +0100 (Do, 31. Okt 2013)
 
 ###Updated builder and HTML theme by markdown support.
 
-r125 | christian.wuerker | 2013-10-31 19:20:53 +0100 (Do, 31. Okt 2013) 
+r125 | christian.wuerker | 2013-10-31 19:20:53 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Abstract.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/ClassList.php5
@@ -948,13 +955,13 @@ r125 | christian.wuerker | 2013-10-31 19:20:53 +0100 (Do, 31. Okt 2013)
 
 ###Fixed bug in HTML theme.
 
-r124 | christian.wuerker | 2013-10-31 14:57:16 +0100 (Do, 31. Okt 2013) 
+r124 | christian.wuerker | 2013-10-31 14:57:16 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/themes/HTML/doc.xml
 
 ###Updated classes and integrated PHP Markdown.
 
-r123 | christian.wuerker | 2013-10-31 14:34:36 +0100 (Do, 31. Okt 2013) 
+r123 | christian.wuerker | 2013-10-31 14:34:36 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Abstract.php5
 - M /trunk/DocCreator/classes/Core/Configuration.php5
@@ -963,13 +970,13 @@ r123 | christian.wuerker | 2013-10-31 14:34:36 +0100 (Do, 31. Okt 2013)
 
 ###Updated own config files.
 
-r122 | christian.wuerker | 2013-10-31 05:03:36 +0100 (Do, 31. Okt 2013) 
+r122 | christian.wuerker | 2013-10-31 05:03:36 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/themes/HTML/doc.xml
 
 ###Updated path handling.
 
-r121 | christian.wuerker | 2013-10-31 04:27:29 +0100 (Do, 31. Okt 2013) 
+r121 | christian.wuerker | 2013-10-31 04:27:29 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/classes/Core/Configuration.php5
 - M /trunk/DocCreator/classes/Core/Reader.php5
@@ -980,27 +987,27 @@ r121 | christian.wuerker | 2013-10-31 04:27:29 +0100 (Do, 31. Okt 2013)
 
 ###Updated own config files.
 
-r120 | christian.wuerker | 2013-10-31 02:36:28 +0100 (Do, 31. Okt 2013) 
+r120 | christian.wuerker | 2013-10-31 02:36:28 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/config/DocCreator.doc.xml
 - M /trunk/DocCreator/config/Test.doc.xml
 
 ###Updated own config files.
 
-r119 | christian.wuerker | 2013-10-31 02:33:50 +0100 (Do, 31. Okt 2013) 
+r119 | christian.wuerker | 2013-10-31 02:33:50 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/config/Test.doc.xml
 
 ###Updated own config files.
 
-r118 | christian.wuerker | 2013-10-31 02:19:59 +0100 (Do, 31. Okt 2013) 
+r118 | christian.wuerker | 2013-10-31 02:19:59 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/config/DocCreator.doc.xml
 - M /trunk/DocCreator/config/Test.doc.xml
 
 ###Updated path handling and own config files.
 
-r117 | christian.wuerker | 2013-10-31 02:14:57 +0100 (Do, 31. Okt 2013) 
+r117 | christian.wuerker | 2013-10-31 02:14:57 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/classes/Core/ConsoleRunner.php5
 - M /trunk/DocCreator/config/DocCreator.doc.xml
@@ -1009,7 +1016,7 @@ r117 | christian.wuerker | 2013-10-31 02:14:57 +0100 (Do, 31. Okt 2013)
 
 ###Updated scripts and default project configurations.
 
-r116 | christian.wuerker | 2013-10-31 01:25:12 +0100 (Do, 31. Okt 2013) 
+r116 | christian.wuerker | 2013-10-31 01:25:12 +0100 (Do, 31. Okt 2013)
 
 - A /trunk/DocCreator/config/DocCreator.doc.xml (von /trunk/DocCreator/config/doc.xml.dist:112)
 - A /trunk/DocCreator/config/Test.doc.xml (von /trunk/DocCreator/config/doc.test.xml.dist:112)
@@ -1032,7 +1039,7 @@ r116 | christian.wuerker | 2013-10-31 01:25:12 +0100 (Do, 31. Okt 2013)
 
 ###Updated scripts and SVN properties.
 
-r115 | christian.wuerker | 2013-10-31 01:09:24 +0100 (Do, 31. Okt 2013) 
+r115 | christian.wuerker | 2013-10-31 01:09:24 +0100 (Do, 31. Okt 2013)
 
 - A /trunk/DocCreator/.htaccess
 - M /trunk/DocCreator/create.php5
@@ -1042,7 +1049,7 @@ r115 | christian.wuerker | 2013-10-31 01:09:24 +0100 (Do, 31. Okt 2013)
 
 ###Updated HTML theme.
 
-r114 | christian.wuerker | 2013-10-31 00:52:29 +0100 (Do, 31. Okt 2013) 
+r114 | christian.wuerker | 2013-10-31 00:52:29 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/themes/HTML/doc.xml
 - M /trunk/DocCreator/themes/HTML/templates/footer.html
@@ -1050,7 +1057,7 @@ r114 | christian.wuerker | 2013-10-31 00:52:29 +0100 (Do, 31. Okt 2013)
 
 ###Added option to show exception trace and changed default error handling to not show exceptions explicitly.
 
-r113 | christian.wuerker | 2013-10-31 00:51:49 +0100 (Do, 31. Okt 2013) 
+r113 | christian.wuerker | 2013-10-31 00:51:49 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/classes/Core/Configuration.php5
 - M /trunk/DocCreator/classes/Core/ConsoleRunner.php5
@@ -1059,7 +1066,7 @@ r113 | christian.wuerker | 2013-10-31 00:51:49 +0100 (Do, 31. Okt 2013)
 
 ###Updated code doc.
 
-r112 | christian.wuerker | 2013-10-31 00:02:52 +0100 (Do, 31. Okt 2013) 
+r112 | christian.wuerker | 2013-10-31 00:02:52 +0100 (Do, 31. Okt 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Abstract.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Class/Builder.php5
@@ -1117,7 +1124,7 @@ r112 | christian.wuerker | 2013-10-31 00:02:52 +0100 (Do, 31. Okt 2013)
 
 ###Updated HTML theme.
 
-r111 | christian.wuerker | 2013-10-30 23:56:48 +0100 (Mi, 30. Okt 2013) 
+r111 | christian.wuerker | 2013-10-30 23:56:48 +0100 (Mi, 30. Okt 2013)
 
 - M /trunk/DocCreator/themes/HTML
 - A /trunk/DocCreator/themes/HTML/.htaccess
@@ -1563,13 +1570,13 @@ r111 | christian.wuerker | 2013-10-30 23:56:48 +0100 (Mi, 30. Okt 2013)
 
 ###Fixed minor bug in dynamic.
 
-r110 | christian.wuerker | 2013-08-21 18:48:32 +0200 (Mi, 21. Aug 2013) 
+r110 | christian.wuerker | 2013-08-21 18:48:32 +0200 (Mi, 21. Aug 2013)
 
 - M /trunk/DocCreator/themes/HTML/js/dynamic.js
 
 ###Update from server.
 
-r109 | christian.wuerker | 2013-08-21 18:26:11 +0200 (Mi, 21. Aug 2013) 
+r109 | christian.wuerker | 2013-08-21 18:26:11 +0200 (Mi, 21. Aug 2013)
 
 - M /trunk/DocCreator/classes/Core/Configuration.php5
 - M /trunk/DocCreator/classes/Core/Reader.php5
@@ -1577,7 +1584,7 @@ r109 | christian.wuerker | 2013-08-21 18:26:11 +0200 (Mi, 21. Aug 2013)
 
 ###Updated info site list orders.
 
-r108 | christian.wuerker | 2013-08-21 15:40:27 +0200 (Mi, 21. Aug 2013) 
+r108 | christian.wuerker | 2013-08-21 15:40:27 +0200 (Mi, 21. Aug 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/MethodOrder.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Todos.php5
@@ -1585,7 +1592,7 @@ r108 | christian.wuerker | 2013-08-21 15:40:27 +0200 (Mi, 21. Aug 2013)
 
 ###Updated DocCreator.
 
-r107 | christian.wuerker | 2013-08-21 11:45:37 +0200 (Mi, 21. Aug 2013) 
+r107 | christian.wuerker | 2013-08-21 11:45:37 +0200 (Mi, 21. Aug 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Abstract.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/About.php5
@@ -1614,19 +1621,19 @@ r107 | christian.wuerker | 2013-08-21 11:45:37 +0200 (Mi, 21. Aug 2013)
 
 ###Updated trigger site builder.
 
-r106 | christian.wuerker | 2013-08-20 22:27:43 +0200 (Di, 20. Aug 2013) 
+r106 | christian.wuerker | 2013-08-20 22:27:43 +0200 (Di, 20. Aug 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Triggers.php5
 
 ###Fixed linked logo bug.
 
-r105 | christian.wuerker | 2013-08-12 15:10:07 +0200 (Mo, 12. Aug 2013) 
+r105 | christian.wuerker | 2013-08-12 15:10:07 +0200 (Mo, 12. Aug 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Control.php5
 
 ###Small fixes.
 
-r104 | christian.wuerker | 2013-07-05 18:47:58 +0200 (Fr, 05. Jul 2013) 
+r104 | christian.wuerker | 2013-07-05 18:47:58 +0200 (Fr, 05. Jul 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/File/Index.php5
 - M /trunk/DocCreator/themes/HTML/templates/class/content.html
@@ -1635,7 +1642,7 @@ r104 | christian.wuerker | 2013-07-05 18:47:58 +0200 (Fr, 05. Jul 2013)
 
 ###Small fixes.
 
-r103 | christian.wuerker | 2013-07-05 18:04:15 +0200 (Fr, 05. Jul 2013) 
+r103 | christian.wuerker | 2013-07-05 18:04:15 +0200 (Fr, 05. Jul 2013)
 
 - M /trunk/DocCreator/create.php5
 - D /trunk/DocCreator/test/Interface.php
@@ -1645,19 +1652,19 @@ r103 | christian.wuerker | 2013-07-05 18:04:15 +0200 (Fr, 05. Jul 2013)
 
 ###Fixed dynamics.
 
-r102 | christian.wuerker | 2013-03-19 14:38:15 +0100 (Di, 19. Mär 2013) 
+r102 | christian.wuerker | 2013-03-19 14:38:15 +0100 (Di, 19. Mär 2013)
 
 - M /trunk/DocCreator/themes/HTML/js/dynamic.js
 
 ###Fixed dynamics.
 
-r101 | christian.wuerker | 2013-03-19 14:12:04 +0100 (Di, 19. Mär 2013) 
+r101 | christian.wuerker | 2013-03-19 14:12:04 +0100 (Di, 19. Mär 2013)
 
 - M /trunk/DocCreator/themes/HTML/js/dynamic.js
 
 ###Update console parameters.
 
-r100 | christian.wuerker | 2013-03-19 05:34:30 +0100 (Di, 19. Mär 2013) 
+r100 | christian.wuerker | 2013-03-19 05:34:30 +0100 (Di, 19. Mär 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Control.php5
 - M /trunk/DocCreator/classes/Core/Configuration.php5
@@ -1668,7 +1675,7 @@ r100 | christian.wuerker | 2013-03-19 05:34:30 +0100 (Di, 19. Mär 2013)
 
 ###Updated theme HTML.
 
-r99 | christian.wuerker | 2013-03-19 05:33:19 +0100 (Di, 19. Mär 2013) 
+r99 | christian.wuerker | 2013-03-19 05:33:19 +0100 (Di, 19. Mär 2013)
 
 - M /trunk/DocCreator/themes/HTML/css/content.index.css
 - M /trunk/DocCreator/themes/HTML/js/dynamic.js
@@ -1729,7 +1736,7 @@ r99 | christian.wuerker | 2013-03-19 05:33:19 +0100 (Di, 19. Mär 2013)
 
 ###Small updates.
 
-r98 | christian.wuerker | 2013-03-05 08:49:19 +0100 (Di, 05. Mär 2013) 
+r98 | christian.wuerker | 2013-03-05 08:49:19 +0100 (Di, 05. Mär 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Todos.php5
 - M /trunk/DocCreator/classes/Core/Configuration.php5
@@ -1738,7 +1745,7 @@ r98 | christian.wuerker | 2013-03-05 08:49:19 +0100 (Di, 05. Mär 2013)
 
 ###Cleanup.
 
-r97 | christian.wuerker | 2013-02-24 02:10:40 +0100 (So, 24. Feb 2013) 
+r97 | christian.wuerker | 2013-02-24 02:10:40 +0100 (So, 24. Feb 2013)
 
 - M /trunk/DocCreator
 - D /trunk/DocCreator/create.bat
@@ -1747,7 +1754,7 @@ r97 | christian.wuerker | 2013-02-24 02:10:40 +0100 (So, 24. Feb 2013)
 
 ###Updated trigger support.
 
-r96 | christian.wuerker | 2013-02-24 01:44:08 +0100 (So, 24. Feb 2013) 
+r96 | christian.wuerker | 2013-02-24 01:44:08 +0100 (So, 24. Feb 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/DocHints.php5
 - M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Triggers.php5
@@ -1755,31 +1762,31 @@ r96 | christian.wuerker | 2013-02-24 01:44:08 +0100 (So, 24. Feb 2013)
 
 ###Fixed bug.
 
-r95 | christian.wuerker | 2013-02-16 06:01:38 +0100 (Sa, 16. Feb 2013) 
+r95 | christian.wuerker | 2013-02-16 06:01:38 +0100 (Sa, 16. Feb 2013)
 
 - M /trunk/DocCreator/classes/Reader/Plugin/Triggers.php5
 
 ###Update.
 
-r94 | christian.wuerker | 2013-02-16 04:40:51 +0100 (Sa, 16. Feb 2013) 
+r94 | christian.wuerker | 2013-02-16 04:40:51 +0100 (Sa, 16. Feb 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Abstract.php5
 
 ###Update.
 
-r93 | christian.wuerker | 2013-02-16 04:38:11 +0100 (Sa, 16. Feb 2013) 
+r93 | christian.wuerker | 2013-02-16 04:38:11 +0100 (Sa, 16. Feb 2013)
 
 - M /trunk/DocCreator/classes/Builder/HTML/Abstract.php5
 
 ###Cleanup.
 
-r92 | christian.wuerker | 2013-02-16 03:08:09 +0100 (Sa, 16. Feb 2013) 
+r92 | christian.wuerker | 2013-02-16 03:08:09 +0100 (Sa, 16. Feb 2013)
 
 - M /trunk/DocCreator/config/doc.xml.dist
 
 ###Cleanup.
 
-r91 | christian.wuerker | 2013-02-16 03:06:54 +0100 (Sa, 16. Feb 2013) 
+r91 | christian.wuerker | 2013-02-16 03:06:54 +0100 (Sa, 16. Feb 2013)
 
 - D /trunk/DocCreator/create.sh
 - A /trunk/DocCreator/doc.php5.dist
@@ -1788,7 +1795,7 @@ r91 | christian.wuerker | 2013-02-16 03:06:54 +0100 (Sa, 16. Feb 2013)
 
 ###Complete restructured.
 
-r90 | christian.wuerker | 2013-02-16 02:11:27 +0100 (Sa, 16. Feb 2013) 
+r90 | christian.wuerker | 2013-02-16 02:11:27 +0100 (Sa, 16. Feb 2013)
 
 - D /trunk/DocCreator/Builder
 - D /trunk/DocCreator/Core
@@ -2448,7 +2455,7 @@ r90 | christian.wuerker | 2013-02-16 02:11:27 +0100 (Sa, 16. Feb 2013)
 
 ###Updated builder CM2.
 
-r89 | christian.wuerker | 2013-02-08 17:37:21 +0100 (Fr, 08. Feb 2013) 
+r89 | christian.wuerker | 2013-02-08 17:37:21 +0100 (Fr, 08. Feb 2013)
 
 - M /trunk/DocCreator/Builder/HTML/CM2/classes/File/SourceCode.php5
 - M /trunk/DocCreator/Builder/HTML/CM2/themes/plain/templates/category/content.html
@@ -2466,7 +2473,7 @@ r89 | christian.wuerker | 2013-02-08 17:37:21 +0100 (Fr, 08. Feb 2013)
 
 ###Updated builder CM2.
 
-r88 | christian.wuerker | 2013-02-08 15:26:08 +0100 (Fr, 08. Feb 2013) 
+r88 | christian.wuerker | 2013-02-08 15:26:08 +0100 (Fr, 08. Feb 2013)
 
 - M /trunk/DocCreator/Builder/HTML/CM2/classes/Abstract.php5
 - M /trunk/DocCreator/Builder/HTML/CM2/classes/Class/Builder.php5
@@ -2510,7 +2517,7 @@ r88 | christian.wuerker | 2013-02-08 15:26:08 +0100 (Fr, 08. Feb 2013)
 
 ###Added new builder CM2.
 
-r87 | christian.wuerker | 2013-02-08 14:36:16 +0100 (Fr, 08. Feb 2013) 
+r87 | christian.wuerker | 2013-02-08 14:36:16 +0100 (Fr, 08. Feb 2013)
 
 - A /trunk/DocCreator/Builder/HTML/CM2
 - A /trunk/DocCreator/Builder/HTML/CM2/background_hilight.psd
@@ -3131,13 +3138,13 @@ r87 | christian.wuerker | 2013-02-08 14:36:16 +0100 (Fr, 08. Feb 2013)
 
 ###Updated DocCreator.
 
-r86 | christian.wuerker | 2012-05-23 14:18:48 +0200 (Mi, 23. Mai 2012) 
+r86 | christian.wuerker | 2012-05-23 14:18:48 +0200 (Mi, 23. Mai 2012)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Abstract.php5
 
 ###Updated DocCreator.
 
-r85 | christian.wuerker | 2012-05-23 04:31:06 +0200 (Mi, 23. Mai 2012) 
+r85 | christian.wuerker | 2012-05-23 04:31:06 +0200 (Mi, 23. Mai 2012)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Creator.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Builder.php5
@@ -3160,7 +3167,7 @@ r85 | christian.wuerker | 2012-05-23 04:31:06 +0200 (Mi, 23. Mai 2012)
 
 ###Updated description display format.
 
-r82 | christian.wuerker | 2011-10-03 02:45:13 +0200 (Mo, 03. Okt 2011) 
+r82 | christian.wuerker | 2011-10-03 02:45:13 +0200 (Mo, 03. Okt 2011)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Abstract.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Class/Info.php5
@@ -3176,13 +3183,13 @@ r82 | christian.wuerker | 2011-10-03 02:45:13 +0200 (Mo, 03. Okt 2011)
 
 ###Added option support for builder plugins.
 
-r81 | christian.wuerker | 2011-09-10 02:39:54 +0200 (Sa, 10. Sep 2011) 
+r81 | christian.wuerker | 2011-09-10 02:39:54 +0200 (Sa, 10. Sep 2011)
 
 - M /trunk/DocCreator/Core/Environment.php5
 
 ###Added option support for builder plugins.
 
-r80 | christian.wuerker | 2011-09-09 17:34:35 +0200 (Fr, 09. Sep 2011) 
+r80 | christian.wuerker | 2011-09-09 17:34:35 +0200 (Fr, 09. Sep 2011)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Builder.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Info/Abstract.php5
@@ -3190,7 +3197,7 @@ r80 | christian.wuerker | 2011-09-09 17:34:35 +0200 (Fr, 09. Sep 2011)
 
 ###Updated for PHP 5.3.
 
-r79 | christian.wuerker | 2011-09-09 16:24:09 +0200 (Fr, 09. Sep 2011) 
+r79 | christian.wuerker | 2011-09-09 16:24:09 +0200 (Fr, 09. Sep 2011)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Class/Info.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Class/Members.php5
@@ -3204,13 +3211,13 @@ r79 | christian.wuerker | 2011-09-09 16:24:09 +0200 (Fr, 09. Sep 2011)
 
 ###Updated config.
 
-r78 | christian.wuerker | 2011-03-17 20:02:19 +0100 (Do, 17. Mär 2011) 
+r78 | christian.wuerker | 2011-03-17 20:02:19 +0100 (Do, 17. Mär 2011)
 
 - M /trunk/DocCreator/config/doc.xml.dist
 
 ###Updated SVN property 'keywords' to set ID on commit.
 
-r77 | christian.wuerker | 2010-11-23 07:31:24 +0100 (Di, 23. Nov 2010) 
+r77 | christian.wuerker | 2010-11-23 07:31:24 +0100 (Di, 23. Nov 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/background_hilight.psd
 - M /trunk/DocCreator/Builder/HTML/CM1/citops_apl_1.psd
@@ -3768,7 +3775,7 @@ r77 | christian.wuerker | 2010-11-23 07:31:24 +0100 (Di, 23. Nov 2010)
 
 ###Updated configuration and test project.
 
-r76 | christian.wuerker | 2010-11-23 07:23:48 +0100 (Di, 23. Nov 2010) 
+r76 | christian.wuerker | 2010-11-23 07:23:48 +0100 (Di, 23. Nov 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Info/Triggers.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/themes/cm1/templates/interface/content.html
@@ -3788,7 +3795,7 @@ r76 | christian.wuerker | 2010-11-23 07:23:48 +0100 (Di, 23. Nov 2010)
 
 ###Added builder options and started with source code switch (which must be explicitly enabled now with option key 'showSourceCode').
 
-r75 | christian.wuerker | 2010-11-23 06:00:47 +0100 (Di, 23. Nov 2010) 
+r75 | christian.wuerker | 2010-11-23 06:00:47 +0100 (Di, 23. Nov 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Class/Builder.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/File/Builder.php5
@@ -3808,20 +3815,20 @@ r75 | christian.wuerker | 2010-11-23 06:00:47 +0100 (Di, 23. Nov 2010)
 
 ###Updated languages files.
 
-r74 | christian.wuerker | 2010-11-22 11:02:35 +0100 (Mo, 22. Nov 2010) 
+r74 | christian.wuerker | 2010-11-22 11:02:35 +0100 (Mo, 22. Nov 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/themes/plain/locales/de.ini
 - M /trunk/DocCreator/Builder/HTML/CM1/themes/plain/locales/en.ini
 
 ###Small CSS fix.
 
-r72 | christian.wuerker | 2010-11-03 17:37:17 +0100 (Mi, 03. Nov 2010) 
+r72 | christian.wuerker | 2010-11-03 17:37:17 +0100 (Mi, 03. Nov 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/themes/cm1/css/content.artefact.css
 
 ###Updated for cmClasses 0.7.0.
 
-r71 | christian.wuerker | 2010-10-11 16:19:55 +0200 (Mo, 11. Okt 2010) 
+r71 | christian.wuerker | 2010-10-11 16:19:55 +0200 (Mo, 11. Okt 2010)
 
 - M /trunk/DocCreator/Core/ConsoleRunner.php5
 - M /trunk/DocCreator/Core/Reader.php5
@@ -3831,7 +3838,7 @@ r71 | christian.wuerker | 2010-10-11 16:19:55 +0200 (Mo, 11. Okt 2010)
 
 ###Updated reader plugins.
 
-r70 | christian.wuerker | 2010-10-11 15:59:38 +0200 (Mo, 11. Okt 2010) 
+r70 | christian.wuerker | 2010-10-11 15:59:38 +0200 (Mo, 11. Okt 2010)
 
 - M /trunk/DocCreator/Reader/Plugin/Defaults.php5
 - M /trunk/DocCreator/Reader/Plugin/Primitives.php5
@@ -3844,7 +3851,7 @@ r70 | christian.wuerker | 2010-10-11 15:59:38 +0200 (Mo, 11. Okt 2010)
 
 ###Update.
 
-r69 | christian.wuerker | 2010-08-13 18:53:45 +0200 (Fr, 13. Aug 2010) 
+r69 | christian.wuerker | 2010-08-13 18:53:45 +0200 (Fr, 13. Aug 2010)
 
 - M /trunk/DocCreator/Core/Parser.php5
 - M /trunk/DocCreator/Core/Reader.php5
@@ -3852,7 +3859,7 @@ r69 | christian.wuerker | 2010-08-13 18:53:45 +0200 (Fr, 13. Aug 2010)
 
 ###Updated.
 
-r68 | christian.wuerker | 2010-07-30 17:31:03 +0200 (Fr, 30. Jul 2010) 
+r68 | christian.wuerker | 2010-07-30 17:31:03 +0200 (Fr, 30. Jul 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Abstract.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Creator.php5
@@ -3862,7 +3869,7 @@ r68 | christian.wuerker | 2010-07-30 17:31:03 +0200 (Fr, 30. Jul 2010)
 
 ###Updated plain theme.
 
-r67 | christian.wuerker | 2010-07-30 06:16:33 +0200 (Fr, 30. Jul 2010) 
+r67 | christian.wuerker | 2010-07-30 06:16:33 +0200 (Fr, 30. Jul 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Package.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/themes/plain/css/content.css
@@ -3875,7 +3882,7 @@ r67 | christian.wuerker | 2010-07-30 06:16:33 +0200 (Fr, 30. Jul 2010)
 
 ###Using factories for reader and builder plugins.
 
-r65 | christian.wuerker | 2010-07-28 00:59:09 +0200 (Mi, 28. Jul 2010) 
+r65 | christian.wuerker | 2010-07-28 00:59:09 +0200 (Mi, 28. Jul 2010)
 
 - M /trunk/DocCreator
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Builder.php5
@@ -3883,7 +3890,7 @@ r65 | christian.wuerker | 2010-07-28 00:59:09 +0200 (Mi, 28. Jul 2010)
 
 ###Improved list sorting.
 
-r62 | christian.wuerker | 2010-07-28 00:38:34 +0200 (Mi, 28. Jul 2010) 
+r62 | christian.wuerker | 2010-07-28 00:38:34 +0200 (Mi, 28. Jul 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Builder.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Category.php5
@@ -3893,7 +3900,7 @@ r62 | christian.wuerker | 2010-07-28 00:38:34 +0200 (Mi, 28. Jul 2010)
 
 ###Updated builders.
 
-r61 | christian.wuerker | 2010-07-16 13:52:04 +0200 (Fr, 16. Jul 2010) 
+r61 | christian.wuerker | 2010-07-16 13:52:04 +0200 (Fr, 16. Jul 2010)
 
 - A /trunk/DocCreator/Builder/HTML/CM1/themes/cm1/css/content.artefact.css (von /trunk/DocCreator/Builder/HTML/CM1/themes/cm1/css/content.information.css:60)
 - M /trunk/DocCreator/Builder/HTML/CM1/themes/cm1/css/content.css
@@ -3922,7 +3929,7 @@ r61 | christian.wuerker | 2010-07-16 13:52:04 +0200 (Fr, 16. Jul 2010)
 
 ###[DocCreator] Fixed tree order.
 
-r60 | christian.wuerker | 2010-05-19 21:20:41 +0200 (Mi, 19. Mai 2010) 
+r60 | christian.wuerker | 2010-05-19 21:20:41 +0200 (Mi, 19. Mai 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Tree.php5
 - M /trunk/DocCreator/Core/Environment.php5
@@ -3930,7 +3937,7 @@ r60 | christian.wuerker | 2010-05-19 21:20:41 +0200 (Mi, 19. Mai 2010)
 
 ###Updated DocCreator.
 
-r59 | christian.wuerker | 2010-05-11 15:15:52 +0200 (Di, 11. Mai 2010) 
+r59 | christian.wuerker | 2010-05-11 15:15:52 +0200 (Di, 11. Mai 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Abstract.php5
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Creator.php5
@@ -3942,13 +3949,13 @@ r59 | christian.wuerker | 2010-05-11 15:15:52 +0200 (Di, 11. Mai 2010)
 
 ###Update DocCreator.
 
-r45 | christian.wuerker | 2010-04-26 16:22:38 +0200 (Mo, 26. Apr 2010) 
+r45 | christian.wuerker | 2010-04-26 16:22:38 +0200 (Mo, 26. Apr 2010)
 
 - M /trunk/DocCreator/index.php5
 
 ###Updated DocCreator.
 
-r39 | christian.wuerker | 2010-04-26 13:49:59 +0200 (Mo, 26. Apr 2010) 
+r39 | christian.wuerker | 2010-04-26 13:49:59 +0200 (Mo, 26. Apr 2010)
 
 - M /trunk/DocCreator/config/php.classes.list
 - M /trunk/DocCreator/test/A.php
@@ -3959,7 +3966,7 @@ r39 | christian.wuerker | 2010-04-26 13:49:59 +0200 (Mo, 26. Apr 2010)
 
 ###Updated DocCreator for 0.7.0. Unstable on 0.6.x.
 
-r33 | christian.wuerker | 2010-04-17 12:51:33 +0200 (Sa, 17. Apr 2010) 
+r33 | christian.wuerker | 2010-04-17 12:51:33 +0200 (Sa, 17. Apr 2010)
 
 - M /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Builder.php5
 - A /trunk/DocCreator/Builder/HTML/CM1/classes/Site/Info (von /trunk/DocCreator/Builder/HTML/CM1/classes/Site/info:32)
@@ -3971,7 +3978,7 @@ r33 | christian.wuerker | 2010-04-17 12:51:33 +0200 (Sa, 17. Apr 2010)
 
 ###Updated DocCreator for 0.7.0. Unstable on 0.6.x.
 
-r32 | christian.wuerker | 2010-04-17 12:16:41 +0200 (Sa, 17. Apr 2010) 
+r32 | christian.wuerker | 2010-04-17 12:16:41 +0200 (Sa, 17. Apr 2010)
 
 - A /trunk/DocCreator/Builder/HTML/CM1/classes/Class (von /trunk/DocCreator/Builder/HTML/CM1/classes/class:31)
 - A /trunk/DocCreator/Builder/HTML/CM1/classes/File (von /trunk/DocCreator/Builder/HTML/CM1/classes/file:31)
@@ -3984,7 +3991,7 @@ r32 | christian.wuerker | 2010-04-17 12:16:41 +0200 (Sa, 17. Apr 2010)
 
 ###Updated DocCreator for 0.7.0. Unstable on 0.6.x.
 
-r31 | christian.wuerker | 2010-04-17 04:44:55 +0200 (Sa, 17. Apr 2010) 
+r31 | christian.wuerker | 2010-04-17 04:44:55 +0200 (Sa, 17. Apr 2010)
 
 - A /trunk/DocCreator/Builder/HTML (von /trunk/DocCreator/Builder/html:30)
 - A /trunk/DocCreator/Builder/HTML/CM1 (von /trunk/DocCreator/Builder/html/cm1:30)
@@ -3993,7 +4000,7 @@ r31 | christian.wuerker | 2010-04-17 04:44:55 +0200 (Sa, 17. Apr 2010)
 
 ###Updated DocCreator for 0.7.0. May be unstable on 0.6.x.
 
-r30 | christian.wuerker | 2010-04-17 03:48:26 +0200 (Sa, 17. Apr 2010) 
+r30 | christian.wuerker | 2010-04-17 03:48:26 +0200 (Sa, 17. Apr 2010)
 
 - A /trunk/DocCreator/Builder (von /trunk/DocCreator/builder:29)
 - A /trunk/DocCreator/Core (von /trunk/DocCreator/core:29)
@@ -4008,11 +4015,11 @@ r30 | christian.wuerker | 2010-04-17 03:48:26 +0200 (Sa, 17. Apr 2010)
 
 ###Updated DocCreator.
 
-r29 | christian.wuerker | 2010-01-11 11:42:15 +0100 (Mo, 11. Jan 2010) 
+r29 | christian.wuerker | 2010-01-11 11:42:15 +0100 (Mo, 11. Jan 2010)
 
 - M /trunk/DocCreator/builder/html/cm1/themes/cm1/templates/site/control.html
 ----
-r28 | christian.wuerker | 2009-12-08 18:16:50 +0100 (Di, 08. Dez 2009) 
+r28 | christian.wuerker | 2009-12-08 18:16:50 +0100 (Di, 08. Dez 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/file/SourceCode.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/site/info/DocHints.php5
@@ -4041,7 +4048,7 @@ r28 | christian.wuerker | 2009-12-08 18:16:50 +0100 (Di, 08. Dez 2009)
 
 ###Updated DocCreator.
 
-r27 | christian.wuerker | 2009-11-22 18:34:36 +0100 (So, 22. Nov 2009) 
+r27 | christian.wuerker | 2009-11-22 18:34:36 +0100 (So, 22. Nov 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/themes/cm1/templates/class/content.html
 - M /trunk/DocCreator/builder/html/cm1/themes/cm1/templates/file/content.html
@@ -4054,7 +4061,7 @@ r27 | christian.wuerker | 2009-11-22 18:34:36 +0100 (So, 22. Nov 2009)
 
 ###Updated DocCreator.
 
-r26 | christian.wuerker | 2009-11-20 16:07:40 +0100 (Fr, 20. Nov 2009) 
+r26 | christian.wuerker | 2009-11-20 16:07:40 +0100 (Fr, 20. Nov 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/site/info/ClassList.php5
@@ -4072,13 +4079,13 @@ r26 | christian.wuerker | 2009-11-20 16:07:40 +0100 (Fr, 20. Nov 2009)
 
 ###Small change in Parser according to cmClasses.
 
-r25 | christian.wuerker | 2009-11-19 18:00:56 +0100 (Do, 19. Nov 2009) 
+r25 | christian.wuerker | 2009-11-19 18:00:56 +0100 (Do, 19. Nov 2009)
 
 - M /trunk/DocCreator/core/Parser.php5
 
 ###Updated DocCreator to v0.6c (added missing files).
 
-r24 | christian.wuerker | 2009-11-19 17:49:41 +0100 (Do, 19. Nov 2009) 
+r24 | christian.wuerker | 2009-11-19 17:49:41 +0100 (Do, 19. Nov 2009)
 
 - A /trunk/DocCreator/builder/html/cm1/citops_apl_1.psd
 - A /trunk/DocCreator/builder/html/cm1/classes/interface
@@ -4089,7 +4096,7 @@ r24 | christian.wuerker | 2009-11-19 17:49:41 +0100 (Do, 19. Nov 2009)
 
 ###Updated DocCreator to v0.6c.
 
-r23 | christian.wuerker | 2009-11-19 17:45:37 +0100 (Do, 19. Nov 2009) 
+r23 | christian.wuerker | 2009-11-19 17:45:37 +0100 (Do, 19. Nov 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/file/Index.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/site/info/MethodAccess.php5
@@ -4107,7 +4114,7 @@ r23 | christian.wuerker | 2009-11-19 17:45:37 +0100 (Do, 19. Nov 2009)
 
 ###Updated DocCreator to v0.6b.
 
-r22 | christian.wuerker | 2009-11-19 17:21:17 +0100 (Do, 19. Nov 2009) 
+r22 | christian.wuerker | 2009-11-19 17:21:17 +0100 (Do, 19. Nov 2009)
 
 - D /trunk/DocCreator/builder/html/cm1/themes/plain/css/control.tree.css
 - M /trunk/DocCreator/config
@@ -4126,7 +4133,7 @@ r22 | christian.wuerker | 2009-11-19 17:21:17 +0100 (Do, 19. Nov 2009)
 
 ###Updated DocCreator builders and themes.
 
-r21 | christian.wuerker | 2009-11-19 16:50:57 +0100 (Do, 19. Nov 2009) 
+r21 | christian.wuerker | 2009-11-19 16:50:57 +0100 (Do, 19. Nov 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/Creator.php5
@@ -4268,7 +4275,7 @@ r21 | christian.wuerker | 2009-11-19 16:50:57 +0100 (Do, 19. Nov 2009)
 
 ###Updated DocCreator reader plugins.
 
-r20 | christian.wuerker | 2009-11-19 16:46:41 +0100 (Do, 19. Nov 2009) 
+r20 | christian.wuerker | 2009-11-19 16:46:41 +0100 (Do, 19. Nov 2009)
 
 - M /trunk/DocCreator/reader/plugin/Primitives.php5
 - M /trunk/DocCreator/reader/plugin/Relations.php5
@@ -4277,7 +4284,7 @@ r20 | christian.wuerker | 2009-11-19 16:46:41 +0100 (Do, 19. Nov 2009)
 
 ###Updated DocCreator core.
 
-r19 | christian.wuerker | 2009-11-19 16:46:20 +0100 (Do, 19. Nov 2009) 
+r19 | christian.wuerker | 2009-11-19 16:46:20 +0100 (Do, 19. Nov 2009)
 
 - M /trunk/DocCreator/core/Configuration.php5
 - M /trunk/DocCreator/core/ConsoleRunner.php5
@@ -4288,7 +4295,7 @@ r19 | christian.wuerker | 2009-11-19 16:46:20 +0100 (Do, 19. Nov 2009)
 
 ###Updated DocCreator.
 
-r18 | christian.wuerker | 2009-11-14 19:31:38 +0100 (Sa, 14. Nov 2009) 
+r18 | christian.wuerker | 2009-11-14 19:31:38 +0100 (Sa, 14. Nov 2009)
 
 - M /trunk/DocCreator/core/Environment.php5
 - M /trunk/DocCreator/core/Runner.php5
@@ -4296,7 +4303,7 @@ r18 | christian.wuerker | 2009-11-14 19:31:38 +0100 (Sa, 14. Nov 2009)
 
 ###Updated DocCreator builder 'cm1'.
 
-r17 | christian.wuerker | 2009-11-14 19:30:43 +0100 (Sa, 14. Nov 2009) 
+r17 | christian.wuerker | 2009-11-14 19:30:43 +0100 (Sa, 14. Nov 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/Creator.php5
@@ -4329,7 +4336,7 @@ r17 | christian.wuerker | 2009-11-14 19:30:43 +0100 (Sa, 14. Nov 2009)
 
 ###Completed DocCreator theme 'cm1'.
 
-r16 | christian.wuerker | 2009-11-14 17:51:07 +0100 (Sa, 14. Nov 2009) 
+r16 | christian.wuerker | 2009-11-14 17:51:07 +0100 (Sa, 14. Nov 2009)
 
 - A /trunk/DocCreator/builder/html/cm1/themes/cm1/locales
 - A /trunk/DocCreator/builder/html/cm1/themes/cm1/locales/de.ini
@@ -4393,7 +4400,7 @@ r16 | christian.wuerker | 2009-11-14 17:51:07 +0100 (Sa, 14. Nov 2009)
 
 ###Added DocCreator theme 'plain'.
 
-r15 | christian.wuerker | 2009-11-14 17:50:00 +0100 (Sa, 14. Nov 2009) 
+r15 | christian.wuerker | 2009-11-14 17:50:00 +0100 (Sa, 14. Nov 2009)
 
 - A /trunk/DocCreator/builder/html/cm1/themes/plain
 - A /trunk/DocCreator/builder/html/cm1/themes/plain/css
@@ -4616,7 +4623,7 @@ r15 | christian.wuerker | 2009-11-14 17:50:00 +0100 (Sa, 14. Nov 2009)
 
 ###Moved DocCreator Themes.
 
-r14 | christian.wuerker | 2009-11-14 17:41:39 +0100 (Sa, 14. Nov 2009) 
+r14 | christian.wuerker | 2009-11-14 17:41:39 +0100 (Sa, 14. Nov 2009)
 
 - A /trunk/DocCreator/builder/html/cm1/themes
 - A /trunk/DocCreator/builder/html/cm1/themes/cm1
@@ -4781,7 +4788,7 @@ r14 | christian.wuerker | 2009-11-14 17:41:39 +0100 (Sa, 14. Nov 2009)
 
 ###Improved DocCreator's search.
 
-r13 | christian.wuerker | 2009-11-10 19:30:42 +0100 (Di, 10. Nov 2009) 
+r13 | christian.wuerker | 2009-11-10 19:30:42 +0100 (Di, 10. Nov 2009)
 
 - A /trunk/DocCreator/builder/html/cm1/background_hilight.psd
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
@@ -4802,7 +4809,7 @@ r13 | christian.wuerker | 2009-11-10 19:30:42 +0100 (Di, 10. Nov 2009)
 
 ###Updated DocCreator to use XML for configuration.
 
-r12 | christian.wuerker | 2009-11-03 05:40:42 +0100 (Di, 03. Nov 2009) 
+r12 | christian.wuerker | 2009-11-03 05:40:42 +0100 (Di, 03. Nov 2009)
 
 - D /trunk/DocCreator/builder/html/cm1/css/content.css
 - D /trunk/DocCreator/builder/html/cm1/css/content.index.css
@@ -4833,7 +4840,7 @@ r12 | christian.wuerker | 2009-11-03 05:40:42 +0100 (Di, 03. Nov 2009)
 
 ###Added theme support to default HTML DocCreator builder.
 
-r11 | christian.wuerker | 2009-11-03 05:37:06 +0100 (Di, 03. Nov 2009) 
+r11 | christian.wuerker | 2009-11-03 05:37:06 +0100 (Di, 03. Nov 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/Creator.php5
@@ -4915,7 +4922,7 @@ r11 | christian.wuerker | 2009-11-03 05:37:06 +0100 (Di, 03. Nov 2009)
 
 ###Updated DocCreator:
 
-r10 | christian.wuerker | 2009-10-27 05:54:24 +0100 (Di, 27. Okt 2009) 
+r10 | christian.wuerker | 2009-10-27 05:54:24 +0100 (Di, 27. Okt 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Creator.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/class/Builder.php5
@@ -4956,7 +4963,7 @@ Improved frame set to display orphans always within frame set.
 
 ###Updated DocCreator: added DocHints.
 
-r9 | christian.wuerker | 2009-10-25 19:55:11 +0100 (So, 25. Okt 2009) 
+r9 | christian.wuerker | 2009-10-25 19:55:11 +0100 (So, 25. Okt 2009)
 
 - A /trunk/DocCreator/builder/html/cm1/classes/site/info/DocHints.php5
 - M /trunk/DocCreator/builder/html/cm1/locales/de.ini
@@ -4965,7 +4972,7 @@ r9 | christian.wuerker | 2009-10-25 19:55:11 +0100 (So, 25. Okt 2009)
 
 ###Updated DocCreator.
 
-r5 | christian.wuerker | 2009-10-24 02:08:50 +0200 (Sa, 24. Okt 2009) 
+r5 | christian.wuerker | 2009-10-24 02:08:50 +0200 (Sa, 24. Okt 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
 - M /trunk/DocCreator/builder/html/cm1/classes/class/MembersBuilder.php5
@@ -4980,7 +4987,7 @@ This Tool will be developed in Google Code from now on.
 
 ###Updated DocCreator.
 
-r4 | christian.wuerker | 2009-10-24 02:02:22 +0200 (Sa, 24. Okt 2009) 
+r4 | christian.wuerker | 2009-10-24 02:02:22 +0200 (Sa, 24. Okt 2009)
 
 - M /trunk/DocCreator/builder/html/cm1/classes/Abstract.php5
 - D /trunk/DocCreator/builder/html/cm1/classes/Builder.php5
@@ -5043,7 +5050,7 @@ r4 | christian.wuerker | 2009-10-24 02:02:22 +0200 (Sa, 24. Okt 2009)
 
 ###Added DocCreator 0.5pre.
 
-r3 | christian.wuerker | 2009-10-20 17:01:55 +0200 (Di, 20. Okt 2009) 
+r3 | christian.wuerker | 2009-10-20 17:01:55 +0200 (Di, 20. Okt 2009)
 
 - A /trunk/DocCreator/builder
 - A /trunk/DocCreator/builder/html
@@ -5354,7 +5361,7 @@ r3 | christian.wuerker | 2009-10-20 17:01:55 +0200 (Di, 20. Okt 2009)
 - A /trunk/DocCreator/reader/plugin/_template_.php5
 - A /trunk/DocCreator/search.php5
 ----
-r2 | christian.wuerker | 2009-10-20 16:47:24 +0200 (Di, 20. Okt 2009) 
+r2 | christian.wuerker | 2009-10-20 16:47:24 +0200 (Di, 20. Okt 2009)
 
 - A /trunk/DocCreator
 ----
