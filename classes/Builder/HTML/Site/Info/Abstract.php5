@@ -72,12 +72,9 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 	abstract public function createSite();
 
 	/**
-	 *	Creates About Site if any About File is available in Project Folder.
+	 *	Creates site if any file (from ::$fileNames) has been found in product documentation folder.
 	 *	@access		public
-	 *	@param		string			$pathProject	Path to Project Configuration
-	 *	@param		string			$pathTarget		Path to save Sites in
-	 *	@throws		Exception		if unsufficient data
-	 *	@return		bool
+	 *	@return		integer		Number of found and enlisted contents (files)
 	 */
 	public function createSiteByFile()
 	{

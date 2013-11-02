@@ -37,6 +37,9 @@
  */
 class DocCreator_Core_Configuration{
 
+	/**	@var		XML_Elememt		$data			XML root node of config XML file */
+	public $data;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -78,11 +81,11 @@ class DocCreator_Core_Configuration{
 			'link'		=> NULL
 		);
 		if( isset( $builder->logo ) ){
-			$logo->source = $builder->logo->source->getValue();
-			if( isset( $builder->logo->title ) )
-				$logo->title = $builder->logo->title->getValue();
-			if( isset( $builder->logo->link ) )
-				$logo->link = $builder->logo->link->getValue();
+			$logo->source = $builder->logo->getValue();
+			if( $builder->logo->hasAttribute( 'title' ) )
+				$logo->title = $builder->logo->getAttribute( 'title');
+			if( $builder->logo->hasAttribute( 'href' ) )
+				$logo->link = $builder->logo->getAttribute( 'href');
 		}
 		return $logo;
 	}
@@ -94,9 +97,9 @@ class DocCreator_Core_Configuration{
 	 *	@return		XML_Element
 	 */
 	public function getBuilderOptions( XML_Element $builder ){
-		if( !$builder->options )
-			return new XML_Element( '<options/>' );
-		return $builder->options->option;
+		if( !isset( $builder->option ) )
+			return array();
+		return $builder->option;
 	}
 
 	/**
@@ -106,7 +109,9 @@ class DocCreator_Core_Configuration{
 	 *	@return		XML_Element
 	 */
 	public function getBuilderPlugins( XML_Element $builder ){
-		return $builder->plugins->plugin;
+		if( !isset( $builder->plugin ) )
+			return array();
+		return $builder->plugin;
 	}
 
 	/**
@@ -115,7 +120,9 @@ class DocCreator_Core_Configuration{
 	 *	@return		XML_Element
 	 */
 	public function getBuilders(){
-		return $this->data->builders->builder;
+		if( !isset( $this->data->builder ) )
+			return array();
+		return $this->data->builder;
 	}
 
 	/**
@@ -162,7 +169,7 @@ class DocCreator_Core_Configuration{
 	 */
 	public function getProjectExtensions( XML_Element $project ){
 		$list	= array();
-		foreach( $project->extensions->extension as $extension )
+		foreach( $project->extension as $extension )
 			$list[]	= $extension->getValue();
 		return $list;
 	}
@@ -189,8 +196,9 @@ class DocCreator_Core_Configuration{
 	 */
 	public function getProjectIgnoreFiles( XML_Element $project ){
 		$list	= array();
-		foreach( $project->ignore->file as $file )
-			$list[]	= $file->getValue();
+		foreach( $project->ignore as $ignore )
+			if( $ignore->getAttribute( 'type' ) === "file" )
+				$list[]	= $ignore->getValue();
 		return $list;
 	}
 
@@ -202,8 +210,9 @@ class DocCreator_Core_Configuration{
 	 */
 	public function getProjectIgnoreFolders( XML_Element $project ){
 		$list	= array();
-		foreach( $project->ignore->folder as $folder )
-			$list[]	= $folder->getValue();
+		foreach( $project->ignore as $ignore )
+			if( $ignore->getAttribute( 'type' ) === "folder" )
+				$list[]	= $ignore->getValue();
 		return $list;
 	}
 
@@ -224,7 +233,9 @@ class DocCreator_Core_Configuration{
 	 *	@return		XML_Element
 	 */
 	public function getProjects(){
-		return $this->data->projects->project;
+		if( !isset( $this->data->project ) )
+			return array();
+		return $this->data->project;
 	}
 
 	/**
@@ -259,7 +270,9 @@ class DocCreator_Core_Configuration{
 	}
 
 	public function getTimeLimit(){
-		return $this->data->creator->timeLimit->getValue();
+		if( !$this->data->creator->hasAttribute( 'timelimit' ) )
+			return -1;
+		return $this->data->creator->getAttribute( 'timelimit' );
 	}
 
 	public function getTrace(){
@@ -282,7 +295,7 @@ class DocCreator_Core_Configuration{
 
 	public function setBuilderTargetPath( $path = NULL ){
 //		remark( "setBuilderTargetPath: ".$path );
-		foreach( $this->data->builders->builder as $builder ){
+		foreach( $this->data->builder as $builder ){
 			foreach( $builder->path as $builderPath ){
 				$value	= (string) $builderPath->getValue();
 				if( $path === NULL )
@@ -297,7 +310,7 @@ class DocCreator_Core_Configuration{
 	}
 
 	public function setProjectBasePath( $path = NULL ){
-		foreach( $this->data->projects->project as $project ){
+		foreach( $this->data->project as $project ){
 			$value	= (string) $project->path;
 			if( $path === NULL )
 				$value = str_replace( array( "[", "]" ), "", $value );
@@ -322,7 +335,7 @@ class DocCreator_Core_Configuration{
 	 *	@return		void
 	 */
 	public function setTimeLimit( $seconds ){
-		return $this->data->creator->timeLimit->setValue( (int) $seconds );
+		return $this->data->creator->setAttribute( 'timelimit', (int) $seconds );
 	}
 
 	/**

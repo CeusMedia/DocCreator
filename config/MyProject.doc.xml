@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <config>
 
+	<!--  PROJECT(S)  -->  
+	<project>
+		<path>[/path/to/DocCreator/]</path>
+		<extension>php5</extension>
+		<ignore type="file">/^(_|[a-z])/</ignore>
+		<ignore type="folder">#(docs|lib)/#</ignore>
+		<category by="default">MyProject</category>
+		<package by="default">MyProject</package>
+	</project>
+
 	<!--  READER SETTINGS  -->  
 	<reader>
 		<plugin>Statistics</plugin>
@@ -11,73 +21,40 @@
 		<plugin>Search</plugin>
 	</reader>
 
-	<!--  PROJECTS  -->  
-	<projects>
-		<project label="DocCreator" version="0.8.2" date="2013-11-01" revision="">
-			<path alt="must be absolute">[/path/to/DocCreator/]</path>
-			<extensions>
-				<extension>php5</extension>
-			</extensions>
-			<ignore>
-				<file alt="regular expression">/^(_|[a-z])/</file>
-				<folder alt="regular expression">#(docs|lib)/#</folder>
-			</ignore>
-			<category lowercase="">
-				<default>unknown</default>
-			</category>
-			<package lowercase="">
-				<default>unknown</default>
-				<uppercase alt="comma seperated"></uppercase>
-			</package>
-		</project>
-	</projects>
-
-	<!--  BUILDERS -->  
-	<builders>
-		<builder format="HTML" theme="Default-SilverFire">
-			<path type="target" alt="must be absolute">[/path/to/MyProject/]docs/</path>
-			<path type="documents" alt="must be absolute">[/path/to/MyProject/]</path>
-			<language>en</language>
-			<title>MyProject</title>
-			<logo>
-				<source>logo/construction.png</source>
-				<title>MyProject @ Your Company</title>
-				<link>http://yourcompany.tld/</link>
-			</logo>
-			<author><![CDATA[Your Name <your.name@company.tld>]]></author>
-			<company>CeuS Media (ceusmedia.de)</company>
-			<timezone>Europe/Berlin</timezone>
-			<options>
-				<option name="showSourceCode">1</option>
-			</options>
-			<plugins>
-				<plugin>Home</plugin>
-				<plugin>ClassList</plugin>
-				<plugin>Search</plugin>
-				<plugin>About</plugin>
-				<plugin>Installation</plugin>
-				<plugin>History</plugin>
-				<plugin>Changes</plugin>
-				<plugin>Deprecations</plugin>
-				<plugin>Todos</plugin>
-				<plugin>Bugs</plugin>
-				<plugin>ParseErrors</plugin>
-				<plugin>Statistics</plugin>
-				<plugin>UnusedVariables</plugin>
-				<plugin>MethodOrder</plugin>
-				<plugin>MethodAccess</plugin>
-				<plugin>License</plugin>
-				<plugin>DocHints</plugin>
-			</plugins>
-		</builder>
-	</builders>
+	<!--  BUILDER(S) -->  
+	<builder format="HTML" theme="Default-SilverFire">
+		<path type="target">[/path/to/MyProject/]docs/</path>
+		<path type="documents">[/path/to/MyProject/]</path>
+		<title version="1.0">MyProject</title>
+		<author email="your.name@company.tld">Your Name</author>
+		<company url="ceusmedia.de">CeuS Media</company>
+		<logo href="http://yourcompany.tld/" title="MyProject @ Your Company">logo/construction.png</logo>
+		<language timezone="Europe/Berlin">en</language>
+		<option name="showSourceCode">1</option>
+		<plugin>Home</plugin>
+		<plugin>ClassList</plugin>
+		<plugin>Search</plugin>
+		<plugin>About</plugin>
+		<plugin>Installation</plugin>
+		<plugin>History</plugin>
+		<plugin>Changes</plugin>
+		<plugin>Deprecations</plugin>
+		<plugin>Todos</plugin>
+		<plugin>Bugs</plugin>
+		<plugin>ParseErrors</plugin>
+		<plugin>Statistics</plugin>
+		<plugin>UnusedVariables</plugin>
+		<plugin>MethodOrder</plugin>
+		<plugin>MethodAccess</plugin>
+		<plugin>License</plugin>
+		<plugin>DocHints</plugin>
+	</builder>
 
 	<!--  GENERAL SETTINGS  -->  
-	<creator>
-		<timeLimit>360</timeLimit>
+	<creator timeLimit="60">
 		<mail></mail>
-		<file type="serial" alt="relative to 'doc.path'">tmp/DocCreator.doc.serial</file>
-		<file type="archive" alt="relative to 'doc.path'">tmp/DocCreator.doc.serial.gz</file>
+		<file type="serial">tmp/DocCreator.doc.serial</file>
+		<file type="archive">tmp/DocCreator.doc.serial.gz</file>
 		<file type="errors">logs/docCreatorErrors.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
 		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE" trace="FALSE"/>
