@@ -1,4 +1,66 @@
 
+###Updated documents and purified config folder.
+
+r138 | christian.wuerker | 2013-11-01 16:43:20 +0100 (Fr, 01. Nov 2013) | 2 Zeilen
+
+- M /trunk/DocCreator
+- M /trunk/DocCreator/config/DocCreator.doc.xml
+- A /trunk/DocCreator/config/MyProject.doc.xml
+- D /trunk/DocCreator/config/Test.doc.xml
+- D /trunk/DocCreator/config/default.ini
+- D /trunk/DocCreator/docs/about.log
+- D /trunk/DocCreator/docs/changes.log
+- A /trunk/DocCreator/docs/changes.md (von /trunk/DocCreator/docs/changes.log:133)
+- A /trunk/DocCreator/docs/license.md
+
+###Removed test folder completely.
+
+r137 | christian.wuerker | 2013-11-01 16:41:47 +0100 (Fr, 01. Nov 2013) | 1 Zeile
+
+- D /trunk/DocCreator/test
+
+###Added utility to generate change log from svn log.
+
+r136 | christian.wuerker | 2013-11-01 16:39:14 +0100 (Fr, 01. Nov 2013) | 2 Zeilen
+
+- A /trunk/DocCreator/util
+- A /trunk/DocCreator/util/svn.changes.php
+
+###Added license site support and extend change log site by markdown support.
+
+r135 | christian.wuerker | 2013-11-01 16:38:23 +0100 (Fr, 01. Nov 2013) | 2 Zeilen
+
+- M /trunk/DocCreator/classes/Builder/HTML/Site/Info/Changes.php5
+- A /trunk/DocCreator/classes/Builder/HTML/Site/Info/License.php5
+
+###Rearranged images in themes.
+
+r134 | christian.wuerker | 2013-11-01 15:24:33 +0100 (Fr, 01. Nov 2013) | 2 Zeilen
+
+- D /trunk/DocCreator/themes/HTML/Default/images/book.png
+- A /trunk/DocCreator/themes/HTML/Default/images/logo
+- A /trunk/DocCreator/themes/HTML/Default/images/logo/book_16.png
+- A /trunk/DocCreator/themes/HTML/Default/images/logo/book_320.png
+- A /trunk/DocCreator/themes/HTML/Default/images/logo/book_48.png
+- A /trunk/DocCreator/themes/HTML/Default/images/logo/book_64.png
+- A /trunk/DocCreator/themes/HTML/Default/images/logo/construction.png
+- D /trunk/DocCreator/themes/HTML/Default/images/logo_small_horizontal_blues.png
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/book.png
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/book_closed_blue_enhanced.png
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/book_closed_blue_enhanced_48.png
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/book_closed_blue_enhanced_64.png
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/book_16.png
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/book_320.png
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/book_48.png
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/book_64.png
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/construction.png
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/ow-logo.svg
+- A /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo/ow-logo_med.png
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/logo_small_horizontal_blues.png
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/ow-logo.svg
+- D /trunk/DocCreator/themes/HTML/Default-SilverFire/images/ow-logo_med.png
+
 ###Updated themes.
 
 r133 | christian.wuerker | 2013-11-01 15:09:14 +0100 (Fr, 01. Nov 2013) | 2 Zeilen

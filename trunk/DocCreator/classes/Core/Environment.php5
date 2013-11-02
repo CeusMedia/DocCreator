@@ -45,11 +45,14 @@ class DocCreator_Core_Environment{
 	public $extensions;
 	public $verbose				= FALSE; 
 
+	/**	@var	ADT_PHP_Category	$tree		... */
 	public $tree;
 	public $phpClasses			= array();
 	public $tool				= array();
 
 	public $path;
+	/**	@var	XML_Element			$builder		Builder section of config XML */
+	public $builder;
 
 	/**
 	 *	Constructur, reads Resources and stores locally.
@@ -272,6 +275,12 @@ class DocCreator_Core_Environment{
 		throw new RuntimeException( 'No data file existing - you need to parse' );
 	}
 
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		XML_Element		$builder		Builder section of config XML
+	 *	@return		void
+	 */
 	public function openBuilder( XML_Element $builder ){
 		$this->builder	= $builder;
 		$format			= $builder->getAttribute( 'format' );
@@ -303,8 +312,8 @@ class DocCreator_Core_Environment{
 		$list	= array();
 		foreach( $this->data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $className => $class ){
-				$category	= $class->getCategory() ? $class->getCategory() : 'default';
-				$package	= $class->getPackage() ? $class->getPackage() : 'default';
+				$category	= trim( $class->getCategory() ) ? trim( $class->getCategory() ) : 'default';
+				$package	= trim( $class->getPackage() ) ? trim( $class->getPackage() ) : 'default';
 				$packageId	= $category."-".$package;
 				$list[$packageId]	= $this->tree->getPackage( $category."_".$package );
 			}
@@ -321,8 +330,10 @@ class DocCreator_Core_Environment{
 	 */
 	private function readStructureTree(){
 		$this->tree	= new ADT_PHP_Category( "root" );
+//		$this->tree->setPackage( 'default', new ADT_PHP_Category( 'default' ) );
 		foreach( $this->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
+#				remark( $class->getName().": ".$class->getCategory());
 				if( !$class->getCategory() )
 					continue;
 				if( !$this->tree->hasPackage( $class->getCategory() ) )
@@ -353,8 +364,28 @@ class DocCreator_Core_Environment{
 				$category->setPackage( $interface->getPackage(), $package );
 			}
 		}
+#		$this->printTree( $this->tree );
 	}
 
+	public function printTree( $category, $level = 0 ){
+		if( $category instanceof ADT_PHP_Category ){
+			foreach( $category->getCategories() as $cat ){
+				remark( str_repeat( "  ", $level * 4).$cat->getLabel() );
+				$this->printTree( $cat, $level + 1 );
+			}
+			foreach( $category->getPackages() as $pack ){
+				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
+			}
+		}
+		else if( $category instanceof ADT_PHP_Package ){
+			foreach( $category->getPackages() as $pack ){
+				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
+				$this->printTree( $pack, $level + 1 );
+			}
+		}
+		die;
+	}
+	
 	/**
 	 *	Stores collected File/Class Data as Serial File or Archive File.
 	 *	@access		protected

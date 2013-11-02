@@ -44,58 +44,18 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Creator.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Creator{
+class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
 
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		DocCreator_Core_Environment	$env			Environment Object 
-	 *	@param		XML_Element					$builder		XML Node from Config of Builder to apply
-	 *	@return		void
-	 */
-	public function __construct( DocCreator_Core_Environment $env, XML_Element $builder ){
-		$this->env		= $env;
-		$this->config	= $this->env->config;
-		$this->env->openBuilder( $builder );
-		$this->env->load();
-		$this->pathTarget	= $this->env->getBuilderTargetPath();
-		if( !file_exists( $this->pathTarget ) )
-			mkDir( $this->pathTarget, 0775, TRUE );
+	protected function __onConstruct(){
 		$this->createFiles();
 		$this->createPackages();
 		$this->createCategories();
 		$this->createSites();
-		$pathTheme	= $this->env->getBuilderThemePath();
-		$this->copyResourcesRecursive( $pathTheme.'js/', 'js/', "JavaScripts" );
-		$this->copyResourcesRecursive( $pathTheme.'css/', 'css/', "Stylesheets" );
-		$this->copyResourcesRecursive( $pathTheme.'images/', "images/", "Images" );
-		$this->copyResourcesRecursive( $pathTheme.'fonts/', "fonts/", "Fonts" );
+		$this->copyResourcesRecursive( $this->pathTheme.'js/', 'js/', "JavaScripts" );
+		$this->copyResourcesRecursive( $this->pathTheme.'css/', 'css/', "Stylesheets" );
+		$this->copyResourcesRecursive( $this->pathTheme.'images/', "images/", "Images" );
+		$this->copyResourcesRecursive( $this->pathTheme.'fonts/', "fonts/", "Fonts" );
 		$this->env->out->sameLine( "Copy done." );
-	}
-
-	protected function copyResourcesRecursive( $pathSource, $pathTarget, $label ){
-		$pathSource	= $pathSource;
-		$pathTarget	= $this->pathTarget.$pathTarget;
-		if( !file_exists( $pathTarget ) )
-			mkDir( $pathTarget, 0775, TRUE );
-
-		DocCreator_Builder_HTML_Abstract::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
-
-		$index	= new Folder_RecursiveIterator( $pathSource );
-		$length	= strlen( $pathSource );
-		if( $this->env->verbose )
-			$this->env->out->sameLine( "Copying ".$label );
-		foreach( $index as $entry ){
-			$name	= substr( $entry->getPathname(), $length );
-			if( $entry->isFile() ){
-				if( preg_match( "@\.skip@i", $entry->getPathname() ) )
-					continue;
-				if( !@copy( $entry->getPathname(), $pathTarget.$name ) )
-					throw new RuntimeException( 'File "'.$entry->getPathname().'" could not be copied to "'.$pathTarget.$name.'"' ); 
-			}
-			else if( $entry->isDir() && !file_exists( $pathTarget.$name ) )
-				mkDir( $pathTarget.$name );
-		}	
 	}
 	
 	protected function createCategories( $prefix = "category." ){

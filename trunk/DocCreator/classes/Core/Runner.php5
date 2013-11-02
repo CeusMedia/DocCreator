@@ -119,6 +119,8 @@ class DocCreator_Core_Runner{
 
 		$this->configProject	= new DocCreator_Core_Configuration( $this->configFile );
 		$this->env				= new DocCreator_Core_Environment( $this->configProject, $this->configTool, $this->out );
+		if( $this->configProject->getTimeLimit() >= 0 )
+			set_time_limit( $this->configProject->getTimeLimit() );
 		$this->setVerbose( $this->configProject->getVerbose() );
 	}
 
@@ -171,7 +173,8 @@ class DocCreator_Core_Runner{
 			
 			$this->out->newLine();
 			$this->runCreator();
-			$this->out->newLine( "Done in ".$clock->stop( 0, 1 )." seconds" );
+			$usage	= getrusage();
+			$this->out->newLine( "Done in ".$clock->stop( 0, 1 )." seconds (".round( $usage["ru_utime.tv_usec"] / 1000000, 1 ).")" );
 			$this->out->newLine();
 
 #			if( !empty( $this->configProject['quite'] ) )

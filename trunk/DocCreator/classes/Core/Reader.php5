@@ -60,7 +60,6 @@ class DocCreator_Core_Reader{
 		$this->config	= $env->config;
 		$this->verbose	= $verbose;
 		$this->registerPlugins();
-		set_time_limit( $this->config->getTimeLimit() );
 	}
 
 	/**
@@ -79,6 +78,7 @@ class DocCreator_Core_Reader{
 		foreach( $sources as $pathSource ){
 			if( !file_exists( ( $pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./" ) ) )
 				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
+			
 			$lister		= new File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
 			$list[$pathSource]	= array();
 

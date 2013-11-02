@@ -52,7 +52,27 @@ class DocCreator_Builder_HTML_Site_Info_Home extends DocCreator_Builder_HTML_Sit
 	 */
 	public function createSite()
 	{
-		return parent::createSiteByFile();
+		if( !parent::createSiteByFile() ){
+			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+			$uiData	= array(
+				'title'		=> $this->env->builder->title->getValue(),
+				'version'	=> $this->env->builder->title->getAttribute("version"),
+				'words'		=> $words,
+				'key'		=> $this->key,
+				'id'		=> 'info-'.$this->key,
+				'content'	=> "",
+				'date'		=> date( $words['formatDate'], time() ),
+				'time'		=> date( $words['formatTime'], time() ),
+				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'footer'	=> $this->buildFooter(),
+			);
+			$template	= 'site/'.$this->key;
+			$template	= $this->hasTemplate( $template ) ? $template : 'site/info/abstract';
+			$content	= $this->loadTemplate( $template, $uiData );
+			$this->saveFile( $this->key.".html", $content );
+			$this->appendLink( $this->key.".html", $this->key, 1, $this->key );
+		}
+		return 1;
 	}
 }
 ?>

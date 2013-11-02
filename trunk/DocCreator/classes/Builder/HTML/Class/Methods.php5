@@ -134,6 +134,7 @@ class DocCreator_Builder_HTML_Class_Methods extends DocCreator_Builder_HTML_Clas
 		$uri		= 'class.'.$class->getId().".html#source_class_method_".$method->getName();
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
 		$methodLink	= UI_HTML_Elements::Link( $uri, $method->getName() );
+		$methodLink	= '<a href="'.$uri.'" onclick="jumpToLine('.$method->getLine().')">'.$method->getName().'</a>';
 
 		$params	= array();
 		foreach( $method->getParameters() as $parameter )
