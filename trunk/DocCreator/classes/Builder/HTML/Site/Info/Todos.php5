@@ -36,6 +36,8 @@
  */
 class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Site_Info_Abstract{
 
+	protected $count	= 0;
+
 	/**
 	 *	Creates Todo Info Site File.
 	 *	@access		public
