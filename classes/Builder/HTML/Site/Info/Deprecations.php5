@@ -36,6 +36,7 @@
  */
 class DocCreator_Builder_HTML_Site_Info_Deprecations extends DocCreator_Builder_HTML_Site_Info_Abstract
 {
+	protected $count		= 0;
 
 	/**
 	 *	Creates Deprecation Info Site File.
