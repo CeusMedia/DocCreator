@@ -63,9 +63,11 @@ class DocCreator_Core_Runner{
 			$this->setVerbose( $verbose );
 		if( !is_null( $trace ) )
 			$this->setTrace( $trace );
+
+		@date_default_timezone_set( @date_default_timezone_get() );					//  set default time zone
 	}
-	
-	/** 
+
+	/**
 	 *	Enable or disable creation of Doc Files (Classes, Interfaces, Packages, Categories).
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch creation of Doc Files
@@ -74,8 +76,8 @@ class DocCreator_Core_Runner{
 	public function enableCreator( $bool = TRUE ){
 		$this->configProject->setSkip( 'creator', !$bool );
 	}
-	
-	/** 
+
+	/**
 	 *	Enable or disable creation of Info Sites.
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch creation of Info Sites
@@ -84,8 +86,8 @@ class DocCreator_Core_Runner{
 	public function enableInfo( $bool = TRUE ){
 		$this->configProject->setSkip( 'info', !$bool );
 	}
-	
-	/** 
+
+	/**
 	 *	Enable or disable parsing of Source Files.
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch parsing of Source Files
@@ -95,7 +97,7 @@ class DocCreator_Core_Runner{
 		$this->configProject->setSkip( 'parser', !$bool );
 	}
 
-	/** 
+	/**
 	 *	Enable or disable creation of Resources (Images, StyleSheets, JavaScripts).
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch creation of Resources
@@ -104,7 +106,7 @@ class DocCreator_Core_Runner{
 	public function enableResources( $bool = TRUE ){
 		$this->configProject->setSkip( 'resources', !$bool );
 	}
-	
+
 	/**
 	 *	Loads Configuration of Projects from set absolute or relative XML Configuration File.
 	 *	@access		protected
@@ -139,7 +141,7 @@ class DocCreator_Core_Runner{
 	public function main(){
 		if( !$this->configFile )
 			die( "No config file set." );
-		
+
 		$this->pathTool	= dirname( dirname( dirname( __FILE__ ) ) );
 		try{
 			$clock		= new Alg_Time_Clock;
@@ -170,7 +172,7 @@ class DocCreator_Core_Runner{
 				$data	= $doc->readFiles();
 				$this->env->saveContainer( $data );												//  save Data to Serial File
 			}
-			
+
 			$this->out->newLine();
 			$this->runCreator();
 			$usage	= getrusage();
@@ -219,7 +221,7 @@ class DocCreator_Core_Runner{
 	/**
 	 *	Set an other XML Configuration File and load it.
 	 *	@access		public
-	 *	@param		string		$configFile		URI of XML Configuration File 
+	 *	@param		string		$configFile		URI of XML Configuration File
 	 *	@return		void
 	 */
 	public function setConfigFile( $configFile ){
@@ -238,7 +240,7 @@ class DocCreator_Core_Runner{
 #	public function setErrorLog( $fileName ){
 #		$this->setOption( 'file.log.error', $fileName );
 #	}
-	
+
 #	public function setOption( $key, $value ){
 #		$this->configProject['creator.'.$key]	= $value;
 #	}
@@ -250,7 +252,7 @@ class DocCreator_Core_Runner{
 	public function setTrace(){
 		$this->configProject->setTrace( TRUE );
 	}
-	
+
 	public function setVerbose( $bool = TRUE ){
 		$this->configProject->setVerbose( 'general', $bool );
 	}
