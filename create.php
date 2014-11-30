@@ -9,9 +9,6 @@
  *	Therefore the first 2 lines give to possible presettings.
  *	Please select one and remove the other.
  */
-
-@date_default_timezone_set( @date_default_timezone_get() );				//  set default time zone
-
 $pathLib			= __DIR__."/lib/";
 $pathCmClasses		= file_exists( $pathLib ) ? $pathLib."cmClasses/" : "cmClasses/trunk/";
 $pathPhpMarkdown	= file_exists( $pathLib ) ? $pathLib."php-markdown/" : "/var/www/lib/php-markdown/";
