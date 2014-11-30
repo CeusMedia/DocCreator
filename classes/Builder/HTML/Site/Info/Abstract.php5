@@ -58,7 +58,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 		$this->linkList	=& $linkList;
 		$this->options	= $options;
 	}
-	
+
 	protected function appendLink( $url, $key, $count = NULL, $class = NULL )
 	{
 		$this->linkList[]	= array(
@@ -82,7 +82,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 			throw new Exception( 'No files set' );
 		if( !$this->key )
 			throw new Exception( 'No key set' );
-		
+
 		$list		= array();
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
 		if( !$pathDocs )
@@ -129,7 +129,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 		}
 		return count( $list );
 	}
-	
+
 	protected function saveFile( $fileName, $content )
 	{
 		File_Writer::save( $this->pathTarget.$fileName, $content );
@@ -149,7 +149,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 	{
 		$this->pathTarget	= $pathTarget;
 	}
-	
+
 	public function verboseCreation( $key )
 	{
 		if( !$this->env->verbose )
