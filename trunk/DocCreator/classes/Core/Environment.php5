@@ -43,7 +43,7 @@ class DocCreator_Core_Environment{
 	public $packageList;
 #	public $upperCasePackages	= array();
 	public $extensions;
-	public $verbose				= FALSE; 
+	public $verbose				= FALSE;
 
 	/**	@var	ADT_PHP_Category	$tree		... */
 	public $tree;
@@ -54,10 +54,12 @@ class DocCreator_Core_Environment{
 	/**	@var	XML_Element			$builder		Builder section of config XML */
 	public $builder;
 
+	protected $hasGzipSupport	= FALSE;
+
 	/**
 	 *	Constructur, reads Resources and stores locally.
 	 *	@access		public
-	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object 
+	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object
 	 *	@return		void
 	 */
 	public function __construct( DocCreator_Core_Configuration $config, $configTool, $out ){
@@ -69,6 +71,8 @@ class DocCreator_Core_Environment{
 
 		$uri	= $this->path."config/php.classes.list";
 		$this->phpClasses	= File_Reader::loadArray( $uri );
+
+		$this->hasGzipSupport	= function_exists( 'gzopen' );
 	}
 
 	/**
@@ -251,7 +255,7 @@ class DocCreator_Core_Environment{
 	public function loadContainer(){
 		$archive	= $this->config->getArchiveFileName();
 		$serial		= $this->config->getSerialFileName();
-		if( !empty( $archive ) ){
+		if( !empty( $archive ) && $this->hasGzipSupport ){
 			$uri	= $this->path.$archive;
 			if( file_exists( $uri ) ){
 				$serial	= "";
@@ -260,9 +264,9 @@ class DocCreator_Core_Environment{
 						$serial	.= gzgets( $fp, 4096 );
 					$data	= unserialize( $serial );
 					gzclose( $fp );
-				}				
-				return $data;
+				}
 			}
+			return $data;
 		}
 		if( !empty( $serial ) ){
 			$uri	= $this->path.$serial;
@@ -367,6 +371,11 @@ class DocCreator_Core_Environment{
 #		$this->printTree( $this->tree );
 	}
 
+	/**
+	 *	@deprecated		removed instantly because of (meanwhile removed) call to die-function at the end
+	 *	@todo			check for method calls and remove
+	 *	@todo			this method could be migrated to a DocCreator Browser User Interface
+	 */
 	public function printTree( $category, $level = 0 ){
 		if( $category instanceof ADT_PHP_Category ){
 			foreach( $category->getCategories() as $cat ){
@@ -383,9 +392,9 @@ class DocCreator_Core_Environment{
 				$this->printTree( $pack, $level + 1 );
 			}
 		}
-		die;
 	}
-	
+
+
 	/**
 	 *	Stores collected File/Class Data as Serial File or Archive File.
 	 *	@access		protected
@@ -399,7 +408,7 @@ class DocCreator_Core_Environment{
 
 		$fileArchive	= $this->config->getArchiveFileName();
 		$fileSerial		= $this->config->getSerialFileName();
-		if( !empty( $fileArchive ) ){
+		if( !empty( $fileArchive ) && $this->hasGzipSupport ){
 			$uri	= $this->path.$fileArchive;
 			$gz		= gzopen( $uri, 'w9' );
 			gzwrite( $gz, $serial );
