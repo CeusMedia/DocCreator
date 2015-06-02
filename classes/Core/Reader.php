@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,9 +26,9 @@
  */
 /**
  *	Recursive PHP File Reader for storing parsed Data.
- *	@category		cmTools
- *	@package		DocCreator_Core
- *	@uses			File_PHP_Lister
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
+ *	@uses			FS_File_PHP_Lister
  *	@uses			Alg_Time_Clock
  *	@uses			Alg_Text_Trimmer
  *	@uses			ADT_PHP_Container
@@ -51,7 +51,7 @@ class DocCreator_Core_Reader{
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		DocCreator_Core_Configuration	$config		Configuration Array Object
-	 *	@param		Console_Output					$out		Instance of output handler.
+	 *	@param		CLI_Output						$out		Instance of output handler.
 	 *	@param		bool							$verbose	Flag: show Pregress in Console.
 	 *	@return		void
 	 */
@@ -79,7 +79,7 @@ class DocCreator_Core_Reader{
 			if( !file_exists( ( $pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./" ) ) )
 				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
 			
-			$lister		= new File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
+			$lister		= new FS_File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
 			$list[$pathSource]	= array();
 
 			foreach( $lister as $entry ){
@@ -117,7 +117,7 @@ class DocCreator_Core_Reader{
 					$this->env->out->sameLine( "Parsing (".$percentage."%) ".$filePath );
 				}
 				$clock	= new Alg_Time_Clock();										//  setup Clock
-				$parser	= new File_PHP_Parser_Regular();							//  setup Parser
+				$parser	= new FS_File_PHP_Parser_Regular();							//  setup Parser
 
 				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );	//  parse File and return Data Object
 				$file->errors			= ob_get_clean();							//  store Parser Errors

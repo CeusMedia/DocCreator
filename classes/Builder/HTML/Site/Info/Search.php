@@ -73,7 +73,7 @@ class DocCreator_Builder_HTML_Site_Info_Search extends DocCreator_Builder_HTML_S
 		foreach( $files as $fileId => $file )
 			foreach( $file->getClasses() as $classId => $class )
 				$data[$class->getId()]	= $class->search;
-		return File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
+		return FS_File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 }
 ?>

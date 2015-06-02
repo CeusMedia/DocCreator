@@ -399,7 +399,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	}
 
 	public static function removeFiles( $path, $pattern ){
-		$index	= new File_RecursiveRegexFilter( $path, $pattern );									// index formerly generated or copied files
+		$index	= new FS_File_RecursiveRegexFilter( $path, $pattern );								// index formerly generated or copied files
 		foreach( $index as $entry )																	// iterate index
 			@unlink( $entry->getPathname());														// remove outdated files
 	}

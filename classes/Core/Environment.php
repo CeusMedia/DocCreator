@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,9 +26,9 @@
  */
 /**
  *	Class holding environmental Resources for all DocCreater Components.
- *	@category		cmTools
- *	@package		DocCreator_Core
- *	@uses			File_INI_Reader
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
+ *	@uses			FS_File_INI_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -70,9 +70,14 @@ class DocCreator_Core_Environment{
 		$this->path		= dirname( dirname( __DIR__ ) ).'/';
 
 		$uri	= $this->path."config/php.classes.list";
-		$this->phpClasses	= File_Reader::loadArray( $uri );
+		$this->phpClasses	= FS_File_Reader::loadArray( $uri );
 
 		$this->hasGzipSupport	= function_exists( 'gzopen' );
+
+		if( !file_exists( $pathTmp = $this->config->getTempPath() ) )
+			throw new RuntimeException( "Configured path for temporary files (".$pathTmp.") is not existing" );
+		if( !file_exists( $pathLog = $this->config->getLogPath() ) )
+			throw new RuntimeException( "Configured path for log files (".$pathLog.") is not existing" );
 	}
 
 	/**
@@ -253,10 +258,11 @@ class DocCreator_Core_Environment{
 	 *	@throws		RuntimeException if neither Archive File Name nor Serial Name is set
 	 */
 	public function loadContainer(){
+//		throw new RuntimeException( "Continue Mode (=loading container from temp archive) is disabled for now" );
 		$archive	= $this->config->getArchiveFileName();
 		$serial		= $this->config->getSerialFileName();
 		if( !empty( $archive ) && $this->hasGzipSupport ){
-			$uri	= $this->path.$archive;
+			$uri	= $archive;
 			if( file_exists( $uri ) ){
 				$serial	= "";
 				if( $fp = gzopen( $uri, "r" ) ){
@@ -269,7 +275,7 @@ class DocCreator_Core_Environment{
 			return $data;
 		}
 		if( !empty( $serial ) ){
-			$uri	= $this->path.$serial;
+			$uri	= $serial;
 			if( file_exists( $uri ) ){
 				$serial	= file_get_contents( $uri );
 				$data	= unserialize( $serial );
@@ -291,7 +297,7 @@ class DocCreator_Core_Environment{
 		$theme			= $builder->getAttribute( 'theme' );
 		$pathTheme		= $this->path.'themes/'.$format.'/'.$theme.'/';
 		$fileLocales	= $pathTheme.'locales/'.$builder->language->getValue().".ini";
-		$reader			= new File_INI_Reader( $fileLocales, TRUE );
+		$reader			= new FS_File_INI_Reader( $fileLocales, TRUE );
 		$this->words	= $reader->toArray();
 	}
 
@@ -402,6 +408,7 @@ class DocCreator_Core_Environment{
 	 *	@return		void
 	 */
 	public function saveContainer( ADT_PHP_Container $data ){
+//		return TRUE;
 		$serial	= serialize( $data );
 		if( !file_exists( $this->path ) )
 			mkDir( $this->path, 0775, TRUE );
@@ -409,13 +416,13 @@ class DocCreator_Core_Environment{
 		$fileArchive	= $this->config->getArchiveFileName();
 		$fileSerial		= $this->config->getSerialFileName();
 		if( !empty( $fileArchive ) && $this->hasGzipSupport ){
-			$uri	= $this->path.$fileArchive;
+			$uri	= $fileArchive;
 			$gz		= gzopen( $uri, 'w9' );
 			gzwrite( $gz, $serial );
 			gzclose( $gz );
 		}
 		else if( !empty( $fileSerial ) ){
-			$uri	= $this->path.$fileSerial;
+			$uri	= $fileSerial;
 			file_put_contents( $uri, $serial );
 		}
 	}

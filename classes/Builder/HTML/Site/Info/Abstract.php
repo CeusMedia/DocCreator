@@ -29,7 +29,7 @@
  *	@category		cmTools
  *	@package		DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Abstract
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -93,7 +93,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 			if( file_exists( $fileName ) )
 			{
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
-				$content	= File_Reader::load( $fileName );
+				$content	= FS_File_Reader::load( $fileName );
 				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
 				switch( $extension ){
 					case 'md':
@@ -132,7 +132,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 
 	protected function saveFile( $fileName, $content )
 	{
-		File_Writer::save( $this->pathTarget.$fileName, $content );
+		FS_File_Writer::save( $this->pathTarget.$fileName, $content );
 	}
 
 	public function setLinkTargetFrame( $linkTarget )

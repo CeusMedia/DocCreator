@@ -29,7 +29,7 @@
  *	@category		cmTools
  *	@package		DocCreator_Reader_Plugin
  *	@extends		DocCreator_Reader_Plugin_Abstract
- *	@uses			File_CodeLineCounter
+ *	@uses			FS_File_CodeLineCounter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -47,7 +47,7 @@ class DocCreator_Reader_Plugin_Statistics extends DocCreator_Reader_Plugin_Abstr
 		foreach( $data->getFiles() as $file ){
 			$clock	= new Alg_Time_Clock();
 			$sourceCode			= $file->getSourceCode();
-			$file->statistics	= File_CodeLineCounter::countLinesFromSource( $sourceCode );
+			$file->statistics	= FS_File_CodeLineCounter::countLinesFromSource( $sourceCode );
 			unset( $file->statistics['linesCodes'] );
 			unset( $file->statistics['linesStrips'] );
 			unset( $file->statistics['linesDocs'] );

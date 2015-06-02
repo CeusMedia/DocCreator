@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Builder_HTML
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  *	Abstraction of creator classes for builders.
  *	To construct you own builder you will need to extend this as Creator.php5 in your builder folder.
  *  Command your builder actions on a (protected) method __onConstruct(), which is called on construction.
- *	@category		cmTools
- *	@package		DocCreator_Builder_HTML
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2013 Christian Würker
@@ -67,7 +67,7 @@ abstract class DocCreator_Builder_Abstract{
 
 		DocCreator_Builder_HTML_Abstract::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
 
-		$index	= new Folder_RecursiveIterator( $pathSource );
+		$index	= new FS_Folder_RecursiveIterator( $pathSource );
 		$length	= strlen( $pathSource );
 		if( $this->env->verbose )
 			$this->env->out->sameLine( "Copying ".$label );

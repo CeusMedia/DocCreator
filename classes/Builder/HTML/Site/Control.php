@@ -94,7 +94,7 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 			'logo'		=> $logo,
 		);
 		$content	= $this->loadTemplate( "site/control", $uiData );
-		File_Writer::save( $pathTarget."control.html", $content );
+		FS_File_Writer::save( $pathTarget."control.html", $content );
 	}
 }
 ?>

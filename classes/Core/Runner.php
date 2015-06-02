@@ -56,7 +56,7 @@ class DocCreator_Core_Runner{
 	 */
 	public function __construct( $configFile, $verbose = NULL, $trace = NULL ){
 		$this->loadToolConfig();
-		$this->out		= new Console_Output();
+		$this->out		= new CLI_Output();
 		if( $configFile )
 			$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
@@ -184,16 +184,16 @@ class DocCreator_Core_Runner{
 		}
 		catch( Exception $e ){
 			if( !$this->configProject->getTrace() ){
-				remark( "\nError: ".$e->getMessage() );
+				print "Error: ".$e->getMessage() . PHP_EOL;
 			}
 			else{
 				$trace	= $e->getTraceAsString();
 				$trace	= preg_replace( '/#([0-9])+ /', "#\\1\t", $trace );
 				$trace	= str_replace( "): ", "):\n\t", $trace );
-				remark( "\nException: ".$e->getMessage() );
-				remark( "\nFile: ".$e->getFile() );
-				remark( "Line: ".$e->getLine() );
-				remark( "Trace:\n".$trace );
+				print "Exception: ".$e->getMessage() . PHP_EOL;
+				print "File: ".$e->getFile() . PHP_EOL;
+				print "Line: ".$e->getLine() . PHP_EOL;
+				print "Trace:\n".$trace . PHP_EOL;
 			}
 		}
 	}

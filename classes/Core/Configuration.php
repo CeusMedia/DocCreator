@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools 
-*	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  */
 /**
  *	Reads Configuration XML File.
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
@@ -58,8 +58,8 @@ class DocCreator_Core_Configuration{
 	 */
 	public function getArchiveFileName(){
 		foreach( $this->data->creator->file as $file )
-			if( $file->getAttribute( 'type' ) == "archive" )
-				return $file->getValue();
+			if( $file->getAttribute( 'name' ) == "archive" )
+				return $this->getTempPath()."/".$file->getValue();
 	}
 
 	/**
@@ -148,8 +148,21 @@ class DocCreator_Core_Configuration{
 	 */
 	public function getErrorLogFileName(){
 		foreach( $this->data->creator->file as $file )
-			if( $file->getAttribute( 'type' ) == "error" )
-				return $file->getValue();
+			if( $file->getAttribute( 'name' ) == "error" )
+				return $this->getLogPath()."/".$file->getValue();
+	}
+
+	/**
+	 *	Returns path to store log files in.
+	 *	Defaults "log/" if not set in project configuration.
+	 *	@access		public
+	 *	@return		string		Configured path to log files, default: log/
+	 */
+	public function getLogPath(){
+		foreach( $this->data->creator->path as $path )
+			if( $path->getAttribute( 'name' ) == "log" )
+				return $path->getValue();
+		return "log/";
 	}
 
 	/**
@@ -252,8 +265,8 @@ class DocCreator_Core_Configuration{
 
 	public function getSerialFileName(){
 		foreach( $this->data->creator->file as $file )
-			if( $file->getAttribute( 'type' ) == "serial" )
-				return $file->getValue();
+			if( $file->getAttribute( 'name' ) == "serial" )
+				return $this->getTempPath()."/".$file->getValue();
 	}
 
 	public function getSkip( $type ){
@@ -269,10 +282,29 @@ class DocCreator_Core_Configuration{
 		return $value;
 	}
 
+	/**
+	 *	Returns path to store temporary files in.
+	 *	Defaults "tmp/" if not set in project configuration.
+	 *	@access		public
+	 *	@return		string		Configured path to log files, default: tmp/
+	 */
+	public function getTempPath(){
+		foreach( $this->data->creator->path as $path )
+			if( $path->getAttribute( 'name' ) == "temp" )
+				return $path->getValue();
+		return "tmp/";
+	}
+
+	/**
+	 *	Return maximum execution time in seconds.
+	 *	@access		public
+	 *	@return		integer 	Configured seconds, default: -1
+	 */
 	public function getTimeLimit(){
-		if( !$this->data->creator->hasAttribute( 'timelimit' ) )
-			return -1;
-		return $this->data->creator->getAttribute( 'timelimit' );
+		foreach( $this->data->creator->limit as $limit )
+			if( $limit->getAttribute( 'name' ) == "time" )
+				return $limit->getValue();
+		return -1;
 	}
 
 	public function getTrace(){

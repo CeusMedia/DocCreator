@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,16 +26,16 @@
  */
 /**
  *	Main Class of DocCreator Application.
- *	@category		cmTools
- *	@package		DocCreator_Core
- *	@extends		Console_Application
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
+ *	@extends		CLI_Application
  *	@uses			DocCreator_Core_Runner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ConsoleRunner.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
-class DocCreator_Core_ConsoleRunner extends Console_Application{
+class DocCreator_Core_ConsoleRunner extends CLI_Application{
 
 	protected $configFile	= NULL;
 
@@ -75,30 +75,37 @@ class DocCreator_Core_ConsoleRunner extends Console_Application{
 			die( $this->showUsage() );
 
 #		set_error_handler( array( $this, 'handleError' ) );
-		$creator	= new DocCreator_Core_Runner( $this->configFile, $this->verbose, $this->trace );
+		try{
+			$creator	= new DocCreator_Core_Runner( $this->configFile, $this->verbose, $this->trace );
 
-		$mapSkip	= array(
-			'--config-file'		=> 'setConfigFile',
-			'--source-folder'	=> 'setProjectBasePath',
-			'--target-folder'	=> 'setBuilderTargetPath',
-			'--log-error'		=> 'setErrorLog',
-			'--mail-error'		=> 'setErrorMail',
-			'--skip-parser'		=> 'enableParser',
-			'--skip-creator'	=> 'enableCreator',
-			'--skip-info'		=> 'enableInfo',
-			'--skip-resources'	=> 'enableResources',
-			'--quite'			=> 'setQuite',
-			'--trace'			=> 'setTrace'
-		);
-		foreach( $this->arguments->getAll() as $key => $value )
-			if( array_key_exists( $key, $mapSkip ) )
-				$creator->$mapSkip[$key]( $value );
-		if( $this->arguments->has( '--show-config' ) )
-			$creator->setOption( 'showConfig', TRUE );
-		if( $this->arguments->has( '--show-config-only' ) )
-			$creator->setOption( 'showConfigOnly', TRUE );
+			$mapSkip	= array(
+				'--config-file'		=> 'setConfigFile',
+				'--source-folder'	=> 'setProjectBasePath',
+				'--target-folder'	=> 'setBuilderTargetPath',
+				'--log-error'		=> 'setErrorLog',
+				'--mail-error'		=> 'setErrorMail',
+				'--skip-parser'		=> 'enableParser',
+				'--skip-creator'	=> 'enableCreator',
+				'--skip-info'		=> 'enableInfo',
+				'--skip-resources'	=> 'enableResources',
+				'--quite'			=> 'setQuite',
+				'--trace'			=> 'setTrace'
+			);
+			foreach( $this->arguments->getAll() as $key => $value )
+				if( array_key_exists( $key, $mapSkip ) )
+					$creator->$mapSkip[$key]( $value );
+			if( $this->arguments->has( '--show-config' ) )
+				$creator->setOption( 'showConfig', TRUE );
+			if( $this->arguments->has( '--show-config-only' ) )
+				$creator->setOption( 'showConfigOnly', TRUE );
 
-		$creator->main();
+			$creator->main();
+		}
+		catch( Exception $e ){
+			print $e->getMessage() . PHP_EOL;
+			print $e->getTraceAsString() . PHP_EOL;
+			exit;
+		}
 	}
 
 	/**
