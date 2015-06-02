@@ -71,8 +71,10 @@ class DocCreator_Core_ConsoleRunner extends CLI_Application{
 	 *	@return		void
 	 */
 	protected function main(){
-		if( $this->arguments->has( '--help' ) )
-			die( $this->showUsage() );
+		if( $this->arguments->has( '--help' ) ){
+			$this->showUsage();
+			exit;
+		}
 
 #		set_error_handler( array( $this, 'handleError' ) );
 		try{
@@ -104,6 +106,7 @@ class DocCreator_Core_ConsoleRunner extends CLI_Application{
 		catch( Exception $e ){
 			print $e->getMessage() . PHP_EOL;
 			print $e->getTraceAsString() . PHP_EOL;
+			$this->showUsage();
 			exit;
 		}
 	}
@@ -115,19 +118,19 @@ class DocCreator_Core_ConsoleRunner extends CLI_Application{
 	 *	@return		void
 	 */
 	protected function showUsage( $message = NULL ){
-		remark( "Usage: php create.php5 [OPTION]..." );
-		remark( "Options:" );
-		remark( "  -c, --config-file       URI of config file of project" );
-		remark( "  -s, --source-folder     Override base source folder" );
-		remark( "  -t, --target-folder     Override base target folder" );
-		remark( "  -sc, --skip-creator     Skip file creation process" );
-		remark( "  -sp, --skip-parser      Skip file parsing process" );
-		remark( "  -sr, --skip-resources   Skip coping of resources files" );
-		remark( "  -q, --quite             No output to console" );
-		remark( "  --trace                 Show trace of exception" );
-		remark( "  --show-config           Show project config" );
-		remark( "  --show-config-only      Show project config and abort" );
-		remark( "" );
+		print "Usage: php create.php5 [OPTION]..." . PHP_EOL;
+		print "Options:" . PHP_EOL;
+		print "  -c, --config-file       URI of config file of project" . PHP_EOL;
+		print "  -s, --source-folder     Override base source folder" . PHP_EOL;
+		print "  -t, --target-folder     Override base target folder" . PHP_EOL;
+		print "  -sc, --skip-creator     Skip file creation process" . PHP_EOL;
+		print "  -sp, --skip-parser      Skip file parsing process" . PHP_EOL;
+		print "  -sr, --skip-resources   Skip coping of resources files" . PHP_EOL;
+		print "  -q, --quite             No output to console" . PHP_EOL;
+		print "  --trace                 Show trace of exception" . PHP_EOL;
+		print "  --show-config           Show project config" . PHP_EOL;
+		print "  --show-config-only      Show project config and abort" . PHP_EOL;
+		print PHP_EOL;
 		if( $message )
 			$this->showError( $message );
 	}

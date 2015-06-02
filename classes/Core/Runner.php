@@ -140,10 +140,10 @@ class DocCreator_Core_Runner{
 
 	public function main(){
 		if( !$this->configFile )
-			die( "No config file set." );
+			throw new RuntimeException( "No config file set." );
 
 		$this->pathTool	= dirname( dirname( dirname( __FILE__ ) ) );
-		try{
+//		try{
 			$clock		= new Alg_Time_Clock;
 #			$this->setProjectBasePath( NULL );														//  realize project paths by removing base path placeholders in project config structure
 #			$this->setBuilderTargetPath( NULL );
@@ -181,7 +181,7 @@ class DocCreator_Core_Runner{
 
 #			if( !empty( $this->configProject['quite'] ) )
 #				ob_get_clean();
-		}
+/*		}
 		catch( Exception $e ){
 			if( !$this->configProject->getTrace() ){
 				print "Error: ".$e->getMessage() . PHP_EOL;
@@ -195,7 +195,7 @@ class DocCreator_Core_Runner{
 				print "Line: ".$e->getLine() . PHP_EOL;
 				print "Trace:\n".$trace . PHP_EOL;
 			}
-		}
+		}*/
 	}
 
 	/**
