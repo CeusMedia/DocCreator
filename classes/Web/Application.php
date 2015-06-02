@@ -1,13 +1,13 @@
 <?php
 /**
  *	...
- *	@category		cmTools
- *	@package		DocCreator_Web
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Web
  */
 /**
  *	...
- *	@category		cmTools
- *	@package		DocCreator_Web
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Web
  */
 class DocCreator_Web_Application
 {

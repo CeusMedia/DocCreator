@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  */
 /**
  *	General Runner of DocCreator Application.
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Core
  *	@uses			File_INI_Reader
  *	@uses			Alg_Time_Clock
  *	@uses			DocCreator_Core_Configuration

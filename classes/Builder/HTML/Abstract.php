@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License 
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Builder_HTML
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  */
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
- *	@category		cmTools
- *	@package		DocCreator_Builder_HTML
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@uses			UI_HTML_Elements
  *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Site
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  */
 /**
  *	Creates Documentation Sites from Parser Data.
- *	@category		cmTools
- *	@package		DocCreator_Builder_HTML_Site
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker

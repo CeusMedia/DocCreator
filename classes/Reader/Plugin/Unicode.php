@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Reader_Plugin
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  */
 /**
  *	...
- *	@category		cmTools
- *	@package		DocCreator_Reader_Plugin
+ *	@category		Tool
+ *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@extends		DocCreator_Reader_Plugin_Abstract
  *	@uses			Alg_Text_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
