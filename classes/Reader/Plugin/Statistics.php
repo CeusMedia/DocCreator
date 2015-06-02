@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2013 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmTools
  *	@package		DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2013 Christian Würker
+ *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
@@ -31,7 +31,7 @@
  *	@extends		DocCreator_Reader_Plugin_Abstract
  *	@uses			FS_File_CodeLineCounter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2013 Christian Würker
+ *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */

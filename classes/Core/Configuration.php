@@ -2,7 +2,7 @@
 /**
  *	Reads Configuration XML File.
  *
- *	Copyright (c) 2008-2013 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2013 Christian Würker
+ *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id $
  */
@@ -30,7 +30,7 @@
  *	@package		CeusMedia_DocCreator_Core
  *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2013 Christian Würker
+ *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id $
  *	@todo			Code Doc
