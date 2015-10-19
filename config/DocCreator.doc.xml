@@ -5,7 +5,7 @@
 		<path>[/path/to/DocCreator/]</path>
 		<extension>php</extension>
 		<ignore type="file">/^(_|[a-z])/</ignore>
-		<ignore type="folder">#(docs|lib|Go|Test)/#</ignore>
+		<ignore type="folder">#(docs|lib|Go|Test|vendor)/#</ignore>
 		<category by="default">Tool</category>
 		<package by="default">CeusMedia.DocCreator</package>
 	</project>
