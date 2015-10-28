@@ -10,6 +10,8 @@ To apply DocCreator to your project save this configuration to <code>doc.xml</co
 
 	<?xml version="1.0"?>
 	<config>
+
+		<!--  PROJECT SETTINGS  -->
 		<project>
 			<name>My Project</name>
 			<path>[/path/to/project/]</path>
@@ -19,6 +21,8 @@ To apply DocCreator to your project save this configuration to <code>doc.xml</co
 			<category by="default">Project</category>
 			<package by="default">MyProject</package>
 		</project>
+
+		<!--  BUILDER SETTINGS  -->
 		<builder format="HTML" theme="Default">
 			<path type="target" alt="must be absolute">doc/API/</path>
 			<path type="documents" alt="must be absolute">doc/</path>
@@ -33,11 +37,14 @@ To apply DocCreator to your project save this configuration to <code>doc.xml</co
 			<plugin>ParseErrors</plugin>
 			<plugin>License</plugin>
 		</builder>
+
+		<!--  READER PLUGINS  -->
 		<reader>
-			<plugin>Defaults</plugin>
 			<plugin>Relations</plugin>
 			<plugin>Primitives</plugin>
 		</reader>
+
+		<!--  CORE SETTINGS  -->
 		<creator>
 			<limit name="time" title="max time to execute in seconds">60</limit>
 			<path name="temp" hint="absolute or relative to work dir" title="path to store temporary files in">/tmp/</path>
