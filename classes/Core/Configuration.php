@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id $
  */
+namespace CeusMedia\DocCreator\Core;
 /**
  *	Reads Configuration XML File.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@version		$Id $
  *	@todo			Code Doc
  */
-class DocCreator_Core_Configuration{
+class Configuration{
 
 	/**	@var		XML_Elememt		$data			XML root node of config XML file */
 	public $data;
@@ -47,7 +48,7 @@ class DocCreator_Core_Configuration{
 	 *	@return		void
 	 */
 	public function __construct( $fileName ){
-		$reader		= new XML_ElementReader();
+		$reader		= new \XML_ElementReader();
 		$this->data	= $reader->readFile( $fileName );
 	}
 
@@ -68,13 +69,13 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$builder		Builder Node from XML File
 	 *	@return		string
 	 */
-	public function getBuilderDocumentsPath( XML_Element $builder ){
+	public function getBuilderDocumentsPath( \XML_Element $builder ){
 		foreach( $builder->path as $path )
 			if( $path->getAttribute( 'type' ) == "documents" )
 				return preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
 	}
 
-	public function getBuilderLogo( XML_Element $builder ){
+	public function getBuilderLogo( \XML_Element $builder ){
 		$logo		= (object) array(
 			'source'	=> NULL,
 			'title'		=> NULL,
@@ -96,7 +97,7 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$builder		Builder Node from XML File
 	 *	@return		XML_Element
 	 */
-	public function getBuilderOptions( XML_Element $builder ){
+	public function getBuilderOptions( \XML_Element $builder ){
 		if( !isset( $builder->option ) )
 			return array();
 		return $builder->option;
@@ -108,7 +109,7 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$builder		Builder Node from XML File
 	 *	@return		XML_Element
 	 */
-	public function getBuilderPlugins( XML_Element $builder ){
+	public function getBuilderPlugins( \XML_Element $builder ){
 		if( !isset( $builder->plugin ) )
 			return array();
 		return $builder->plugin;
@@ -131,7 +132,7 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$builder		Builder Node from XML File
 	 *	@return		string
 	 */
-	public function getBuilderTargetPath( XML_Element $builder ){
+	public function getBuilderTargetPath( \XML_Element $builder ){
 		foreach( $builder->path as $path ){
 			if( $path->getAttribute( 'type' ) == "target" ){
 //				remark("getBuilderTargetPath: ".$path->getValue());
@@ -171,7 +172,7 @@ class DocCreator_Core_Configuration{
 	 *	@return		string
 	 */
 	public function getMailReceiver(){
-		return $this->data->creator->mail->getValue();	
+		return $this->data->creator->mail->getValue();
 	}
 
 	/**
@@ -180,21 +181,21 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$project		Project Node from XML File
 	 *	@return		array
 	 */
-	public function getProjectExtensions( XML_Element $project ){
+	public function getProjectExtensions( \XML_Element $project ){
 		$list	= array();
 		foreach( $project->extension as $extension )
 			$list[]	= $extension->getValue();
 		return $list;
 	}
 
-	public function getProjectForcedCategory( XML_Element $project ){
+	public function getProjectForcedCategory( \XML_Element $project ){
 		if( $project->category->hasAttribute( "by" ) )
 			if( $project->category->getAttribute( "by" ) == "force" )
 				return $project->category->getValue();
 		return NULL;
 	}
 
-	public function getProjectForcedPackage( XML_Element $project ){
+	public function getProjectForcedPackage( \XML_Element $project ){
 		if( $project->package->hasAttribute( "by" ) )
 			if( $project->package->getAttribute( "by" ) == "force" )
 				return $project->package->getValue();
@@ -207,7 +208,7 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$project		Project Node from XML File
 	 *	@return		array
 	 */
-	public function getProjectIgnoreFiles( XML_Element $project ){
+	public function getProjectIgnoreFiles( \XML_Element $project ){
 		$list	= array();
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "file" )
@@ -221,7 +222,7 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$project		Project Node from XML File
 	 *	@return		array
 	 */
-	public function getProjectIgnoreFolders( XML_Element $project ){
+	public function getProjectIgnoreFolders( \XML_Element $project ){
 		$list	= array();
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "folder" )
@@ -235,7 +236,7 @@ class DocCreator_Core_Configuration{
 	 *	@param		XML_Element		$project		Project Node from XML File
 	 *	@return		string
 	 */
-	public function getProjectPath( XML_Element $project ){
+	public function getProjectPath( \XML_Element $project ){
 		$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $project->path->getValue() );
 		return str_replace( array( "[", "]" ), "", $path );
 	}
@@ -320,7 +321,7 @@ class DocCreator_Core_Configuration{
 		switch( strtoupper( $value ) )
 		{
 			case 'FALSE':	return FALSE;
-			case 'TRUE':	return true;
+			case 'TRUE':	return TRUE;
 		}
 		return $value;
 	}

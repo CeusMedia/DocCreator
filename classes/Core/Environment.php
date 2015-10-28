@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Environment.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Core;
 /**
  *	Class holding environmental Resources for all DocCreater Components.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@version		$Id: Environment.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  *	@todo			fix case sensitive packages/categories
  */
-class DocCreator_Core_Environment{
+class Environment{
 
 	public $config;
 	public $words;
@@ -62,7 +63,7 @@ class DocCreator_Core_Environment{
 	 *	@param		DocCreator_Core_Configuration	$config			Configuration Array Object
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Configuration $config, $configTool, $out ){
+	public function __construct( \CeusMedia\DocCreator\Core\Configuration $config, $configTool, $out ){
 		$this->config	=& $config;
 		$this->tool		= $configTool;
 		$this->out		= $out;
@@ -70,14 +71,14 @@ class DocCreator_Core_Environment{
 		$this->path		= dirname( dirname( __DIR__ ) ).'/';
 
 		$uri	= $this->path."config/php.classes.list";
-		$this->phpClasses	= FS_File_Reader::loadArray( $uri );
+		$this->phpClasses	= \FS_File_Reader::loadArray( $uri );
 
 		$this->hasGzipSupport	= function_exists( 'gzopen' );
 
 		if( !file_exists( $pathTmp = $this->config->getTempPath() ) )
-			throw new RuntimeException( "Configured path for temporary files (".$pathTmp.") is not existing" );
+			throw new \RuntimeException( "Configured path for temporary files (".$pathTmp.") is not existing" );
 		if( !file_exists( $pathLog = $this->config->getLogPath() ) )
-			throw new RuntimeException( "Configured path for log files (".$pathLog.") is not existing" );
+			throw new \RuntimeException( "Configured path for log files (".$pathLog.") is not existing" );
 	}
 
 	/**
@@ -111,7 +112,7 @@ class DocCreator_Core_Environment{
 #		$packageName	= implode( $separator, $packageParts );
 		return $packageName;
 	}
-	
+
 	/**
 	 *	Returns Path to Builder Classes.
 	 *	@access		public
@@ -164,7 +165,7 @@ class DocCreator_Core_Environment{
 	public function getBuilderTargetPath(){
 		return $this->config->getBuilderTargetPath( $this->builder );
 	}
-	
+
 	public function getBuilderTheme(){
 		return $this->builder->getAttribute( 'theme' );
 	}
@@ -187,7 +188,7 @@ class DocCreator_Core_Environment{
 	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)
 	 *	@return		ADT_PHP_Class
 	 */
-	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedArtefact ){
+	public function getClassFromClassName( $className, \ADT_PHP_Interface $relatedArtefact ){
 		return $this->data->getClassFromClassName( $className, $relatedArtefact );
 	}
 
@@ -235,7 +236,7 @@ class DocCreator_Core_Environment{
 	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)
 	 *	@return		ADT_PHP_Interface
 	 */
-	public function getInterfaceFromInterfaceName( $interfaceName, ADT_PHP_Interface $relatedArtefact ){
+	public function getInterfaceFromInterfaceName( $interfaceName, \ADT_PHP_Interface $relatedArtefact ){
 		return $this->data->getInterfaceFromInterfaceName( $interfaceName, $relatedArtefact );
 	}
 
@@ -282,7 +283,7 @@ class DocCreator_Core_Environment{
 				return $data;
 			}
 		}
-		throw new RuntimeException( 'No data file existing - you need to parse' );
+		throw new \RuntimeException( 'No data file existing - you need to parse' );
 	}
 
 	/**
@@ -291,13 +292,13 @@ class DocCreator_Core_Environment{
 	 *	@param		XML_Element		$builder		Builder section of config XML
 	 *	@return		void
 	 */
-	public function openBuilder( XML_Element $builder ){
+	public function openBuilder( \XML_Element $builder ){
 		$this->builder	= $builder;
 		$format			= $builder->getAttribute( 'format' );
 		$theme			= $builder->getAttribute( 'theme' );
 		$pathTheme		= $this->path.'themes/'.$format.'/'.$theme.'/';
 		$fileLocales	= $pathTheme.'locales/'.$builder->language->getValue().".ini";
-		$reader			= new FS_File_INI_Reader( $fileLocales, TRUE );
+		$reader			= new \FS_File_INI_Reader( $fileLocales, TRUE );
 		$this->words	= $reader->toArray();
 	}
 
@@ -339,7 +340,7 @@ class DocCreator_Core_Environment{
 	 *	@return		void
 	 */
 	private function readStructureTree(){
-		$this->tree	= new ADT_PHP_Category( "root" );
+		$this->tree	= new \ADT_PHP_Category( "root" );
 //		$this->tree->setPackage( 'default', new ADT_PHP_Category( 'default' ) );
 		foreach( $this->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
@@ -347,14 +348,14 @@ class DocCreator_Core_Environment{
 				if( !$class->getCategory() )
 					continue;
 				if( !$this->tree->hasPackage( $class->getCategory() ) )
-					$this->tree->setPackage( $class->getCategory(), new ADT_PHP_Category( $class->getCategory() ) );
+					$this->tree->setPackage( $class->getCategory(), new \ADT_PHP_Category( $class->getCategory() ) );
 				if( !$class->getPackage() )
 					continue;
 				$category	= $this->tree->getPackage( $class->getCategory() );
 				$name		= str_replace( ".", "_", $class->getPackage() );
 				$parts		= explode( "_", $name );
 				$name		= array_pop( $parts );
-				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
+				$package	= new \ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
 				$package->addClass( $class );
 				$category->setPackage( $class->getPackage(), $package );
 			}
@@ -362,14 +363,14 @@ class DocCreator_Core_Environment{
 				if( !$interface->getCategory() )
 					continue;
 				if( !$this->tree->hasPackage( $interface->getCategory() ) )
-					$this->tree->setPackage( $interface->getCategory(), new ADT_PHP_Category( $interface->getCategory() ) );
+					$this->tree->setPackage( $interface->getCategory(), new \ADT_PHP_Category( $interface->getCategory() ) );
 				if( !$interface->getPackage() )
 					continue;
 				$category	= $this->tree->getPackage( $interface->getCategory() );
 				$name		= str_replace( ".", "_", $interface->getPackage() );
 				$parts		= explode( "_", $name );
 				$name		= array_pop( $parts );
-				$package	= new ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
+				$package	= new \ADT_PHP_Package( $this->capitalizePackageLabel( $name ) );
 				$package->addInterface( $interface);
 				$category->setPackage( $interface->getPackage(), $package );
 			}
@@ -383,7 +384,7 @@ class DocCreator_Core_Environment{
 	 *	@todo			this method could be migrated to a DocCreator Browser User Interface
 	 */
 	public function printTree( $category, $level = 0 ){
-		if( $category instanceof ADT_PHP_Category ){
+		if( $category instanceof \ADT_PHP_Category ){
 			foreach( $category->getCategories() as $cat ){
 				remark( str_repeat( "  ", $level * 4).$cat->getLabel() );
 				$this->printTree( $cat, $level + 1 );
@@ -392,7 +393,7 @@ class DocCreator_Core_Environment{
 				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
 			}
 		}
-		else if( $category instanceof ADT_PHP_Package ){
+		else if( $category instanceof \ADT_PHP_Package ){
 			foreach( $category->getPackages() as $pack ){
 				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
 				$this->printTree( $pack, $level + 1 );
@@ -407,7 +408,7 @@ class DocCreator_Core_Environment{
 	 *	@param		ADT_PHP_Container	$data		Collected File / Class Data
 	 *	@return		void
 	 */
-	public function saveContainer( ADT_PHP_Container $data ){
+	public function saveContainer( \ADT_PHP_Container $data ){
 //		return TRUE;
 		$serial	= serialize( $data );
 		if( !file_exists( $this->path ) )

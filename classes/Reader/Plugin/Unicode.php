@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Unicode.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Reader\Plugin;
 /**
  *	...
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Unicode.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Reader_Plugin_Unicode extends DocCreator_Reader_Plugin_Abstract{
+class Unicode extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 
 	/**
 	 *	...
@@ -43,12 +44,12 @@ class DocCreator_Reader_Plugin_Unicode extends DocCreator_Reader_Plugin_Abstract
 	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( ADT_PHP_Container $data ){
+	public function extendData( \ADT_PHP_Container $data ){
 		foreach( $data->getFiles() as $file ){
 			$file->unicode		= TRUE;
 			$sourceCode			= $file->getSourceCode();
-			if( !Alg_Text_Unicoder::isUnicode( $sourceCode ) ){
-				$sourceCode	= Alg_Text_Unicoder::convertToUnicode( $sourceCode );
+			if( !\Alg_Text_Unicoder::isUnicode( $sourceCode ) ){
+				$sourceCode	= \Alg_Text_Unicoder::convertToUnicode( $sourceCode );
 				$file->setSourceCode( $sourceCode );
 				$file->unicode		= FALSE;
 			}

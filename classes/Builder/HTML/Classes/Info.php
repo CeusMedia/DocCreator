@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Classes;
 /**
  *	Builds Class Information View.
  *	@category		Tool
@@ -35,9 +36,9 @@
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  *	@todo			Code Doc
  */
-class DocCreator_Builder_HTML_Class_Info extends DocCreator_Builder_HTML_Interface_Info{
+class Info extends \CeusMedia\DocCreator\Builder\HTML\Interfaces\Info{
 
-	private function buildRelationTree( ADT_PHP_Interface $class ){
+	private function buildRelationTree( \ADT_PHP_Interface $class ){
 		$classes = $this->getSuperClasses( $class );
 		if( !$classes )
 			return;
@@ -45,13 +46,13 @@ class DocCreator_Builder_HTML_Class_Info extends DocCreator_Builder_HTML_Interfa
 		$tree	= "";
 		foreach( $classes as $className ){
 			$className	= $this->getTypeMarkUp( $className ).$tree;
-			$item	= UI_HTML_Elements::ListItem( $className, 0, array( 'class' => 'class' ) );
-			$tree	= UI_HTML_Elements::unorderedList( array( $item ) );
+			$item	= \UI_HTML_Elements::ListItem( $className, 0, array( 'class' => 'class' ) );
+			$tree	= \UI_HTML_Elements::unorderedList( array( $item ) );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );
 	}
-	
-	public function buildView( ADT_PHP_Interface $class ){
+
+	public function buildView( \ADT_PHP_Interface $class ){
 		$this->type		= 'class';
 
 		$package		= $this->buildPackageLink( $class->getPackage(), $class->getCategory() );
@@ -105,7 +106,7 @@ class DocCreator_Builder_HTML_Class_Info extends DocCreator_Builder_HTML_Interfa
 	 *	@param		ADT_PHP_Class		$class		Class to get list of superclasses for
 	 *	@return		array			List of superclasses
 	 */
-	protected function getSuperClasses( ADT_PHP_Class $class ){
+	protected function getSuperClasses( \ADT_PHP_Class $class ){
 		$list	= array();																			//  prepare empty list
 		while( $superClass = $class->getExtendedClass() ){											//  while internal class has superclass
 			$list[]	= $superClass;																	//  set reference to found superclass

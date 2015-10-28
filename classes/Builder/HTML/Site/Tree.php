@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Tree.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site;
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		Tool
@@ -37,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Tree.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract{
+class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Builds Tree View.
@@ -56,12 +57,12 @@ class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract
 			$tree	= array_pop( $packages );
 		}
 
-		$menu		= new ADT_Tree_Menu_List();
+		$menu		= new \ADT_Tree_Menu_List();
 		$menu->setAttribute( 'class', NULL );
 		$menu->setAttribute( 'id', 'tree' );
-		
+
 		$this->convertTreeToTreeMenuRecursive( $tree, $menu );
-		$builder	= new UI_HTML_Tree_Menu();
+		$builder	= new \UI_HTML_Tree_Menu();
 		$builder->setTarget( 'content' );
 		$tree		= $builder->buildMenuFromMenuList( $menu );
 		$uiData	= array(
@@ -85,7 +86,7 @@ class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract
 			}
 			$uri	= $prefix.$package->getId().".html";
 			$label	= $this->env->capitalizePackageLabel( $package->getLabel() );
-			$item	= new ADT_Tree_Menu_Item( $uri, $label );
+			$item	= new \ADT_Tree_Menu_Item( $uri, $label );
 			$item->setAttribute( 'class', $class );
 			$this->convertTreeToTreeMenuRecursive( $package, $item );
 			$list[$label]	= $item;
@@ -98,7 +99,7 @@ class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract
 		foreach( $root->getClasses() as $class ){
 			$parts	= explode( "_", $class->getName() );
 			$name	= array_pop( $parts );
-			$item	= new ADT_Tree_Menu_Item( 'class.'.$class->getId().'.html', $name );
+			$item	= new \ADT_Tree_Menu_Item( 'class.'.$class->getId().'.html', $name );
 			$item->setAttribute( 'class', 'class' );
 			$uniqueKey	= $class->getName()."_".uniqid();
 			$list[$uniqueKey]	= $item;
@@ -111,7 +112,7 @@ class DocCreator_Builder_HTML_Site_Tree extends DocCreator_Builder_HTML_Abstract
 		foreach( $root->getInterfaces() as $interface ){
 			$parts	= explode( "_", $interface->getName() );
 			$name	= array_pop( $parts );
-			$item	= new ADT_Tree_Menu_Item( 'interface.'.$interface->getId().'.html', $name );
+			$item	= new \ADT_Tree_Menu_Item( 'interface.'.$interface->getId().'.html', $name );
 			$item->setAttribute( 'class', 'interface' );
 			$uniqueKey	= $interface->getName()."_".uniqid();
 			$list[$uniqueKey]	= $item;

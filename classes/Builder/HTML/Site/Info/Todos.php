@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Todo Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Site_Info_Abstract{
+class Todos extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 
 	protected $count	= 0;
 
@@ -53,11 +54,11 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 				$methodTodos	= array();
 
 				$classUri	= "class.".$class->getId().".html";
-				$classLink	= UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
+				$classLink	= \UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getTodos() ){
 					foreach( $class->getTodos() as $todo )
-						$classTodos[]	= UI_HTML_Elements::ListItem( $todo, 1, array( 'class' => "classItem" ) );
+						$classTodos[]	= \UI_HTML_Elements::ListItem( $todo, 1, array( 'class' => "classItem" ) );
 					$this->count	+= count( $classTodos );
 				}
 
@@ -66,19 +67,19 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 						continue;
 					$list	= array();
 					foreach( $methodData->getTodos() as $todo )
-						$list[]		= UI_HTML_Elements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
-					$list	= UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+						$list[]		= \UI_HTML_Elements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
+					$list	= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().".html#class_method_".$methodName;
-					$methodLink		= UI_HTML_Elements::Link( $methodUrl, $methodName, 'method' );
-					$methodTodos[]	= UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );	
+					$methodLink		= \UI_HTML_Elements::Link( $methodUrl, $methodName, 'method' );
+					$methodTodos[]	= \UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );
 				}
 				if( !$classTodos && !$methodTodos )
 					continue;
 
-				$methodTodos	= UI_HTML_Elements::unorderedList( $methodTodos, 1, array( 'class' => "methods" ) );
-				$classTodos		= UI_HTML_Elements::unorderedList( $classTodos, 1, array( 'class' => "classList" ) );
-				$todos[$class->getName()]		= UI_HTML_Elements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
+				$methodTodos	= \UI_HTML_Elements::unorderedList( $methodTodos, 1, array( 'class' => "methods" ) );
+				$classTodos		= \UI_HTML_Elements::unorderedList( $classTodos, 1, array( 'class' => "classList" ) );
+				$todos[$class->getName()]		= \UI_HTML_Elements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
 			}
 		}
 		ksort( $todos );
@@ -91,7 +92,7 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 				'key'		=> 'todos',
 				'id'		=> 'info-todos',
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
-				'content'	=> UI_HTML_Elements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
+				'content'	=> \UI_HTML_Elements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);
@@ -105,4 +106,3 @@ class DocCreator_Builder_HTML_Site_Info_Todos extends DocCreator_Builder_HTML_Si
 	}
 }
 ?>
-

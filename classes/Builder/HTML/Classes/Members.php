@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Members.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Classes;
 /**
  *	Builds Class Members Information File.
  *	@category		Tool
@@ -34,16 +35,16 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Members.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Class_Members extends DocCreator_Builder_HTML_Class_Info{
+class Members extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 
 	/**
 	 *	Builds List of inherited Members of all extended Classes.
 	 *	@access		public
 	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@param		array			$got			List of Member Names already handled
-	 *	@return		string			List HTML 
+	 *	@return		string			List HTML
 	 */
-	private function buildInheritedMemberList( ADT_PHP_Class $class, $got = array() ){
+	private function buildInheritedMemberList( \ADT_PHP_Class $class, $got = array() ){
 		$extended		= array();
 		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
 
@@ -61,24 +62,24 @@ class DocCreator_Builder_HTML_Class_Members extends DocCreator_Builder_HTML_Clas
 					continue;
 				$got[]		= $memberName;
 				$uri		= 'class.'.$superClass->getId().".html#class_member_".$memberName;
-				$link		= UI_HTML_Elements::Link( $uri, $memberName, 'member' );
+				$link		= \UI_HTML_Elements::Link( $uri, $memberName, 'member' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
-				$list[$memberName]	= UI_HTML_Elements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
+				$list[$memberName]	= \UI_HTML_Elements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
 			}
 			if( $list ){
 				ksort( $list );
-				$list		= UI_HTML_Elements::unorderedList( $list );
+				$list		= \UI_HTML_Elements::unorderedList( $list );
 				$item		= $this->getTypeMarkUp( $superClass ).$list;
 				$attributes	= array( 'class' => 'membersOfExtendedClass' );
 				if( $nr % 3 == 0 )
 					$attributes['style']	= "clear: left";										//  line break after each 3 classes
-				$extended[]	= UI_HTML_Elements::ListItem( $item, 0, $attributes );
+				$extended[]	= \UI_HTML_Elements::ListItem( $item, 0, $attributes );
 			}
 		}
 		if( !$extended )
 			return "";
 		$attributes	= array( 'class' => 'extendedClass' );
-		$extended	= UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
+		$extended	= \UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
 		$data	= array(
 			'words'	=> $this->words['classMembersInherited'],
 			'list'	=> $extended,
@@ -105,7 +106,7 @@ class DocCreator_Builder_HTML_Class_Members extends DocCreator_Builder_HTML_Clas
 		$attributes['default']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $member->getDefault() ), 'default' );
 
 		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
-	
+
 		$accessType	= $member->getAccess() ? $member->getAccess() : 'public';
 		$data	= array(
 			'memberName'	=> $memberName,
@@ -125,7 +126,7 @@ class DocCreator_Builder_HTML_Class_Members extends DocCreator_Builder_HTML_Clas
 	 *	@param		ADT_PHP_Class	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_Interface $class ){
+	public function buildView( \ADT_PHP_Interface $class ){
 		$this->type	= "class";
 
 		$list		= array();

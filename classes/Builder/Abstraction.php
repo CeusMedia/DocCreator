@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  */
+namespace CeusMedia\DocCreator\Builder;
 /**
  *	Abstraction of creator classes for builders.
  *	To construct you own builder you will need to extend this as Creator.php5 in your builder folder.
@@ -36,16 +37,16 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  */
-abstract class DocCreator_Builder_Abstract{
+abstract class Abstraction{
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		DocCreator_Core_Environment	$env			Environment Object 
+	 *	@param		DocCreator_Core_Environment	$env			Environment Object
 	 *	@param		XML_Element					$builder		XML Node from Config of Builder to apply
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Environment $env, XML_Element $builder ){
+	public function __construct( \CeusMedia\DocCreator\Core\Environment $env, \XML_Element $builder ){
 		$this->env		= $env;
 		$this->config	= $this->env->config;
 		$this->env->openBuilder( $builder );
@@ -56,7 +57,7 @@ abstract class DocCreator_Builder_Abstract{
 			mkDir( $this->pathTarget, 0775, TRUE );
 		$this->__onConstruct();
 	}
-	
+
 	abstract protected function __onConstruct();
 
 	protected function copyResourcesRecursive( $pathSource, $pathTarget, $label ){
@@ -65,9 +66,9 @@ abstract class DocCreator_Builder_Abstract{
 		if( !file_exists( $pathTarget ) )
 			mkDir( $pathTarget, 0775, TRUE );
 
-		DocCreator_Builder_HTML_Abstract::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
+		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^.+$/' );							// remove formerly copied resource files
 
-		$index	= new FS_Folder_RecursiveIterator( $pathSource );
+		$index	= new \FS_Folder_RecursiveIterator( $pathSource );
 		$length	= strlen( $pathSource );
 		if( $this->env->verbose )
 			$this->env->out->sameLine( "Copying ".$label );
@@ -77,11 +78,11 @@ abstract class DocCreator_Builder_Abstract{
 				if( preg_match( "@\.skip@i", $entry->getPathname() ) )
 					continue;
 				if( !@copy( $entry->getPathname(), $pathTarget.$name ) )
-					throw new RuntimeException( 'File "'.$entry->getPathname().'" could not be copied to "'.$pathTarget.$name.'"' ); 
+					throw new \RuntimeException( 'File "'.$entry->getPathname().'" could not be copied to "'.$pathTarget.$name.'"' );
 			}
 			else if( $entry->isDir() && !file_exists( $pathTarget.$name ) )
 				mkDir( $pathTarget.$name );
-		}	
+		}
 	}
 }
 ?>

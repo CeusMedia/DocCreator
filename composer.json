@@ -22,7 +22,9 @@
     "michelf/php-markdown": "1.5.0"
   },
   "autoload": {
-    "classmap": ["classes/"]
+    "psr-4": {
+      "CeusMedia\\DocCreator\\": "classes/"
+    }
   },
   "bin": ["doc-creator.php"]
 }

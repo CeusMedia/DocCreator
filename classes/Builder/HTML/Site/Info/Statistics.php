@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Statistics Info Site File.
  *	@category		Tool
@@ -38,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Statistics extends DocCreator_Builder_HTML_Site_Info_Abstract{
+class Statistics extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 
 	/**
 	 *	Creates Statistics Info Site File.
@@ -56,7 +57,7 @@ class DocCreator_Builder_HTML_Site_Info_Statistics extends DocCreator_Builder_HT
 		$numberLines	= 0;
 		$numberStrips	= 0;
 
-		$clock	= new Alg_Time_Clock();
+		$clock	= new \Alg_Time_Clock();
 		foreach( $this->env->data->getFiles() as $file ){
 			$stats				= $file->statistics;
 			$numberFiles		++;
@@ -86,25 +87,25 @@ class DocCreator_Builder_HTML_Site_Info_Statistics extends DocCreator_Builder_HT
 				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
 				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
 				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
-			), 
+			),
 			'seconds'	=> $clock->stop( 6 ),
 		);
 
 		//  --  TOTAL TABLE  --  //
-		$data['length']['total']			= Alg_UnitFormater::formatBytes( $data['number']['length'], 1 );
-		$data['length']['perFile']			= Alg_UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
-		$data['time']['stats']['total']		= Alg_UnitFormater::formatMicroSeconds( $data['seconds'] );
-		$data['time']['stats']['perFile']	= Alg_UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
+		$data['length']['total']			= \Alg_UnitFormater::formatBytes( $data['number']['length'], 1 );
+		$data['length']['perFile']			= \Alg_UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
+		$data['time']['stats']['total']		= \Alg_UnitFormater::formatMicroSeconds( $data['seconds'] );
+		$data['time']['stats']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
 		unset( $data['files'] );
 
 		//  --  GRAPH  --  //
 		$graphData	= array(
-			new UI_SVG_ChartData( $data['ratio']['codesPerFile'], "Code" ), 
-			new UI_SVG_ChartData( $data['ratio']['docsPerFile'], "Docs" ),
-			new UI_SVG_ChartData( $data['ratio']['stripsPerFile'], "stripped" ),
+			new \UI_SVG_ChartData( $data['ratio']['codesPerFile'], "Code" ),
+			new \UI_SVG_ChartData( $data['ratio']['docsPerFile'], "Docs" ),
+			new \UI_SVG_ChartData( $data['ratio']['stripsPerFile'], "stripped" ),
 		);
 		$graphFile	= "loc.svg";
-		$chart		= new UI_SVG_Chart( $graphData, array( "blue", "green", "gray" ) );
+		$chart		= new \UI_SVG_Chart( $graphData, array( "blue", "green", "gray" ) );
 		$chart->buildPieGraph( array( "x" => 50, "y" => 50, "legend" => TRUE ) );
 		$chart->save( $this->pathTarget.$graphFile );
 
@@ -120,10 +121,10 @@ class DocCreator_Builder_HTML_Site_Info_Statistics extends DocCreator_Builder_HT
 		}
 		if( $fileCount ){
 			$parseTime	= $this->env->data->timeTotal;
-			$data['time']['parse']['total']		= Alg_UnitFormater::formatMicroSeconds( $parseTime );
-			$data['time']['parse']['perFile']	= Alg_UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
-			$data['time']['build']['total']		= Alg_UnitFormater::formatMicroSeconds( $buildTime );
-			$data['time']['build']['perFile']	= Alg_UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
+			$data['time']['parse']['total']		= \Alg_UnitFormater::formatMicroSeconds( $parseTime );
+			$data['time']['parse']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
+			$data['time']['build']['total']		= \Alg_UnitFormater::formatMicroSeconds( $buildTime );
+			$data['time']['build']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
 		}
 
 		$uiData	= array(

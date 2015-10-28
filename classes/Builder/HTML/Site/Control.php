@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site;
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstract{
+class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	protected $linkTarget	= "content";
 
@@ -46,12 +47,12 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 			$label	= isset( $words[$link['key']] ) ? $words[$link['key']] : $link['key'];
 			$label	.= $link['count'] > 1 ? " (".$link['count'].")" : "";
 			$class	= 'info '.$link['key'];
-			$link	= UI_HTML_Elements::Link( $link['url'], $label, $class, $this->linkTarget );
-			$list[]	= UI_HTML_Elements::ListItem( $link );
+			$link	= \UI_HTML_Elements::Link( $link['url'], $label, $class, $this->linkTarget );
+			$list[]	= \UI_HTML_Elements::ListItem( $link );
 		}
 
 		$uiData	= array(
-			'list'	=> UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "links" ) ),
+			'list'	=> \UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "links" ) ),
 			'words'	=> $words,
 		);
 		return $this->loadTemplate( "site/links", $uiData );
@@ -64,9 +65,9 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 				'src'		=> 'images/'.$logo->source,
 				'alt'		=> $logo->title,
 			);
-			$image		= UI_HTML_Tag::create( 'img', NULL, $attributes );
+			$image		= \UI_HTML_Tag::create( 'img', NULL, $attributes );
 			if( $logo->link ){
-				$image	= UI_HTML_Tag::create( 'a', $image, array(
+				$image	= \UI_HTML_Tag::create( 'a', $image, array(
 					'href'		=> $logo->link,
 					'target'	=> '_top',
 				) );
@@ -83,7 +84,7 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 	 */
 	public function createControl( $linkList ){
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new DocCreator_Builder_HTML_Site_Tree( $this->env );
+		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Tree( $this->env );
 		$tree		= $builder->buildTree();
 		$logo		= $this->buildLogo();
 
@@ -94,7 +95,7 @@ class DocCreator_Builder_HTML_Site_Control extends DocCreator_Builder_HTML_Abstr
 			'logo'		=> $logo,
 		);
 		$content	= $this->loadTemplate( "site/control", $uiData );
-		FS_File_Writer::save( $pathTarget."control.html", $content );
+		\FS_File_Writer::save( $pathTarget."control.html", $content );
 	}
 }
 ?>

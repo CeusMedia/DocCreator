@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\File;
 /**
  *	Builder for File Info View.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_File_Info extends DocCreator_Builder_HTML_Abstract{
+class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Builds List of License Attributes.
@@ -51,7 +52,7 @@ class DocCreator_Builder_HTML_File_Info extends DocCreator_Builder_HTML_Abstract
 			if( $license->getUrl() ){
 				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
 				$class	= 'file-info-license';
-				$label	= UI_HTML_Elements::Link( $url, $label, $class );
+				$label	= \UI_HTML_Elements::Link( $url, $label, $class );
 			}
 			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
 		}
@@ -64,7 +65,7 @@ class DocCreator_Builder_HTML_File_Info extends DocCreator_Builder_HTML_Abstract
 	 *	@param		ADT_PHP_Function	$data		Data object of function or method
 	 *	@return		string				Return Description
 	 */
-	protected function buildParamReturn( ADT_PHP_Function $data ){
+	protected function buildParamReturn( \ADT_PHP_Function $data ){
 		if( !$data->getReturn() )
 			return "";
 		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
@@ -95,7 +96,7 @@ class DocCreator_Builder_HTML_File_Info extends DocCreator_Builder_HTML_Abstract
 	 *	@param		ADT_PHP_File		$file		File Object to build Info View for
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_File $file ){
+	public function buildView( \ADT_PHP_File $file ){
 		$this->type	= 'file';
 
 		$package		= $this->buildPackageLink( $file->getPackage(), $file->getCategory() );

@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Search.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Search File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Search.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Search extends DocCreator_Builder_HTML_Site_Info_Abstract{
+class Search extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 
 	/**
 	 *	Builds Tree View.
@@ -73,7 +74,7 @@ class DocCreator_Builder_HTML_Site_Info_Search extends DocCreator_Builder_HTML_S
 		foreach( $files as $fileId => $file )
 			foreach( $file->getClasses() as $classId => $class )
 				$data[$class->getId()]	= $class->search;
-		return FS_File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
+		return \FS_File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 }
 ?>

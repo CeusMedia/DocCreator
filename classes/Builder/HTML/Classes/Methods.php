@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builds Interface Methods Information File.
+ *	Builds Class Methods Information File.
  *
  *	Copyright (c) 2008-2015 Christian Würker (ceusmedia.de)
  *
@@ -18,38 +18,39 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Class
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Methods.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Classes;
 /**
- *	Builds Interface Methods Information File.
+ *	Builds Class Methods Information File.
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
- *	@extends		DocCreator_Builder_HTML_Interface_Info
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Class
+ *	@extends		DocCreator_Builder_HTML_Class_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Methods.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Interface_Methods extends DocCreator_Builder_HTML_Interface_Info{
+class Methods extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 
 	/**
-	 *	Builds List of inherited Methods of all extended Interfacees.
+	 *	Builds List of inherited Methods of all extended Classes.
 	 *	@access		public
-	 *	@param		ADT_PHP_Interface		$interface			Interface Object
+	 *	@param		ADT_PHP_Class		$class			Class Object
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( ADT_PHP_Interface $interface, $got = array() ){
+	private function buildInheritedMethodList( \ADT_PHP_Class $class, $got = array() ){
 		$extended	= array();
-		$interfaces	= $this->getSuperInterfaces( $interface );
-		foreach( $interfaces as $interface ){
+		$classes	= $this->getSuperClasses( $class );
+		foreach( $classes as $nr => $class ){
 			$list		= array();
-			if( !is_object( $interface ) )
+			if( !is_object( $class ) )
 				continue;
-			foreach( $interface->getMethods() as $methodName => $methodData ){
+			foreach( $class->getMethods() as $methodName => $methodData ){
 				if( in_array( $methodName, $got ) )
 					continue;
 				if( $methodData->getAccess() == "private" )
@@ -58,43 +59,45 @@ class DocCreator_Builder_HTML_Interface_Methods extends DocCreator_Builder_HTML_
 					continue;
 				if( $methodData->isAbstract() )
 					continue;
-				$uri		= 'interface.'.$interface->getId().".html#interface_method_".$methodName;
-				$link		= UI_HTML_Elements::Link( $uri, $methodName, 'method' );
+				$uri		= 'class.'.$class->getId().".html#class_method_".$methodName;
+				$link		= \UI_HTML_Elements::Link( $uri, $methodName, 'method' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
 				$got[]		= $methodName;
-				$list[$methodName]	= UI_HTML_Elements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
+				$list[$methodName]	= \UI_HTML_Elements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
 			}
 			if( $list ){
 				ksort( $list );
-				$list		= UI_HTML_Elements::unorderedList( $list );
-				$item		= $this->getTypeMarkUp( $interface ).$list;
-				$attributes	= array( 'class' => 'methodsOfExtendedInterface' );
-				$extended[]	= UI_HTML_Elements::ListItem( $item, 0, $attributes );
+				$list		= \UI_HTML_Elements::unorderedList( $list );
+				$item		= $this->getTypeMarkUp( $class ).$list;
+				$attributes	= array( 'class' => 'methodsOfExtendedClass' );
+				if( $nr % 3 == 0 )
+					$attributes['style']	= "clear: left";										//  line break after each 3 classes
+				$extended[]	= \UI_HTML_Elements::ListItem( $item, 0, $attributes );
 			}
 		}
 		if( !$extended )
 			return "";
-		$attributes	= array( 'class' => 'extendedInterface' );
-		$extended	= UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
+		$attributes	= array( 'class' => 'extendedClass' );
+		$extended	= \UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
 		$data	= array(
-			'words'	=> $this->words['interfaceMethodsInherited'],
+			'words'	=> $this->words['classMethodsInherited'],
 			'list'	=> $extended,
 		);
-		return $this->loadTemplate( 'interface.methods.inherited', $data );
+		return $this->loadTemplate( 'class.methods.inherited', $data );
 	}
 
 	/**
 	 *	Builds View of a Method with all Information.
 	 *	@access		private
-	 *	@param		ADT_PHP_Interface		$interface			Interface Object
+	 *	@param		ADT_PHP_Class		$class			Class Object
 	 *	@param		ADT_PHP_Method		$method			Method Data Object
 	 *	@return		string
 	 */
-	private function buildMethodEntry( ADT_PHP_Interface $interface, ADT_PHP_Method $method ){
+	private function buildMethodEntry( \ADT_PHP_Class $class, \ADT_PHP_Method $method ){
 		$attributes	= array();
 
 		$attributes['name']			= $this->buildParamStringList( $method->getName(), 'name' );
-		$attributes['description']	= $this->buildParamStringList( $method->getDescription(), 'description' );
+		$attributes['description']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $method->getDescription() ), 'description' );
 
 		$attributes['abstract']		= $this->buildParamList( $method->isAbstract() ? " ": "", 'abstract' );
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
@@ -106,7 +109,7 @@ class DocCreator_Builder_HTML_Interface_Methods extends DocCreator_Builder_HTML_
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
-		$attributes['copyright']	= $this->buildParamStringList( $method->getCopyright(), 'copyright' );
+		$attributes['copyright']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $method->getCopyright() ), 'copyright' );
 		$attributes['deprecated']	= $this->buildParamStringList( $method->getDeprecations(), 'deprecated' );
 		$attributes['todo']			= $this->buildParamStringList( $method->getTodos(), 'todo' );
 
@@ -124,19 +127,20 @@ class DocCreator_Builder_HTML_Interface_Methods extends DocCreator_Builder_HTML_
 			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
 			$params[]	= $signature.$text;
 		}
-		$params	= implode( "<br/>", $params );	
+		$params	= implode( "<br/>", $params );
 		$attributes['param']	= $this->buildParamList( $params, 'param' );
 
-		$attributes	= $this->loadTemplate( 'interface.method.attributes', $attributes );
+		$attributes	= $this->loadTemplate( 'class.method.attributes', $attributes );
 
-		$uri		= 'interface.'.$interface->getId().".html#source_interface_method_".$method->getName();
+		$uri		= 'class.'.$class->getId().".html#source_class_method_".$method->getName();
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
-		$methodLink	= UI_HTML_Elements::Link( $uri, $method->getName() );
+		$methodLink	= \UI_HTML_Elements::Link( $uri, $method->getName() );
+		$methodLink	= '<a href="'.$uri.'" onclick="jumpToLine('.$method->getLine().')">'.$method->getName().'</a>';
 
 		$params	= array();
 		foreach( $method->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
-		$params	= implode( ", ", $params );	
+		$params	= implode( ", ", $params );
 		if( $params	)
 			$params	= " ".$params." ";
 
@@ -151,35 +155,35 @@ class DocCreator_Builder_HTML_Interface_Methods extends DocCreator_Builder_HTML_
 			'parameters'	=> $params,
 			'description'	=> $this->getFormatedDescription( $method->getDescription() ),
 		);
-		return $this->loadTemplate( 'interface.method', $data );
+		return $this->loadTemplate( 'class.method', $data );
 	}
 
 	/**
-	 *	Builds View of Interface Methods for Interface Information File.
+	 *	Builds View of Class Methods for Class Information File.
 	 *	@access		public
-	 *	@param		ADT_PHP_Interface		$interface			Interface Object
+	 *	@param		ADT_PHP_Interface	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_Interface $interface ){
-		$this->type	= "interface";
+	public function buildView( \ADT_PHP_Interface $class ){
+		$this->type	= "class";
 
 		$list		= array();
-		$methods	= $interface->getMethods();
+		$methods	= $class->getMethods();
 		if( !$methods )
 			return "";
 		ksort( $methods );
 		foreach( $methods as $methodName => $methodData )
-			$list[$methodName]	= $this->buildMethodEntry( $interface, $methodData );
+			$list[$methodName]	= $this->buildMethodEntry( $class, $methodData );
 
-		$words		= $this->env->words['interfaceMethods'];
-		$heading	= sprintf( $words['heading'], $interface->getName() );
+		$words		= $this->env->words['classMethods'];
+		$heading	= sprintf( $words['heading'], $class->getName() );
 		$data	= array(
 			'words'		=> $words,
 			'heading'	=> $heading,
 			'list'		=> implode( "", $list ),
-			'inherited'	=> $this->buildInheritedMethodList( $interface, array_keys( $list ) ),
+			'inherited'	=> $this->buildInheritedMethodList( $class, array_keys( $list ) ),
 		);
-		return $this->loadTemplate( 'interface.methods', $data );
+		return $this->loadTemplate( 'class.methods', $data );
 	}
 }
 ?>

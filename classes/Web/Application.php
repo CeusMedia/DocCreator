@@ -4,16 +4,17 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Web
  */
+namespace CeusMedia\DocCreator\Web;
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Web
  */
-class DocCreator_Web_Application
+class Application
 {
 	public function __construct()
 	{
-		die( "Web UI is coming soon in v0.9" );	
+		die( "Web UI is coming soon in v0.9" );
 	}
 }
 ?>

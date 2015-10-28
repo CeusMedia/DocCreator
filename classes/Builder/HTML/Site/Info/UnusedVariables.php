@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: UnusedVariables.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: UnusedVariables.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_UnusedVariables extends DocCreator_Builder_HTML_Site_Info_Abstract
+class UnusedVariables extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	/**
 	 *	Creates Deprecation Info Site File.
@@ -46,7 +47,7 @@ class DocCreator_Builder_HTML_Site_Info_UnusedVariables extends DocCreator_Build
 	{
 		$count		= 0;
 		$content	= "";
-		$finder		= new Alg_UnusedVariableFinder();
+		$finder		= new \Alg_UnusedVariableFinder();
 		$classList	= array();
 		foreach( $this->env->data->getFiles() as $file )
 		{
@@ -65,21 +66,21 @@ class DocCreator_Builder_HTML_Site_Info_UnusedVariables extends DocCreator_Build
 					{
 						$count++;
 						$span	= '<span class="var">'.$var.'</span>';
-						$item	= UI_HTML_Elements::ListItem( $span, 2, array( 'class' => "varItem" ) );
+						$item	= \UI_HTML_Elements::ListItem( $span, 2, array( 'class' => "varItem" ) );
 						$listVars[]	= $item;
 					}
 					if( !$listVars )
 						continue;
-					$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html#class_method_'.$method, $method, 'method' );
-					$list	= UI_HTML_Elements::unorderedList( $listVars, 2, array( 'class' => 'varList' ) );
-					$item	= UI_HTML_Elements::ListItem( $link.$list, 1, array( 'class' => 'methodItem' ) );
+					$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html#class_method_'.$method, $method, 'method' );
+					$list	= \UI_HTML_Elements::unorderedList( $listVars, 2, array( 'class' => 'varList' ) );
+					$item	= \UI_HTML_Elements::ListItem( $link.$list, 1, array( 'class' => 'methodItem' ) );
 					$listMethods[]	= $item;
 				}
 				if( !$listMethods )
 					continue;
-				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
-				$list	= UI_HTML_Elements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
-				$item	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+				$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$list	= \UI_HTML_Elements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
+				$item	= \UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
 				$classList[$class->getName()]	= $item;
 			}
 		}
@@ -94,7 +95,7 @@ class DocCreator_Builder_HTML_Site_Info_UnusedVariables extends DocCreator_Build
 				'key'		=> 'unusedVariables',
 				'id'		=> 'info-unusedVariables',
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unusedVariables',
-				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $classList ).'</div>',
+				'content'	=> '<div id="tree">'.\UI_HTML_Elements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);

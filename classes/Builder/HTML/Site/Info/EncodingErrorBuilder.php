@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: EncodingErrorBuilder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Encoding Error Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: EncodingErrorBuilder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_EncodingErrorBuilder extends DocCreator_Builder_HTML_Abstract{
+class EncodingErrorBuilder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Creates Change Log Sites if any Change Log File is available in Project Folder.
@@ -50,7 +51,7 @@ class DocCreator_Builder_HTML_Site_Info_EncodingErrorBuilder extends DocCreator_
 				continue;
 			$errors	= $file->errors;
 			$label	= "<b>".$file->getPathname()."</b>";
-			$list[]	= UI_HTML_Elements::ListItem( $label.$errors );
+			$list[]	= \UI_HTML_Elements::ListItem( $label.$errors );
 		}
 		if( $list ){
 			if( $this->env->verbose )
@@ -58,7 +59,7 @@ class DocCreator_Builder_HTML_Site_Info_EncodingErrorBuilder extends DocCreator_
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'topic'		=> $this->env->words['encoding']['heading'],
-				'list'		=> UI_HTML_Elements::unorderedList( $list ),
+				'list'		=> \UI_HTML_Elements::unorderedList( $list ),
 				'words'		=> $this->env->words['encoding'],
 				'footer'	=> $this->buildFooter(),
 			);

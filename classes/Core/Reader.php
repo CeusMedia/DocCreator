@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Reader.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Core;
 /**
  *	Recursive PHP File Reader for storing parsed Data.
  *	@category		Tool
@@ -40,7 +41,7 @@
  *	@todo			fix error noted in 'setDefaultCategoryAndPackage'
  *	@todo			Code Doc (members)
  */
-class DocCreator_Core_Reader{
+class Reader{
 
 	protected $config			= NULL;
 	protected $path				= "";
@@ -68,7 +69,7 @@ class DocCreator_Core_Reader{
 	 *	@param		XML_Element			$project	XML Element of Project from Configuration
 	 *	@return		void
 	 */
-	protected function listClassFiles( XML_Element $project ){
+	protected function listClassFiles( \XML_Element $project ){
 		$pathSource		= $this->config->getProjectPath( $project );
 		$ignoreFiles	= $this->config->getProjectIgnoreFiles( $project );
 		$ignoreFolders	= $this->config->getProjectIgnoreFolders( $project );
@@ -77,9 +78,9 @@ class DocCreator_Core_Reader{
 		$sources	= explode( ",", $pathSource );
 		foreach( $sources as $pathSource ){
 			if( !file_exists( ( $pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./" ) ) )
-				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
-			
-			$lister		= new FS_File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
+				throw new \RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
+
+			$lister		= new \FS_File_PHP_Lister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
 			$list[$pathSource]	= array();
 
 			foreach( $lister as $entry ){
@@ -91,7 +92,7 @@ class DocCreator_Core_Reader{
 		return $list;
 	}
 
-	protected function parseFiles( ADT_PHP_Container $data, $project, $list ){
+	protected function parseFiles( \ADT_PHP_Container $data, $project, $list ){
 		$sources	= explode( ",", $this->config->getProjectPath( $project ) );
 		if( $this->verbose ){
 			$count	= 0;
@@ -116,8 +117,8 @@ class DocCreator_Core_Reader{
 					$percentage	= str_pad( round( $count / $total * 100 ), 2, " ", STR_PAD_LEFT );
 					$this->env->out->sameLine( "Parsing (".$percentage."%) ".$filePath );
 				}
-				$clock	= new Alg_Time_Clock();										//  setup Clock
-				$parser	= new FS_File_PHP_Parser_Regular();							//  setup Parser
+				$clock	= new \Alg_Time_Clock();										//  setup Clock
+				$parser	= new \FS_File_PHP_Parser_Regular();							//  setup Parser
 
 				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );	//  parse File and return Data Object
 				$file->errors			= ob_get_clean();							//  store Parser Errors
@@ -140,11 +141,11 @@ class DocCreator_Core_Reader{
 	 *	@todo		rewrite: create a Container for each Project and merge afterwards, see note in 'setDefaultCategoryAndPackage'
 	 */
 	public function readFiles(){
-		$data	= new ADT_PHP_Container;											//  init Data Container Object
-		$clock1	= new Alg_Time_Clock();												//  start outer Clock
+		$data	= new \ADT_PHP_Container;											//  init Data Container Object
+		$clock1	= new \Alg_Time_Clock();												//  start outer Clock
 
-		//  --  READ FILES  --  //		
-		$clock2	= new Alg_Time_Clock();												//  start inner Clock
+		//  --  READ FILES  --  //
+		$clock2	= new \Alg_Time_Clock();												//  start inner Clock
 		foreach( $this->config->getProjects() as $project ){
 			$fileList	= $this->listClassFiles( $project );
 			$this->parseFiles( $data, $project, $fileList );
@@ -155,8 +156,8 @@ class DocCreator_Core_Reader{
 		$data->indexInterfaces();													//  create interface index in container
 		$data->timeParse	= $clock2->stop( 6, 0 );								//  note needed time
 
-		//  --  APPLY PLUGINS  --  //		
-		$clock2	= new Alg_Time_Clock();												//  start inner Clock
+		//  --  APPLY PLUGINS  --  //
+		$clock2	= new \Alg_Time_Clock();												//  start inner Clock
 		foreach( $this->plugins as $pluginName => $plugin ){						//  iterate registered Plugins
 			$this->env->out->sameLine( "Plugin: ".$pluginName );
 			$plugin->extendData( $data );											//  apply plugin
@@ -209,7 +210,7 @@ class DocCreator_Core_Reader{
 		}
 	}
 
-	/** 
+	/**
 	 *	Assigns Reader Plugins to be applied after parsing all Projects.
 	 *	@access		protected
 	 *	@return		void
@@ -217,10 +218,10 @@ class DocCreator_Core_Reader{
 	protected function registerPlugins(){
 		foreach( $this->config->getReaderPlugins() as $pluginName ){
 			$pluginName	= trim( $pluginName );
-			$className	= 'DocCreator_Reader_Plugin_'.$pluginName;
+			$className	= '\\CeusMedia\\DocCreator\\Reader\\Plugin\\'.$pluginName;
 			if( !class_exists( $className ) )
-				throw new RuntimeException( 'Invalid reader plugin "'.$pluginName.'"' );
-			$reflection	= new ReflectionClass( $className );
+				throw new \RuntimeException( 'Invalid reader plugin "'.$pluginName.'"' );
+			$reflection	= new \ReflectionClass( $className );
 			$plugin		= $reflection->newInstanceArgs( array( $this->env, $this->verbose ) );
 			$this->plugins[$pluginName]	= $plugin;
 		}
@@ -230,12 +231,12 @@ class DocCreator_Core_Reader{
 	 *	Sets default Category and Package for incomplete Classes and Interfaces found in latest parsed Project Files.
 	 *	This is applied after every Project.
 	 *	@access		protected
-	 *	@param		ADT_PHP_Container	$data			
+	 *	@param		ADT_PHP_Container	$data
 	 *	@param		XML_Element			$project		Project to get values for
 	 *	@return		void
 	 *	@todo		There is a possible error if a project does not set defaults but the next project is. Than all incomplete files of the last project will be assigned to the next one. A workaround would be to have several containers which will be merged in the end.
 	 */
-	protected function setDefaultCategoryAndPackage( $data, XML_Element $project ){
+	protected function setDefaultCategoryAndPackage( $data, \XML_Element $project ){
 		$category = $project->category->getValue();
 		if( $category ){
 			foreach( $data->getFiles() as $file ){

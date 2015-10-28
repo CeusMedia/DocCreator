@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\File;
 /**
  *	Builds File Information File.
  *	@category		Tool
@@ -38,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_File_Builder extends DocCreator_Builder_HTML_Abstract{
+class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Constructor.
@@ -48,10 +49,10 @@ class DocCreator_Builder_HTML_File_Builder extends DocCreator_Builder_HTML_Abstr
 	 */
 	public function __construct( $env ){
 		parent::__construct( $env );
-		$this->builderFileInfo		= new DocCreator_Builder_HTML_File_Info( $env );
-		$this->builderFileFunctions	= new DocCreator_Builder_HTML_File_Functions( $env );
-		$this->builderSourceCode	= new DocCreator_Builder_HTML_File_SourceCode( $env );
-		$this->builderIndex			= new DocCreator_Builder_HTML_File_Index( $env );
+		$this->builderFileInfo		= new \CeusMedia\DocCreator\Builder\HTML\File\Info( $env );
+		$this->builderFileFunctions	= new \CeusMedia\DocCreator\Builder\HTML\File\Functions( $env );
+		$this->builderSourceCode	= new \CeusMedia\DocCreator\Builder\HTML\File\SourceCode( $env );
+		$this->builderIndex			= new \CeusMedia\DocCreator\Builder\HTML\File\Index( $env );
 	}
 
 	/**
@@ -60,7 +61,7 @@ class DocCreator_Builder_HTML_File_Builder extends DocCreator_Builder_HTML_Abstr
 	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_File $file ){
+	public function buildView( \ADT_PHP_File $file ){
 		$data	= array(
 			'fileName'		=> $file->getBasename(),
 			'pathName'		=> $file->getPathname(),
@@ -80,7 +81,7 @@ class DocCreator_Builder_HTML_File_Builder extends DocCreator_Builder_HTML_Abstr
 	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function getFunctionList( ADT_PHP_File $file ){
+	public function getFunctionList( \ADT_PHP_File $file ){
 		$list		= array();
 		$functions	= $file->getFunctions();
 		ksort( $functions );

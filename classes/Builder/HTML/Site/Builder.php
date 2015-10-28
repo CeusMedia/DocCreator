@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site;
 /**
  *	Creates Documentation Sites from Parser Data.
  *	@category		Tool
@@ -35,12 +36,12 @@
  *	@version		$Id: Builder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  *	@todo			Code Doc
  */
-class DocCreator_Builder_HTML_Site_Builder extends DocCreator_Builder_HTML_Abstract{
+class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	protected $linkList			= array();
 
 	protected function createControl( $pathTarget ){
-		$builder	= new DocCreator_Builder_HTML_Site_Control( $this->env );
+		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Control( $this->env );
 		$builder->createControl( $this->linkList );
 	}
 
@@ -76,10 +77,10 @@ class DocCreator_Builder_HTML_Site_Builder extends DocCreator_Builder_HTML_Abstr
 
 		$plugins	= $this->env->getBuilderPlugins();
 		foreach( $plugins as $plugin => $options ){
-			$className	= 'DocCreator_Builder_'.$format.'_Site_Info_'.$plugin;
+			$className	= '\\CeusMedia\\DocCreator\\Builder\\'.$format.'\\Site\\Info\\'.$plugin;
 			if( !class_exists( $className ) )
-				throw new RuntimeException( 'Invalid info site plugin "'.$plugin.'"' );
-			$reflection	= new ReflectionClass( $className );
+				throw new \RuntimeException( 'Invalid info site plugin "'.$plugin.'"' );
+			$reflection	= new \ReflectionClass( $className );
 			$arguments	= array( $this->env, &$this->linkList, $options );
 			$builder	= $reflection->newInstanceArgs( $arguments );
 #				$builder->setProjectPath( $pathProject );

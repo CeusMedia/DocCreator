@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Deprecations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Deprecations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Deprecations extends DocCreator_Builder_HTML_Site_Info_Abstract
+class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	protected $count		= 0;
 
@@ -55,12 +56,12 @@ class DocCreator_Builder_HTML_Site_Info_Deprecations extends DocCreator_Builder_
 				$methodDeprecations	= array();
 
 				$classUri	= "class.".$class->getId().".html";
-				$classLink	= UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
+				$classLink	= \UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getDeprecations() )
 				{
 					foreach( $class->getDeprecations() as $deprecation )
-						$classDeprecations[]	= UI_HTML_Elements::ListItem( $deprecation, 1, array( 'class' => "classItem" ) );
+						$classDeprecations[]	= \UI_HTML_Elements::ListItem( $deprecation, 1, array( 'class' => "classItem" ) );
 					$this->count	+= count( $classDeprecations );
 				}
 
@@ -71,19 +72,19 @@ class DocCreator_Builder_HTML_Site_Info_Deprecations extends DocCreator_Builder_
 					$list	= array();
 					foreach( $method->getDeprecations() as $deprecation )
 						if( trim( $deprecation ) )
-							$list[]		= UI_HTML_Elements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
-					$list	= UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+							$list[]		= \UI_HTML_Elements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
+					$list	= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
-					$methodLink		= UI_HTML_Elements::Link( $methodUrl, $method->getName(), 'method' );
-					$methodDeprecations[]	= UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );	
+					$methodLink		= \UI_HTML_Elements::Link( $methodUrl, $method->getName(), 'method' );
+					$methodDeprecations[]	= \UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );
 				}
 				if( !$classDeprecations && !$methodDeprecations )
 					continue;
 
-				$methodDeprecations	= UI_HTML_Elements::unorderedList( $methodDeprecations, 1, array( 'class' => "methods" ) );
-				$classDeprecations	= UI_HTML_Elements::unorderedList( $classDeprecations, 1, array( 'class' => "classList" ) );
-				$deprecations[]		= UI_HTML_Elements::ListItem( $classLink.$classDeprecations.$methodDeprecations, 0, array( 'class' => "class" ) );
+				$methodDeprecations	= \UI_HTML_Elements::unorderedList( $methodDeprecations, 1, array( 'class' => "methods" ) );
+				$classDeprecations	= \UI_HTML_Elements::unorderedList( $classDeprecations, 1, array( 'class' => "classList" ) );
+				$deprecations[]		= \UI_HTML_Elements::ListItem( $classLink.$classDeprecations.$methodDeprecations, 0, array( 'class' => "class" ) );
 			 }
 		}
 		if( $deprecations )
@@ -96,7 +97,7 @@ class DocCreator_Builder_HTML_Site_Info_Deprecations extends DocCreator_Builder_
 				'key'		=> 'deprecations',
 				'id'		=> 'info-deprecations',
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
-				'content'	=> UI_HTML_Elements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
+				'content'	=> \UI_HTML_Elements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);

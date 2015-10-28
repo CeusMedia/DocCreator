@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Runner.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Core;
 /**
  *	General Runner of DocCreator Application.
  *	@category		Tool
@@ -38,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Runner.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Core_Runner{
+class Runner{
 
 	protected $configFile		= NULL;
 	protected $configTool		= array();
@@ -56,7 +57,7 @@ class DocCreator_Core_Runner{
 	 */
 	public function __construct( $configFile, $verbose = NULL, $trace = NULL ){
 		$this->loadToolConfig();
-		$this->out		= new CLI_Output();
+		$this->out		= new \CLI_Output();
 		if( $configFile )
 			$this->setConfigFile( $configFile );
 		if( !is_null( $verbose ) )
@@ -115,12 +116,12 @@ class DocCreator_Core_Runner{
 	protected function loadProjectConfig(){
 		//  --  LOAD CUSTOM PROJECT CONFIG  --  //
 		if( !$this->configFile )
-			throw new RuntimeException( 'No config file set' );
+			throw new \RuntimeException( 'No config file set' );
 		if( !file_exists( $this->configFile ) )
-			throw new RuntimeException( 'Config file "'.$this->configFile.'" not found' );
+			throw new \RuntimeException( 'Config file "'.$this->configFile.'" not found' );
 
-		$this->configProject	= new DocCreator_Core_Configuration( $this->configFile );
-		$this->env				= new DocCreator_Core_Environment( $this->configProject, $this->configTool, $this->out );
+		$this->configProject	= new \CeusMedia\DocCreator\Core\Configuration( $this->configFile );
+		$this->env				= new \CeusMedia\DocCreator\Core\Environment( $this->configProject, $this->configTool, $this->out );
 		if( $this->configProject->getTimeLimit() >= 0 )
 			set_time_limit( $this->configProject->getTimeLimit() );
 		$this->setVerbose( $this->configProject->getVerbose() );
@@ -134,17 +135,17 @@ class DocCreator_Core_Runner{
 	protected function loadToolConfig(){
 		$uri	= dirname( dirname( dirname( __FILE__ ) ) )."/config/config.ini";
 		if( !file_exists( $uri ) )
-			throw new RuntimeException( 'No tool config file given' );
+			throw new \RuntimeException( 'No tool config file given' );
 		$this->configTool	= parse_ini_file( $uri, TRUE );
 	}
 
 	public function main(){
 		if( !$this->configFile )
-			throw new RuntimeException( "No config file set." );
+			throw new \RuntimeException( "No config file set." );
 
 		$this->pathTool	= dirname( dirname( dirname( __FILE__ ) ) );
 //		try{
-			$clock		= new Alg_Time_Clock;
+			$clock		= new \Alg_Time_Clock;
 #			$this->setProjectBasePath( NULL );														//  realize project paths by removing base path placeholders in project config structure
 #			$this->setBuilderTargetPath( NULL );
 #			if( $this->getOption( 'showConfigOnly' ) )
@@ -168,7 +169,7 @@ class DocCreator_Core_Runner{
 					$this->out->newLine( 'Skip: Parser + Reader + Reader Plugins' );
 			}
 			else{
-				$doc	= new DocCreator_Core_Reader( $this->env, $this->configProject->getVerbose() );
+				$doc	= new \CeusMedia\DocCreator\Core\Reader( $this->env, $this->configProject->getVerbose() );
 				$data	= $doc->readFiles();
 				$this->env->saveContainer( $data );												//  save Data to Serial File
 			}
@@ -207,9 +208,9 @@ class DocCreator_Core_Runner{
 	protected function runCreator(){
 		foreach( $this->configProject->getBuilders() as $builder ){
 			$format		= $builder->getAttribute( 'format' );
-			$className	= 'DocCreator_Builder_'.$format.'_Creator';
+			$className	= '\\CeusMedia\\DocCreator\\Builder\\'.$format.'\\Creator';
 			if( !class_exists( $className ) )
-				throw new RuntimeException( 'Builder class "'.$className.'" is not existing' );
+				throw new \RuntimeException( 'Builder class "'.$className.'" is not existing' );
 			new $className( $this->env, $builder, $this->configProject->getVerbose() );
 		}
 	}

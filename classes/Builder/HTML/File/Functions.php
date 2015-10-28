@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Functions.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\File;
 /**
  *	Builder for File Function View.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Functions.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_File_Functions extends DocCreator_Builder_HTML_File_Info{
+class Functions extends \CeusMedia\DocCreator\Builder\HTML\File\Info{
 
 	/**
 	 *	Builds View of a Function with all Information.
@@ -43,7 +44,7 @@ class DocCreator_Builder_HTML_File_Functions extends DocCreator_Builder_HTML_Fil
 	 *	@param		ADT_PHP_Function	$function		Data of Function
 	 *	@return		string
 	 */
-	private function buildFunctionEntry( ADT_PHP_Function $function ){
+	private function buildFunctionEntry( \ADT_PHP_Function $function ){
 		$attributes	= array();
 
 		$attributes['name']			= $this->buildParamStringList( $function->getName(), 'name' );
@@ -76,15 +77,15 @@ class DocCreator_Builder_HTML_File_Functions extends DocCreator_Builder_HTML_Fil
 
 
 		$return			= $this->getTypeMarkUp( $function->getReturn() ? $function->getReturn()->getType() : "void" );
-		$functionName	= UI_HTML_Elements::Link( "#source_file_function_".$function->getName(), $function->getName() );
+		$functionName	= \UI_HTML_Elements::Link( "#source_file_function_".$function->getName(), $function->getName() );
 
 		$params	= array();
 		foreach( $function->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
-		$params	= implode( ", ", $params );	
+		$params	= implode( ", ", $params );
 		if( $params	)
 			$params	= " ".$params." ";
-		
+
 		$data	= array(
 			'functionName'	=> $function->getName(),
 			'functionTitle'	=> $functionName,
@@ -102,7 +103,7 @@ class DocCreator_Builder_HTML_File_Functions extends DocCreator_Builder_HTML_Fil
 	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_File $file ){
+	public function buildView( \ADT_PHP_File $file ){
 		$this->type	= "file";
 		$list		= array();
 		$functions	= $file->getFunctions();

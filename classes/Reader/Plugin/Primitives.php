@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Primitives.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Reader\Plugin;
 /**
  *	...
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Primitives.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Reader_Plugin_Primitives extends DocCreator_Reader_Plugin_Abstract{
+class Primitives extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 
 	protected $phpTypeCompat	= array(
 		'int'		=> 'integer',
@@ -51,10 +52,10 @@ class DocCreator_Reader_Plugin_Primitives extends DocCreator_Reader_Plugin_Abstr
 	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( ADT_PHP_Container $data ){
+	public function extendData( \ADT_PHP_Container $data ){
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $class ){
-				if( $class instanceof ADT_PHP_Class )
+				if( $class instanceof \ADT_PHP_Class )
 					foreach( $class->getMembers() as $member )
 						$this->tryToExtendPrimitiveType( $member );
 				foreach( $class->getMethods() as $method ){
