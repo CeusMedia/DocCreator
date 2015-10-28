@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: UnresolvedRelations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: UnresolvedRelations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_Builder_HTML_Site_Info_Abstract
+class UnresolvedRelations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	protected $count		= 0;
 
@@ -44,7 +45,7 @@ class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_B
 		if( !is_string( $relation ) )
 			return;
 		$this->count++;
-		$list[]	= UI_HTML_Elements::ListItem( $prefix.$relation, 1 );
+		$list[]	= \UI_HTML_Elements::ListItem( $prefix.$relation, 1 );
 	}
 
 	/**
@@ -67,9 +68,9 @@ class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_B
 				if( $list )
 				{
 					$url	= 'class.'.$class->getId().'.html';
-					$link	= UI_HTML_Elements::Link( $url, $class->getName(), 'class' );
-					$list	= UI_HTML_Elements::unorderedList( $list, 1 );
-					$classList[]	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+					$link	= \UI_HTML_Elements::Link( $url, $class->getName(), 'class' );
+					$list	= \UI_HTML_Elements::unorderedList( $list, 1 );
+					$classList[]	= \UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
 				}
 			}
 			foreach( $file->getInterfaces() as $interface )
@@ -82,9 +83,9 @@ class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_B
 				if( $list )
 				{
 					$url	= 'interface.'.$interface->getId().'.html';
-					$link	= UI_HTML_Elements::Link( $url, $interface->getName(), 'interface' );
-					$list	= UI_HTML_Elements::unorderedList( $list, 1 );
-					$classList[]	= UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'interface' ) );
+					$link	= \UI_HTML_Elements::Link( $url, $interface->getName(), 'interface' );
+					$list	= \UI_HTML_Elements::unorderedList( $list, 1 );
+					$classList[]	= \UI_HTML_Elements::ListItem( $link.$list, 0, array( 'class' => 'interface' ) );
 				}
 			}
 		}
@@ -98,7 +99,7 @@ class DocCreator_Builder_HTML_Site_Info_UnresolvedRelations extends DocCreator_B
 				'key'		=> 'unresolvedRelations',
 				'id'		=> 'info-unresolvedRelations',
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unresolvedRelations',
-				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $classList ).'</div>',
+				'content'	=> '<div id="tree">'.\UI_HTML_Elements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);

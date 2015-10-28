@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: DocHints.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: DocHints.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML_Site_Info_Abstract
+class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	protected $key			= 'docHints';
 	protected $count		= 0;
@@ -65,58 +66,58 @@ class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML
 			{
 				$classNotes	= array();
 				if( !preg_match( '/^.{20,}$/s', $class->getDescription() ) )
-					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.description.missing'] );
+					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.description.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getCategory() ) )
-					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.category.missing'] );
+					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.category.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getPackage() ) )
-					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.package.missing'] );
+					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.package.missing'] );
 				if( $this->checkClassVersion )
 					if( !preg_match( '/^.{4,}$/s', $class->getVersion() ) )
-						$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.version.missing'] );
+						$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.version.missing'] );
 
 				$authors	= $class->getAuthors();
 				if( !$authors )
-					$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.author.missing'] );
+					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.author.missing'] );
 				else
 					foreach( $authors as $author )
 						if( !$author->getEmail() )
-							$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.author.email.missing'] );
+							$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.author.email.missing'] );
 
 				if( $this->checkClassLicense ){
 					$licenses	= $class->getLicenses();
 					if( !$licenses )
-						$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.license.missing'] );
+						$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.license.missing'] );
 					else
 						foreach( $licenses as $license )
 							if( !$license->getUrl() )
-								$classNotes[]	= UI_HTML_Elements::ListItem( $words['class.license.url.missing'] );
+								$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.license.url.missing'] );
 				}
 
 				foreach( $class->getMethods() as $method )
 				{
 					$methodNotes	= array();
 					if( !preg_match( '/^\w+\s+\w+$/', $method->getDescription() ) )
-						$methodNotes[]	= UI_HTML_Elements::ListItem( $words['method.description.missing'] );
+						$methodNotes[]	= \UI_HTML_Elements::ListItem( $words['method.description.missing'] );
 					if( !$method->getReturn() )
-						$methodNotes[]	= UI_HTML_Elements::ListItem( $words['method.return.missing'] );
+						$methodNotes[]	= \UI_HTML_Elements::ListItem( $words['method.return.missing'] );
 					if( $methodNotes )
 					{
-						$methodNotes	= UI_HTML_Elements::unorderedList( $methodNotes, 2 );
-						$link			= UI_HTML_Elements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName(), 'method' );
-						$classNotes[]	= UI_HTML_Elements::ListItem( $link.$methodNotes, 2, array( 'class' => 'method' ) );
+						$methodNotes	= \UI_HTML_Elements::unorderedList( $methodNotes, 2 );
+						$link			= \UI_HTML_Elements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName(), 'method' );
+						$classNotes[]	= \UI_HTML_Elements::ListItem( $link.$methodNotes, 2, array( 'class' => 'method' ) );
 					}
 				}
-	
+
 				if( !$classNotes )
 					continue;
 
 					$this->count++;
-				
-				$notes	= UI_HTML_Elements::unorderedList( $classNotes );
 
-				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$notes	= \UI_HTML_Elements::unorderedList( $classNotes );
+
+				$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$count	= ' <small>('.count( $notes ).')</small>';
-				$item	= UI_HTML_Elements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
+				$item	= \UI_HTML_Elements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
 				$list[]	= $item;
 			}
 		}
@@ -129,7 +130,7 @@ class DocCreator_Builder_HTML_Site_Info_DocHints extends DocCreator_Builder_HTML
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
-				'content'	=> '<div id="tree">'.UI_HTML_Elements::unorderedList( $list ).'</div>',
+				'content'	=> '<div id="tree">'.\UI_HTML_Elements::unorderedList( $list ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);

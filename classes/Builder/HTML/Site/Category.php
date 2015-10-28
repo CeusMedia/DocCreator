@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Category.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site;
 /**
  *	Builder for Category View.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Category.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Category extends DocCreator_Builder_HTML_Abstract{
+class Category extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Builds Class List from Package Key.
@@ -43,17 +44,17 @@ class DocCreator_Builder_HTML_Site_Category extends DocCreator_Builder_HTML_Abst
 	 *	@return		string
 	 *	@todo		fix
 	 */
-	private function buildClassList( ADT_PHP_Category $category ){
-		$list	= array();			
+	private function buildClassList( \ADT_PHP_Category $category ){
+		$list	= array();
 		foreach( $category->getClasses() as $className => $class ){
 			$type	= $this->getTypeMarkUp( $class, TRUE );
-			$list[$className]	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "file" ) );
+			$list[$className]	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "file" ) );
 		}
 		ksort( $list );
 		if( $list ){
 			$data	= array(
 				'words'	=> $this->env->words['packageClasses'],
-				'list'	=> UI_HTML_Elements::unorderedList( $list ),
+				'list'	=> \UI_HTML_Elements::unorderedList( $list ),
 			);
 			return $this->loadTemplate( 'category.classes', $data );
 		}
@@ -65,17 +66,17 @@ class DocCreator_Builder_HTML_Site_Category extends DocCreator_Builder_HTML_Abst
 	 *	@param		ADT_PHP_Category	$category		Category Object
 	 *	@return		string
 	 */
-	private function buildPackageList( ADT_PHP_Category $category ){
+	private function buildPackageList( \ADT_PHP_Category $category ){
 		$list	= array();
 		foreach( $category->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package, TRUE );
-			$item	= UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
+			$item	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
 			$list[$packageName]	= $item;
 		}
 		ksort( $list );
 		if( $list ){
-			$packageList	= UI_HTML_Elements::unorderedList( array_values( $list ) );
+			$packageList	= \UI_HTML_Elements::unorderedList( array_values( $list ) );
 			$data	= array(
 				'words'	=> $this->env->words['packages'],
 				'list'	=> $packageList,
@@ -90,12 +91,12 @@ class DocCreator_Builder_HTML_Site_Category extends DocCreator_Builder_HTML_Abst
 	 *	@param		ADT_PHP_Category	$category		Category Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_Category $category ){
+	public function buildView( \ADT_PHP_Category $category ){
 #		$packageName	= $this->env->capitalizePackageName( $category->getLabel() );
 		$packageName	= $category->getLabel();
 		$classList		= $this->buildClassList( $category );
 		$packageList	= $this->buildPackageList( $category );
-		
+
 		$data	= array(
 			'words'			=> $this->env->words['package'],
 			'icon'			=> 'images/mini/icon_component.png',

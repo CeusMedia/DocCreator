@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: About.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds About Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: About.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_About extends DocCreator_Builder_HTML_Site_Info_Abstract
+class About extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	protected $key			= 'about';
 	protected $fileNames	= array(
@@ -51,7 +52,7 @@ class DocCreator_Builder_HTML_Site_Info_About extends DocCreator_Builder_HTML_Si
 		'release-notes.log',
 		'release-notes.nfo',
 	);
-	
+
 
 	/**
 	 *	Creates About Info Site File.

@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Reader\Plugin;
 /**
  *	Abstract Reader Plugin.
  *	@category		Tool
@@ -33,12 +34,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-abstract class DocCreator_Reader_Plugin_Abstract{
+abstract class Abstraction{
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		ArrayObject		$config		Configuration Array Object 
+	 *	@param		ArrayObject		$config		Configuration Array Object
 	 *	@return		void
 	 */
 	public function __construct( $env, $verbose ){
@@ -47,7 +48,7 @@ abstract class DocCreator_Reader_Plugin_Abstract{
 		$this->setUp();
 	}
 
-	abstract public function extendData( ADT_PHP_Container $data );
+	abstract public function extendData( \ADT_PHP_Container $data );
 
 	protected function setUp(){}
 }

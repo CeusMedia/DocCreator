@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Classes;
 /**
  *	Builds Class Information File.
  *	@category		Tool
@@ -41,7 +42,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Class_Builder extends DocCreator_Builder_HTML_Abstract{
+class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Constructor.
@@ -51,13 +52,13 @@ class DocCreator_Builder_HTML_Class_Builder extends DocCreator_Builder_HTML_Abst
 	 */
 	public function __construct( $env ){
 		parent::__construct( $env );
-		$this->builderFile			= new DocCreator_Builder_HTML_File_Info( $env );
-		$this->builderFunctions		= new DocCreator_Builder_HTML_File_Functions( $env );
-		$this->builderClass			= new DocCreator_Builder_HTML_Class_Info( $env );
-		$this->builderMembers		= new DocCreator_Builder_HTML_Class_Members( $env );
-		$this->builderMethods		= new DocCreator_Builder_HTML_Class_Methods( $env );
-		$this->builderSourceCode	= new DocCreator_Builder_HTML_File_SourceCode( $env );
-		$this->builderIndex			= new DocCreator_Builder_HTML_File_Index( $env );
+		$this->builderFile			= new \CeusMedia\DocCreator\Builder\HTML\File\Info( $env );
+		$this->builderFunctions		= new \CeusMedia\DocCreator\Builder\HTML\File\Functions( $env );
+		$this->builderClass			= new \CeusMedia\DocCreator\Builder\HTML\Classes\Info( $env );
+		$this->builderMembers		= new \CeusMedia\DocCreator\Builder\HTML\Classes\Members( $env );
+		$this->builderMethods		= new \CeusMedia\DocCreator\Builder\HTML\Classes\Methods( $env );
+		$this->builderSourceCode	= new \CeusMedia\DocCreator\Builder\HTML\File\SourceCode( $env );
+		$this->builderIndex			= new \CeusMedia\DocCreator\Builder\HTML\File\Index( $env );
 	}
 
 	/**
@@ -66,7 +67,7 @@ class DocCreator_Builder_HTML_Class_Builder extends DocCreator_Builder_HTML_Abst
 	 *	@param		ADT_PHP_File		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_File $file, ADT_PHP_Class $class ){
+	public function buildView( \ADT_PHP_File $file, \ADT_PHP_Class $class ){
 		$data	= array(
 			'index'				=> $this->builderIndex->buildIndex( $file ),
 			'className'			=> $class->getName(),

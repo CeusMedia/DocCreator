@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Creator.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML;
 /**
  *	Creates Documentation Files from Parser Data.
  *	@category		Tool
@@ -44,7 +45,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Creator.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
+class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
 
 	protected function __onConstruct(){
 		$this->createFiles();
@@ -57,12 +58,12 @@ class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
 		$this->copyResourcesRecursive( $this->pathTheme.'fonts/', "fonts/", "Fonts" );
 		$this->env->out->sameLine( "Copy done." );
 	}
-	
+
 	protected function createCategories( $prefix = "category." ){
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		DocCreator_Builder_HTML_Abstract::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
+		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
 
-		$builder	= new DocCreator_Builder_HTML_Site_Category( $this->env );
+		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category ){
 			$categoryId	= $category->getId();
 			$fileName	= $prefix.$categoryId.".html";
@@ -73,13 +74,13 @@ class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
 	}
 
 	protected function createFiles(){
-		$clock		= new Alg_Time_Clock;
+		$clock		= new \Alg_Time_Clock;
 		$pathTarget	= $this->pathTarget;
-		DocCreator_Builder_HTML_Abstract::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
+		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
 
-		$fileBuilder		= new DocCreator_Builder_HTML_File_Builder( $this->env );
-		$classBuilder		= new DocCreator_Builder_HTML_Class_Builder( $this->env, $fileBuilder );
-		$interfaceBuilder	= new DocCreator_Builder_HTML_Interface_Builder( $this->env, $fileBuilder );
+		$fileBuilder		= new \CeusMedia\DocCreator\Builder\HTML\File\Builder( $this->env );
+		$classBuilder		= new \CeusMedia\DocCreator\Builder\HTML\Classes\Builder( $this->env, $fileBuilder );
+		$interfaceBuilder	= new \CeusMedia\DocCreator\Builder\HTML\Interfaces\Builder( $this->env, $fileBuilder );
 
 		$total	= 0;
 		$count	= 0;
@@ -90,7 +91,7 @@ class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
 		}
 
 		foreach( $this->env->data->getFiles() as $fileName => $file ){
-			$clock2		= new Alg_Time_Clock;
+			$clock2		= new \Alg_Time_Clock;
 			if( $file->hasClasses() ){
 				foreach( $file->getClasses() as $class ){
 					$count++;
@@ -125,10 +126,10 @@ class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
 		$this->env->out->newLine();
 		$this->env->timeBuild	= $clock->stop( 6, 0 );
 	}
-	
-	private function createPackageRecursive( ADT_PHP_Category $superPackage, $prefix = "package." ){
+
+	private function createPackageRecursive( \ADT_PHP_Category $superPackage, $prefix = "package." ){
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new DocCreator_Builder_HTML_Site_Package( $this->env );
+		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Package( $this->env );
 		foreach( $superPackage->getPackages() as $package ){
 			$packageId	= $package->getId();
 			$fileName	= $prefix.$packageId.".html";
@@ -138,16 +139,16 @@ class DocCreator_Builder_HTML_Creator extends DocCreator_Builder_Abstract{
 			$this->createPackageRecursive( $package, $prefix );
 		}
 	}
-	
+
 	protected function createPackages( $prefix = "package." ){
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		DocCreator_Builder_HTML_Abstract::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
+		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
 		foreach( $this->env->tree->getPackages() as $category )
 			$this->createPackageRecursive( $category, $prefix );
 	}
-	
+
 	private function createSites(){
-		$builder	= new DocCreator_Builder_HTML_Site_Builder( $this->env );
+		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Builder( $this->env );
 		$builder->createSites();
 		$this->env->out->sameLine( "Sites created." );
 		$this->env->out->newLine();

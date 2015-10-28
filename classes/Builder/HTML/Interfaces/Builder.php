@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 /**
  *	Builds Interface Information File.
  *	@category		Tool
@@ -40,7 +41,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Builder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Interface_Builder extends DocCreator_Builder_HTML_Abstract{
+class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Constructor.
@@ -50,12 +51,12 @@ class DocCreator_Builder_HTML_Interface_Builder extends DocCreator_Builder_HTML_
 	 */
 	public function __construct( $env ){
 		parent::__construct( $env );
-		$this->builderFile			= new DocCreator_Builder_HTML_File_Info( $env );
-		$this->builderFunctions		= new DocCreator_Builder_HTML_File_Functions( $env );
-		$this->builderInterface		= new DocCreator_Builder_HTML_Interface_Info( $env );
-		$this->builderMethods		= new DocCreator_Builder_HTML_Interface_Methods( $env );
-		$this->builderSourceCode	= new DocCreator_Builder_HTML_File_SourceCode( $env );
-		$this->builderIndex			= new DocCreator_Builder_HTML_File_Index( $env );
+		$this->builderFile			= new \CeusMedia\DocCreator\Builder\HTML\File\Info( $env );
+		$this->builderFunctions		= new \CeusMedia\DocCreator\Builder\HTML\File\Functions( $env );
+		$this->builderInterface		= new \CeusMedia\DocCreator\Builder\HTML\Interfaces\Info( $env );
+		$this->builderMethods		= new \CeusMedia\DocCreator\Builder\HTML\Interfaces\Methods( $env );
+		$this->builderSourceCode	= new \CeusMedia\DocCreator\Builder\HTML\File\SourceCode( $env );
+		$this->builderIndex			= new \CeusMedia\DocCreator\Builder\HTML\File\Index( $env );
 	}
 
 	/**
@@ -65,7 +66,7 @@ class DocCreator_Builder_HTML_Interface_Builder extends DocCreator_Builder_HTML_
 	 *	@param		ADT_PHP_Interface	$interface		Interface Data Object
 	 *	@return		string
 	 */
-	public function buildView( ADT_PHP_File $file, ADT_PHP_Interface $interface ){
+	public function buildView( \ADT_PHP_File $file, \ADT_PHP_Interface $interface ){
 		$data	= array(
 			'words'				=> $this->env->words['interfaceInfo'],
 			'index'				=> $this->builderIndex->buildIndex( $file ),

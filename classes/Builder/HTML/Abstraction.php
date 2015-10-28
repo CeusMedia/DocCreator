@@ -14,7 +14,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *	GNU General Public License for more details.
  *
- *	You should have received a copy of the GNU General Public License 
+ *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Tool
@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 86 2012-05-23 12:18:48Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML;
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 86 2012-05-23 12:18:48Z christian.wuerker $
  */
-abstract class DocCreator_Builder_HTML_Abstract{
+abstract class Abstraction{
 
 	/**	@var		DocCreator_Core_Environment		$env 		Environment Object */
 	protected $env;
@@ -43,9 +44,9 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	protected $type					= NULL;
 	/**	@var		array			$words			Array of Language Pairs */
 	protected $words;
-	
+
 	protected $cacheTemplate		= array();
-	
+
 	protected $pathTheme			= NULL;
 
 	protected $pathBuilder			= NULL;
@@ -57,7 +58,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@param		string			$type		Data Type (class|file)
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Environment $env, $type = NULL ){
+	public function __construct( \CeusMedia\DocCreator\Core\Environment $env, $type = NULL ){
 		$this->env			= $env;
 		$this->type			= $type;
 		$this->words		= $this->env->words;
@@ -76,7 +77,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 		if( array_key_exists( $access, $this->words['access'] ) ){
 			$label	= $this->words['access'][$access];
 			if( array_key_exists( $access, $this->words['accessAcronym'] ) )
-				$label	= UI_HTML_Elements::Acronym( $label, $this->words['accessAcronym'][$access] );
+				$label	= \UI_HTML_Elements::Acronym( $label, $this->words['accessAcronym'][$access] );
 		}
 		return $label;
 	}
@@ -92,7 +93,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 			if( get_class( $category ) == "ADT_PHP_Category" ){
 				if( $category->getLabel() == $categoryName ){
 					$url	= 'category.'.$categoryName.'.html';
-					return UI_HTML_Elements::Link( $url, $categoryName, 'category' );
+					return \UI_HTML_Elements::Link( $url, $categoryName, 'category' );
 				}
 			}
 		}
@@ -116,7 +117,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 		$package		= $this->getPackageFromName( $packageName, $categoryName );
 		if( $package ){
 			$packageUrl		= $this->getUrlFromPackage( $package );
-			$packageName	= UI_HTML_Elements::Link( $packageUrl, $packageName, 'package' );
+			$packageName	= \UI_HTML_Elements::Link( $packageUrl, $packageName, 'package' );
 		}
 		return $packageName;
 	}
@@ -131,7 +132,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	protected function buildParamAuthors( $data, $list = array() ){
 		foreach( $data->getAuthors() as $author ){
 			if( $author->getEmail() )
-				$author	= UI_HTML_Elements::Link( "mailto:".$author->getEmail(), $author->getName(), $this->type.'-info-author' );
+				$author	= \UI_HTML_Elements::Link( "mailto:".$author->getEmail(), $author->getName(), $this->type.'-info-author' );
 			else
 				$author	= $author->getName();
 			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $author ) );
@@ -141,12 +142,12 @@ abstract class DocCreator_Builder_HTML_Abstract{
 
 	protected function buildParamLinkedList( $data, $key, $list = array() ){
 		foreach( $data as $url ){
-			$link	= UI_HTML_Elements::Link( $url, $url, $this->type.'-info-link' );
+			$link	= \UI_HTML_Elements::Link( $url, $url, $this->type.'-info-link' );
 			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $link ) );
 		}
 		return $this->buildParamList( $list, $key );
 	}
-	
+
 	protected function buildParamList( $list, $title ){
 		$type	= 'param'.ucFirst( $title );
 		if( !$list )
@@ -215,12 +216,12 @@ abstract class DocCreator_Builder_HTML_Abstract{
 		return NULL;
 	}
 
-	protected function getParameterMarkUp( ADT_PHP_Parameter $data ){
+	protected function getParameterMarkUp( \ADT_PHP_Parameter $data ){
 		$name		= $data->getName();
 		$name		= $data->isReference() ? "&amp;&nbsp;$".$name : "$".$name;
 		$name		= $data->getDefault() ? '<small>['.$name.']</small>' : $name;
 		if( $data->getDescription() )
-			$name	= UI_HTML_Elements::Acronym( $name, $data->getDescription() );
+			$name	= \UI_HTML_Elements::Acronym( $name, $data->getDescription() );
 
 		$type		= $data->getCast() ? $data->getCast() : ( $data->getType() ? $data->getType() : "unknown" );
 		$type		= $this->getTypeMarkUp( $type );
@@ -237,7 +238,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	protected function getThemePath(){
 		return $this->env->getBuilderThemePath();
 	}
-	
+
 	protected function getTypeMarkUp( $type ){
 #		if( is_object( $type ) )
 #			remark( $type->getName()." - ".get_class( $type ) );
@@ -249,44 +250,44 @@ abstract class DocCreator_Builder_HTML_Abstract{
 			switch( get_class( $type ) ){
 				case 'ADT_PHP_Package':
 					$url	= $this->getUrlFromPackage( $type );
-					$label	= UI_HTML_Elements::Link( $url, $type->getLabel(), 'package' );
+					$label	= \UI_HTML_Elements::Link( $url, $type->getLabel(), 'package' );
 					break;
 				case 'ADT_PHP_Class':
 					$url	= $this->getUrlFromClass( $type );
-					$label	= UI_HTML_Elements::Link( $url, $type->getName(), 'class' );
+					$label	= \UI_HTML_Elements::Link( $url, $type->getName(), 'class' );
 					break;
 				case 'ADT_PHP_Interface':
 					$url	= $this->getUrlFromInterface( $type );
-					$label	= UI_HTML_Elements::Link( $url, $type->getName(), 'interface' );
+					$label	= \UI_HTML_Elements::Link( $url, $type->getName(), 'interface' );
 					break;
 				default:
-					throw new Exception( 'Invalid type' );
+					throw new \Exception( 'Invalid type' );
 			}
 		}
 		else if( is_string( $type ) ){
 			if( in_array( $type, $this->env->phpClasses ) ){
 				$url	= "http://us3.php.net/manual/en/class.".strtolower( $type ).".php";
-				$label	= UI_HTML_Elements::Link( $url, "PHP: ".$type );
+				$label	= \UI_HTML_Elements::Link( $url, "PHP: ".$type );
 			}
 			else if( array_key_exists( $type, $this->env->words['types'] ) ){
 				$url	= "http://us3.php.net/manual/en/language.types.".strtolower( $type ).".php";
-				$label	= UI_HTML_Elements::Link( $url, $label );
-				$label	= UI_HTML_Elements::Acronym( $label, $this->env->words['types'][$type] );
+				$label	= \UI_HTML_Elements::Link( $url, $label );
+				$label	= \UI_HTML_Elements::Acronym( $label, $this->env->words['types'][$type] );
 			}
 			else if( array_key_exists( $type, $this->env->words['pseudoTypes'] ) ){
 				$url	= "http://us3.php.net/manual/en/language.pseudo-types.php#language.types.".strtolower( $type );
 				if( $type == "dotdotdot" )
 					$label	= "...";
-				$label	= UI_HTML_Elements::Link( $url, $label );
-				$label	= UI_HTML_Elements::Acronym( $label, $this->env->words['pseudoTypes'][$type] );
+				$label	= \UI_HTML_Elements::Link( $url, $label );
+				$label	= \UI_HTML_Elements::Acronym( $label, $this->env->words['pseudoTypes'][$type] );
 			}
 			else if( $type == "unknown" )
 				return "";
-#				$label	= UI_HTML_Tag::create( 'small', $type );
+#				$label	= \UI_HTML_Tag::create( 'small', $type );
 #			else if( $type !== "unknown" )
 #				remark( "!getTypeMarkUp: ".$type );
 		}
-		return UI_HTML_Tag::create( 'span', $label, array( 'class' => 'type' ) );
+		return \UI_HTML_Tag::create( 'span', $label, array( 'class' => 'type' ) );
 	}
 
 	/**
@@ -296,7 +297,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@param		ADT_PHP_Class		$class			Class Object to get Doc URL for
 	 *	@return		string
 	 */
-	protected static function getUrlFromClass( ADT_PHP_Class $class ){
+	protected static function getUrlFromClass( \ADT_PHP_Class $class ){
 		return "class.".$class->getId().".html";
 	}
 
@@ -307,12 +308,12 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@param		ADT_PHP_Interface	$relatedClass	Class Object related to Class to find
 	 *	@return		ADT_PHP_Class
 	 */
-	protected function getUrlFromClassName( $className, ADT_PHP_Interface $relatedClass ){
+	protected function getUrlFromClassName( $className, \ADT_PHP_Interface $relatedClass ){
 		try{
 			$class	= $this->env->data->getClassFromClassName( $className, $relatedClass );
 			return $this->getUrlFromClass( $class );
 		}
-		catch( Exception $e ){
+		catch( \Exception $e ){
 			remark( "Builder::getUrlFromClassName: ".$e->getMessage() );
 			return "";
 		}
@@ -324,7 +325,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@param		ADT_PHP_Interface	$interface		Interface Object to get Doc URL for
 	 *	@return		string
 	 */
-	protected function getUrlFromInterface( ADT_PHP_Interface $interface ){
+	protected function getUrlFromInterface( \ADT_PHP_Interface $interface ){
 		$interfaceId	= $interface->getId();
 		$url	= "interface.".$interfaceId.".html";
 		return $url;
@@ -337,12 +338,12 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@param		ADT_PHP_Interface	$relatedArtefact	Class or Interface Object related to Interface to find
 	 *	@return		ADT_PHP_Interface
 	 */
-	protected function getUrlFromInterfaceName( $interfaceName, ADT_PHP_Interface $relatedArtefact ){
+	protected function getUrlFromInterfaceName( $interfaceName, \ADT_PHP_Interface $relatedArtefact ){
 		try{
 			$interface	= $this->env->data->getInterfaceFromInterfaceName( $interfaceName, $relatedArtefact );
 			return $this->getUrlFromInterface( $interface );
 		}
-		catch( Exception $e ){
+		catch( \Exception $e ){
 			remark( "Builder::getUrlFromInterfaceName: ".$e->getMessage() );
 			return "";
 		}
@@ -355,7 +356,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	 *	@param		ADT_PHP_Package	$package		Package Data Object
 	 *	@return		string
 	 */
-	protected static function getUrlFromPackage( ADT_PHP_Package $package ){
+	protected static function getUrlFromPackage( \ADT_PHP_Package $package ){
 		return "package.".$package->getId().".html";
 	}
 
@@ -389,7 +390,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 			$content	= file_get_contents( $fileUri );
 			$this->cacheTemplate[$fileHash]	= $content;
 		}
-		return UI_Template::renderString( $content, $data );
+		return \UI_Template::renderString( $content, $data );
 	}
 
 	protected function realizeInlineLinks( $string ){
@@ -399,7 +400,7 @@ abstract class DocCreator_Builder_HTML_Abstract{
 	}
 
 	public static function removeFiles( $path, $pattern ){
-		$index	= new FS_File_RecursiveRegexFilter( $path, $pattern );								// index formerly generated or copied files
+		$index	= new \FS_File_RecursiveRegexFilter( $path, $pattern );								// index formerly generated or copied files
 		foreach( $index as $entry )																	// iterate index
 			@unlink( $entry->getPathname());														// remove outdated files
 	}

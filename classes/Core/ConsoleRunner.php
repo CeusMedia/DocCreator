@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ConsoleRunner.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Core;
 /**
  *	Main Class of DocCreator Application.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ConsoleRunner.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
-class DocCreator_Core_ConsoleRunner extends CLI_Application{
+class ConsoleRunner extends \CLI_Application{
 
 	protected $configFile	= NULL;
 
@@ -78,7 +79,7 @@ class DocCreator_Core_ConsoleRunner extends CLI_Application{
 
 #		set_error_handler( array( $this, 'handleError' ) );
 		try{
-			$creator	= new DocCreator_Core_Runner( $this->configFile, $this->verbose, $this->trace );
+			$creator	= new \CeusMedia\DocCreator\Core\Runner( $this->configFile, $this->verbose, $this->trace );
 
 			$mapSkip	= array(
 				'--config-file'		=> 'setConfigFile',
@@ -103,7 +104,7 @@ class DocCreator_Core_ConsoleRunner extends CLI_Application{
 
 			$creator->main();
 		}
-		catch( Exception $e ){
+		catch( \Exception $e ){
 			print $e->getMessage() . PHP_EOL;
 			print $e->getTraceAsString() . PHP_EOL;
 			$this->showUsage();
