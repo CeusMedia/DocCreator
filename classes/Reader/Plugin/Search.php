@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Search.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Reader\Plugin;
 /**
  *	...
  *	@category		Tool
@@ -36,7 +37,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Search.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Reader_Plugin_Search extends DocCreator_Reader_Plugin_Abstract{
+class Search extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 
 	/**
 	 *	Extracts Terms from Descriptions for Search Index.
@@ -45,8 +46,8 @@ class DocCreator_Reader_Plugin_Search extends DocCreator_Reader_Plugin_Abstract{
 	 *	@return		void
 	 *	@todo		support Interfaces
 	 */
-	public function extendData( ADT_PHP_Container $data ){
-		$clock2	= new Alg_Time_Clock();												//  start inner Clock
+	public function extendData( \ADT_PHP_Container $data ){
+		$clock2	= new \Alg_Time_Clock();												//  start inner Clock
 		if( $this->verbose )
 			$this->env->out->append( " => Extracting Search Terms ..." );
 		foreach( $data->getFiles() as $fileName => $file ){
@@ -60,7 +61,7 @@ class DocCreator_Reader_Plugin_Search extends DocCreator_Reader_Plugin_Abstract{
 					$facts['todos'][]			= $todo;
 				foreach( $class->getDeprecations() as $deprecation )
 					$facts['deprecations'][]	= $deprecation;
-				if( $class instanceof ADT_PHP_Class )
+				if( $class instanceof \ADT_PHP_Class )
 					foreach( $class->getMembers() as $member )
 						$facts['members'][$member->getName()]	= $member->getDescription();
 				foreach( $class->getMethods() as $method ){
@@ -71,10 +72,10 @@ class DocCreator_Reader_Plugin_Search extends DocCreator_Reader_Plugin_Abstract{
 						$facts['deprecations'][]	= $deprecation;
 				}
 				$document	= $this->getFactsDocument( $facts );
-				if( !Alg_Text_Unicoder::isUnicode( $document ) )
-					$document	= Alg_Text_Unicoder::convertToUnicode( $document );
+				if( !\Alg_Text_Unicoder::isUnicode( $document ) )
+					$document	= \Alg_Text_Unicoder::convertToUnicode( $document );
 
-				$terms		= Alg_Text_TermExtractor::getTerms( $document );
+				$terms		= \Alg_Text_TermExtractor::getTerms( $document );
 				$data->getFile( $fileName )->getClass( $class->getName() )->search	= array(
 					'document'	=> $document,
 					'terms'		=> $terms,
@@ -104,7 +105,7 @@ class DocCreator_Reader_Plugin_Search extends DocCreator_Reader_Plugin_Abstract{
 
 	protected function setUp(){
 		$termsBlacklist	= array( 'for', 'and', 'with', 'of', 'if', 'else', 'returns', 'method', 'function', 'functions', 'methods', 'method' );
-		Alg_Text_TermExtractor::setBlacklist( $termsBlacklist );
+		\Alg_Text_TermExtractor::setBlacklist( $termsBlacklist );
 	}
 }
 ?>

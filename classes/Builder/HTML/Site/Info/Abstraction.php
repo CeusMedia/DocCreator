@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Abstract Site Info Builder.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Builder_HTML_Abstract
+abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstraction
 {
 	protected $pathProject	= NULL;
 	protected $pathTarget	= NULL;
@@ -52,7 +53,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 	 *	@param		array						$linkList	Reference to list of Site links
 	 *	@return		void
 	 */
-	public function __construct( DocCreator_Core_Environment $env, &$linkList, $options = array() )
+	public function __construct( \CeusMedia\DocCreator\Core\Environment $env, &$linkList, $options = array() )
 	{
 		parent::__construct( $env );
 		$this->linkList	=& $linkList;
@@ -79,9 +80,9 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 	public function createSiteByFile()
 	{
 		if( !$this->fileNames )
-			throw new Exception( 'No files set' );
+			throw new \Exception( 'No files set' );
 		if( !$this->key )
-			throw new Exception( 'No key set' );
+			throw new \Exception( 'No key set' );
 
 		$list		= array();
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
@@ -93,11 +94,11 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 			if( file_exists( $fileName ) )
 			{
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
-				$content	= FS_File_Reader::load( $fileName );
+				$content	= \FS_File_Reader::load( $fileName );
 				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
 				switch( $extension ){
 					case 'md':
-						$content	= Michelf\Markdown::defaultTransform( $content );
+						$content	= \Michelf\Markdown::defaultTransform( $content );
 						break;
 					case 'html':
 					case 'htm':
@@ -132,7 +133,7 @@ abstract class DocCreator_Builder_HTML_Site_Info_Abstract extends DocCreator_Bui
 
 	protected function saveFile( $fileName, $content )
 	{
-		FS_File_Writer::save( $this->pathTarget.$fileName, $content );
+		\FS_File_Writer::save( $this->pathTarget.$fileName, $content );
 	}
 
 	public function setLinkTargetFrame( $linkTarget )

@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Home.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Home Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Home.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Home extends DocCreator_Builder_HTML_Site_Info_Abstract{
+class Home extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 
 	protected $key			= 'home';
 	protected $fileNames	= array(

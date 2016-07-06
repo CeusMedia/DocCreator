@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ParseErrors.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Todo Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: ParseErrors.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_ParseErrors extends DocCreator_Builder_HTML_Site_Info_Abstract
+class ParseErrors extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	/**
 	 *	Creates Parser Error Info Site File.
@@ -48,10 +49,10 @@ class DocCreator_Builder_HTML_Site_Info_ParseErrors extends DocCreator_Builder_H
 		{
 			if( !$file->errors )
 				continue;
-			
+
 			$label	= '<h4>'.$file->getBasename().'</h4><div class="file-uri">'.$file->getPathname()."</div>";
 			$errors	= "<xmp>".$file->errors."</xmp><br/>";
-			$list[]	= UI_HTML_Elements::ListItem( $label.$errors );
+			$list[]	= \UI_HTML_Elements::ListItem( $label.$errors );
 		}
 		if( !$list )
 			return FALSE;
@@ -64,7 +65,7 @@ class DocCreator_Builder_HTML_Site_Info_ParseErrors extends DocCreator_Builder_H
 			'key'		=> 'parseErrors',
 			'id'		=> 'info-parseErrors',
 			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'parseErrors',
-			'content'	=> UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
+			'content'	=> \UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),
 		);

@@ -37,5 +37,5 @@ $pathPhpMarkdown	= file_exists( $pathLib ) ? $pathLib."php-markdown/" : "/var/ww
 if( !class_exists( 'CMC_Loader' ) ) die( "Please install cmClasses first!");
 */
 
-new DocCreator_Core_ConsoleRunner();									//  open new starter
+new \CeusMedia\DocCreator\Core\ConsoleRunner();									//  open new starter
 ?>

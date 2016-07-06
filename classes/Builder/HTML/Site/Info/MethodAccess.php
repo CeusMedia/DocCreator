@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodAccess.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	...
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodAccess.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_MethodAccess extends DocCreator_Builder_HTML_Site_Info_Abstract
+class MethodAccess extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 {
 	protected $key		= 'methodAccess';
 	/**
@@ -57,21 +58,21 @@ class DocCreator_Builder_HTML_Site_Info_MethodAccess extends DocCreator_Builder_
 					{
 						$count++;
 						$url			= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
-						$link			= UI_HTML_Elements::Link( $url, $method->getName(), 'method' );
-						$methodList[]	= UI_HTML_Elements::ListItem( $link, 1, array( 'class' => 'method' ) );
+						$link			= \UI_HTML_Elements::Link( $url, $method->getName(), 'method' );
+						$methodList[]	= \UI_HTML_Elements::ListItem( $link, 1, array( 'class' => 'method' ) );
 					}
 				}
 				if( !$methodList )
 					continue;
-				$methodList		= UI_HTML_Elements::unorderedList( $methodList, 1, array( 'class' => 'methods' ) );
+				$methodList		= \UI_HTML_Elements::unorderedList( $methodList, 1, array( 'class' => 'methods' ) );
 				$url			= 'class.'.$class->getId().'.html';
-				$link			= UI_HTML_Elements::Link( $url, $class->getName(), 'class' );
-				$classList[]	= UI_HTML_Elements::ListItem( $link.$methodList, 0, array( 'class' => 'classes' ) );
+				$link			= \UI_HTML_Elements::Link( $url, $class->getName(), 'class' );
+				$classList[]	= \UI_HTML_Elements::ListItem( $link.$methodList, 0, array( 'class' => 'classes' ) );
 			}
 		}
 		if( !$classList )
 			return FALSE;
-		
+
 		$this->verboseCreation( $this->key );
 
 		$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
@@ -80,7 +81,7 @@ class DocCreator_Builder_HTML_Site_Info_MethodAccess extends DocCreator_Builder_
 			'key'		=> $this->key,
 			'id'		=> 'info-'.$this->key,
 			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
-			'content'	=> UI_HTML_Elements::unorderedList( $classList ),
+			'content'	=> \UI_HTML_Elements::unorderedList( $classList ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),
 		);

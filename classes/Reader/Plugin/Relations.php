@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Relations.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Reader\Plugin;
 /**
  *	Collects Relations between Classes.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Relations.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstract{
+class Relations extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 
 	/**
 	 *	Collects Relations between Classes.
@@ -42,18 +43,18 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( ADT_PHP_Container $data ){
+	public function extendData( \ADT_PHP_Container $data ){
 		if( $this->verbose )
 			$this->env->out->sameLine( "Plugin: Class/Interface Relations" );
 
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $class )
-				if( $class instanceof ADT_PHP_Class )
+				if( $class instanceof \ADT_PHP_Class )
 					$this->tryToResolveClassRelations( $data, $class );
 			foreach( $file->getInterfaces() as $interface )
 				$this->tryToResolveInterfaceRelations( $data, $interface );
 		}
-	}	
+	}
 
 	/**
 	 *	...
@@ -62,7 +63,7 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 	 *	@param		ADT_PHP_Class		$class			Class Data Object
 	 *	@return		void
 	 */
-	protected function tryToResolveClassRelations( $data, ADT_PHP_Class $class ){
+	protected function tryToResolveClassRelations( $data, \ADT_PHP_Class $class ){
 		if( $class->getUsedClasses() ){																//  current class uses other classes
 			foreach( $class->getUsedClasses() as $nr => $className ){								//  iterate used classes
 				try{
@@ -70,7 +71,7 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 					$usedClass->setUsingClass( $class );
 					$class->setUsedClass( $usedClass );												//  store resolved class object instead of class name string
 				}
-				catch( Exception $e ){}
+				catch( \Exception $e ){}
 			}
 		}
 
@@ -81,7 +82,7 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 					$implementedInterface->setImplementingClass( $class ) ;
 					$class->setImplementedInterface( $implementedInterface );							//  store resolved interface object instead of interface name string
 				}
-				catch( Exception $e ){}
+				catch( \Exception $e ){}
 			}
 		}
 
@@ -92,7 +93,7 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 				$extendedClass->setExtendingClass( $class );
 				$class->setExtendedClass( $extendedClass );											//  store resolved class object instead of class name string
 			}
-			catch( Exception $e ){}
+			catch( \Exception $e ){}
 		}
 
 		foreach( $class->getMembers() as $member ){
@@ -103,7 +104,7 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 				$member->setType( $foundClass );
 				$foundClass->setComposingClass( $class );
 			}
-			catch( Exception $e ){}
+			catch( \Exception $e ){}
 		}
 		$this->tryToResolveMethodRelations( $data, $class );
 	}
@@ -115,7 +116,7 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 	 *	@param		ADT_PHP_Interface	$interface		...
 	 *	@return		void
 	 */
-	protected function tryToResolveInterfaceRelations( ADT_PHP_Container $data, ADT_PHP_Interface $interface ){
+	protected function tryToResolveInterfaceRelations( \ADT_PHP_Container $data, \ADT_PHP_Interface $interface ){
 		if( $interface->getExtendedInterface() ){													//  current interface is extending another interface
 			$parent		= $interface->getExtendedInterface();
 			try{
@@ -123,11 +124,11 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 				$extendedInterface->setExtendingInterface( $interface );
 				$interface->setExtendedInterface( $extendedInterface );								//  store resolved interface object instead of interface name string
 			}
-			catch( Exception $e ){}
+			catch( \Exception $e ){}
 		}
 		$this->tryToResolveMethodRelations( $data, $interface );
 	}
-	
+
 	/**
 	 *	...
 	 *	@access		protected
@@ -135,24 +136,24 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 	 *	@param		ADT_PHP_Interface	$artefact		Interface or Class
 	 *	@return		void
 	 */
-	protected function tryToResolveMethodRelations( ADT_PHP_Container $data, ADT_PHP_Interface $artefact ){
+	protected function tryToResolveMethodRelations( \ADT_PHP_Container $data, \ADT_PHP_Interface $artefact ){
 		foreach( $artefact->getMethods() as $method ){
 			foreach( $method->getParameters() as $parameter ){
 				if( !$parameter->getType() )
 					continue;
 				$type	= $parameter->getType();													//  get type of parameter
 				try{
-					if( $artefact instanceof ADT_PHP_Class ){
+					if( $artefact instanceof \ADT_PHP_Class ){
 						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
 						$foundClass->addReceivingClass( $artefact );
 					}
-					else if( $artefact instanceof ADT_PHP_Interface ){
+					else if( $artefact instanceof \ADT_PHP_Interface ){
 						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
 						$foundClass->addReceivingInterface( $artefact );
 					}
 					$parameter->setType( $foundClass );
 				}
-				catch( Exception $e ){}
+				catch( \Exception $e ){}
 			}
 
 			foreach( $method->getParameters() as $parameter ){
@@ -160,30 +161,30 @@ class DocCreator_Reader_Plugin_Relations extends DocCreator_Reader_Plugin_Abstra
 					continue;
 				$type	= $parameter->getCast();
 				try{
-					if( $artefact instanceof ADT_PHP_Class )
+					if( $artefact instanceof \ADT_PHP_Class )
 						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
-					else if( $artefact instanceof ADT_PHP_Interface )
+					else if( $artefact instanceof \ADT_PHP_Interface )
 						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
-					
+
 					$parameter->setCast( $foundClass );
 				}
-				catch( Exception $e ){}
+				catch( \Exception $e ){}
 			}
 
 			if( $method->getReturn() ){
 				$type	= $method->getReturn()->getType();
 				try{
-					if( $artefact instanceof ADT_PHP_Class ){
+					if( $artefact instanceof \ADT_PHP_Class ){
 						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
 						$foundClass->addReturningClass( $artefact );
 					}
-					else if( $artefact instanceof ADT_PHP_Interface ){
+					else if( $artefact instanceof \ADT_PHP_Interface ){
 						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
 						$foundClass->addReturningInterface( $artefact );
 					}
 					$method->getReturn()->setType( $foundClass );
 				}
-				catch( Exception $e ){}
+				catch( \Exception $e ){}
 			}
 		}
 	}

@@ -1,63 +1,47 @@
 <?xml version="1.0"?>
 <config>
 
-	<!--  PROJECT(S)  -->  
+	<!--  PROJECT SETTINGS  -->
 	<project>
-		<path>[/path/to/DocCreator/]</path>
-		<extension>php5</extension>
+		<name>My Project</name>
+		<path>[/path/to/project/]</path>
+		<extension>php</extension>
 		<ignore type="file">/^(_|[a-z])/</ignore>
-		<ignore type="folder">#(docs|lib)/#</ignore>
-		<category by="default">MyProject</category>
+		<ignore type="folder">#(doc|lib|test|vendor)/#</ignore>
+		<category by="default">Project</category>
 		<package by="default">MyProject</package>
 	</project>
 
-	<!--  READER SETTINGS  -->  
-	<reader>
-		<plugin>Statistics</plugin>
-		<plugin>Unicode</plugin>
-		<plugin>Defaults</plugin>
-		<plugin>Relations</plugin>
-		<plugin>Primitives</plugin>
-		<plugin>Search</plugin>
-	</reader>
-
-	<!--  BUILDER(S) -->  
-	<builder format="HTML" theme="Default-SilverFire">
-		<path type="target">[/path/to/MyProject/]docs/</path>
-		<path type="documents">[/path/to/MyProject/]</path>
-		<title version="1.0">MyProject</title>
-		<author email="your.name@company.tld">Your Name</author>
-		<company url="ceusmedia.de">CeuS Media</company>
-		<logo href="http://yourcompany.tld/" title="MyProject @ Your Company">logo/construction.png</logo>
-		<language timezone="Europe/Berlin">en</language>
+	<!--  BUILDER SETTINGS  -->
+	<builder format="HTML" theme="Default">
+		<path type="target" alt="must be absolute">doc/API/</path>
+		<path type="documents" alt="must be absolute">doc/</path>
+		<title version="x.y.z">My Project</title>
+		<author email="john.doe@example.org">John Doe</author>
+		<company url="example.org">Example Ltd.</company>
+		<logo href="http://example.org/MyProject" title="MyProject @ Example">logo/book_64.png</logo>
+		<language timezone="Europe/London">en</language>
 		<option name="showSourceCode">1</option>
 		<plugin>Home</plugin>
 		<plugin>ClassList</plugin>
-		<plugin>Search</plugin>
-		<plugin>About</plugin>
-		<plugin>Installation</plugin>
-		<plugin>History</plugin>
-		<plugin>Changes</plugin>
-		<plugin>Deprecations</plugin>
-		<plugin>Todos</plugin>
-		<plugin>Bugs</plugin>
 		<plugin>ParseErrors</plugin>
-		<plugin>Statistics</plugin>
-		<plugin>UnusedVariables</plugin>
-		<plugin>MethodOrder</plugin>
-		<plugin>MethodAccess</plugin>
 		<plugin>License</plugin>
-		<plugin>DocHints</plugin>
 	</builder>
 
-	<!--  GENERAL SETTINGS  -->  
-	<creator timeLimit="60">
-		<mail></mail>
-		<file type="serial">tmp/DocCreator.doc.serial</file>
-		<file type="archive">tmp/DocCreator.doc.serial.gz</file>
-		<file type="errors">logs/docCreatorErrors.log</file>
-		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
-		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE" trace="FALSE"/>
-	</creator>
+	<!--  READER PLUGINS  -->
+	<reader>
+		<plugin>Relations</plugin>
+		<plugin>Primitives</plugin>
+	</reader>
 
+	<!--  CORE SETTINGS  -->
+	<creator>
+		<limit name="time" title="max time to execute in seconds">60</limit>
+		<path name="temp" hint="absolute or relative to work dir" title="path to store temporary files in">/tmp/</path>
+		<path name="log" hint="absolute or relative to work dir" title="path to store log files in">/tmp/</path>
+		<file name="serial" alt="absolute or relative to work dir">DocCreator.MyProject.serial</file>
+		<file name="archive" alt="absolute or relative to work dir">DocCreator.MyProject.serial.gz</file>
+		<file name="errors">doc-creator.error.log</file>
+		<verbose general="TRUE" skip="TRUE" config="TRUE" info="TRUE" trace="TRUE"/>
+	</creator>
 </config>

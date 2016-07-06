@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: SourceCode.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\File;
 /**
  *	Builds Source Code View.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: SourceCode.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_File_SourceCode extends DocCreator_Builder_HTML_Abstract{
+class SourceCode extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	/**
 	 *	Builds Source Code View.
@@ -43,8 +44,8 @@ class DocCreator_Builder_HTML_File_SourceCode extends DocCreator_Builder_HTML_Ab
 	 *	@param		bool		$isClass		Flag: build Source Code View of a Class
 	 *	@return		string
 	 */
-	public function buildSourceCode( ADT_PHP_File $file, $isClass = FALSE ){
-		$options	= new ADT_List_Dictionary( $this->env->getBuilderOptions() );
+	public function buildSourceCode( \ADT_PHP_File $file, $isClass = FALSE ){
+		$options	= new \ADT_List_Dictionary( $this->env->getBuilderOptions() );
 		if( !$options->get( 'showSourceCode' ) )
 			return;
 		$code		= $file->getSourceCode();
@@ -70,7 +71,7 @@ class DocCreator_Builder_HTML_File_SourceCode extends DocCreator_Builder_HTML_Ab
 		$lastEmpty	= FALSE;
 		while( $lines ){
 			$hide	= FALSE;
-			$line	= array_shift( $lines ); 
+			$line	= array_shift( $lines );
 			$number++;
 			if( !trim( $line ) ){
 				if( $lastEmpty )

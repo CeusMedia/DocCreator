@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 /**
  *	Builds Interface Information View.
  *	@category		Tool
@@ -35,7 +36,7 @@
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  *	@todo			Code Doc
  */
-class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abstract{
+class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 	protected function buildParamArtefactList( $parent, $value, $key, $list = array() ){
 		$list	= array();
@@ -45,10 +46,10 @@ class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abs
 		if( is_array( $value ) ){
 			foreach( $value as $artefact )
 				if( $artefact !== $parent )
-					$list[]	= UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
+					$list[]	= \UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
 		}
 		else if( $value )
-			$list[]	= UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
+			$list[]	= \UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
 
 		return $this->buildParamList( $list, $key );
 	}
@@ -76,7 +77,7 @@ class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abs
 			if( $license->getUrl() ){
 				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
 				$class	= 'file-info-license';
-				$label	= UI_HTML_Elements::Link( $url, $label, $class );
+				$label	= \UI_HTML_Elements::Link( $url, $label, $class );
 			}
 			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
 		}
@@ -89,7 +90,7 @@ class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abs
 	 *	@param		ADT_PHP_Function	$data		Data object of function or method
 	 *	@return		string				Return Description
 	 */
-	protected function buildParamReturn( ADT_PHP_Function $data ){
+	protected function buildParamReturn( \ADT_PHP_Function $data ){
 		if( !$data->getReturn() )
 			return "";
 		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
@@ -114,7 +115,7 @@ class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abs
 		return $this->buildParamList( $list, 'throws' );
 	}
 
-	private function buildRelationTree( ADT_PHP_Interface $interface ){
+	private function buildRelationTree( \ADT_PHP_Interface $interface ){
 		$interfaces = $this->getSuperInterfaces( $interface );
 		if( !$interfaces )
 			return;
@@ -122,13 +123,13 @@ class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abs
 		$tree	= "";
 		foreach( $interfaces as $interfaceName ){
 			$interfaceName	= $this->getTypeMarkUp( $interfaceName ).$tree;
-			$item	= UI_HTML_Elements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
-			$tree	= UI_HTML_Elements::unorderedList( array( $item ) );
+			$item	= \UI_HTML_Elements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
+			$tree	= \UI_HTML_Elements::unorderedList( array( $item ) );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );
 	}
 
-	public function buildView( ADT_PHP_Interface $interface ){
+	public function buildView( \ADT_PHP_Interface $interface ){
 		$this->type		= 'interface';
 
 		$package		= $this->buildPackageLink( $interface->getPackage(), $interface->getCategory() );
@@ -176,7 +177,7 @@ class DocCreator_Builder_HTML_Interface_Info extends DocCreator_Builder_HTML_Abs
 	 *	@param		ADT_PHP_Interface	$interface		Interface to get list of superinterfaces for
 	 *	@return		array				List of superinterfaces
 	 */
-	protected function getSuperInterfaces( ADT_PHP_Interface $interface ){
+	protected function getSuperInterfaces( \ADT_PHP_Interface $interface ){
 		$list	= array();																			//  prepare empty list
 		while( $superInterface = $interface->getExtendedInterface() ){								//  while internal interface has superinterface
 			$list[]		= $superInterface;															//  set reference to found superinterface

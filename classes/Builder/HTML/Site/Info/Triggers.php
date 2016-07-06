@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	Builds Trigger Info Site File.
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_Triggers extends DocCreator_Builder_HTML_Site_Info_Abstract{
+class Triggers extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 
 	/**
 	 *	Creates Trigger Info Site File.
@@ -54,19 +55,19 @@ class DocCreator_Builder_HTML_Site_Info_Triggers extends DocCreator_Builder_HTML
 			foreach( $triggers as $nr => $trigger ){
 			$class	= $this->env->getClassFromId( $trigger['classId'] );
 			$uri	= 'class.'.$class->getId().'.html#class_method_'.$trigger['method'];
-			$method	= UI_HTML_Elements::Link( $uri, $trigger['method'], 'method' );
+			$method	= \UI_HTML_Elements::Link( $uri, $trigger['method'], 'method' );
 			$class	= $this->getTypeMarkUp( $class, TRUE );
 
 			$info	= array();
-			$info[]	= UI_HTML_Elements::ListItem( 'Class: '.$class );
-			$info[]	= UI_HTML_Elements::ListItem( 'Method: '.$method );
-			$info	= UI_HTML_Elements::unorderedList( $info );
+			$info[]	= \UI_HTML_Elements::ListItem( 'Class: '.$class );
+			$info[]	= \UI_HTML_Elements::ListItem( 'Method: '.$method );
+			$info	= \UI_HTML_Elements::unorderedList( $info );
 
-			$type	= UI_HTML_Tag::create( 'dt', $trigger['name'] );
-			$def	= UI_HTML_Tag::create( 'dd', $info.'<pre>'.$trigger['text'].'</pre>' );
+			$type	= \UI_HTML_Tag::create( 'dt', $trigger['name'] );
+			$def	= \UI_HTML_Tag::create( 'dd', $info.'<pre>'.$trigger['text'].'</pre>' );
 			$list[]	= $type.$def;
 		}
-		$content	= UI_HTML_Tag::create( 'dl', implode( "\n", $list ) );
+		$content	= \UI_HTML_Tag::create( 'dl', implode( "\n", $list ) );
 
 		$words	= isset( $this->env->words['triggers'] ) ? $this->env->words['triggers'] : array();
 		$uiData	= array(

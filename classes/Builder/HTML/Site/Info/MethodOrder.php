@@ -24,6 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodOrder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
+namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 /**
  *	...
  *	@category		Tool
@@ -34,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: MethodOrder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocCreator_Builder_HTML_Site_Info_MethodOrder extends DocCreator_Builder_HTML_Site_Info_Abstract{
+class MethodOrder extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 
 	/**
 	 *	Creates Change Log Info Site File.
@@ -61,9 +62,9 @@ class DocCreator_Builder_HTML_Site_Info_MethodOrder extends DocCreator_Builder_H
 				}
 				while( count( $methods ) && count( $ordered ) );
 				$count++;
-				$link	= UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$label	= $link.": ".$line1." | ".$line2;
-				$list[$class->getName()]	= UI_HTML_Elements::ListItem( $label, 0, array( 'class' => 'class' ) );
+				$list[$class->getName()]	= \UI_HTML_Elements::ListItem( $label, 0, array( 'class' => 'class' ) );
 			}
 		}
 		ksort( $list );
@@ -78,7 +79,7 @@ class DocCreator_Builder_HTML_Site_Info_MethodOrder extends DocCreator_Builder_H
 			'key'		=> 'methodOrder',
 			'id'		=> 'info-methodOrder',
 			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
-			'content'	=> UI_HTML_Elements::unorderedList( $list ),
+			'content'	=> \UI_HTML_Elements::unorderedList( $list ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),
 		);
