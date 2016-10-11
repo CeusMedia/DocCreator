@@ -1,3 +1,19 @@
+## GitHub
+
+### 0.9.2
+- moved <code>docs</code> folder to <code>doc</code>
+- moved own config file <code>config/DocCreator.doc.xml</code> to <code>doc.xml</code>
+- added PHPUnit package in composer file <small class="muted">(require-dev)</small>
+- added PHPUnit configuration file <code>phpunit.xml</code>
+- extended make file by generalized composer, test and doc commands
+
+### 0.9.1
+- use namespaces
+
+### 0.9
+- migrated from Subversion @ Google Code 
+
+## Subversion @ Google Code
 
 ###Updated svn log utility and changelog.
 
