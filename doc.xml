@@ -2,7 +2,7 @@
 <config>
 	<project>
 		<name>CeusMedia/DocCreator</name>
-		<path>classes/</path>
+		<path>src/</path>
 		<extension>php</extension>
 		<ignore type="file">/^(_|[a-z])/</ignore>
 		<ignore type="folder"></ignore>

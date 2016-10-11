@@ -19,4 +19,4 @@ dev-test-syntax:
 
 dev-doc: composer-install-dev
 	@test -f doc/API/search.html && rm -Rf doc/API || true
-	@php doc-creator.php --config-file=doccreator.xml
+	@php doc.php --config-file=doc.xml

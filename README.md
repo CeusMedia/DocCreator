@@ -9,7 +9,7 @@ Here is an example installation and use:
 
 ```
 composer create-project ceus-media/doc-creator
-php doc-creator.php --config-file=config/DocCreator.doc.xml
+php doc.php --config-file=doc.xml
 ```
   
-The rendered API documentation will be located in <code>docs/API</code>.
+The rendered API documentation will be located in <code>doc/API</code>.
