@@ -20,6 +20,9 @@
     "ceus-media/common": ">=0.8.2",
     "michelf/php-markdown": "1.5.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8"
+  },
   "autoload": {
     "psr-4": {
       "CeusMedia\\DocCreator\\": "classes/"

@@ -1,4 +1,5 @@
 composer.lock
 vendor
-docs/API
+doc/API
+doc/Test
 
