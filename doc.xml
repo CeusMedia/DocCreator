@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <config>
+
+	<!--  PROJECT(S) SETTINGS  -->
 	<project>
 		<name>CeusMedia/DocCreator</name>
 		<path>src/</path>
@@ -9,9 +11,21 @@
 		<category by="default">Library</category>
 		<package by="default">CeusMedia/DocCreator</package>
 	</project>
+
+	<!--  READER SETTINGS  -->  
+	<reader>
+		<plugin>Statistics</plugin>
+		<plugin>Unicode</plugin>
+		<plugin>Defaults</plugin>
+		<plugin>Relations</plugin>
+		<plugin>Primitives</plugin>
+		<plugin>Search</plugin>
+	</reader>
+
+	<!--  BUILDER(S) SETTINGS  -->
 	<builder format="HTML" theme="Default-SilverFire">
-		<path type="target" alt="must be absolute">doc/API/</path>
-		<path type="documents" alt="must be absolute">doc/</path>
+		<path type="target">doc/API/</path>
+		<path type="documents">doc/</path>
 		<title version="0.9.2">DocCreator</title>
 		<author email="christian.wuerker@ceusmedia.de">Christian Würker</author>
 		<company url="ceusmedia.de">Ceus Media</company>
@@ -36,23 +50,18 @@
 		<plugin>License</plugin>
 <!--		<plugin>DocHints</plugin>-->
 	</builder>
-	<reader>
-		<plugin>Statistics</plugin>
-		<plugin>Unicode</plugin>
-		<plugin>Defaults</plugin>
-		<plugin>Relations</plugin>
-		<plugin>Primitives</plugin>
-		<plugin>Search</plugin>
-	</reader>
+
+	<!--  GENERAL SETTINGS  -->
 	<creator>
 		<limit name="time" title="max time to execute in seconds">60</limit>
 		<path name="temp" hint="absolute or relative to work dir" title="path to store temporary files in">/tmp/</path>
-		<path name="log" hint="absolute or relative to work dir" title="path to store log files in">/tmp/</path>
-		<file name="serial" alt="absolute or relative to work dir">doccreator.serial</file>
-		<file name="archive" alt="absolute or relative to work dir">doccreator.serial.gz</file>
-		<file name="errors">doccreator.error.log</file>
+		<path name="log" hint="absolute or relative to work dir" title="path to store log files in">./</path>
+		<file name="serial" alt="absolute or relative to work dir">doc.serial</file>
+		<file name="archive" alt="absolute or relative to work dir">doc.serial.gz</file>
+		<file name="errors">doc.error.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
 		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE" trace="FALSE"/>
 		<mail></mail>
 	</creator>
+
 </config>
