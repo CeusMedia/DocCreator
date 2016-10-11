@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <config>
 	<project>
-		<name>DocCreator/dev</name>
-		<path>[/path/to/DocCreator/]</path>
+		<name>CeusMedia/DocCreator</name>
+		<path>classes/</path>
 		<extension>php</extension>
 		<ignore type="file">/^(_|[a-z])/</ignore>
-		<ignore type="folder">#(docs|lib|Go|Test|vendor)/#</ignore>
-		<category by="default">Tool</category>
-		<package by="default">CeusMedia.DocCreator</package>
+		<ignore type="folder"></ignore>
+		<category by="default">Library</category>
+		<package by="default">CeusMedia/DocCreator</package>
 	</project>
 	<builder format="HTML" theme="Default-SilverFire">
-		<path type="target" alt="must be absolute">[/path/to/DocCreator/]docs/API/</path>
-		<path type="documents" alt="must be absolute">[/path/to/DocCreator/]docs/</path>
-		<title version="0.8.2">DocCreator</title>
+		<path type="target" alt="must be absolute">doc/API/</path>
+		<path type="documents" alt="must be absolute">doc/</path>
+		<title version="0.9.2">DocCreator</title>
 		<author email="christian.wuerker@ceusmedia.de">Christian Würker</author>
-		<company url="ceusmedia.de">CeuS Media</company>
+		<company url="ceusmedia.de">Ceus Media</company>
 		<logo href="http://ceusmedia.de/tools/DocCreator/" title="DocCreator @ Ceus Media">logo/book_64.png</logo>
 		<language timezone="Europe/Berlin">en</language>
 		<option name="showSourceCode">1</option>
@@ -48,9 +48,9 @@
 		<limit name="time" title="max time to execute in seconds">60</limit>
 		<path name="temp" hint="absolute or relative to work dir" title="path to store temporary files in">/tmp/</path>
 		<path name="log" hint="absolute or relative to work dir" title="path to store log files in">/tmp/</path>
-		<file name="serial" alt="absolute or relative to work dir">DocCreator.doc.serial</file>
-		<file name="archive" alt="absolute or relative to work dir">DocCreator.doc.serial.gz</file>
-		<file name="errors">doc-creator.error.log</file>
+		<file name="serial" alt="absolute or relative to work dir">doccreator.serial</file>
+		<file name="archive" alt="absolute or relative to work dir">doccreator.serial.gz</file>
+		<file name="errors">doccreator.error.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
 		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE" trace="FALSE"/>
 		<mail></mail>
