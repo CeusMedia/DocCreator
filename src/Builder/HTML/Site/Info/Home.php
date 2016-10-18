@@ -44,6 +44,7 @@ class Home extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 		'home.html',
 		'home.md',
 		'readme.md',
+		'README.md',
 	);
 
 	/**

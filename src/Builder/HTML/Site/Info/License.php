@@ -43,6 +43,8 @@ class License extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 		'license.txt',
 		'license.nfo',
 		'license.md',
+		'LICENSE.md',
+		'LICENSE',
 	);
 
 	/**

@@ -44,10 +44,14 @@ class Changes extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 		'changes.log',
 		'changes.nfo',
 		'changes.md',
+		'CHANGES.md',
+		'CHANGES',
 		'changelog',
 		'changelog.txt',
 		'changelog.nfo',
 		'changelog.md',
+		'CHANGELOG.md',
+		'CHANGELOG',
 	);
 
 	/**

@@ -43,6 +43,9 @@ class Installation extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 		'install.txt',
 		'install.log',
 		'install.nfo',
+		'install.md',
+		'INSTALL.md',
+		'INSTALL',
 	);
 
 	/**
