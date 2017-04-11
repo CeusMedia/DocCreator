@@ -96,7 +96,7 @@ class ConsoleRunner extends \CLI_Application{
 			);
 			foreach( $this->arguments->getAll() as $key => $value )
 				if( array_key_exists( $key, $mapSkip ) )
-					$creator->$mapSkip[$key]( $value );
+					$creator->{$mapSkip[$key]}( $value );
 			if( $this->arguments->has( '--show-config' ) )
 				$creator->setOption( 'showConfig', TRUE );
 			if( $this->arguments->has( '--show-config-only' ) )

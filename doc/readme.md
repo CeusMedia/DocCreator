@@ -58,4 +58,4 @@ To apply DocCreator to your project save this configuration to <code>doc.xml</co
 
 ##### Running DocCreator
 
-	php /path/to/DocCreator/doc-creator.php --config-file=doc.xml
+	php /path/to/DocCreator/doc.php --config-file=doc.xml
