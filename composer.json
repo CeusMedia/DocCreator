@@ -16,7 +16,7 @@
     "jabber": "ceus-media@jabber.org"
   },
   "require": {
-    "php": ">=5.3.3",
+    "php": "^5.3.3 || ^7",
     "ceus-media/common": "^0.8",
     "michelf/php-markdown": "1.5.0"
   },
