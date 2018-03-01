@@ -72,15 +72,15 @@ class ConsoleRunner extends \CLI_Application{
 	 *	@return		void
 	 */
 	protected function main(){
-		if( $this->arguments->has( '--help' ) ){
+		$parameters	= $this->arguments->get( 'parameters' );
+		$parameters	= new \ADT_List_Dictionary( $parameters );
+		if( $parameters->has( '--help' ) ){
 			$this->showUsage();
 			exit;
 		}
 
 #		set_error_handler( array( $this, 'handleError' ) );
 		try{
-			$creator	= new \CeusMedia\DocCreator\Core\Runner( $this->configFile, $this->verbose, $this->trace );
-
 			$mapSkip	= array(
 				'--config-file'		=> 'setConfigFile',
 				'--source-folder'	=> 'setProjectBasePath',
@@ -94,12 +94,17 @@ class ConsoleRunner extends \CLI_Application{
 				'--quite'			=> 'setQuite',
 				'--trace'			=> 'setTrace'
 			);
-			foreach( $this->arguments->getAll() as $key => $value )
+			$creator	= new \CeusMedia\DocCreator\Core\Runner(
+				$this->configFile,
+				$this->verbose,
+				$this->trace
+			);
+			foreach( $parameters->getAll() as $key => $value )
 				if( array_key_exists( $key, $mapSkip ) )
 					$creator->{$mapSkip[$key]}( $value );
-			if( $this->arguments->has( '--show-config' ) )
+			if( $parameters->has( '--show-config' ) )
 				$creator->setOption( 'showConfig', TRUE );
-			if( $this->arguments->has( '--show-config-only' ) )
+			if( $parameters->has( '--show-config-only' ) )
 				$creator->setOption( 'showConfigOnly', TRUE );
 
 			$creator->main();
