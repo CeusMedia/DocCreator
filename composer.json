@@ -15,6 +15,7 @@
     "email": "office@ceusmedia.de",
     "jabber": "ceus-media@jabber.org"
   },
+  "minimum-stability": "dev",
   "require": {
     "php": "^5.3.3 | ^7",
     "ceus-media/common": "^0 | ^1",
