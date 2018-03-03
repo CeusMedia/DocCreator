@@ -120,6 +120,7 @@ class Methods extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 
 		$attributes['return']		= $this->buildParamReturn( $method );
 		$attributes['throws']		= $this->buildParamThrows( $method );
+//		$attributes['trigger']		= $this->buildParamTriggers( $method->getTriggers() );
 
 		$params	= array();
 		foreach( $method->getParameters() as $parameter ){
