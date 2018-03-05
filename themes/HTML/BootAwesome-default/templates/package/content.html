@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%language%>" lang="<%language%>">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/font-awesome.css"/>
+		<link rel="stylesheet" href="css/content.css"/>
+		<link rel="stylesheet" href="css/content.package.css"/>
+		<link rel="stylesheet" href="css/content.syntax.css"/>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/dynamic.js"></script>
+	</head>
+	<body class="content content-package">
+		<div id="package">
+			<h1>
+				<a name="top">
+					<img src="<%icon%>" alt="<%words.label%>" title="<%words.label%>"/>
+					<small>&nbsp;</small><%?packageName%>
+				</a>
+			</h1>
+			<small><%words.type%>: <%words.label%></small><br/>
+			<small><%words.internal%>: <%?packageKey%></small><br/>
+			<%?packageList%>
+			<%?classList%>
+			<%?interfaceList%>
+		</div>
+	<%?footer%>
+	</body>
+</html>

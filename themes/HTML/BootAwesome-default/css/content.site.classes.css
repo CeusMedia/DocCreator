@@ -1,0 +1,26 @@
+body.site-info div#info-classList #list-letters * {
+	font-size: 1.1em;
+	margin-right: 0.3em;
+	}
+
+body.site-info div#info-classList #list-letters span.letter-disabled {
+	color: #CCC;
+	}
+
+body.site-info div#info-classList div.letter {
+	clear: left;
+	padding: 0.2em 0.5em 0.2em 1em;
+	margin: 0.5em 0em 0.1em 0em;
+	background: #DDD;
+	border-bottom: #BBB;
+	font-weight: bold;
+	cursor: pointer;
+	}
+
+body.site-info div#info-classList div.file,
+body.site-info div#info-classList div.class,
+body.site-info div#info-classList div.interface {
+	float: left;
+	width: 32%;
+	}
+

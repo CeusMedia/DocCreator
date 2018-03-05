@@ -1,0 +1,136 @@
+#tree {
+	}
+
+#tree ul {
+	margin-left: 0;
+	padding-left: 0;
+	}
+#tree ul ul {
+	margin-left: 0em;
+	padding-left: 1.25rem;
+	}
+#tree ul li {
+	list-style: none;
+	line-height: 1.2rem;
+	font-size: 0.8rem;
+	}
+#tree ul li a {
+	background-repeat: no-repeat;
+	text-decoration: none;
+	-moz-border-radius: 0.3em;
+	outline: 0px;
+	font-size: 0.9rem;
+	}
+#tree ul li a:before {
+	font-family: "FontAwesome";
+	content: "\f10c";
+	width: 20px;
+	display: inline-block;
+	}
+#tree ul li a:hover {
+	background-color: #EEE;
+	}
+
+#tree ul li a.current  {
+	background-color: #DDD;
+	cursor: default;
+	}
+
+#tree ul li a span {
+	display: block;
+	margin-top: -2px;
+	height: 16px;
+	}
+
+#tree ul li a.category {
+	line-height: 1em;
+	font-size: 1em;
+	}
+#tree ul li a.category:before {
+	content: "\f1b3";
+	}
+
+#tree ul li a.package:before {
+	content: "\f1b2";
+	content: "\f114";
+	content: "\f07b";
+	}
+
+#tree ul li a.class {
+	}
+#tree ul li a.class:before {
+	content: "\f016";
+	content: "\f15c";
+	content: "\f0f6";
+	}
+#tree ul li a.class:hover {
+	}
+#tree ul li a.class.current  {
+	text-decoration: none;
+	color: black;
+	}
+
+#tree ul li a.interface {
+	}
+#tree ul li a.interface:before {
+	content: "\f0f6";
+	}
+#tree ul li a.interface:hover {
+	text-decoration: underline;
+	}
+#tree ul li a.interface.current  {
+	text-decoration: underline;
+	color: black;
+	}
+
+#tree ul.shut {
+	display: none;
+	}
+
+#tree b.hilight {
+	background: lightgreen;
+	color: white;
+	}
+
+#control input#tree-query {
+	border-style: inset;
+	border-width: 1px;
+	border-color: #CCDDFF;
+	background-color: #DDE7FF;
+	font-size: 0.9em;
+	background-image:url(../images/silk/magnifier.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+	padding-left: 20px;
+	margin-left: 1.5em;
+	min-width: 120px;
+	margin-right: 1em;
+	}
+
+
+.treeview .hitarea {
+	background: transparent !important;
+	width: 1.3em;
+	height: 1.3em;
+	display: inline-block;
+	text-align: center;
+	cursor: pointer;
+	margin-right: 2px;
+	}
+.treeview .hitarea:before {
+	font-family: "FontAwesome";
+	}
+.treeview .hitarea.expandable-hitarea:before {
+	content: "\f196";
+	}
+.treeview .hitarea.collapsable-hitarea:before {
+	content: "\f147";
+	}
+.treeview div.hitarea,
+.treeview li.lastCollapsable,
+.treeview li.lastExpandable,
+.treeview li.collapsable,
+.treeview li.expandable {
+	background: none !important;
+	background-image: none !important;
+	}
