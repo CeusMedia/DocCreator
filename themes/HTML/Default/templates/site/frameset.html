@@ -15,6 +15,6 @@ origURL = parent.document.URL
 contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length)
 if(origURL==contentURL)
 	contentURL='home.html';
-document.write('<frameset cols="250,*"><frame src="control.html" name="control"><frame src="' + contentURL + '" name="content"></frameset>');
+document.write('<frameset cols="250,*"><frame src="control.html" name="frm_control"><frame src="' + contentURL + '" name="frm_content"></frameset>');
 	</script>
 </html>
