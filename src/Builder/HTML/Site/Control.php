@@ -38,7 +38,7 @@ namespace CeusMedia\DocCreator\Builder\HTML\Site;
  */
 class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
-	protected $linkTarget	= "content";
+	protected $linkTarget	= "frm_content";
 
 	private function buildLinks( $linkList ){
 		$list	= array();
@@ -85,6 +85,7 @@ class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	public function createControl( $linkList ){
 		$pathTarget	= $this->env->getBuilderTargetPath();
 		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Tree( $this->env );
+		$builder->setTargetFrame( $this->linkTarget );
 		$tree		= $builder->buildTree();
 		$logo		= $this->buildLogo();
 

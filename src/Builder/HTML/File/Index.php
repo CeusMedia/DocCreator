@@ -50,10 +50,17 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	private function addMainLink( $class, $label, $content = "" ){
 		$class	= str_replace( "_", "-", $class );
 		$url	= "#".str_replace( "-", "_", $class );
-		if( $content && is_array( $content ) )
-			$content	= \UI_HTML_Elements::unorderedList( $content );
-		$link	= \UI_HTML_Elements::Link( $url, $label ).$content;
-		$item	= \UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
+		if( $content && is_array( $content ) ){
+			$caret		= \UI_HTML_Tag::create( 'b', '', array( 'class' => 'caret' ) );
+//			$content	= \UI_HTML_Elements::unorderedList( $content );
+			$content	= \UI_HTML_Tag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
+			$link		= \UI_HTML_Tag::create( 'a', $label.$caret, array( 'href' => $url, 'class' => 'dropdown-toggle' ) );
+			$item		= \UI_HTML_Tag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class, 'data-toggle' => 'dropdown' ) );
+		}
+		else{
+			$link	= \UI_HTML_Elements::Link( $url, $label ).$content;
+			$item	= \UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
+		}
 		$this->list[]	= $item;
 	}
 
@@ -125,7 +132,10 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 			$this->addMainLink( 'file-source', $words['sourceCode'] );
 
 
-		$indexList	= \UI_HTML_Elements::unorderedList( $this->list );
+//		$indexList	= \UI_HTML_Elements::unorderedList( $this->list );
+		$indexList	= \UI_HTML_Tag::create( 'ul', $this->list, array( 'class' => 'nav' ) );
+		$indexList	= \UI_HTML_Tag::create( 'div', $indexList, array( 'class' => 'navbar-inner' ) );
+		$indexList	= \UI_HTML_Tag::create( 'div', $indexList, array( 'class' => 'navbar navbar-fixed-top' ) );
 		$data		= array(
 			'words'	=> $this->env->words['index'],
 			'list'	=> $indexList,

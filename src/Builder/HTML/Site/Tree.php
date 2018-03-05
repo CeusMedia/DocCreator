@@ -63,7 +63,7 @@ class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 
 		$this->convertTreeToTreeMenuRecursive( $tree, $menu );
 		$builder	= new \UI_HTML_Tree_Menu();
-		$builder->setTarget( 'content' );
+		$builder->setTarget( $this->targetFrame );
 		$tree		= $builder->buildMenuFromMenuList( $menu );
 		$uiData	= array(
 			'cookieId'	=> "doc_tree",#$this->env->config['project.name'].'_tree',
@@ -120,6 +120,10 @@ class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		ksort( $list );
 		foreach( $list as $item )
 			$menu->addChild( $item );
+	}
+
+	public function setTargetFrame( $targetFrame ){
+		$this->targetFrame	= $targetFrame;
 	}
 }
 ?>

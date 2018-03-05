@@ -146,16 +146,6 @@ class Runner{
 		$this->pathTool	= dirname( dirname( dirname( __FILE__ ) ) );
 //		try{
 			$clock		= new \Alg_Time_Clock;
-#			$this->setProjectBasePath( NULL );														//  realize project paths by removing base path placeholders in project config structure
-#			$this->setBuilderTargetPath( NULL );
-#			if( $this->getOption( 'showConfigOnly' ) )
-#			{
-#				$this->showConfig();
-#				return;
-#			}
-#			else if( !$this->configProject->getVerbose() )
-#				ob_start( 'trashOutput' );
-
 			if( $this->configProject->getVerbose() ){
 				$this->out->newLine( $this->configTool['application']['name']." v".$this->configTool['application']['version'] );
 				$this->out->newLine();
@@ -257,9 +247,5 @@ class Runner{
 	public function setVerbose( $bool = TRUE ){
 		$this->configProject->setVerbose( 'general', $bool );
 	}
-}
-function trashOutput( $content )
-{
-	$content	= NULL;
 }
 ?>

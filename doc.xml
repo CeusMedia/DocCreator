@@ -12,7 +12,7 @@
 		<package by="default">CeusMedia/DocCreator</package>
 	</project>
 
-	<!--  READER SETTINGS  -->  
+	<!--  READER SETTINGS  -->
 	<reader>
 		<plugin>Statistics</plugin>
 		<plugin>Unicode</plugin>
@@ -23,7 +23,7 @@
 	</reader>
 
 	<!--  BUILDER(S) SETTINGS  -->
-	<builder format="HTML" theme="Default-SilverFire">
+	<builder format="HTML" theme="BootAwesome-default">
 		<path type="target">doc/API/</path>
 		<path type="documents">doc/</path>
 		<title version="0.9.2">DocCreator</title>
@@ -37,14 +37,14 @@
 		<plugin>Search</plugin>
 <!--		<plugin>About</plugin>-->
 <!--		<plugin>Installation</plugin>-->
-		<plugin>History</plugin>
-		<plugin>Changes</plugin>
+<!--		<plugin>History</plugin>-->
+<!--		<plugin>Changes</plugin>-->
 		<plugin>Deprecations</plugin>
 		<plugin>Todos</plugin>
-		<plugin>Bugs</plugin>
+<!--		<plugin>Bugs</plugin>-->
 		<plugin>ParseErrors</plugin>
 		<plugin>Statistics</plugin>
-		<plugin>UnusedVariables</plugin>
+<!--		<plugin>UnusedVariables</plugin>-->
 		<plugin>MethodOrder</plugin>
 		<plugin>MethodAccess</plugin>
 		<plugin>License</plugin>

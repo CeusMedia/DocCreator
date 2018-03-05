@@ -20,3 +20,8 @@ dev-test-syntax:
 dev-doc: composer-install-dev
 	@test -f doc/API/search.html && rm -Rf doc/API || true
 	@php doc.php --config-file=doc.xml
+
+create-docs: composer-install-dev
+	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
+
+
