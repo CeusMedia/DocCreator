@@ -5,12 +5,15 @@ body.site-info div#info-search input#search-query {
 	min-width:120px;
 	padding-left:28px;
 	}
-
-body.site-info li.class a {
+body.site-info div#info-search li.class {
+	border: 1px solid rgba(127, 127, 127, 0.5);
+	padding: 0.75em 1.5em;
+	margin-bottom: 1em;
+	}
+body.site-info div#info-search li.class a {
 	font-size: 1.1em;
 	}
-
-body.site-info div.description {
+body.site-info div#info-search li.class div.description {
 	font-size: 0.9em;
 	color: #444;
 	}
@@ -19,21 +22,15 @@ body.site-info span.found {
 	font-weight: bold;
 	background-image: url(../images/background_hilight_gray.png);
 	}
-
 body.site-info span.found.term-0 {
 	background-image: url(../images/background_hilight_green.png);
 	}
-
 body.site-info span.found.term-1 {
 	background-image: url(../images/background_hilight_yellow.png);
 	}
-
 body.site-info span.found.term-2 {
 	background-image: url(../images/background_hilight_red.png);
 	}
-
 body.site-info span.found.term-3 {
 	background-image: url(../images/background_hilight_blue.png);
 	}
-
-	
