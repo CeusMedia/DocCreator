@@ -7,7 +7,7 @@
     {
       "name": "Christian Würker",
       "email": "christian.wuerker@ceusmedia.de",
-      "homepage": "http://ceusmedia.de/",
+      "homepage": "https://ceusmedia.de/",
       "role": "Developer"
     }
   ],
@@ -19,7 +19,8 @@
   "require": {
     "php": "^5.3 | ^7",
     "ceus-media/common": "^0 | ^1 | dev-master",
-    "michelf/php-markdown": "^1.7"
+    "michelf/php-markdown": "^1.7",
+    "league/commonmark": "^0.16.0"
   },
   "require-dev": {
     "phpunit/phpunit": "*"

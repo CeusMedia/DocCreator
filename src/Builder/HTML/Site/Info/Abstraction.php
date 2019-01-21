@@ -25,6 +25,9 @@
  *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use League\CommonMark\CommonMarkConverter;
+
 /**
  *	Abstract Site Info Builder.
  *	@category		Tool
@@ -98,7 +101,9 @@ abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
 				switch( $extension ){
 					case 'md':
-						$content	= \Michelf\Markdown::defaultTransform( $content );
+//						$content	= \Michelf\Markdown::defaultTransform( $content );
+						$converter	= new CommonMarkConverter();
+						$content	= $converter->convertToHtml( $content );
 						break;
 					case 'html':
 					case 'htm':
