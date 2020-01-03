@@ -116,7 +116,7 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 				$notes	= \UI_HTML_Elements::unorderedList( $classNotes );
 
 				$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
-				$count	= ' <small>('.count( $notes ).')</small>';
+				$count	= ' <small>('.count( $classNotes ).')</small>';
 				$item	= \UI_HTML_Elements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
 				$list[]	= $item;
 			}

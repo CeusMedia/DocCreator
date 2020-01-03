@@ -68,11 +68,11 @@ class Todos extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 					$list	= array();
 					foreach( $methodData->getTodos() as $todo )
 						$list[]		= \UI_HTML_Elements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
-					$list	= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+					$methodList		= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().".html#class_method_".$methodName;
 					$methodLink		= \UI_HTML_Elements::Link( $methodUrl, $methodName, 'method' );
-					$methodTodos[]	= \UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );
+					$methodTodos[]	= \UI_HTML_Elements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
 				}
 				if( !$classTodos && !$methodTodos )
 					continue;
