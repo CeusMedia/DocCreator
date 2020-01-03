@@ -2,7 +2,7 @@
 /**
  *	Builds for Index Tree for Classes or Files.
  *
- *	Copyright (c) 2008-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2015 Christian Würker
+ *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
@@ -32,7 +32,7 @@ namespace CeusMedia\DocCreator\Builder\HTML\Site;
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@uses			DocCreator_Builder_HTML_Site_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2015 Christian Würker
+ *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
