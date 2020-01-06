@@ -73,11 +73,11 @@ class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 					foreach( $method->getDeprecations() as $deprecation )
 						if( trim( $deprecation ) )
 							$list[]		= \UI_HTML_Elements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
-					$list	= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+					$methodList		= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
 					$methodLink		= \UI_HTML_Elements::Link( $methodUrl, $method->getName(), 'method' );
-					$methodDeprecations[]	= \UI_HTML_Elements::ListItem( $methodLink.$list, 1, array( 'class' => "method" ) );
+					$methodDeprecations[]	= \UI_HTML_Elements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
 				}
 				if( !$classDeprecations && !$methodDeprecations )
 					continue;
