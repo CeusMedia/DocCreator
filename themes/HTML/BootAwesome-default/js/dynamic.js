@@ -84,13 +84,13 @@ function initIndex(){
 
 function sendQuery(){
 	$.ajax({
-		type		 : "GET",
+		type		: "GET",
 		url			: "search.php",
 		async		: false,
-		data		 : {query: $("#search-query").val()},
-		dataType : "html",
+		data		: {query: $("#search-query").val()},
+		dataType	: "html",
 		cache		: false,
-		success	: function(html){
+		success		: function(html){
 			$("#list").html(html);
 		},
 		error: function(msg){
@@ -140,6 +140,9 @@ $(document).ready(function(){
 
 		if($("#statistics").length)
 			finishStatsStyle();
+
+		if(typeof Stickyfill === "object")
+			Stickyfill.add(jQuery(".sticky"));
 	}
 });
 

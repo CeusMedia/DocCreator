@@ -88,3 +88,18 @@ table.grid th {
 .CodeMirror {
 	height: auto !important;
 	}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+	}
+
+#index {
+	height: 40px;
+	}
+
+#index.sticky {
+	top: 14px;
+	z-index: 2000;
+	}

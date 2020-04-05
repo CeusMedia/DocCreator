@@ -5,14 +5,10 @@
 		<title><%?topic%> - <%?title%></title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="css/font-awesome.css"/>
-<!--		<link rel="stylesheet" href="css/jquery.svg.css"/>
 		<link rel="stylesheet" href="css/content.css"/>
-		<link rel="stylesheet" href="css/content.syntax.css"/>
-		<link rel="stylesheet" href="css/content.site.statistics.css"/>-->
+		<link rel="stylesheet" href="css/content.site.statistics.css"/>
 		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-<!--		<script type="text/javascript" src="js/jquery.svg.pack.js"></script>
-		<script type="text/javascript" src="js/jquery.svgfilter.pack.js"></script>
-		<script type="text/javascript" src="js/jquery.svggraph.pack.js"></script>-->
+		<script type="text/javascript" src="js/stickyfill.min.js"></script>
 		<script type="text/javascript" src="js/dynamic.js"></script>
 	</head>
 	<body class="content content-site site-info">
@@ -37,27 +33,27 @@
 					</tr>
 					<tr>
 						<td><%words.statisticsCode.linesTotal%></th>
-						<td><%?data.number.lines%></td>
-						<td><%?data.ratio.linesPerFile%></td>
-						<td><small>100 %</small></td>
+						<td class="numeric"><%?data.number.lines%></td>
+						<td class="numeric"><%?data.ratio.linesPerFile%></td>
+						<td class="numeric"><small>100 %</small></td>
 					</tr>
 					<tr class="codes">
 						<td><%words.statisticsCode.linesCode%></th>
-						<td><b><%?data.number.codes%></b></td>
-						<td><b><%?data.ratio.codesPerFile%></b></td>
-						<td><b><%?data.ratio.codesPerFile%%> %</b></td>
+						<td class="numeric"><b><%?data.number.codes%></b></td>
+						<td class="numeric"><b><%?data.ratio.codesPerFile%></b></td>
+						<td class="numeric"><b><%?data.ratio.codesPerFile%%> %</b></td>
 					</tr>
 					<tr class="docs">
 						<td><%words.statisticsCode.linesDoc%></th>
-						<td><%?data.number.docs%></td>
-						<td><%?data.ratio.docsPerFile%></td>
-						<td><%?data.ratio.docsPerFile%%> %</td>
+						<td class="numeric"><%?data.number.docs%></td>
+						<td class="numeric"><%?data.ratio.docsPerFile%></td>
+						<td class="numeric"><%?data.ratio.docsPerFile%%> %</td>
 					</tr>
 					<tr class="strips">
 						<td><%words.statisticsCode.linesStripped%></th>
-						<td><%?data.number.strips%></td>
-						<td><%?data.ratio.stripsPerFile%></td>
-						<td><%?data.ratio.stripsPerFile%%> %</td>
+						<td class="numeric"><%?data.number.strips%></td>
+						<td class="numeric"><%?data.ratio.stripsPerFile%></td>
+						<td class="numeric"><%?data.ratio.stripsPerFile%%> %</td>
 					</tr>
 				</table>
 				<br/>
@@ -77,28 +73,28 @@
 					</tr>
 					<tr>
 						<td><%words.statisticsMetrics.files%></td>
-						<td><%?data.number.files%></td>
-						<td></td>
+						<td class="numeric"><%?data.number.files%></td>
+						<td class="numeric"></td>
 					</tr>
 					<tr>
 						<td><%words.statisticsMetrics.length%></td>
-						<td><%?data.length.total%></td>
-						<td><%?data.length.perFile%></td>
+						<td class="numeric"><%?data.length.total%></td>
+						<td class="numeric"><%?data.length.perFile%></td>
 					</tr>
 <!--					<tr>
 						<td><%words.statisticsMetrics.timeAnalysis%></td>
-						<td><%?data.time.stats.total%></td>
-						<td><%?data.time.stats.perFile%></td>
+						<td class="numeric"><%?data.time.stats.total%></td>
+						<td class="numeric"><%?data.time.stats.perFile%></td>
 					</tr>
 					<tr>
 						<td><%words.statisticsMetrics.timeParse%></td>
-						<td><%?data.time.parse.total%></td>
-						<td><%?data.time.parse.perFile%></td>
+						<td class="numeric"><%?data.time.parse.total%></td>
+						<td class="numeric"><%?data.time.parse.perFile%></td>
 					</tr>
 					<tr>
 						<td><%words.statisticsMetrics.timeBuild%></td>
-						<td><%?data.time.build.total%></td>
-						<td><%?data.time.build.perFile%></td>
+						<td class="numeric"><%?data.time.build.total%></td>
+						<td class="numeric"><%?data.time.build.perFile%></td>
 					</tr>-->
 				</table>
 				<br/>

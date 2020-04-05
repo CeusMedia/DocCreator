@@ -24,6 +24,9 @@ body.site-info div#info-statistics tr.strips {
 	font-weight: bold;
 	}
 
+body.site-info div#info-statistics td.numeric {
+	text-align: right;
+	}
 
 body.site-info div#info-statistics #codeTable table {
 	width: 520px;
