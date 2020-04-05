@@ -12,7 +12,7 @@ function openTreeToLink(href){
 			doc.find("#tree a.selected").removeClass("selected");
 			$(this).addClass("selected");
 			var parent = $(this).parent();
-			while(parent.not("#tree").size()){
+			while(parent.not("#tree").length){
 				if(parent.is("li.parent.expandable"))
 					parent.children("div.hitarea").trigger("click");
 				parent = parent.parent();
@@ -38,7 +38,7 @@ function applyCodeMirror(selector){
 }
 
 function initTree(){
-	if($("#tree_container li").size()){
+	if($("#tree_container li").length){
 		$("#tree_container").treeview({
 			animated: "fast",
 			collapsed: true,
@@ -110,35 +110,35 @@ function jumpToLine(number){
 
 $(document).ready(function(){
 
-	if($("body.control").size()){
-		if($("#tree").size())
+	if($("body.control").length){
+		if($("#tree").length)
 			initTree();
 		$("#control ul>li>a").click(function(){
 			$("#control ul>li>a").removeClass('current');
 			$(this).addClass('current');
 		});
 	}
-	else if($("body.content").size()){
+	else if($("body.content").length){
 		if(parent.location == self.location){
 			parent.location.href="index.html?" + document.URL;
 			return false;
 		}
 		openTreeToLink(document.location.href.split("/").pop());
-		if($("body.content-artefact").size()){
+		if($("body.content-artefact").length){
 			applyCodeMirror("textarea#source-code");
-//			if($("#index").size())
+//			if($("#index").length)
 //				initIndex();
 		}
 		else{
-			if(!$("#file_info").size())
+			if(!$("#file_info").length)
 				$("li.index-file-info").hide();
-			if(!$("#class_info").size())
+			if(!$("#class_info").length)
 				$("li.index-class-info").hide();
 		}
 
 	//  appendTitle();
 
-		if($("#statistics").size())
+		if($("#statistics").length)
 			finishStatsStyle();
 	}
 });
