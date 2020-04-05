@@ -302,6 +302,30 @@ class Environment{
 		$this->words	= $reader->toArray();
 	}
 
+
+	/**
+	 *	@deprecated		removed instantly because of (meanwhile removed) call to die-function at the end
+	 *	@todo			check for method calls and remove
+	 *	@todo			this method could be migrated to a DocCreator Browser User Interface
+	 */
+	public function printTree( $category, $level = 0 ){
+		if( $category instanceof \ADT_PHP_Category ){
+			foreach( $category->getCategories() as $cat ){
+				remark( str_repeat( "  ", $level * 4).$cat->getLabel() );
+				$this->printTree( $cat, $level + 1 );
+			}
+			foreach( $category->getPackages() as $pack ){
+				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
+			}
+		}
+		else if( $category instanceof \ADT_PHP_Package ){
+			foreach( $category->getPackages() as $pack ){
+				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
+				$this->printTree( $pack, $level + 1 );
+			}
+		}
+	}
+
 	/**
 	 *	@todo		same algo is in Container, check which is deprecated
 	 */
@@ -377,30 +401,6 @@ class Environment{
 		}
 #		$this->printTree( $this->tree );
 	}
-
-	/**
-	 *	@deprecated		removed instantly because of (meanwhile removed) call to die-function at the end
-	 *	@todo			check for method calls and remove
-	 *	@todo			this method could be migrated to a DocCreator Browser User Interface
-	 */
-	public function printTree( $category, $level = 0 ){
-		if( $category instanceof \ADT_PHP_Category ){
-			foreach( $category->getCategories() as $cat ){
-				remark( str_repeat( "  ", $level * 4).$cat->getLabel() );
-				$this->printTree( $cat, $level + 1 );
-			}
-			foreach( $category->getPackages() as $pack ){
-				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
-			}
-		}
-		else if( $category instanceof \ADT_PHP_Package ){
-			foreach( $category->getPackages() as $pack ){
-				remark( str_repeat( "  ", $level * 4).$pack->getLabel() );
-				$this->printTree( $pack, $level + 1 );
-			}
-		}
-	}
-
 
 	/**
 	 *	Stores collected File/Class Data as Serial File or Archive File.
