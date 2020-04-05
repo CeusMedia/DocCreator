@@ -54,8 +54,8 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 			$caret		= \UI_HTML_Tag::create( 'b', '', array( 'class' => 'caret' ) );
 //			$content	= \UI_HTML_Elements::unorderedList( $content );
 			$content	= \UI_HTML_Tag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
-			$link		= \UI_HTML_Tag::create( 'a', $label.$caret, array( 'href' => $url, 'class' => 'dropdown-toggle' ) );
-			$item		= \UI_HTML_Tag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class, 'data-toggle' => 'dropdown' ) );
+			$link		= \UI_HTML_Tag::create( 'a', $label.$caret, array( 'href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown' ) );
+			$item		= \UI_HTML_Tag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class ) );
 		}
 		else{
 			$link	= \UI_HTML_Elements::Link( $url, $label ).$content;
