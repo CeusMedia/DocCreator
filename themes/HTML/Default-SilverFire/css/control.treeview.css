@@ -1,6 +1,9 @@
 #tree {
 	}
 
+#tree ul li {
+	white-space: nowrap;
+	}
 #tree ul li a {
 	display: block;
 /*	margin-left: 2px;*/
@@ -13,6 +16,7 @@
 	outline: 0px;
 	font-size: 0.9em;
 	line-height: 1.4em;
+	white-space: nowrap;
 	}
 #tree ul li a:hover {
 	background-color: #EEE;
