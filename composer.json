@@ -17,7 +17,7 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": "^5.3 | ^7",
+    "php": ">=7.3",
     "ceus-media/common": "^0 | ^1 | dev-master",
     "michelf/php-markdown": "^1.7",
     "league/commonmark": "^0.16.0"
