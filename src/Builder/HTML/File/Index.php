@@ -2,7 +2,7 @@
 /**
  *	Builder for Index View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,8 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Index.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
@@ -32,6 +31,9 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Member_ as PhpMember;
 use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+
+use UI_HTML_Elements as HtmlElements;
+use UI_HTML_Tag as HtmlTag;
 
 define( 'RELATION_EXTENDS', 1 );
 define( 'RELATION_IMPLEMENTS', 2 );
@@ -101,10 +103,10 @@ class Index extends HtmlBuilderAbstraction
 			foreach( $file->getFunctions() as $name => $function ){
 				$a		= explode( "\n", $function->getDescription() );
 				$desc	= array_shift( $a );
-				$label	= \UI_HTML_Elements::Acronym( $name, $desc );
-				$link	= \UI_HTML_Elements::Link( "#file_function_".$name, $label );
+				$label	= HtmlElements::Acronym( $name, $desc );
+				$link	= HtmlElements::Link( "#file_function_".$name, $label );
 				$class	= 'index-function';
-				$item	= \UI_HTML_Elements::ListItem( $link, 1, array( 'class' => $class ) );
+				$item	= HtmlElements::ListItem( $link, 1, array( 'class' => $class ) );
 				$functionList[]	= $item;
 			}
 			$this->addMainLink( 'file-functions', $words['functions'], $functionList );
@@ -116,10 +118,10 @@ class Index extends HtmlBuilderAbstraction
 			$this->addMainLink( 'file-source', $words['sourceCode'] );
 
 
-//		$indexList	= \UI_HTML_Elements::unorderedList( $this->list );
-		$indexList	= \UI_HTML_Tag::create( 'ul', $this->list, array( 'class' => 'nav' ) );
-		$indexList	= \UI_HTML_Tag::create( 'div', $indexList, array( 'class' => 'navbar-inner' ) );
-		$indexList	= \UI_HTML_Tag::create( 'div', $indexList, array( 'class' => 'navbar navbar-fixed-top' ) );
+//		$indexList	= HtmlElements::unorderedList( $this->list );
+		$indexList	= HtmlTag::create( 'ul', $this->list, array( 'class' => 'nav' ) );
+		$indexList	= HtmlTag::create( 'div', $indexList, array( 'class' => 'navbar-inner' ) );
+		$indexList	= HtmlTag::create( 'div', $indexList, array( 'class' => 'navbar navbar-fixed-top' ) );
 		$data		= array(
 			'words'	=> $this->env->words['index'],
 			'list'	=> $indexList,
@@ -140,15 +142,15 @@ class Index extends HtmlBuilderAbstraction
 		$class	= str_replace( "_", "-", $class );
 		$url	= "#".str_replace( "-", "_", $class );
 		if( $content && is_array( $content ) ){
-			$caret		= \UI_HTML_Tag::create( 'b', '', array( 'class' => 'caret' ) );
-//			$content	= \UI_HTML_Elements::unorderedList( $content );
-			$content	= \UI_HTML_Tag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
-			$link		= \UI_HTML_Tag::create( 'a', $label.$caret, array( 'href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown' ) );
-			$item		= \UI_HTML_Tag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class ) );
+			$caret		= HtmlTag::create( 'b', '', array( 'class' => 'caret' ) );
+//			$content	= HtmlElements::unorderedList( $content );
+			$content	= HtmlTag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
+			$link		= HtmlTag::create( 'a', $label.$caret, array( 'href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown' ) );
+			$item		= HtmlTag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class ) );
 		}
 		else{
-			$link	= \UI_HTML_Elements::Link( $url, $label ).$content;
-			$item	= \UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
+			$link	= HtmlElements::Link( $url, $label ).$content;
+			$item	= HtmlElements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
 		}
 		$this->list[]	= $item;
 	}
@@ -206,11 +208,11 @@ class Index extends HtmlBuilderAbstraction
 	{
 		$desc	= explode( "\n", $memberData->getDescription() );
 		$desc	= array_shift( $desc );
-		$label	= $desc ? \UI_HTML_Elements::Acronym( $memberName, $desc ) : $memberName;
+		$label	= $desc ? HtmlElements::Acronym( $memberName, $desc ) : $memberName;
 		$uri	= 'class.'.$class->getId().".html#class_member_".$memberName;
-		$link	= \UI_HTML_Elements::Link( $uri, $label );
+		$link	= HtmlElements::Link( $uri, $label );
 		$class	= 'index-member-'.$memberData->getAccess();
-		return \UI_HTML_Elements::ListItem( $link, 1, array( 'class' => $class ) );
+		return HtmlElements::ListItem( $link, 1, array( 'class' => $class ) );
 	}
 
 	/**
@@ -246,13 +248,13 @@ class Index extends HtmlBuilderAbstraction
 	{
 		$desc	= explode( "\n", $methodData->getDescription() );
 		$desc	= array_shift( $desc );
-		$label	= $desc ? \UI_HTML_Elements::Acronym( $methodName, $desc ) : $methodName;
+		$label	= $desc ? HtmlElements::Acronym( $methodName, $desc ) : $methodName;
 		$uri	= 'interface.'.$class->getId().".html#interface_method_".$methodName;
 		if( $class instanceof PhpClass )
 			$uri	= 'class.'.$class->getId().".html#class_method_".$methodName;
-		$link	= \UI_HTML_Elements::Link( $uri, $label );
+		$link	= HtmlElements::Link( $uri, $label );
 		$class	= 'index-method-'.$methodData->getAccess();
-		return \UI_HTML_Elements::ListItem( $link, 1, array( 'class' => $class ) );
+		return HtmlElements::ListItem( $link, 1, array( 'class' => $class ) );
 	}
 
 	/**

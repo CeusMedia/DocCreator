@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,19 +20,19 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: MethodOrder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -65,9 +65,9 @@ class MethodOrder extends SiteInfoAbstraction
 				}
 				while( count( $methods ) && count( $ordered ) );
 				$count++;
-				$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$label	= $link.": ".$line1." | ".$line2;
-				$list[$class->getName()]	= \UI_HTML_Elements::ListItem( $label, 0, array( 'class' => 'class' ) );
+				$list[$class->getName()]	= HtmlElements::ListItem( $label, 0, array( 'class' => 'class' ) );
 			}
 		}
 		ksort( $list );
@@ -82,7 +82,7 @@ class MethodOrder extends SiteInfoAbstraction
 			'key'		=> 'methodOrder',
 			'id'		=> 'info-methodOrder',
 			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
-			'content'	=> \UI_HTML_Elements::unorderedList( $list ),
+			'content'	=> HtmlElements::unorderedList( $list ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),
 		);

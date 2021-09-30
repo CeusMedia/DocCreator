@@ -2,7 +2,7 @@
 /**
  *	Builds Class Methods Information File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,8 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Methods.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Classes;
 
@@ -31,6 +30,7 @@ use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
 
+use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Class Methods Information File.
@@ -96,25 +96,25 @@ class Methods extends ClassInfo
 				if( $methodData->isAbstract() )
 					continue;
 				$uri		= 'class.'.$class->getId().".html#class_method_".$methodName;
-				$link		= \UI_HTML_Elements::Link( $uri, $methodName, 'method' );
+				$link		= HtmlElements::Link( $uri, $methodName, 'method' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
 				$got[]		= $methodName;
-				$list[$methodName]	= \UI_HTML_Elements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
+				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
 			}
 			if( $list ){
 				ksort( $list );
-				$list		= \UI_HTML_Elements::unorderedList( $list );
+				$list		= HtmlElements::unorderedList( $list );
 				$item		= $this->getTypeMarkUp( $class ).$list;
 				$attributes	= array( 'class' => 'methodsOfExtendedClass' );
 				if( $nr % 3 == 0 )
 					$attributes['style']	= "clear: left";										//  line break after each 3 classes
-				$extended[]	= \UI_HTML_Elements::ListItem( $item, 0, $attributes );
+				$extended[]	= HtmlElements::ListItem( $item, 0, $attributes );
 			}
 		}
 		if( !$extended )
 			return "";
 		$attributes	= array( 'class' => 'extendedClass' );
-		$extended	= \UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
+		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
 		$data	= array(
 			'words'	=> $this->words['classMethodsInherited'],
 			'list'	=> $extended,
@@ -171,7 +171,7 @@ class Methods extends ClassInfo
 
 		$uri		= 'class.'.$class->getId().".html#source_class_method_".$method->getName();
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
-		$methodLink	= \UI_HTML_Elements::Link( $uri, $method->getName() );
+		$methodLink	= HtmlElements::Link( $uri, $method->getName() );
 		$methodLink	= '<a href="'.$uri.'" onclick="jumpToLine('.$method->getLine().')">'.$method->getName().'</a>';
 
 		$params	= array();

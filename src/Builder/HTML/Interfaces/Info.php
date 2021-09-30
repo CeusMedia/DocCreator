@@ -2,7 +2,7 @@
 /**
  *	Builds Interface Information View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,8 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 
@@ -31,11 +30,12 @@ use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
 
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builds Interface Information View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
- *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -95,10 +95,10 @@ class Info extends HtmlBuilderAbstraction
 		if( is_array( $value ) ){
 			foreach( $value as $artefact )
 				if( $artefact !== $parent )
-					$list[]	= \UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
+					$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
 		}
 		else if( $value )
-			$list[]	= \UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
+			$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
 
 		return $this->buildParamList( $list, $key );
 	}
@@ -129,7 +129,7 @@ class Info extends HtmlBuilderAbstraction
 			if( $license->getUrl() ){
 				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
 				$class	= 'file-info-license';
-				$label	= \UI_HTML_Elements::Link( $url, $label, $class );
+				$label	= HtmlElements::Link( $url, $label, $class );
 			}
 			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
 		}
@@ -177,8 +177,8 @@ class Info extends HtmlBuilderAbstraction
 		$tree	= '';
 		foreach( $interfaces as $interfaceName ){
 			$interfaceName	= $this->getTypeMarkUp( $interfaceName ).$tree;
-			$item	= \UI_HTML_Elements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
-			$tree	= \UI_HTML_Elements::unorderedList( array( $item ) );
+			$item	= HtmlElements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
+			$tree	= HtmlElements::unorderedList( array( $item ) );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );
 	}

@@ -2,7 +2,7 @@
 /**
  *	Builder for File Info View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,8 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
@@ -30,11 +29,12 @@ use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
 
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builder for File Info View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
- *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -96,7 +96,7 @@ class Info extends HtmlBuilderAbstraction
 			if( $license->getUrl() ){
 				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
 				$class	= 'file-info-license';
-				$label	= \UI_HTML_Elements::Link( $url, $label, $class );
+				$label	= HtmlElements::Link( $url, $label, $class );
 			}
 			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
 		}

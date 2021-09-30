@@ -26,6 +26,7 @@
 namespace CeusMedia\DocCreator\Reader\Plugin;
 
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 
 /**
  *	...
@@ -56,7 +57,7 @@ class Primitives extends Abstraction
 	{
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $class ){
-				if( $class instanceof \ADT_PHP_Class )
+				if( $class instanceof PhpClass )
 					foreach( $class->getMembers() as $member )
 						$this->tryToExtendPrimitiveType( $member );
 				foreach( $class->getMethods() as $method ){

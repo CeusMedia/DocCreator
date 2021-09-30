@@ -2,7 +2,7 @@
 /**
  *	Builds Search File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,19 +20,19 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Search.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
+use FS_File_Writer as FileWriter;
+
 /**
  *	Builds Search File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -79,7 +79,7 @@ class Search extends SiteInfoAbstraction
 		foreach( $files as $fileId => $file )
 			foreach( $file->getClasses() as $classId => $class )
 				$data[$class->getId()]	= $class->search;
-		return \FS_File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
+		return FileWriter::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 }
 

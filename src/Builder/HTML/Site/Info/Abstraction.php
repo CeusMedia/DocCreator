@@ -2,7 +2,7 @@
 /**
  *	Abstract Site Info Builder.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,15 +20,17 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use League\CommonMark\CommonMarkConverter;
+
+use FS_File_Reader as FileReader;
+use FS_File_Writer as FileWriter;
 
 /**
  *	Abstract Site Info Builder.
@@ -97,7 +99,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 			if( file_exists( $fileName ) )
 			{
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
-				$content	= \FS_File_Reader::load( $fileName );
+				$content	= FileReader::load( $fileName );
 				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
 				switch( $extension ){
 					case 'md':
@@ -138,7 +140,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 
 	protected function saveFile( $fileName, $content )
 	{
-		\FS_File_Writer::save( $this->pathTarget.$fileName, $content );
+        FileWriter::save( $this->pathTarget.$fileName, $content );
 	}
 
 	public function setLinkTargetFrame( string $linkTarget ): self

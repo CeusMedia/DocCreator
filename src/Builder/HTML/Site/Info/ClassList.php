@@ -2,7 +2,7 @@
 /**
  *	Builds Class List Info Site File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,19 +20,20 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ClassList.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
+use UI_HTML_Elements as HtmlElements;
+use UI_HTML_Tag as HtmlTag;
+
 /**
  *	Builds Class List Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -64,21 +65,21 @@ class ClassList extends SiteInfoAbstraction
 
 	private function buildClassList(): string
 	{
-		$divClear	= \UI_HTML_Tag::create( 'div', '', array( 'style' => 'clear: both' ) );
+		$divClear	= HtmlTag::create( 'div', '', array( 'style' => 'clear: both' ) );
 		$list		= array();
 		foreach( $this->env->data->getFiles() as $fileId=> $file ){
 			foreach( $file->getClasses() as $classId => $class ){
 				$uri	= 'class.'.$class->getId().'.html';
 				$label	= $this->getLabel( $class );
-				$link	= \UI_HTML_Elements::Link( $uri, $label, 'class', $this->linkTarget );
-				$div	= \UI_HTML_Tag::create( 'div', $link, array( 'class' => 'class' ) );
+				$link	= HtmlElements::Link( $uri, $label, 'class', $this->linkTarget );
+				$div	= HtmlTag::create( 'div', $link, array( 'class' => 'class' ) );
 				$list[$label.time()]	= $div;
 			}
 			foreach( $file->getInterfaces() as $interfaceId => $interface ){
 				$uri	= 'interface.'.$interface->getId().'.html';
 				$label	= $this->getLabel( $interface );
-				$link	= \UI_HTML_Elements::Link( $uri, $label, 'interface', $this->linkTarget );
-				$div	= \UI_HTML_Tag::create( 'div', $link, array( 'class' => 'interface' ) );
+				$link	= HtmlElements::Link( $uri, $label, 'interface', $this->linkTarget );
+				$div	= HtmlTag::create( 'div', $link, array( 'class' => 'interface' ) );
 				$list[$label.time()]	= $div;
 			}
 		}
@@ -89,7 +90,7 @@ class ClassList extends SiteInfoAbstraction
 		foreach( $list as $key => $item ){
 			if( $last != $key[0] ){
 				$letters[]	= $key[0];
-				$divLetter	= \UI_HTML_Tag::create(
+				$divLetter	= HtmlTag::create(
 					'div',
 					$key[0],
 					array(
@@ -107,13 +108,13 @@ class ClassList extends SiteInfoAbstraction
 		for( $i=65; $i<91; $i++ ){
 			$letter	= chr( $i );
 			if( in_array( $letter, $letters ) )
-				$item	= \UI_HTML_Elements::Link( '#letter-'.$letter, $letter );
+				$item	= HtmlElements::Link( '#letter-'.$letter, $letter );
 			else
-				$item	= \UI_HTML_Tag::create( 'span', $letter, array( 'class' => 'letter-disabled' ) );
+				$item	= HtmlTag::create( 'span', $letter, array( 'class' => 'letter-disabled' ) );
 			$list[]	= $item.'&nbsp;';
 		}
 		$list		= implode( $list );
-		$letters	= \UI_HTML_Tag::create( 'div', $list, array( 'id' => 'list-letters' ) );
+		$letters	= HtmlTag::create( 'div', $list, array( 'id' => 'list-letters' ) );
 		$list		= implode( "\n", $lines ).$divClear;
 		return $letters.$list;
 	}

@@ -2,7 +2,7 @@
 /**
  *	Builds Parse Error Info Site File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,13 +20,14 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ParseErrors.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
+use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Todo Info Site File.
@@ -53,7 +54,7 @@ class ParseErrors extends SiteInfoAbstraction
 
 			$label	= '<h4>'.$file->getBasename().'</h4><div class="file-uri">'.$file->getPathname()."</div>";
 			$errors	= "<xmp>".$file->errors."</xmp><br/>";
-			$list[]	= \UI_HTML_Elements::ListItem( $label.$errors );
+			$list[]	= HtmlElements::ListItem( $label.$errors );
 		}
 		if( !$list )
 			return FALSE;
@@ -66,7 +67,7 @@ class ParseErrors extends SiteInfoAbstraction
 			'key'		=> 'parseErrors',
 			'id'		=> 'info-parseErrors',
 			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'parseErrors',
-			'content'	=> \UI_HTML_Elements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
+			'content'	=> HtmlElements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),
 		);

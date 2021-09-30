@@ -2,7 +2,7 @@
 /**
  *	Builds Todo Info Site File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,13 +20,14 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Todos.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
+use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Todo Info Site File.
@@ -56,11 +57,11 @@ class Todos extends SiteInfoAbstraction
 				$methodTodos	= array();
 
 				$classUri	= "class.".$class->getId().".html";
-				$classLink	= \UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
+				$classLink	= HtmlElements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getTodos() ){
 					foreach( $class->getTodos() as $todo )
-						$classTodos[]	= \UI_HTML_Elements::ListItem( $todo, 1, array( 'class' => "classItem" ) );
+						$classTodos[]	= HtmlElements::ListItem( $todo, 1, array( 'class' => "classItem" ) );
 					$this->count	+= count( $classTodos );
 				}
 
@@ -69,19 +70,19 @@ class Todos extends SiteInfoAbstraction
 						continue;
 					$list	= array();
 					foreach( $methodData->getTodos() as $todo )
-						$list[]		= \UI_HTML_Elements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
-					$methodList		= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+						$list[]		= HtmlElements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
+					$methodList		= HtmlElements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().".html#class_method_".$methodName;
-					$methodLink		= \UI_HTML_Elements::Link( $methodUrl, $methodName, 'method' );
-					$methodTodos[]	= \UI_HTML_Elements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
+					$methodLink		= HtmlElements::Link( $methodUrl, $methodName, 'method' );
+					$methodTodos[]	= HtmlElements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
 				}
 				if( !$classTodos && !$methodTodos )
 					continue;
 
-				$methodTodos	= \UI_HTML_Elements::unorderedList( $methodTodos, 1, array( 'class' => "methods" ) );
-				$classTodos		= \UI_HTML_Elements::unorderedList( $classTodos, 1, array( 'class' => "classList" ) );
-				$todos[$class->getName()]		= \UI_HTML_Elements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
+				$methodTodos	= HtmlElements::unorderedList( $methodTodos, 1, array( 'class' => "methods" ) );
+				$classTodos		= HtmlElements::unorderedList( $classTodos, 1, array( 'class' => "classList" ) );
+				$todos[$class->getName()]		= HtmlElements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
 			}
 		}
 		ksort( $todos );
@@ -94,7 +95,7 @@ class Todos extends SiteInfoAbstraction
 				'key'		=> 'todos',
 				'id'		=> 'info-todos',
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
-				'content'	=> \UI_HTML_Elements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
+				'content'	=> HtmlElements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);
