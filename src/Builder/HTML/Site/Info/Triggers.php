@@ -25,24 +25,26 @@
  *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 /**
  *	Builds Trigger Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Triggers extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
-
+class Triggers extends SiteInfoAbstraction
+{
 	/**
 	 *	Creates Trigger Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite(){
+	public function createSite(): bool
+	{
 		if( !isset( $this->env->data->triggers ) )
 			return FALSE;
 		if( !$this->env->data->triggers )
@@ -88,4 +90,3 @@ class Triggers extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 		return TRUE;
 	}
 }
-?>

@@ -25,34 +25,24 @@
  *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Classes;
+
+use CeusMedia\DocCreator\Builder\HTML\Interfaces\Info as InfoInterface;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
+
 /**
  *	Builds Class Information View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
- *	@extends		DocCreator_Builder_HTML_Interface_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Info extends \CeusMedia\DocCreator\Builder\HTML\Interfaces\Info{
-
-	private function buildRelationTree( \ADT_PHP_Interface $class ){
-		$classes = $this->getSuperClasses( $class );
-		if( !$classes )
-			return;
-		array_unshift( $classes, $class );
-		$tree	= "";
-		foreach( $classes as $className ){
-			$className	= $this->getTypeMarkUp( $className ).$tree;
-			$item	= \UI_HTML_Elements::ListItem( $className, 0, array( 'class' => 'class' ) );
-			$tree	= \UI_HTML_Elements::unorderedList( array( $item ) );
-		}
-		return $this->buildParamList( $tree, 'inheritance' );
-	}
-
-	public function buildView( \ADT_PHP_Interface $class ){
+class Info extends InfoInterface
+{
+	public function buildView( PhpInterface $class ): string
+	{
 		$this->type		= 'class';
 
 		$package		= $this->buildPackageLink( $class->getPackage(), $class->getCategory() );
@@ -103,10 +93,11 @@ class Info extends \CeusMedia\DocCreator\Builder\HTML\Interfaces\Info{
 	/**
 	 *	Returns a list of backwards resolved superclasses, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		ADT_PHP_Class		$class		Class to get list of superclasses for
+	 *	@param		PhpClass		$class		Class to get list of superclasses for
 	 *	@return		array			List of superclasses
 	 */
-	protected function getSuperClasses( \ADT_PHP_Class $class ){
+	protected function getSuperClasses( PhpClass $class ): array
+	{
 		$list	= array();																			//  prepare empty list
 		while( $superClass = $class->getExtendedClass() ){											//  while internal class has superclass
 			$list[]	= $superClass;																	//  set reference to found superclass
@@ -116,5 +107,20 @@ class Info extends \CeusMedia\DocCreator\Builder\HTML\Interfaces\Info{
 		}
 		return $list;																				//  return list of superclasses
 	}
+
+	/** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
+	private function buildRelationTree(PhpInterface $class ): string
+	{
+		$classes = $this->getSuperClasses( $class );
+		if( 0 === count( $classes ) )
+			return '';
+		array_unshift( $classes, $class );
+		$tree	= "";
+		foreach( $classes as $className ){
+			$className	= $this->getTypeMarkUp( $className ).$tree;
+			$item	= \UI_HTML_Elements::ListItem( $className, 0, array( 'class' => 'class' ) );
+			$tree	= \UI_HTML_Elements::unorderedList( array( $item ) );
+		}
+		return $this->buildParamList( $tree, 'inheritance' );
+	}
 }
-?>

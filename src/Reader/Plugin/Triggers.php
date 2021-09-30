@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,30 +20,31 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Reader\Plugin;
+
+use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
+
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
- *	@extends		DocCreator_Reader_Plugin_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Triggers.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Triggers extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
-
+class Triggers extends Abstraction
+{
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
+	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( \ADT_PHP_Container $data ){
+	public function extendData( PhpContainer $data )
+	{
 		$data->triggers	= array();
 		foreach( $data->getFiles() as $file ){
 			$source	= $file->getSourceCode();
@@ -80,5 +81,5 @@ class Triggers extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 		}
 		ksort( $data->triggers );
 	}
+
 }
-?>

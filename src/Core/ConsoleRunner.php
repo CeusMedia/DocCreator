@@ -2,7 +2,7 @@
 /**
  *	Main Class of DocCreator Application.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +20,31 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ConsoleRunner.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Core;
+
+use ADT_List_Dictionary as Dictionary;
+use CLI_Application as CliApplication;
+
+use Exception;
+
 /**
  *	Main Class of DocCreator Application.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
- *	@extends		CLI_Application
- *	@uses			DocCreator_Core_Runner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ConsoleRunner.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
-class ConsoleRunner extends \CLI_Application{
+class ConsoleRunner extends CliApplication
+{
+	protected $configFile	= FALSE;
 
-	protected $configFile	= NULL;
+	protected $verbose		= FALSE;
 
-	protected $verbose		= NULL;
-
-	protected $shortCuts		= array(
+	protected $shortCuts	= array(
 		'-c'	=> '--config-file',
 		'-s'	=> '--source-folder',
 		'-t'	=> '--target-folder',
@@ -59,7 +61,8 @@ class ConsoleRunner extends \CLI_Application{
 	 *	@param		bool			$verbose		Flag: show Information during Creation
 	 *	@return		void
 	 */
-	public function __construct( $configFile = NULL, $verbose = NULL, $trace = NULL ){
+	public function __construct( string $configFile = NULL, bool $verbose = FALSE, bool $trace = FALSE )
+	{
 		$this->configFile	= $configFile;
 		$this->verbose		= $verbose;
 		$this->trace		= $trace;
@@ -71,9 +74,10 @@ class ConsoleRunner extends \CLI_Application{
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main(){
+	protected function main()
+	{
 		$parameters	= $this->arguments->get( 'parameters' );
-		$parameters	= new \ADT_List_Dictionary( $parameters );
+		$parameters	= new Dictionary( $parameters );
 		if( $parameters->has( '--help' ) ){
 			$this->showUsage();
 			exit;
@@ -94,7 +98,7 @@ class ConsoleRunner extends \CLI_Application{
 				'--quite'			=> 'setQuite',
 				'--trace'			=> 'setTrace'
 			);
-			$creator	= new \CeusMedia\DocCreator\Core\Runner(
+			$creator	= new Runner(
 				$this->configFile,
 				$this->verbose,
 				$this->trace
@@ -109,7 +113,7 @@ class ConsoleRunner extends \CLI_Application{
 
 			$creator->main();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage() . PHP_EOL;
 			print $e->getTraceAsString() . PHP_EOL;
 			$this->showUsage();
@@ -123,7 +127,8 @@ class ConsoleRunner extends \CLI_Application{
 	 *	@param		string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL ){
+	protected function showUsage( $message = NULL )
+	{
 		print "Usage: php create.php5 [OPTION]..." . PHP_EOL;
 		print "Options:" . PHP_EOL;
 		print "  -c, --config-file       URI of config file of project" . PHP_EOL;
@@ -137,8 +142,7 @@ class ConsoleRunner extends \CLI_Application{
 		print "  --show-config           Show project config" . PHP_EOL;
 		print "  --show-config-only      Show project config and abort" . PHP_EOL;
 		print PHP_EOL;
-		if( $message )
+		if( $message !== NULL )
 			$this->showError( $message );
 	}
 }
-?>

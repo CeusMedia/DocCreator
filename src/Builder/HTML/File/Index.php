@@ -25,53 +25,37 @@
  *	@version		$Id: Index.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
+use CeusMedia\PhpParser\Structure\Member_ as PhpMember;
+use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+
 define( 'RELATION_EXTENDS', 1 );
 define( 'RELATION_IMPLEMENTS', 2 );
+
 /**
  *	Builder for Index View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
- *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Index.php5 79 2011-09-09 14:24:09Z christian.wuerker $
  */
-class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
-	/**
-	 *	Adds a Main Link to the Index List.
-	 *	@access		private
-	 *	@param		string		$class			Item Class or Linked Anchor ID
-	 *	@param		string		$label			Label of Main Link
-	 *	@param		string		$content		Content within Main Link
-	 *	@return		string
-	 */
-	private function addMainLink( $class, $label, $content = "" ){
-		$class	= str_replace( "_", "-", $class );
-		$url	= "#".str_replace( "-", "_", $class );
-		if( $content && is_array( $content ) ){
-			$caret		= \UI_HTML_Tag::create( 'b', '', array( 'class' => 'caret' ) );
-//			$content	= \UI_HTML_Elements::unorderedList( $content );
-			$content	= \UI_HTML_Tag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
-			$link		= \UI_HTML_Tag::create( 'a', $label.$caret, array( 'href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown' ) );
-			$item		= \UI_HTML_Tag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class ) );
-		}
-		else{
-			$link	= \UI_HTML_Elements::Link( $url, $label ).$content;
-			$item	= \UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
-		}
-		$this->list[]	= $item;
-	}
+class Index extends HtmlBuilderAbstraction
+{
+	private $list	= [];
 
 	/**
 	 *	Builds Index View.
 	 *	@access		public
-	 *	@param		ADT_PHP_File	$file			File Object to build Index for
-	 *	@param		array		$functions		List of Functions
+	 *	@param		PhpFile	$file			File Object to build Index for
 	 *	@return		string
 	 */
-	public function buildIndex( \ADT_PHP_File $file ){
+	public function buildIndex( PhpFile $file ): string
+	{
 		$all		= array_merge( $file->getClasses(), $file->getInterfaces() );
 		$class		= array_shift( $all );
 		$words		= $this->env->words['index'];
@@ -85,7 +69,7 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 			$this->addMainLink( 'class-info', $words['class'] );
 
 			//  --  CLASS MEMBERS & INHERITED CLASS MEMBERS  --  //
-			if( $class instanceof \ADT_PHP_CLASS ){
+			if( $class instanceof PhpClass ){
 				$inheritedMemberList	= $this->buildInheritedMemberList( $class, RELATION_EXTENDS );
 				$memberList	= $this->buildMemberList( $class );
 				if( $memberList ){
@@ -144,12 +128,39 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	}
 
 	/**
+	 *	Adds a Main Link to the Index List.
+	 *	@access		private
+	 *	@param		string		$class			Item Class or Linked Anchor ID
+	 *	@param		string		$label			Label of Main Link
+	 *	@param		array|string		$content		Content within Main Link
+	 *	@return		void
+	 */
+	private function addMainLink( string $class, string $label, $content = '' )
+	{
+		$class	= str_replace( "_", "-", $class );
+		$url	= "#".str_replace( "-", "_", $class );
+		if( $content && is_array( $content ) ){
+			$caret		= \UI_HTML_Tag::create( 'b', '', array( 'class' => 'caret' ) );
+//			$content	= \UI_HTML_Elements::unorderedList( $content );
+			$content	= \UI_HTML_Tag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
+			$link		= \UI_HTML_Tag::create( 'a', $label.$caret, array( 'href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown' ) );
+			$item		= \UI_HTML_Tag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class ) );
+		}
+		else{
+			$link	= \UI_HTML_Elements::Link( $url, $label ).$content;
+			$item	= \UI_HTML_Elements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
+		}
+		$this->list[]	= $item;
+	}
+
+	/**
 	 *	Builds List of inherited Members.
 	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object to get inherited Member List for
-	 *	@return		string
+	 *	@param		PhpClass		$class			Class Object to get inherited Member List for
+	 *	@return		array
 	 */
-	private function buildInheritedMemberList( \ADT_PHP_Class $class ){
+	private function buildInheritedMemberList( PhpClass $class ): array
+	{
 		$list		= array();
 		$superClass	= $class->getExtendedClass();
 		if( is_object( $superClass ) ){
@@ -164,16 +175,17 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds List of inherited Methods.
 	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object to get inherited Method List for
-	 *	@return		string
+	 *	@param		PhpInterface		$class			Class Object to get inherited Method List for
+	 *	@return		array
 	 */
-	private function buildInheritedMethodList( \ADT_PHP_Interface $class ){
+	private function buildInheritedMethodList( PhpInterface $class ): array
+	{
 		$list		= array();
-		if( $class instanceof \ADT_PHP_Class )
+		if( $class instanceof PhpClass )
 			$superClass	= $class->getExtendedClass();
-		else if( $class instanceof \ADT_PHP_Interface )
+		else if( $class instanceof PhpInterface )
 			$superClass	= $class->getExtendedInterface();
-		if( is_object( $superClass ) ){
+		if( isset( $superClass ) && is_object( $superClass ) ){
 			$subList	= $this->buildInheritedMethodList( $superClass );
 			$methodList	= $this->buildMethodList( $superClass, RELATION_EXTENDS );
 			$list		= array_merge( $subList, $methodList );
@@ -185,12 +197,13 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds List Item of Member.
 	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object
-	 *	@param		string		$memberName		Name of Member
-	 *	@param		array		$memberData		Information of Member
+	 *	@param		PhpClass		$class			Class Object
+	 *	@param		string			$memberName		Name of Member
+	 *	@param		PhpMember	$memberData		Information of Member
 	 *	@return		string
 	 */
-	private function buildMemberEntry( \ADT_PHP_Class $class, $memberName, $memberData ){
+	private function buildMemberEntry( PhpClass $class, string $memberName, PhpMember $memberData ): string
+	{
 		$desc	= explode( "\n", $memberData->getDescription() );
 		$desc	= array_shift( $desc );
 		$label	= $desc ? \UI_HTML_Elements::Acronym( $memberName, $desc ) : $memberName;
@@ -203,11 +216,12 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds List of Members.
 	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object
+	 *	@param		PhpClass	$class			Class Object
 	 *	@param		int			$relation		Flag: hide private Members
-	 *	@return		string
+	 *	@return		array
 	 */
-	private function buildMemberList( \ADT_PHP_Class $class, $relation = 0 ){
+	private function buildMemberList( PhpClass $class, $relation = 0 ): array
+	{
 		$list		= array();
 		$members	= $class->getMembers();
 		ksort( $members );
@@ -223,17 +237,18 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds List Item of Method.
 	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object
-	 *	@param		string		$methodName		Name of Method
-	 *	@param		array		$methodData		Information of Method
+	 *	@param		PhpInterface	$class			Class Object
+	 *	@param		string			$methodName		Name of Method
+	 *	@param		PhpMethod	$methodData		Information of Method
 	 *	@return		string
 	 */
-	private function buildMethodEntry( \ADT_PHP_Interface $class, $methodName, $methodData ){
+	private function buildMethodEntry( PhpInterface $class, string $methodName, PhpMethod $methodData ): string
+	{
 		$desc	= explode( "\n", $methodData->getDescription() );
 		$desc	= array_shift( $desc );
 		$label	= $desc ? \UI_HTML_Elements::Acronym( $methodName, $desc ) : $methodName;
 		$uri	= 'interface.'.$class->getId().".html#interface_method_".$methodName;
-		if( $class instanceof \ADT_PHP_Class )
+		if( $class instanceof PhpClass )
 			$uri	= 'class.'.$class->getId().".html#class_method_".$methodName;
 		$link	= \UI_HTML_Elements::Link( $uri, $label );
 		$class	= 'index-method-'.$methodData->getAccess();
@@ -243,11 +258,12 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds List of Methods.
 	 *	@access		private
-	 *	@param		ADT_PHP_Class	$class			Class Object
-	 *	@param		int			$relation		Flag: hide final, abstract and private Methods
-	 *	@return		string
+	 *	@param		PhpInterface	$class			Class Object
+	 *	@param		int				$relation		Flag: hide final, abstract and private Methods
+	 *	@return		array
 	 */
-	private function buildMethodList( \ADT_PHP_Interface $class, $relation = 0 ){
+	private function buildMethodList( PhpInterface $class, $relation = 0 ): array
+	{
 		$list		= array();
 		$methods	= $class->getMethods();
 		ksort( $methods );
@@ -260,4 +276,4 @@ class Index extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $list;
 	}
 }
-?>
+

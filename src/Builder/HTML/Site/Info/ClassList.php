@@ -25,21 +25,45 @@
  *	@version		$Id: ClassList.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 /**
  *	Builds Class List Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: ClassList.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class ClassList extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
-
+class ClassList extends SiteInfoAbstraction
+{
 	public $linkTarget = '_self';
 
-	private function buildClassList(){
+	/**
+	 *	...
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function createSite()
+	{
+		if( $this->env->verbose )
+			$this->env->out->sameLine( "Creating: Class List" );
+		$uiData	= array(
+			'title'		=> $this->env->builder->title->getValue(),
+			'topic'		=> $this->env->words['classList']['heading'],
+			'words'		=> $this->env->words['classList'],
+			'list'		=> $this->buildClassList(),
+			'footer'	=> $this->buildFooter(),
+		);
+		$content	= $this->loadTemplate( "site/info/classList", $uiData );
+		$this->saveFile( "classes.html", $content );
+		$this->appendLink( 'classes.html', 'classList' );
+	}
+
+	private function buildClassList(): string
+	{
 		$divClear	= \UI_HTML_Tag::create( 'div', '', array( 'style' => 'clear: both' ) );
 		$list		= array();
 		foreach( $this->env->data->getFiles() as $fileId=> $file ){
@@ -94,30 +118,11 @@ class ClassList extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 		return $letters.$list;
 	}
 
-	/**
-	 *	...
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function createSite(){
-		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating: Class List" );
-		$uiData	= array(
-			'title'		=> $this->env->builder->title->getValue(),
-			'topic'		=> $this->env->words['classList']['heading'],
-			'words'		=> $this->env->words['classList'],
-			'list'		=> $this->buildClassList(),
-			'footer'	=> $this->buildFooter(),
-		);
-		$content	= $this->loadTemplate( "site/info/classList", $uiData );
-		$this->saveFile( "classes.html", $content );
-		$this->appendLink( 'classes.html', 'classList' );
-	}
-
-	private function getLabel( $artefact ){
+	private function getLabel( $artefact ): string
+	{
 		if( !empty( $this->options['prefix'] ) )
 			return preg_replace( '/'.$this->options['prefix'].'/', '', $artefact->getName() );
 		return $artefact->getName();
 	}
 }
-?>
+

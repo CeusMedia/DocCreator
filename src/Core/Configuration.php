@@ -2,7 +2,7 @@
 /**
  *	Reads Configuration XML File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,26 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id $
  */
 namespace CeusMedia\DocCreator\Core;
+
+use XML_Element as XmlElement;
+use XML_ElementReader as XmlElementReader;
+
 /**
  *	Reads Configuration XML File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
- *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id $
  *	@todo			Code Doc
  */
-class Configuration{
-
-	/**	@var		XML_Elememt		$data			XML root node of config XML file */
+class Configuration
+{
+	/**	@var		XmlElement		$data			XML root node of config XML file */
 	public $data;
 
 	/**
@@ -47,8 +48,9 @@ class Configuration{
 	 *	@param		string			$fileName		Name of Configuration XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName ){
-		$reader		= new \XML_ElementReader();
+	public function __construct( string $fileName )
+	{
+		$reader		= new XmlElementReader();
 		$this->data	= $reader->readFile( $fileName );
 	}
 
@@ -57,7 +59,8 @@ class Configuration{
 	 *	@access		public
 	 *	@return		string			Relative Name of Archive File
 	 */
-	public function getArchiveFileName(){
+	public function getArchiveFileName(): string
+	{
 		foreach( $this->data->creator->file as $file )
 			if( $file->getAttribute( 'name' ) == "archive" )
 				return $this->getTempPath()."/".$file->getValue();
@@ -66,16 +69,18 @@ class Configuration{
 	/**
 	 *	Returns Path to Documents to read for a given Builder Node.
 	 *	@access		public
-	 *	@param		XML_Element		$builder		Builder Node from XML File
+	 *	@param		XmlElement		$builder		Builder Node from XML File
 	 *	@return		string
 	 */
-	public function getBuilderDocumentsPath( \XML_Element $builder ){
+	public function getBuilderDocumentsPath( XmlElement $builder ): string
+	{
 		foreach( $builder->path as $path )
 			if( $path->getAttribute( 'type' ) == "documents" )
 				return preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
 	}
 
-	public function getBuilderLogo( \XML_Element $builder ){
+	public function getBuilderLogo( XmlElement $builder )
+	{
 		$logo		= (object) array(
 			'source'	=> NULL,
 			'title'		=> NULL,
@@ -94,10 +99,11 @@ class Configuration{
 	/**
 	 *	Returns XML Element with one or more Builder Option Nodes of a give Builder Node.
 	 *	@access		public
-	 *	@param		XML_Element		$builder		Builder Node from XML File
-	 *	@return		XML_Element
+	 *	@param		XmlElement		$builder		Builder Node from XML File
+	 *	@return		XmlElement
 	 */
-	public function getBuilderOptions( \XML_Element $builder ){
+	public function getBuilderOptions( XmlElement $builder ): XmlElement
+	{
 		if( !isset( $builder->option ) )
 			return array();
 		return $builder->option;
@@ -106,10 +112,11 @@ class Configuration{
 	/**
 	 *	Returns XML Element with one or more Builder Plugin Nodes of a give Builder Node.
 	 *	@access		public
-	 *	@param		XML_Element		$builder		Builder Node from XML File
-	 *	@return		XML_Element
+	 *	@param		XmlElement		$builder		Builder Node from XML File
+	 *	@return		XmlElement
 	 */
-	public function getBuilderPlugins( \XML_Element $builder ){
+	public function getBuilderPlugins( XmlElement $builder ): XmlElement
+	{
 		if( !isset( $builder->plugin ) )
 			return array();
 		return $builder->plugin;
@@ -118,9 +125,10 @@ class Configuration{
 	/**
 	 *	Returns XML Element with one or more Builder Nodes.
 	 *	@access		public
-	 *	@return		XML_Element
+	 *	@return		XmlElement
 	 */
-	public function getBuilders(){
+	public function getBuilders(): XmlElement
+	{
 		if( !isset( $this->data->builder ) )
 			return array();
 		return $this->data->builder;
@@ -129,10 +137,11 @@ class Configuration{
 	/**
 	 *	Returns Path to read created Files within for a given Builder Node.
 	 *	@access		public
-	 *	@param		XML_Element		$builder		Builder Node from XML File
+	 *	@param		XmlElement		$builder		Builder Node from XML File
 	 *	@return		string
 	 */
-	public function getBuilderTargetPath( \XML_Element $builder ){
+	public function getBuilderTargetPath( XmlElement $builder ): string
+	{
 		foreach( $builder->path as $path ){
 			if( $path->getAttribute( 'type' ) == "target" ){
 //				remark("getBuilderTargetPath: ".$path->getValue());
@@ -147,7 +156,8 @@ class Configuration{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getErrorLogFileName(){
+	public function getErrorLogFileName(): string
+	{
 		foreach( $this->data->creator->file as $file )
 			if( $file->getAttribute( 'name' ) == "error" )
 				return $this->getLogPath()."/".$file->getValue();
@@ -159,7 +169,8 @@ class Configuration{
 	 *	@access		public
 	 *	@return		string		Configured path to log files, default: log/
 	 */
-	public function getLogPath(){
+	public function getLogPath(): string
+	{
 		foreach( $this->data->creator->path as $path )
 			if( $path->getAttribute( 'name' ) == "log" )
 				return $path->getValue();
@@ -171,31 +182,35 @@ class Configuration{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMailReceiver(){
+	public function getMailReceiver(): string
+	{
 		return $this->data->creator->mail->getValue();
 	}
 
 	/**
 	 *	Returns List of File Extensions which should be read by Parser for a given Project Node.
 	 *	@access		public
-	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@param		XmlElement		$project		Project Node from XML File
 	 *	@return		array
 	 */
-	public function getProjectExtensions( \XML_Element $project ){
+	public function getProjectExtensions( XmlElement $project ): array
+	{
 		$list	= array();
 		foreach( $project->extension as $extension )
 			$list[]	= $extension->getValue();
 		return $list;
 	}
 
-	public function getProjectForcedCategory( \XML_Element $project ){
+	public function getProjectForcedCategory( XmlElement $project ): ?string
+	{
 		if( $project->category->hasAttribute( "by" ) )
 			if( $project->category->getAttribute( "by" ) == "force" )
 				return $project->category->getValue();
 		return NULL;
 	}
 
-	public function getProjectForcedPackage( \XML_Element $project ){
+	public function getProjectForcedPackage( XmlElement $project ): ?string
+	{
 		if( $project->package->hasAttribute( "by" ) )
 			if( $project->package->getAttribute( "by" ) == "force" )
 				return $project->package->getValue();
@@ -205,10 +220,11 @@ class Configuration{
 	/**
 	 *	Returns List of regex patterns of Files which should be ignored by Parser for a given Project Node.
 	 *	@access		public
-	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@param		XmlElement		$project		Project Node from XML File
 	 *	@return		array
 	 */
-	public function getProjectIgnoreFiles( \XML_Element $project ){
+	public function getProjectIgnoreFiles( XmlElement $project ): array
+	{
 		$list	= array();
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "file" )
@@ -219,10 +235,11 @@ class Configuration{
 	/**
 	 *	Returns List of regex patterns of Folders which should be ignored by Parser for a given Project Node.
 	 *	@access		public
-	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@param		XmlElement		$project		Project Node from XML File
 	 *	@return		array
 	 */
-	public function getProjectIgnoreFolders( \XML_Element $project ){
+	public function getProjectIgnoreFolders( XmlElement $project ): array
+	{
 		$list	= array();
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "folder" )
@@ -233,10 +250,11 @@ class Configuration{
 	/**
 	 *	Returns Path to for Parser to find Classes of a given Project Node.
 	 *	@access		public
-	 *	@param		XML_Element		$project		Project Node from XML File
+	 *	@param		XmlElement		$project		Project Node from XML File
 	 *	@return		string
 	 */
-	public function getProjectPath( \XML_Element $project ){
+	public function getProjectPath( XmlElement $project ): string
+	{
 		$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $project->path->getValue() );
 		return str_replace( array( "[", "]" ), "", $path );
 	}
@@ -244,9 +262,10 @@ class Configuration{
 	/**
 	 *	Returns XML Element with one or more Project Nodes.
 	 *	@access		public
-	 *	@return		XML_Element
+	 *	@return		XmlElement
 	 */
-	public function getProjects(){
+	public function getProjects(): XmlElement
+	{
 		if( !isset( $this->data->project ) )
 			return array();
 		return $this->data->project;
@@ -257,20 +276,23 @@ class Configuration{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getReaderPlugins(){
+	public function getReaderPlugins(): array
+	{
 		$list	= array();
 		foreach( $this->data->reader->plugin as $plugin )
 			$list[]	= $plugin->getValue();
 		return $list;
 	}
 
-	public function getSerialFileName(){
+	public function getSerialFileName(): string
+	{
 		foreach( $this->data->creator->file as $file )
 			if( $file->getAttribute( 'name' ) == "serial" )
 				return $this->getTempPath()."/".$file->getValue();
 	}
 
-	public function getSkip( $type ){
+	public function getSkip( string $type ): ?bool
+	{
 		$node	= $this->data->creator->skip;
 		if( !$node->hasAttribute( $type ) )
 			return NULL;
@@ -278,7 +300,7 @@ class Configuration{
 		switch( strtoupper( $value ) )
 		{
 			case 'FALSE':	return FALSE;
-			case 'TRUE':	return true;
+			case 'TRUE':	return TRUE;
 		}
 		return $value;
 	}
@@ -289,7 +311,8 @@ class Configuration{
 	 *	@access		public
 	 *	@return		string		Configured path to log files, default: tmp/
 	 */
-	public function getTempPath(){
+	public function getTempPath(): string
+	{
 		foreach( $this->data->creator->path as $path )
 			if( $path->getAttribute( 'name' ) == "temp" )
 				return $path->getValue();
@@ -301,18 +324,21 @@ class Configuration{
 	 *	@access		public
 	 *	@return		integer 	Configured seconds, default: -1
 	 */
-	public function getTimeLimit(){
+	public function getTimeLimit(): int
+	{
 		foreach( $this->data->creator->limit as $limit )
 			if( $limit->getAttribute( 'name' ) == "time" )
 				return $limit->getValue();
 		return -1;
 	}
 
-	public function getTrace(){
+	public function getTrace(): bool
+	{
 		return (boolean) $this->getVerbose( "trace" );
 	}
 
-	public function getVerbose( $type = NULL ){
+	public function getVerbose( ?string $type = NULL ): ?bool
+	{
 		$type	= $type ? $type : "general";
 		$node	= $this->data->creator->verbose;
 		if( !$node->hasAttribute( $type ) )
@@ -326,7 +352,8 @@ class Configuration{
 		return $value;
 	}
 
-	public function setBuilderTargetPath( $path = NULL ){
+	public function setBuilderTargetPath( string $path = NULL )
+	{
 //		remark( "setBuilderTargetPath: ".$path );
 		foreach( $this->data->builder as $builder ){
 			foreach( $builder->path as $builderPath ){
@@ -342,7 +369,8 @@ class Configuration{
 		}
 	}
 
-	public function setProjectBasePath( $path = NULL ){
+	public function setProjectBasePath( string $path = NULL )
+	{
 		foreach( $this->data->project as $project ){
 			$value	= (string) $project->path;
 			if( $path === NULL )
@@ -355,7 +383,8 @@ class Configuration{
 		}
 	}
 
-	public function setSkip( $type, $value ){
+	public function setSkip( string $type, bool $value )
+	{
 		$value	= $value ? TRUE : FALSE;
 		$node	= $this->data->creator->skip;
 		$node[$type]	= $value;
@@ -367,7 +396,8 @@ class Configuration{
 	 *	@param		int			$seconds		Number of seconds
 	 *	@return		void
 	 */
-	public function setTimeLimit( $seconds ){
+	public function setTimeLimit( int $seconds )
+	{
 		return $this->data->creator->setAttribute( 'timelimit', (int) $seconds );
 	}
 
@@ -377,15 +407,16 @@ class Configuration{
 	 *	@param		int			$boolean		Flag: show exception trace on error
 	 *	@return		void
 	 */
-	public function setTrace( $boolean ){
+	public function setTrace( bool $boolean )
+	{
 		return $this->setVerbose( 'trace', (boolean) $boolean );
 	}
 
-	public function setVerbose( $type, $value ){
+	public function setVerbose( string $type, bool $value )
+	{
 		$type	= $type ? $type : "general";
 		$value	= $value ? TRUE : FALSE;
 		$node	= $this->data->creator->verbose;
 		$node[$type]	= $value;
 	}
 }
-?>

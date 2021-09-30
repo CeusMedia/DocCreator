@@ -25,22 +25,24 @@
  *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		Tool
  *	@extends		DocCreator_Builder_HTML_Abstract
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
- *	@uses			DocCreator_Builder_HTML_Site_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Control.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
+class Control extends HtmlBuilderAbstraction
+{
 	protected $linkTarget	= "frm_content";
 
-	private function buildLinks( $linkList ){
+	private function buildLinks( array $linkList ): string
+	{
 		$list	= array();
 		$words	= $this->env->words['links'];
 		foreach( $linkList as $link ){
@@ -58,7 +60,8 @@ class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $this->loadTemplate( "site/links", $uiData );
 	}
 
-	protected function buildLogo(){
+	protected function buildLogo(): string
+	{
 		$logo = $this->env->config->getBuilderLogo( $this->env->builder );
 		if( $logo->source ){
 			$attributes	= array(
@@ -79,10 +82,11 @@ class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds complete Control Frame View.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		void
 	 *	@todo		rename to buildView
 	 */
-	public function createControl( $linkList ){
+	public function createControl( array $linkList )
+	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
 		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Tree( $this->env );
 		$builder->setTargetFrame( $this->linkTarget );
@@ -99,4 +103,4 @@ class Control extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		\FS_File_Writer::save( $pathTarget."control.html", $content );
 	}
 }
-?>
+

@@ -25,24 +25,27 @@
  *	@version		$Id: Search.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 /**
  *	Builds Search File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Search.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class Search extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
-
+class Search extends SiteInfoAbstraction
+{
 	/**
 	 *	Builds Tree View.
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function createSite(){
+	public function createSite(): bool
+	{
 		if( $this->env->verbose )
 			$this->env->out->sameLine( "Creating site: Search" );
 		$this->createTermList( $this->pathTarget );
@@ -59,6 +62,7 @@ class Search extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 		$htaccess	= file_get_contents( $template );
 		$this->saveFile( "search.php", $htaccess );
 		$this->appendLink( 'search.html', 'search' );
+		return TRUE;
 	}
 
 	/**
@@ -66,9 +70,10 @@ class Search extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 	 *	This serial will be used by the Search Script, which is triggered by the built HTML Search Form and copied as 'resource'.
 	 *	@access		private
 	 *	@param		string		$pathTarget			Doc Folder
-	 *	@return		int			Number of saved Bytes
+	 *	@return		integer		Number of saved Bytes
 	 */
-	private function createTermList( $pathTarget ){
+	private function createTermList( string $pathTarget ): int
+	{
 		$data		= array();
 		$files		= $this->env->data->getFiles();
 		foreach( $files as $fileId => $file )
@@ -77,4 +82,4 @@ class Search extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 		return \FS_File_Writer::save( $pathTarget."terms.serial", serialize( $data ) );
 	}
 }
-?>
+

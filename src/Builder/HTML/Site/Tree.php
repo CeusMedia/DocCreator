@@ -25,20 +25,23 @@
  *	@version		$Id: Tree.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
+use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
+
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		Tool
  *	@extends		DocCreator_Builder_HTML_Abstract
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
- *	@uses			Folder_Iterator
- *	@uses			ADT_Tree_Menu_Item
- *	@uses			UI_HTML_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Tree.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
+class Tree extends HtmlBuilderAbstraction
+{
+	protected $targetFrame;
 
 	/**
 	 *	Builds Tree View.
@@ -47,7 +50,8 @@ class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	 *	@return		string
 	 *	@todo		rename to buildView
 	 */
-	public function buildTree(){
+	public function buildTree(): string
+	{
 		if( $this->env->verbose )
 			$this->env->out->sameLine( "Creating tree" );
 
@@ -73,14 +77,19 @@ class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $this->loadTemplate( "site.tree", $uiData );
 	}
 
-	protected function convertTreeToTreeMenuRecursive( &$root, &$menu ){
+    /**
+     * @param PhpCategory $root
+     * @param $menu
+     */
+	protected function convertTreeToTreeMenuRecursive( PhpCategory &$root, &$menu )
+	{
 		$list	= array();
 		foreach( $root->getPackages() as $package ){
-			if( get_class( $package ) == 'ADT_PHP_Category' ){
+			if( $package instanceof PhpCategory ){
 				$prefix	= 'category.';
 				$class	= 'category';
 			}
-			else if( get_class( $package ) == 'ADT_PHP_Package' ){
+			else if( $package instanceof PhpPackage ){
 				$prefix	= 'package.';
 				$class	= 'package';
 			}
@@ -122,8 +131,9 @@ class Tree extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 			$menu->addChild( $item );
 	}
 
-	public function setTargetFrame( $targetFrame ){
+	public function setTargetFrame( string $targetFrame ): self
+	{
 		$this->targetFrame	= $targetFrame;
+		return $this;
 	}
 }
-?>

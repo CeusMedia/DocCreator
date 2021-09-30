@@ -25,98 +25,105 @@
  *	@version		$Id: Package.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
+
 /**
  *	Builder for Package View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Package.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Package extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
+class Package extends HtmlBuilderAbstraction
+{
 	/**
 	 *	Builds Class List from Package Key.
 	 *	@access		private
-	 *	@param		ADT_PHP_Package	$package		Package Object
+	 *	@param		PhpPackage	$package		Package Object
 	 *	@return		string
 	 *	@todo		fix
 	 */
-	private function buildClassList( \ADT_PHP_Package $package ){
+	private function buildClassList( PhpPackage $package ): string
+	{
 		$list	= array();
 		foreach( $package->getClasses() as $className => $class ){
 			$type	= $this->getTypeMarkUp( $class, TRUE );
 			$item	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "class" ) );
 			$list[$className]	= $item;
 		}
+		if( 0 === count( $list ) )
+			return '';
 		ksort( $list );
-		if( $list ){
-			$data	= array(
-				'words'	=> $this->env->words['packageClasses'],
-				'list'	=> \UI_HTML_Elements::unorderedList( $list ),
-			);
-			return $this->loadTemplate( 'package.classes', $data );
-		}
+		$data	= array(
+			'words' => $this->env->words['packageClasses'],
+			'list'	=> \UI_HTML_Elements::unorderedList( $list ),
+		);
+		return $this->loadTemplate( 'package.classes', $data );
 	}
 
 	/**
 	 *	Builds Interface List from Package Key.
 	 *	@access		private
-	 *	@param		ADT_PHP_Package	$package		Package Object
+	 *	@param		PhpPackage	$package		Package Object
 	 *	@return		string
 	 *	@todo		fix
 	 */
-	private function buildInterfaceList( \ADT_PHP_Package $package ){
+	private function buildInterfaceList( PhpPackage $package ): string
+	{
 		$list	= array();
 		foreach( $package->getInterfaces() as $interfaceName => $interface ){
 			$type	= $this->getTypeMarkUp( $interface, TRUE );
 			$item	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "interface" ) );
 			$list[$interfaceName]	= $item;
 		}
+		if( 0 === count( $list ) )
+			return '';
 		ksort( $list );
-		if( $list ){
-			$data	= array(
-				'words'	=> $this->env->words['packageInterfaces'],
-				'list'	=> \UI_HTML_Elements::unorderedList( $list ),
-			);
-			return $this->loadTemplate( 'package.interfaces', $data );
-		}
+		$data	= array(
+			'words'	=> $this->env->words['packageInterfaces'],
+			'list'	=> \UI_HTML_Elements::unorderedList( $list ),
+		);
+		return $this->loadTemplate( 'package.interfaces', $data );
 	}
 
 	/**
 	 *	Builds nested Package List from Package Key.
 	 *	@access		private
-	 *	@param		ADT_PHP_Package	$superPackage	Package Object
+	 *	@param		PhpPackage	$superPackage	Package Object
 	 *	@return		string
 	 */
-	private function buildPackageList( \ADT_PHP_Package $superPackage ){
+	private function buildPackageList( PhpPackage $superPackage ): string
+	{
 		$list	= array();
 		foreach( $superPackage->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
-			$type	= $this->getTypeMarkUp( $package, TRUE );
+			$type	= $this->getTypeMarkUp( $package );
 			$item	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
 			$list[$packageName]	= $item;
 		}
+		if( 0 === count( $list ) )
+			return '';
 		ksort( $list );
-		if( $list ){
-			$packageList	= \UI_HTML_Elements::unorderedList( array_values( $list ) );
-			$data	= array(
-				'words'	=> $this->env->words['packages'],
-				'list'	=> $packageList,
-			);
-			return $this->loadTemplate( 'package.packages', $data );
-		}
+		$packageList	= \UI_HTML_Elements::unorderedList( array_values( $list ) );
+		$data	= array(
+			'words'	=> $this->env->words['packages'],
+			'list'	=> $packageList,
+		);
+		return $this->loadTemplate( 'package.packages', $data );
 	}
 
 	/**
 	 *	Builds Package View.
 	 *	@access		public
-	 *	@param		ADT_PHP_Package	$package		Package Object
+	 *	@param		PhpPackage	$package		Package Object
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_Package $package ){
+	public function buildView( PhpPackage $package ): string
+	{
 #		$packageName	= $this->env->capitalizePackageName( $package->getLabel() );
 		$packageName	= $package->getLabel();
 		$classList		= $this->buildClassList( $package );
@@ -136,4 +143,4 @@ class Package extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $this->loadTemplate( 'package.content', $data );
 	}
 }
-?>
+

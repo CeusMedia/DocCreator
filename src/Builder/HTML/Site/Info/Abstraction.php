@@ -26,20 +26,19 @@
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\DocCreator\Core\Environment;
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use League\CommonMark\CommonMarkConverter;
 
 /**
  *	Abstract Site Info Builder.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Abstract
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstraction
+abstract class Abstraction extends HtmlBuilderAbstraction
 {
 	protected $pathProject	= NULL;
 	protected $pathTarget	= NULL;
@@ -52,11 +51,12 @@ abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		DocCreator_Core_Environment	$env		Environment Object
-	 *	@param		array						$linkList	Reference to list of Site links
+	 *	@param		Environment		$env		Environment Object
+	 *	@param		array			$linkList	Reference to list of Site links
+	 *	@param		array			$options	...
 	 *	@return		void
 	 */
-	public function __construct( \CeusMedia\DocCreator\Core\Environment $env, &$linkList, $options = array() )
+	public function __construct( Environment $env, array &$linkList, $options = array() )
 	{
 		parent::__construct( $env );
 		$this->linkList	=& $linkList;
@@ -80,7 +80,7 @@ abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 	 *	@access		public
 	 *	@return		integer		Number of found and enlisted contents (files)
 	 */
-	public function createSiteByFile()
+	public function createSiteByFile(): int
 	{
 		if( !$this->fileNames )
 			throw new \Exception( 'No files set' );
@@ -90,7 +90,7 @@ abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 		$list		= array();
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
 		if( !$pathDocs )
-			return;
+			return 0;
 		foreach( $this->fileNames as $fileName )
 		{
 			$fileName	= $pathDocs.$fileName;
@@ -141,22 +141,25 @@ abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 		\FS_File_Writer::save( $this->pathTarget.$fileName, $content );
 	}
 
-	public function setLinkTargetFrame( $linkTarget )
+	public function setLinkTargetFrame( string $linkTarget ): self
 	{
 		$this->linkTarget	= $linkTarget;
+		return $this;
 	}
 
-	public function setProjectPath( $pathProject )
+	public function setProjectPath( string $pathProject ): self
 	{
 		$this->pathProject	= $pathProject;
+		return $this;
 	}
 
-	public function setTargetPath( $pathTarget )
+	public function setTargetPath( string $pathTarget ): self
 	{
 		$this->pathTarget	= $pathTarget;
+		return $this;
 	}
 
-	public function verboseCreation( $key )
+	public function verboseCreation( string $key )
 	{
 		if( !$this->env->verbose )
 			return;
@@ -165,4 +168,3 @@ abstract class Abstraction extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 		$this->env->out->sameLine( "Creating site: ".$label );
 	}
 }
-?>

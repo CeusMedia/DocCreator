@@ -25,17 +25,19 @@
  *	@version		$Id: History.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 /**
  *	Builds History Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: History.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class History extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
+class History extends SiteInfoAbstraction
 {
 	protected $key			= 'history';
 	protected $fileNames	= array(
@@ -51,9 +53,8 @@ class History extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite()
+	public function createSite(): bool
 	{
-		return parent::createSiteByFile();
+		return parent::createSiteByFile() > 0;
 	}
 }
-?>

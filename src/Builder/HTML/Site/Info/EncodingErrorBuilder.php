@@ -25,26 +25,30 @@
  *	@version		$Id: EncodingErrorBuilder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+
 /**
  *	Builds Encoding Error Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: EncodingErrorBuilder.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class EncodingErrorBuilder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
+class EncodingErrorBuilder extends HtmlBuilderAbstraction
+{
 	/**
 	 *	Creates Change Log Sites if any Change Log File is available in Project Folder.
 	 *	@access		public
 	 *	@param		string			$pathTarget		Path to save Sites in
 	 *	@return		bool
 	 */
-	public function createSite( $pathTarget, &$linkList ){
-		return;
+	public function createSite( $pathTarget, &$linkList ): bool
+	{
+		return FALSE; //  disabled for now
+
 		$list		= array();
 		foreach( $this->env->data->getFiles() as $fileId => $file ){
 			if( !$file->errors )
@@ -75,4 +79,3 @@ class EncodingErrorBuilder extends \CeusMedia\DocCreator\Builder\HTML\Abstractio
 		return FALSE;
 	}
 }
-?>

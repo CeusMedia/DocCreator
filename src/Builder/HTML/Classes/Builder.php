@@ -25,49 +25,65 @@
  *	@version		$Id: Builder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Classes;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\DocCreator\Builder\HTML\File\Info as FileInfo;
+use CeusMedia\DocCreator\Builder\HTML\File\Functions as FileFunctions;
+use CeusMedia\DocCreator\Builder\HTML\Classes\Info as ClassInfo;
+use CeusMedia\DocCreator\Builder\HTML\Classes\Members as ClassMembers;
+use CeusMedia\DocCreator\Builder\HTML\Classes\Methods as ClassMethods;
+use CeusMedia\DocCreator\Builder\HTML\File\SourceCode as FileSourceCode;
+use CeusMedia\DocCreator\Builder\HTML\File\Index as FileIndex;
+use CeusMedia\DocCreator\Core\Environment;
+
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+
 /**
  *	Builds Class Information File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
- *	@extends		DocCreator_Builder_HTML_Abstract
- *	@uses			DocCreator_Builder_HTML_Class_Info
- *	@uses			DocCreator_Builder_HTML_Class_Members
- *	@uses			DocCreator_Builder_HTML_Class_Methods
- *	@uses			DocCreator_Builder_HTML_File_Info
- *	@uses			DocCreator_Builder_HTML_File_Functions
- *	@uses			DocCreator_Builder_HTML_File_SourceCode
- *	@uses			DocCreator_Builder_HTML_File_Index
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
+class Builder extends HtmlBuilderAbstraction
+{
+	protected $builderFile;
+	protected $builderFunctions;
+	protected $builderClass;
+	protected $builderMembers;
+	protected $builderMethods;
+	protected $builderSourceCode;
+	protected $builderIndex;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		DocCreator_Core_Environment	$env	Environment Object
+	 *	@param		Environment	$env	Environment Object
 	 *	@return		void
 	 */
-	public function __construct( $env ){
+	public function __construct( Environment $env )
+	{
 		parent::__construct( $env );
-		$this->builderFile			= new \CeusMedia\DocCreator\Builder\HTML\File\Info( $env );
-		$this->builderFunctions		= new \CeusMedia\DocCreator\Builder\HTML\File\Functions( $env );
-		$this->builderClass			= new \CeusMedia\DocCreator\Builder\HTML\Classes\Info( $env );
-		$this->builderMembers		= new \CeusMedia\DocCreator\Builder\HTML\Classes\Members( $env );
-		$this->builderMethods		= new \CeusMedia\DocCreator\Builder\HTML\Classes\Methods( $env );
-		$this->builderSourceCode	= new \CeusMedia\DocCreator\Builder\HTML\File\SourceCode( $env );
-		$this->builderIndex			= new \CeusMedia\DocCreator\Builder\HTML\File\Index( $env );
+		$this->builderFile			= new FileInfo( $env );
+		$this->builderFunctions		= new FileFunctions( $env );
+		$this->builderClass			= new ClassInfo( $env );
+		$this->builderMembers		= new ClassMembers( $env );
+		$this->builderMethods		= new ClassMethods( $env );
+		$this->builderSourceCode	= new FileSourceCode( $env );
+		$this->builderIndex			= new FileIndex( $env );
 	}
 
 	/**
 	 *	Builds entire Class Information File.
 	 *	@access		public
-	 *	@param		ADT_PHP_File		$file			File Object
+	 *	@param		PhpFile		$file			File Object
+	 *	@param		PhpClass		$class			...
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_File $file, \ADT_PHP_Class $class ){
+	public function buildView( PhpFile $file, PhpClass $class ): string
+	{
 		$data	= array(
 			'index'				=> $this->builderIndex->buildIndex( $file ),
 			'className'			=> $class->getName(),
@@ -84,4 +100,3 @@ class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $this->loadTemplate( 'class.content', $data );
 	}
 }
-?>

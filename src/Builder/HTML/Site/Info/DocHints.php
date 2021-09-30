@@ -143,4 +143,3 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 		return (bool) $this->count;
 	}
 }
-?>

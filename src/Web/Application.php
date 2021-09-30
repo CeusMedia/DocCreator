@@ -5,6 +5,7 @@
  *	@package		CeusMedia_DocCreator_Web
  */
 namespace CeusMedia\DocCreator\Web;
+
 /**
  *	...
  *	@category		Tool
@@ -17,4 +18,3 @@ class Application
 		die( "Web UI is coming soon in v0.9" );
 	}
 }
-?>

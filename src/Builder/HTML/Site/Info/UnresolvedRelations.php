@@ -25,35 +25,27 @@
  *	@version		$Id: UnresolvedRelations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
- *	@uses			Alg_UnusedVariableFinder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: UnresolvedRelations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class UnresolvedRelations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
+class UnresolvedRelations extends SiteInfoAbstraction
 {
 	protected $count		= 0;
-
-	protected function checkUnresolvedAndAddListItemIfNot( &$list, $relation, $prefix = NULL )
-	{
-		if( !is_string( $relation ) )
-			return;
-		$this->count++;
-		$list[]	= \UI_HTML_Elements::ListItem( $prefix.$relation, 1 );
-	}
 
 	/**
 	 *	Creates Deprecation Info Site File.
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite()
+	public function createSite(): bool
 	{
 		$content	= "";
 		$classList	= array();
@@ -109,7 +101,14 @@ class UnresolvedRelations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\A
 			$this->saveFile( "unresolvedRelations.html", $content );
 			$this->appendLink( 'unresolvedRelations.html', 'unresolvedRelations', $this->count );
 		}
-		return (bool) $this->count;
+		return $this->count > 0;
+	}
+
+	protected function checkUnresolvedAndAddListItemIfNot( &$list, $relation, $prefix = NULL )
+	{
+		if( !is_string( $relation ) )
+			return;
+		$this->count++;
+		$list[]	= \UI_HTML_Elements::ListItem( $prefix.$relation, 1 );
 	}
 }
-?>
