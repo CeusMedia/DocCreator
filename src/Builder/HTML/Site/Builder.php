@@ -59,7 +59,7 @@ class Builder extends HtmlBuilderAbstraction
 			if( !class_exists( $className ) )
 				throw new \RuntimeException( 'Invalid info site plugin "'.$plugin.'"' );
 			$reflection	= new \ReflectionClass( $className );
-			$arguments	= array( $this->env, &$this->linkList, $options );
+			$arguments	= array( $this->env, NULL, &$this->linkList, $options );
 			$builder	= $reflection->newInstanceArgs( $arguments );
 #				$builder->setProjectPath( $pathProject );
 			$builder->setTargetPath( $pathTarget );

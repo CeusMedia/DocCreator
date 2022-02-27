@@ -79,6 +79,7 @@ class Control extends HtmlBuilderAbstraction
 			}
 			return $image;
 		}
+		return '';
 	}
 
 	/**

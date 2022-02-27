@@ -58,9 +58,9 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	@param		array			$options	...
 	 *	@return		void
 	 */
-	public function __construct( Environment $env, array &$linkList, $options = array() )
+	public function __construct( Environment $env, string $type = NULL, array &$linkList, $options = array() )
 	{
-		parent::__construct( $env );
+		parent::__construct( $env, $type );
 		$this->linkList	=& $linkList;
 		$this->options	= $options;
 	}

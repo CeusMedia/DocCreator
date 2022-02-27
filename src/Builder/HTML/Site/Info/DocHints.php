@@ -25,7 +25,8 @@
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
-use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 use UI_HTML_Elements as HtmlElements;
 
 /**
@@ -36,7 +37,7 @@ use UI_HTML_Elements as HtmlElements;
  *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
-class DocHints extends HtmlBuilderAbstraction
+class DocHints extends SiteInfoAbstraction
 {
 	protected $key			= 'docHints';
 	protected $count		= 0;
