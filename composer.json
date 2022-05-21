@@ -21,7 +21,7 @@
     "ceus-media/common": "^0.8 | dev-master",
     "ceus-media/php-parser": "dev-master",
     "michelf/php-markdown": "^1.7",
-    "league/commonmark": "^0.16.0"
+    "league/commonmark": "^0.18.3"
   },
   "require-dev": {
     "phpunit/phpunit": "*"
