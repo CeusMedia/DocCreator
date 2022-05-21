@@ -2,7 +2,7 @@
 /**
  *	Builds Class Members Information File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +20,37 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Members.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Classes;
+
+use CeusMedia\DocCreator\Builder\HTML\Classes\Info as ClassInfo;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
+use CeusMedia\PhpParser\Structure\Member_ as PhpMember;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builds Class Members Information File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
- *	@extends		DocCreator_Builder_HTML_Class_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Members.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class Members extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
-
+class Members extends ClassInfo
+{
 	/**
 	 *	Builds List of inherited Members of all extended Classes.
 	 *	@access		public
-	 *	@param		ADT_PHP_Class	$class			Class Object
+	 *	@param		PhpClass	$class			Class Object
 	 *	@param		array			$got			List of Member Names already handled
 	 *	@return		string			List HTML
 	 */
-	private function buildInheritedMemberList( \ADT_PHP_Class $class, $got = array() ){
+	private function buildInheritedMemberList( PhpClass $class, $got = array() ): string
+	{
 		$extended		= array();
 		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
 
@@ -62,24 +68,24 @@ class Members extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 					continue;
 				$got[]		= $memberName;
 				$uri		= 'class.'.$superClass->getId().".html#class_member_".$memberName;
-				$link		= \UI_HTML_Elements::Link( $uri, $memberName, 'member' );
+				$link		= HtmlElements::Link( $uri, $memberName, 'member' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
-				$list[$memberName]	= \UI_HTML_Elements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
+				$list[$memberName]	= HtmlElements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
 			}
 			if( $list ){
 				ksort( $list );
-				$list		= \UI_HTML_Elements::unorderedList( $list );
+				$list		= HtmlElements::unorderedList( $list );
 				$item		= $this->getTypeMarkUp( $superClass ).$list;
 				$attributes	= array( 'class' => 'membersOfExtendedClass' );
 				if( $nr % 3 == 0 )
 					$attributes['style']	= "clear: left";										//  line break after each 3 classes
-				$extended[]	= \UI_HTML_Elements::ListItem( $item, 0, $attributes );
+				$extended[]	= HtmlElements::ListItem( $item, 0, $attributes );
 			}
 		}
 		if( !$extended )
 			return "";
 		$attributes	= array( 'class' => 'extendedClass' );
-		$extended	= \UI_HTML_Elements::unorderedList( $extended, 0, $attributes );
+		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
 		$data	= array(
 			'words'	=> $this->words['classMembersInherited'],
 			'list'	=> $extended,
@@ -91,10 +97,11 @@ class Members extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 	 *	Builds View of a Member with all Information.
 	 *	@access		private
 	 *	@param		string			$memberName		Name of Member
-	 *	@param		ADT_PHP_Member	$member			Member data object
+	 *	@param		PhpMember	$member			Member data object
 	 *	@return		string
 	 */
-	private function buildMemberEntry( $memberName, $member ){
+	private function buildMemberEntry( string $memberName, PhpMember $member ): string
+	{
 		$default	= $member->getDefault() ? " = ".$member->getDefault() : "";
 		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
 
@@ -123,10 +130,11 @@ class Members extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 	/**
 	 *	Builds View of Class Members for Class Information File.
 	 *	@access		public
-	 *	@param		ADT_PHP_Class	$class			Class Object
+	 *	@param		PhpInterface	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_Interface $class ){
+	public function buildView( PhpInterface $class ): string
+	{
 		$this->type	= "class";
 
 		$list		= array();
@@ -150,4 +158,3 @@ class Members extends \CeusMedia\DocCreator\Builder\HTML\Classes\Info{
 		return $content;
 	}
 }
-?>

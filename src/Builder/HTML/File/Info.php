@@ -2,7 +2,7 @@
 /**
  *	Builder for File Info View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,83 +20,35 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builder for File Info View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
- *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
-	/**
-	 *	Builds List of License Attributes.
-	 *	@access		protected
-	 *	@param		array			$data		Array of File Data
-	 *	@param		array			$list		List to fill
-	 *	@return		array
-	 */
-	protected function buildParamLicenses( $data, $list = array() ){
-		if( !$data->getLicenses() )
-			return "";
-		foreach( $data->getLicenses() as $license ){
-			$label	= $license->getName();
-			if( $license->getUrl() ){
-				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
-				$class	= 'file-info-license';
-				$label	= \UI_HTML_Elements::Link( $url, $label, $class );
-			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
-		}
-		return $this->buildParamList( $list, 'licenses' );
-	}
-
-	/**
-	 *	Builds Return Description.
-	 *	@access		protected
-	 *	@param		ADT_PHP_Function	$data		Data object of function or method
-	 *	@return		string				Return Description
-	 */
-	protected function buildParamReturn( \ADT_PHP_Function $data ){
-		if( !$data->getReturn() )
-			return "";
-		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
-		if( $data->getReturn()->getDescription() )
-			$type	.= " ".$data->getReturn()->getDescription();
-		return $this->buildParamList( $type, 'return' );
-	}
-
-	/**
-	 *	Builds Authors Entry for Parameters List.
-	 *	@access		protected
-	 *	@param		array			$data		Authors Data Array
-	 *	@param		array			$list		List to fill
-	 *	@return		string
-	 */
-	protected function buildParamThrows( $data, $list = array() ){
-		foreach( $data->getThrows() as $throws ){
-			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
-			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
-		}
-		return $this->buildParamList( $list, 'throws' );
-	}
-
+class Info extends HtmlBuilderAbstraction
+{
 	/**
 	 *	Builds File Info View.
 	 *	@access		public
-	 *	@param		ADT_PHP_File		$file		File Object to build Info View for
+	 *	@param		PhpFile		$file		File Object to build Info View for
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_File $file ){
+	public function buildView( PhpFile $file ): string
+	{
 		$this->type	= 'file';
 
 		$package		= $this->buildPackageLink( $file->getPackage(), $file->getCategory() );
@@ -127,5 +79,61 @@ class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		$uiData['heading']	= $this->words['fileInfo']['heading'];
 		return $this->loadTemplate( 'file.info', $uiData );
 	}
+
+	/**
+	 *	Builds List of License Attributes.
+	 *	@access		protected
+	 *	@param		PhpFile|PhpFunction		$data		Array of File Data
+	 *	@param		array			$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamLicenses( $data, array $list = array() ): string
+	{
+		if( !$data->getLicenses() )
+			return "";
+		foreach( $data->getLicenses() as $license ){
+			$label	= $license->getName();
+			if( $license->getUrl() ){
+				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
+				$class	= 'file-info-license';
+				$label	= HtmlElements::Link( $url, $label, $class );
+			}
+			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
+		}
+		return $this->buildParamList( $list, 'licenses' );
+	}
+
+	/**
+	 *	Builds Return Description.
+	 *	@access		protected
+	 *	@param		PhpFunction	$data		Data object of function or method
+	 *	@return		string				Return Description
+	 */
+	protected function buildParamReturn( PhpFunction $data ): string
+	{
+		if( !$data->getReturn() )
+			return "";
+		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
+		if( $data->getReturn()->getDescription() )
+			$type	.= " ".$data->getReturn()->getDescription();
+		return $this->buildParamList( $type, 'return' );
+	}
+
+	/**
+	 *	Builds Authors Entry for Parameters List.
+	 *	@access		protected
+	 *	@param		PhpFunction	$data		Authors Data Array
+	 *	@param		array			$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamThrows( PhpFunction $data, array $list = array() ): string
+	{
+		foreach( $data->getThrows() as $throws ){
+			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
+			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
+		}
+		return $this->buildParamList( $list, 'throws' );
+	}
 }
-?>
+

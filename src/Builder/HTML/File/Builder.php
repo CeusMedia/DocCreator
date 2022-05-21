@@ -2,7 +2,7 @@
 /**
  *	Builds File Information File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +20,33 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\DocCreator\Builder\HTML\File\Info as FileInfo;
+use CeusMedia\DocCreator\Builder\HTML\File\Functions as FileFunctions;
+use CeusMedia\DocCreator\Builder\HTML\File\SourceCode as FileSourceCode;
+use CeusMedia\DocCreator\Builder\HTML\File\Index as FileIndex;
+use CeusMedia\DocCreator\Core\Environment;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+
 /**
  *	Builds File Information File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
- *	@extends		DocCreator_Builder_HTML_Abstract
- *	@uses			DocCreator_Builder_HTML_File_Info
- *	@uses			DocCreator_Builder_HTML_File_Functions
- *	@uses			DocCreator_Builder_HTML_File_SourceCode
- *	@uses			DocCreator_Builder_HTML_File_Index
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Builder.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
+class Builder extends HtmlBuilderAbstraction
+{
+	protected $builderFileInfo;
+	protected $builderFileFunctions;
+	protected $builderSourceCode;
+	protected $builderIndex;
 
 	/**
 	 *	Constructor.
@@ -47,21 +54,22 @@ class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	 *	@param		Environment		$env			Environment Object
 	 *	@return		void
 	 */
-	public function __construct( $env ){
+	public function __construct( Environment $env ){
 		parent::__construct( $env );
-		$this->builderFileInfo		= new \CeusMedia\DocCreator\Builder\HTML\File\Info( $env );
-		$this->builderFileFunctions	= new \CeusMedia\DocCreator\Builder\HTML\File\Functions( $env );
-		$this->builderSourceCode	= new \CeusMedia\DocCreator\Builder\HTML\File\SourceCode( $env );
-		$this->builderIndex			= new \CeusMedia\DocCreator\Builder\HTML\File\Index( $env );
+		$this->builderFileInfo		= new FileInfo( $env );
+		$this->builderFileFunctions	= new FileFunctions( $env );
+		$this->builderSourceCode	= new FileSourceCode( $env );
+		$this->builderIndex			= new FileIndex( $env );
 	}
 
 	/**
 	 *	Builds File View.
 	 *	@access		public
-	 *	@param		ADT_PHP_File		$file			File Object
+	 *	@param		PhpFile		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_File $file ){
+	public function buildView( PhpFile $file ): string
+	{
 		$data	= array(
 			'fileName'		=> $file->getBasename(),
 			'pathName'		=> $file->getPathname(),
@@ -78,10 +86,11 @@ class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds Function List of File.
 	 *	@access		public
-	 *	@param		ADT_PHP_File		$file			File Object
-	 *	@return		string
+	 *	@param		PhpFile		$file			File Object
+	 *	@return		array
 	 */
-	public function getFunctionList( \ADT_PHP_File $file ){
+	public function getFunctionList( PhpFile $file ): array
+	{
 		$list		= array();
 		$functions	= $file->getFunctions();
 		ksort( $functions );
@@ -90,4 +99,4 @@ class Builder extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $list;
 	}
 }
-?>
+

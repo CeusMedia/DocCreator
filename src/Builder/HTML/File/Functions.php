@@ -2,7 +2,7 @@
 /**
  *	Builder for File Function View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +20,35 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Functions.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
+
+use CeusMedia\DocCreator\Builder\HTML\File\Info as FileInfo;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builder for File Function View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
- *	@extends		DocCreator_Builder_HTML_File_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Functions.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
-class Functions extends \CeusMedia\DocCreator\Builder\HTML\File\Info{
-
+class Functions extends FileInfo
+{
 	/**
 	 *	Builds View of a Function with all Information.
 	 *	@access		private
-	 *	@param		ADT_PHP_File		$file			File Object
-	 *	@param		ADT_PHP_Function	$function		Data of Function
+	 *	@param		PhpFunction	$function		Data of Function
 	 *	@return		string
 	 */
-	private function buildFunctionEntry( \ADT_PHP_Function $function ){
+	private function buildFunctionEntry( PhpFunction $function ): string
+	{
 		$attributes	= array();
 
 		$attributes['name']			= $this->buildParamStringList( $function->getName(), 'name' );
@@ -77,7 +81,7 @@ class Functions extends \CeusMedia\DocCreator\Builder\HTML\File\Info{
 
 
 		$return			= $this->getTypeMarkUp( $function->getReturn() ? $function->getReturn()->getType() : "void" );
-		$functionName	= \UI_HTML_Elements::Link( "#source_file_function_".$function->getName(), $function->getName() );
+		$functionName	= HtmlElements::Link( "#source_file_function_".$function->getName(), $function->getName() );
 
 		$params	= array();
 		foreach( $function->getParameters() as $parameter )
@@ -100,10 +104,11 @@ class Functions extends \CeusMedia\DocCreator\Builder\HTML\File\Info{
 	/**
 	 *	Builds View of File Functions for File Information File.
 	 *	@access		public
-	 *	@param		ADT_PHP_File		$file			File Object
+	 *	@param		PhpFile		$file			File Object
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_File $file ){
+	public function buildView( PhpFile $file ): string
+	{
 		$this->type	= "file";
 		$list		= array();
 		$functions	= $file->getFunctions();
@@ -123,4 +128,4 @@ class Functions extends \CeusMedia\DocCreator\Builder\HTML\File\Info{
 		return $this->loadTemplate( 'file.functions', $data );
 	}
 }
-?>
+

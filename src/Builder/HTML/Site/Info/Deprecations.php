@@ -2,7 +2,7 @@
 /**
  *	Builds Deprecation Info Site File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,24 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Deprecations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Deprecations.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
+class Deprecations extends SiteInfoAbstraction
 {
 	protected $count		= 0;
 
@@ -44,7 +46,7 @@ class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite()
+	public function createSite(): bool
 	{
 		$content		= "";
 		$deprecations	= array();
@@ -56,12 +58,12 @@ class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 				$methodDeprecations	= array();
 
 				$classUri	= "class.".$class->getId().".html";
-				$classLink	= \UI_HTML_Elements::Link( $classUri, $class->getName(), 'class' );
+				$classLink	= HtmlElements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getDeprecations() )
 				{
 					foreach( $class->getDeprecations() as $deprecation )
-						$classDeprecations[]	= \UI_HTML_Elements::ListItem( $deprecation, 1, array( 'class' => "classItem" ) );
+						$classDeprecations[]	= HtmlElements::ListItem( $deprecation, 1, array( 'class' => "classItem" ) );
 					$this->count	+= count( $classDeprecations );
 				}
 
@@ -72,19 +74,19 @@ class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 					$list	= array();
 					foreach( $method->getDeprecations() as $deprecation )
 						if( trim( $deprecation ) )
-							$list[]		= \UI_HTML_Elements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
-					$methodList		= \UI_HTML_Elements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+							$list[]		= HtmlElements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
+					$methodList		= HtmlElements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
-					$methodLink		= \UI_HTML_Elements::Link( $methodUrl, $method->getName(), 'method' );
-					$methodDeprecations[]	= \UI_HTML_Elements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
+					$methodLink		= HtmlElements::Link( $methodUrl, $method->getName(), 'method' );
+					$methodDeprecations[]	= HtmlElements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
 				}
 				if( !$classDeprecations && !$methodDeprecations )
 					continue;
 
-				$methodDeprecations	= \UI_HTML_Elements::unorderedList( $methodDeprecations, 1, array( 'class' => "methods" ) );
-				$classDeprecations	= \UI_HTML_Elements::unorderedList( $classDeprecations, 1, array( 'class' => "classList" ) );
-				$deprecations[]		= \UI_HTML_Elements::ListItem( $classLink.$classDeprecations.$methodDeprecations, 0, array( 'class' => "class" ) );
+				$methodDeprecations	= HtmlElements::unorderedList( $methodDeprecations, 1, array( 'class' => "methods" ) );
+				$classDeprecations	= HtmlElements::unorderedList( $classDeprecations, 1, array( 'class' => "classList" ) );
+				$deprecations[]		= HtmlElements::ListItem( $classLink.$classDeprecations.$methodDeprecations, 0, array( 'class' => "class" ) );
 			 }
 		}
 		if( $deprecations )
@@ -97,7 +99,7 @@ class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 				'key'		=> 'deprecations',
 				'id'		=> 'info-deprecations',
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
-				'content'	=> \UI_HTML_Elements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
+				'content'	=> HtmlElements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);
@@ -107,7 +109,6 @@ class Deprecations extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstract
 			$this->saveFile( "deprecations.html", $content );
 			$this->appendLink( 'deprecations.html', 'deprecations', count( $deprecations ) );
 		}
-		return (bool) count( $deprecations );
+		return count( $deprecations ) > 0;
 	}
 }
-?>

@@ -2,7 +2,7 @@
 /**
  *	Builder for Category View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,63 +20,68 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Category.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builder for Category View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
- *	@extends		Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Category.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Category extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
+class Category extends HtmlBuilderAbstraction
+{
 	/**
 	 *	Builds Class List from Package Key.
 	 *	@access		private
-	 *	@param		ADT_PHP_Category	$category		Category Object
+	 *	@param		PhpCategory	$category		Category Object
 	 *	@return		string
 	 *	@todo		fix
 	 */
-	private function buildClassList( \ADT_PHP_Category $category ){
+	private function buildClassList( PhpCategory $category ): string
+	{
 		$list	= array();
 		foreach( $category->getClasses() as $className => $class ){
 			$type	= $this->getTypeMarkUp( $class, TRUE );
-			$list[$className]	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "file" ) );
+			$list[$className]	= HtmlElements::ListItem( $type, 0, array( 'class' => "file" ) );
 		}
+		if( 0 === count( $list ) )
+			return '';
 		ksort( $list );
-		if( $list ){
-			$data	= array(
-				'words'	=> $this->env->words['packageClasses'],
-				'list'	=> \UI_HTML_Elements::unorderedList( $list ),
-			);
-			return $this->loadTemplate( 'category.classes', $data );
-		}
+		$data	= array(
+			'words'	=> $this->env->words['packageClasses'],
+			'list'	=> HtmlElements::unorderedList( $list ),
+		);
+		return $this->loadTemplate( 'category.classes', $data );
 	}
 
 	/**
 	 *	Builds nested Package List from Package Key.
 	 *	@access		private
-	 *	@param		ADT_PHP_Category	$category		Category Object
+	 *	@param		PhpCategory	$category		Category Object
 	 *	@return		string
 	 */
-	private function buildPackageList( \ADT_PHP_Category $category ){
+	private function buildPackageList( PhpCategory $category ): string
+	{
 		$list	= array();
 		foreach( $category->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package, TRUE );
-			$item	= \UI_HTML_Elements::ListItem( $type, 0, array( 'class' => "package" ) );
+			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "package" ) );
 			$list[$packageName]	= $item;
 		}
 		ksort( $list );
 		if( $list ){
-			$packageList	= \UI_HTML_Elements::unorderedList( array_values( $list ) );
+			$packageList	= HtmlElements::unorderedList( array_values( $list ) );
 			$data	= array(
 				'words'	=> $this->env->words['packages'],
 				'list'	=> $packageList,
@@ -88,10 +93,11 @@ class Category extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 	/**
 	 *	Builds Package View.
 	 *	@access		public
-	 *	@param		ADT_PHP_Category	$category		Category Object
+	 *	@param		PhpCategory	$category		Category Object
 	 *	@return		string
 	 */
-	public function buildView( \ADT_PHP_Category $category ){
+	public function buildView( PhpCategory $category ): string
+	{
 #		$packageName	= $this->env->capitalizePackageName( $category->getLabel() );
 		$packageName	= $category->getLabel();
 		$classList		= $this->buildClassList( $category );
@@ -109,4 +115,4 @@ class Category extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $this->loadTemplate( 'category.content', $data );
 	}
 }
-?>
+

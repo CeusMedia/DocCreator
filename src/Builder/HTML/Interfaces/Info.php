@@ -2,7 +2,7 @@
 /**
  *	Builds Interface Information View.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,116 +20,31 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
+
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
+use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builds Interface Information View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
- *	@extends		DocCreator_Builder_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Info.php5 82 2011-10-03 00:45:13Z christian.wuerker $
  *	@todo			Code Doc
  */
-class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
-
-	protected function buildParamArtefactList( $parent, $value, $key, $list = array() ){
-		$list	= array();
-		if( is_string( $value ) )
-			return $this->buildParamList( $value, $key );
-
-		if( is_array( $value ) ){
-			foreach( $value as $artefact )
-				if( $artefact !== $parent )
-					$list[]	= \UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
-		}
-		else if( $value )
-			$list[]	= \UI_HTML_Elements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
-
-		return $this->buildParamList( $list, $key );
-	}
-
-	protected function buildParamClassList( $parent, $value, $key, $list = array() ){
-		return $this->buildParamArtefactList( $parent, $value, $key, $list );
-	}
-
-	protected function buildParamInterfaceList( $parent, $value, $key, $list = array() ){
-		return $this->buildParamArtefactList( $parent, $value, $key, $list );
-	}
-
-	/**
-	 *	Builds List of License Attributes.
-	 *	@access		protected
-	 *	@param		array			$data		Array of File Data
-	 *	@param		array			$list		List to fill
-	 *	@return		array
-	 */
-	protected function buildParamLicenses( $data, $list = array() ){
-		if( !$data->getLicenses() )
-			return "";
-		foreach( $data->getLicenses() as $license ){
-			$label	= $license->getName();
-			if( $license->getUrl() ){
-				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
-				$class	= 'file-info-license';
-				$label	= \UI_HTML_Elements::Link( $url, $label, $class );
-			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
-		}
-		return $this->buildParamList( $list, 'licenses' );
-	}
-
-	/**
-	 *	Builds Return Description.
-	 *	@access		protected
-	 *	@param		ADT_PHP_Function	$data		Data object of function or method
-	 *	@return		string				Return Description
-	 */
-	protected function buildParamReturn( \ADT_PHP_Function $data ){
-		if( !$data->getReturn() )
-			return "";
-		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
-		if( $data->getReturn()->getDescription() )
-			$type	.= " ".$data->getReturn()->getDescription();
-		return $this->buildParamList( $type, 'return' );
-	}
-
-	/**
-	 *	Builds Authors Entry for Parameters List.
-	 *	@access		protected
-	 *	@param		array			$data		Authors Data Array
-	 *	@param		array			$list		List to fill
-	 *	@return		string
-	 */
-	protected function buildParamThrows( $data, $list = array() ){
-		foreach( $data->getThrows() as $throws ){
-			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
-			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
-		}
-		return $this->buildParamList( $list, 'throws' );
-	}
-
-	private function buildRelationTree( \ADT_PHP_Interface $interface ){
-		$interfaces = $this->getSuperInterfaces( $interface );
-		if( !$interfaces )
-			return;
-		array_unshift( $interfaces, $interface );
-		$tree	= "";
-		foreach( $interfaces as $interfaceName ){
-			$interfaceName	= $this->getTypeMarkUp( $interfaceName ).$tree;
-			$item	= \UI_HTML_Elements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
-			$tree	= \UI_HTML_Elements::unorderedList( array( $item ) );
-		}
-		return $this->buildParamList( $tree, 'inheritance' );
-	}
-
-	public function buildView( \ADT_PHP_Interface $interface ){
+class Info extends HtmlBuilderAbstraction
+{
+	public function buildView( PhpInterface $interface ): string
+	{
 		$this->type		= 'interface';
 
 		$package		= $this->buildPackageLink( $interface->getPackage(), $interface->getCategory() );
@@ -171,13 +86,111 @@ class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $this->loadTemplate( 'interface.info', $uiData );
 	}
 
+	protected function buildParamArtefactList( $parent, $value, $key, array $list = array() ): string
+	{
+		$list	= array();
+		if( is_string( $value ) )
+			return $this->buildParamList( $value, $key );
+
+		if( is_array( $value ) ){
+			foreach( $value as $artefact )
+				if( $artefact !== $parent )
+					$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
+		}
+		else if( $value )
+			$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
+
+		return $this->buildParamList( $list, $key );
+	}
+
+	protected function buildParamClassList( $parent, $value, $key, array $list = array() ): string
+	{
+		return $this->buildParamArtefactList( $parent, $value, $key, $list );
+	}
+
+	protected function buildParamInterfaceList( $parent, $value, $key, array $list = array() ): string
+	{
+		return $this->buildParamArtefactList( $parent, $value, $key, $list );
+	}
+
+	/**
+	 *	Builds List of License Attributes.
+	 *	@access		protected
+	 *	@param		PhpFile|PhpInterface|PhpFunction			$data		Array of File Data
+	 *	@param		array			$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamLicenses( $data, array $list = array() ): string
+	{
+		if( !$data->getLicenses() )
+			return "";
+		foreach( $data->getLicenses() as $license ){
+			$label	= $license->getName();
+			if( $license->getUrl() ){
+				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
+				$class	= 'file-info-license';
+				$label	= HtmlElements::Link( $url, $label, $class );
+			}
+			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
+		}
+		return $this->buildParamList( $list, 'licenses' );
+	}
+
+	/**
+	 *	Builds Return Description.
+	 *	@access		protected
+	 *	@param		PhpFunction	$data		Data object of function or method
+	 *	@return		string				Return Description
+	 */
+	protected function buildParamReturn( PhpFunction $data ){
+		if( !$data->getReturn() )
+			return "";
+		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
+		if( $data->getReturn()->getDescription() )
+			$type	.= " ".$data->getReturn()->getDescription();
+		return $this->buildParamList( $type, 'return' );
+	}
+
+	/**
+	 *	Builds Authors Entry for Parameters List.
+	 *	@access		protected
+	 *	@param		PhpFunction	$data		Authors Data Array
+	 *	@param		array			$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamThrows( PhpFunction $data, $list = array() ): string
+	{
+		foreach( $data->getThrows() as $throws ){
+			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
+			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
+		}
+		return $this->buildParamList( $list, 'throws' );
+	}
+
+	private function buildRelationTree( PhpInterface $interface ): string
+	{
+		$interfaces = $this->getSuperInterfaces( $interface );
+		if( 0 === count( $interfaces ) )
+			return '';
+		array_unshift( $interfaces, $interface );
+		$tree	= '';
+		foreach( $interfaces as $interfaceName ){
+			$interfaceName	= $this->getTypeMarkUp( $interfaceName ).$tree;
+			$item	= HtmlElements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
+			$tree	= HtmlElements::unorderedList( array( $item ) );
+		}
+		return $this->buildParamList( $tree, 'inheritance' );
+	}
+
 	/**
 	 *	Returns a list of backwards resolved superinterfaces, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		ADT_PHP_Interface	$interface		Interface to get list of superinterfaces for
+	 *	@param		PhpInterface	$interface		Interface to get list of superinterfaces for
 	 *	@return		array				List of superinterfaces
 	 */
-	protected function getSuperInterfaces( \ADT_PHP_Interface $interface ){
+	protected function getSuperInterfaces( PhpInterface $interface ): array
+	{
 		$list	= array();																			//  prepare empty list
 		while( $superInterface = $interface->getExtendedInterface() ){								//  while internal interface has superinterface
 			$list[]		= $superInterface;															//  set reference to found superinterface
@@ -188,4 +201,3 @@ class Info extends \CeusMedia\DocCreator\Builder\HTML\Abstraction{
 		return $list;																				//  return list of superinterfaces
 	}
 }
-?>

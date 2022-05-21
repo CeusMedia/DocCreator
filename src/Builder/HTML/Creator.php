@@ -2,7 +2,7 @@
 /**
  *	Creates Documentation Files from Parser Data.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,34 +20,30 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Creator.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML;
+
+use CeusMedia\DocCreator\Builder\Abstraction as AbstractBuilder;
+use CeusMedia\DocCreator\Builder\HTML\Abstraction as AbstractHtmlBuilder;
+
+use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
+
+use Alg_Time_Clock as Clock;
+
 /**
  *	Creates Documentation Files from Parser Data.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
- *	@uses			Folder_RecursiveIterator
- *	@uses			UI_HTML_Elements
- *	@uses			Alg_Time_Clock
- *	@uses			Alg_Text_Trimmer
- *	@uses			DocCreator_Core_Environment
- *	@uses			DocCreator_Builder_HTML_Site_Control
- *	@uses			DocCreator_Builder_HTML_Site_Package
- *	@uses			DocCreator_Builder_HTML_Class_Builder
- *	@uses			DocCreator_Builder_HTML_Interface_Builder
- *	@uses			DocCreator_Builder_HTML_File_Builder
- *	@uses			DocCreator_Builder_HTML_Site_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Creator.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
-
-	protected function __onConstruct(){
+class Creator extends AbstractBuilder
+{
+	protected function __onConstruct()
+	{
 		$this->createFiles();
 		$this->createPackages();
 		$this->createCategories();
@@ -59,11 +55,12 @@ class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
 		$this->env->out->sameLine( "Copy done." );
 	}
 
-	protected function createCategories( $prefix = "category." ){
+	protected function createCategories( string $prefix = "category." )
+	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
+		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^category\..+\.html$/' );			// remove formerly generated category files
 
-		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Category( $this->env );
+		$builder	= new Site\Category( $this->env );
 		foreach( $this->env->tree->getPackages() as $category ){
 			$categoryId	= $category->getId();
 			$fileName	= $prefix.$categoryId.".html";
@@ -73,14 +70,15 @@ class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
 		}
 	}
 
-	protected function createFiles(){
-		$clock		= new \Alg_Time_Clock;
+	protected function createFiles()
+	{
+		$clock		= new Clock;
 		$pathTarget	= $this->pathTarget;
-		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
+		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
 
-		$fileBuilder		= new \CeusMedia\DocCreator\Builder\HTML\File\Builder( $this->env );
-		$classBuilder		= new \CeusMedia\DocCreator\Builder\HTML\Classes\Builder( $this->env, $fileBuilder );
-		$interfaceBuilder	= new \CeusMedia\DocCreator\Builder\HTML\Interfaces\Builder( $this->env, $fileBuilder );
+		$fileBuilder		= new File\Builder( $this->env );
+		$classBuilder		= new Classes\Builder( $this->env, $fileBuilder );
+		$interfaceBuilder	= new Interfaces\Builder( $this->env, $fileBuilder );
 
 		$total	= 0;
 		$count	= 0;
@@ -91,7 +89,7 @@ class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
 		}
 
 		foreach( $this->env->data->getFiles() as $fileName => $file ){
-			$clock2		= new \Alg_Time_Clock;
+			$clock2		= new Clock;
 			if( $file->hasClasses() ){
 				foreach( $file->getClasses() as $class ){
 					$count++;
@@ -127,9 +125,26 @@ class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
 		$this->env->timeBuild	= $clock->stop( 6, 0 );
 	}
 
-	private function createPackageRecursive( \ADT_PHP_Category $superPackage, $prefix = "package." ){
+	protected function createPackages( string $prefix = "package." )
+	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Package( $this->env );
+		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
+		foreach( $this->env->tree->getPackages() as $category )
+			$this->createPackageRecursive( $category, $prefix );
+	}
+
+	private function createSites()
+	{
+		$builder	= new Site\Builder( $this->env );
+		$builder->createSites();
+		$this->env->out->sameLine( "Sites created." );
+		$this->env->out->newLine();
+	}
+
+	private function createPackageRecursive( PhpCategory $superPackage, string $prefix = "package." )
+	{
+		$pathTarget	= $this->env->getBuilderTargetPath();
+		$builder	= new Site\Package( $this->env );
 		foreach( $superPackage->getPackages() as $package ){
 			$packageId	= $package->getId();
 			$fileName	= $prefix.$packageId.".html";
@@ -139,19 +154,4 @@ class Creator extends \CeusMedia\DocCreator\Builder\Abstraction{
 			$this->createPackageRecursive( $package, $prefix );
 		}
 	}
-
-	protected function createPackages( $prefix = "package." ){
-		$pathTarget	= $this->env->getBuilderTargetPath();
-		\CeusMedia\DocCreator\Builder\HTML\Abstraction::removeFiles( $pathTarget, '/^package\..+\.html$/' );				// remove formerly generated package files
-		foreach( $this->env->tree->getPackages() as $category )
-			$this->createPackageRecursive( $category, $prefix );
-	}
-
-	private function createSites(){
-		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Builder( $this->env );
-		$builder->createSites();
-		$this->env->out->sameLine( "Sites created." );
-		$this->env->out->newLine();
-	}
 }
-?>

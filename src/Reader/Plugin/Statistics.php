@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,35 +20,38 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Reader\Plugin;
+
+use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
+
+use Alg_Time_Clock as Clock;
+use FS_File_CodeLineCounter as CodeLineCounter;
+
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
- *	@extends		DocCreator_Reader_Plugin_Abstract
- *	@uses			FS_File_CodeLineCounter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Statistics.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Statistics extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
-
+class Statistics extends Abstraction
+{
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
+	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( \ADT_PHP_Container $data ){
+	public function extendData( PhpContainer $data )
+	{
 		foreach( $data->getFiles() as $file ){
-			$clock	= new \Alg_Time_Clock();
+			$clock				= new Clock();
 			$sourceCode			= $file->getSourceCode();
-			$file->statistics	= \FS_File_CodeLineCounter::countLinesFromSource( $sourceCode );
+			$file->statistics	= CodeLineCounter::countLinesFromSource( $sourceCode );
 			unset( $file->statistics['linesCodes'] );
 			unset( $file->statistics['linesStrips'] );
 			unset( $file->statistics['linesDocs'] );
@@ -56,4 +59,3 @@ class Statistics extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 		}
 	}
 }
-?>

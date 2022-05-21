@@ -2,7 +2,7 @@
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,39 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 86 2012-05-23 12:18:48Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML;
+
+use CeusMedia\DocCreator\Core\Environment;
+
+use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
+use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
+use CeusMedia\PhpParser\Structure\Parameter_ as PhpParameter;
+use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+
+use FS_File_RecursiveRegexFilter as RecursiveFileRegexFilter;
+use UI_HTML_Elements as HtmlElements;
+use UI_HTML_Tag as HtmlTag;
+use UI_Template as TemplateEngine;
+
+use Exception;
+
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
- *	@uses			UI_HTML_Elements
- *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Abstract.php5 86 2012-05-23 12:18:48Z christian.wuerker $
  */
-abstract class Abstraction{
-
-	/**	@var		DocCreator_Core_Environment		$env 		Environment Object */
+abstract class Abstraction
+{
+	/**	@var		Environment		$env 			Environment Object */
 	protected $env;
 	/**	@var		string			$type			Data Type (class|file) */
 	protected $type					= NULL;
@@ -55,15 +69,23 @@ abstract class Abstraction{
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		Environment		$env 		Environment Object
-	 *	@param		string			$type		Data Type (class|file)
+	 *	@param		string|NULL		$type		Data Type (class|file)
 	 *	@return		void
 	 */
-	public function __construct( \CeusMedia\DocCreator\Core\Environment $env, $type = NULL ){
+	public function __construct( Environment $env, string $type = NULL )
+	{
 		$this->env			= $env;
 		$this->type			= $type;
 		$this->words		= $this->env->words;
 		$this->pathBuilder	= dirname( dirname( __FILE__ ) ).'/';
 		$this->pathTheme	= $this->getThemePath();
+	}
+
+	public static function removeFiles( string $path, string $pattern )
+	{
+		$index	= new RecursiveFileRegexFilter( $path, $pattern );									// index formerly generated or copied files
+		foreach( $index as $entry )																	// iterate index
+			@unlink( $entry->getPathname());														// remove outdated files
 	}
 
 	/**
@@ -72,12 +94,13 @@ abstract class Abstraction{
 	 *	@param		string		$access		Access type
 	 *	@return		string
 	 */
-	protected function buildAccessLabel( $access ){
+	protected function buildAccessLabel( string $access ): string
+	{
 		$label	= $access;
 		if( array_key_exists( $access, $this->words['access'] ) ){
 			$label	= $this->words['access'][$access];
 			if( array_key_exists( $access, $this->words['accessAcronym'] ) )
-				$label	= \UI_HTML_Elements::Acronym( $label, $this->words['accessAcronym'][$access] );
+				$label	= HtmlElements::Acronym( $label, $this->words['accessAcronym'][$access] );
 		}
 		return $label;
 	}
@@ -88,19 +111,21 @@ abstract class Abstraction{
 	 *	@param		string		$categoryName		Category name
 	 *	@return		string
 	 */
-	protected function buildCategoryLink( $categoryName ){
+	protected function buildCategoryLink( string $categoryName ): string
+	{
 		foreach( $this->env->tree->getPackages() as $category ){
-			if( get_class( $category ) == "ADT_PHP_Category" ){
+			if( get_class( $category ) == PhpCategory::class ){
 				if( $category->getLabel() == $categoryName ){
 					$url	= 'category.'.$categoryName.'.html';
-					return \UI_HTML_Elements::Link( $url, $categoryName, 'category' );
+					return HtmlElements::Link( $url, $categoryName, 'category' );
 				}
 			}
 		}
 		return $categoryName;
 	}
 
-	protected function buildFooter(){
+	protected function buildFooter(): string
+	{
 		$data	= $this->env->tool;
 		$data['date']	= date( "Y-m-d H:i" );
 		return $this->loadTemplate( 'footer', $data );
@@ -113,11 +138,12 @@ abstract class Abstraction{
 	 *	@param		string		$categoryName		Category name needed for resolution
 	 *	@return		string
 	 */
-	protected function buildPackageLink( $packageName, $categoryName ){
+	protected function buildPackageLink( string $packageName, string $categoryName ): string
+	{
 		$package		= $this->getPackageFromName( $packageName, $categoryName );
 		if( $package ){
 			$packageUrl		= $this->getUrlFromPackage( $package );
-			$packageName	= \UI_HTML_Elements::Link( $packageUrl, $packageName, 'package' );
+			$packageName	= HtmlElements::Link( $packageUrl, $packageName, 'package' );
 		}
 		return $packageName;
 	}
@@ -125,14 +151,15 @@ abstract class Abstraction{
 	/**
 	 *	Builds Authors Entry for Parameters List.
 	 *	@access		protected
-	 *	@param		array			$data		Authors Data Array
-	 *	@param		array			$list		Result List of Authors, empty but can be preset
+	 *	@param		PhpFunction|PhpFile	$data		Authors Data Array
+	 *	@param		array				$list		Result List of Authors, empty but can be preset
 	 *	@return		string
 	 */
-	protected function buildParamAuthors( $data, $list = array() ){
+	protected function buildParamAuthors(  $data, array $list = array() ): string
+	{
 		foreach( $data->getAuthors() as $author ){
 			if( $author->getEmail() )
-				$author	= \UI_HTML_Elements::Link( "mailto:".$author->getEmail(), $author->getName(), $this->type.'-info-author' );
+				$author	= HtmlElements::Link( "mailto:".$author->getEmail(), $author->getName(), $this->type.'-info-author' );
 			else
 				$author	= $author->getName();
 			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $author ) );
@@ -140,15 +167,17 @@ abstract class Abstraction{
 		return $this->buildParamList( $list, 'authors' );
 	}
 
-	protected function buildParamLinkedList( $data, $key, $list = array() ){
+	protected function buildParamLinkedList( array $data, string $key, array $list = array() ): string
+	{
 		foreach( $data as $url ){
-			$link	= \UI_HTML_Elements::Link( $url, $url, $this->type.'-info-link' );
+			$link	= HtmlElements::Link( $url, $url, $this->type.'-info-link' );
 			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $link ) );
 		}
 		return $this->buildParamList( $list, $key );
 	}
 
-	protected function buildParamList( $list, $title ){
+	protected function buildParamList( $list, string $title ): string
+	{
 		$type	= 'param'.ucFirst( $title );
 		if( !$list )
 			return "";
@@ -167,7 +196,8 @@ abstract class Abstraction{
 		return $this->loadTemplate( $this->type.'.info.param', $data );
 	}
 
-	protected function buildParamStringList( $value, $key, $list = array() ){
+	protected function buildParamStringList( $value, string $key, array $list = array() ): string
+	{
 		if( !is_array( $value ) )
 			return $this->buildParamList( $value, $key );
 		foreach( $value as $label ){
@@ -183,7 +213,8 @@ abstract class Abstraction{
 	 *	@param		string			$fileKey		Template File Key, eg. 'folder.folder.basename'
 	 *	@return		string
 	 */
-	protected function getFileNameFromTemplateKey( $fileKey ){
+	protected function getFileNameFromTemplateKey( string $fileKey ): string
+	{
 		$package		= "";
 		$fileKeyParts	= explode( ".", $fileKey );
 		if( count( $fileKeyParts ) > 1 )
@@ -194,7 +225,8 @@ abstract class Abstraction{
 		return $templateUri;
 	}
 
-	protected function getFormatedDescription( $description ){
+	protected function getFormatedDescription( ?string $description = '' )
+	{
 		$description	= trim( (string) $description );
 		$description	= htmlentities( $description, ENT_QUOTES, 'UTF-8' );
 		$description	= nl2br( $description );
@@ -207,21 +239,23 @@ abstract class Abstraction{
 	 *	@access		protected
 	 *	@param		string				$packageName		Name of Package to get
 	 *	@param		string				$categoryName		Name of Category for resolution
-	 *	@return		ADT_PHP_Package|NULL
+	 *	@return		PhpPackage|NULL
 	 */
-	protected function getPackageFromName( $packageName, $categoryName ){
+	protected function getPackageFromName( string $packageName, string $categoryName ): ?PhpPackage
+	{
 		$packageId	= $categoryName.'-'.$packageName;
 		if( array_key_exists( $packageId, $this->env->packageList ) )
 			return $this->env->packageList[$packageId];
 		return NULL;
 	}
 
-	protected function getParameterMarkUp( \ADT_PHP_Parameter $data ){
+	protected function getParameterMarkUp( PhpParameter $data ): string
+	{
 		$name		= $data->getName();
 		$name		= $data->isReference() ? "&amp;&nbsp;$".$name : "$".$name;
 		$name		= $data->getDefault() ? '<small>['.$name.']</small>' : $name;
 		if( $data->getDescription() )
-			$name	= \UI_HTML_Elements::Acronym( $name, $data->getDescription() );
+			$name	= HtmlElements::Acronym( $name, $data->getDescription() );
 
 		$type		= $data->getCast() ? $data->getCast() : ( $data->getType() ? $data->getType() : "unknown" );
 		$type		= $this->getTypeMarkUp( $type );
@@ -235,11 +269,13 @@ abstract class Abstraction{
 	 *	@access		protected
 	 *	@return		string
 	 */
-	protected function getThemePath(){
+	protected function getThemePath(): string
+	{
 		return $this->env->getBuilderThemePath();
 	}
 
-	protected function getTypeMarkUp( $type ){
+	protected function getTypeMarkUp( $type ): string
+	{
 #		if( is_object( $type ) )
 #			remark( $type->getName()." - ".get_class( $type ) );
 		if( !$type )
@@ -248,67 +284,69 @@ abstract class Abstraction{
 		$label	= $type;
 		if( is_object( $type ) ){
 			switch( get_class( $type ) ){
-				case 'ADT_PHP_Package':
+				case PhpPackage::class:
 					$url	= $this->getUrlFromPackage( $type );
-					$label	= \UI_HTML_Elements::Link( $url, $type->getLabel(), 'package' );
+					$label	= HtmlElements::Link( $url, $type->getLabel(), 'package' );
 					break;
-				case 'ADT_PHP_Class':
+				case PhpClass::class:
 					$url	= $this->getUrlFromClass( $type );
-					$label	= \UI_HTML_Elements::Link( $url, $type->getName(), 'class' );
+					$label	= HtmlElements::Link( $url, $type->getName(), 'class' );
 					break;
-				case 'ADT_PHP_Interface':
+				case PhpInterface::class:
 					$url	= $this->getUrlFromInterface( $type );
-					$label	= \UI_HTML_Elements::Link( $url, $type->getName(), 'interface' );
+					$label	= HtmlElements::Link( $url, $type->getName(), 'interface' );
 					break;
 				default:
-					throw new \Exception( 'Invalid type' );
+					throw new Exception( 'Invalid type' );
 			}
 		}
 		else if( is_string( $type ) ){
 			if( in_array( $type, $this->env->phpClasses ) ){
 				$url	= "http://us3.php.net/manual/en/class.".strtolower( $type ).".php";
-				$label	= \UI_HTML_Elements::Link( $url, "PHP: ".$type );
+				$label	= HtmlElements::Link( $url, "PHP: ".$type );
 			}
 			else if( array_key_exists( $type, $this->env->words['types'] ) ){
 				$url	= "http://us3.php.net/manual/en/language.types.".strtolower( $type ).".php";
-				$label	= \UI_HTML_Elements::Link( $url, $label );
-				$label	= \UI_HTML_Elements::Acronym( $label, $this->env->words['types'][$type] );
+				$label	= HtmlElements::Link( $url, $label );
+				$label	= HtmlElements::Acronym( $label, $this->env->words['types'][$type] );
 			}
 			else if( array_key_exists( $type, $this->env->words['pseudoTypes'] ) ){
 				$url	= "http://us3.php.net/manual/en/language.pseudo-types.php#language.types.".strtolower( $type );
 				if( $type == "dotdotdot" )
 					$label	= "...";
-				$label	= \UI_HTML_Elements::Link( $url, $label );
-				$label	= \UI_HTML_Elements::Acronym( $label, $this->env->words['pseudoTypes'][$type] );
+				$label	= HtmlElements::Link( $url, $label );
+				$label	= HtmlElements::Acronym( $label, $this->env->words['pseudoTypes'][$type] );
 			}
 			else if( $type == "unknown" )
 				return "";
-#				$label	= \UI_HTML_Tag::create( 'small', $type );
+#				$label	= HtmlTag::create( 'small', $type );
 #			else if( $type !== "unknown" )
 #				remark( "!getTypeMarkUp: ".$type );
 		}
-		return \UI_HTML_Tag::create( 'span', $label, array( 'class' => 'type' ) );
+		return HtmlTag::create( 'span', $label, array( 'class' => 'type' ) );
 	}
 
 	/**
 	 *	Returns the Doc URL from a Class Data Object.
 	 *	@static
 	 *	@access		protected
-	 *	@param		ADT_PHP_Class		$class			Class Object to get Doc URL for
+	 *	@param		PhpClass		$class			Class Object to get Doc URL for
 	 *	@return		string
 	 */
-	protected static function getUrlFromClass( \ADT_PHP_Class $class ){
+	protected static function getUrlFromClass( PhpClass $class ): string
+	{
 		return "class.".$class->getId().".html";
 	}
 
 	/**
 	 *	Returns Doc URL for a Class Name if within indexed Classes.
 	 *	@access		protected
-	 *	@param		string				$className		Name of Class to get Doc URL for
-	 *	@param		ADT_PHP_Interface	$relatedClass	Class Object related to Class to find
-	 *	@return		ADT_PHP_Class
+	 *	@param		string			$className		Name of Class to get Doc URL for
+	 *	@param		PhpInterface	$relatedClass	Class Object related to Class to find
+	 *	@return		PhpClass
 	 */
-	protected function getUrlFromClassName( $className, \ADT_PHP_Interface $relatedClass ){
+	protected function getUrlFromClassName( string $className, PhpInterface $relatedClass ): PhpClass
+	{
 		try{
 			$class	= $this->env->data->getClassFromClassName( $className, $relatedClass );
 			return $this->getUrlFromClass( $class );
@@ -322,10 +360,11 @@ abstract class Abstraction{
 	/**
 	 *	Returns the Doc URL from a Interface Data Object.
 	 *	@access		protected
-	 *	@param		ADT_PHP_Interface	$interface		Interface Object to get Doc URL for
+	 *	@param		PhpInterface	$interface		Interface Object to get Doc URL for
 	 *	@return		string
 	 */
-	protected function getUrlFromInterface( \ADT_PHP_Interface $interface ){
+	protected function getUrlFromInterface( PhpInterface $interface ): string
+	{
 		$interfaceId	= $interface->getId();
 		$url	= "interface.".$interfaceId.".html";
 		return $url;
@@ -334,11 +373,12 @@ abstract class Abstraction{
 	/**
 	 *	Returns Doc URL for an Interface Name if within indexed Interfaces.
 	 *	@access		protected
-	 *	@param		string				$interfaceName		Name of Interface to get Doc URL for
-	 *	@param		ADT_PHP_Interface	$relatedArtefact	Class or Interface Object related to Interface to find
-	 *	@return		ADT_PHP_Interface
+	 *	@param		string			$interfaceName		Name of Interface to get Doc URL for
+	 *	@param		PhpInterface	$relatedArtefact	Class or Interface Object related to Interface to find
+	 *	@return		PhpInterface
 	 */
-	protected function getUrlFromInterfaceName( $interfaceName, \ADT_PHP_Interface $relatedArtefact ){
+	protected function getUrlFromInterfaceName( string $interfaceName, PhpInterface $relatedArtefact )
+	{
 		try{
 			$interface	= $this->env->data->getInterfaceFromInterfaceName( $interfaceName, $relatedArtefact );
 			return $this->getUrlFromInterface( $interface );
@@ -353,10 +393,11 @@ abstract class Abstraction{
 	 *	Returns Doc URL from Package Object.
 	 *	@static
 	 *	@access		protected
-	 *	@param		ADT_PHP_Package	$package		Package Data Object
+	 *	@param		PhpPackage		$package		Package Data Object
 	 *	@return		string
 	 */
-	protected static function getUrlFromPackage( \ADT_PHP_Package $package ){
+	protected static function getUrlFromPackage( PhpPackage $package ): string
+	{
 		return "package.".$package->getId().".html";
 	}
 
@@ -366,7 +407,8 @@ abstract class Abstraction{
 	 *	@param		string			$fileKey		Template File Key, eg. 'folder.folder.basename'
 	 *	@return		bool
 	 */
-	protected function hasTemplate( $fileKey ){
+	protected function hasTemplate( string $fileKey ): bool
+	{
 		return file_exists( $this->getFileNameFromTemplateKey( $fileKey ) );
 	}
 
@@ -377,7 +419,8 @@ abstract class Abstraction{
 	 *	@param		array			$data			Data Array to insert into Template
 	 *	@return		string
 	 */
-	protected function loadTemplate( $fileKey, $data ){
+	protected function loadTemplate( string $fileKey, array $data ): string
+	{
 		if( !isset( $data['language'] ) )
 			$data['language']	= $this->env->builder->language->getValue();
 		if( !isset( $data['theme'] ) )
@@ -390,19 +433,13 @@ abstract class Abstraction{
 			$content	= file_get_contents( $fileUri );
 			$this->cacheTemplate[$fileHash]	= $content;
 		}
-		return \UI_Template::renderString( $content, $data );
+		return TemplateEngine::renderString( $content, $data );
 	}
 
-	protected function realizeInlineLinks( $string ){
+	protected function realizeInlineLinks( string $string ): string
+	{
 		$string	= preg_replace( "/\{@link (\S+) (\S+)\}/U", '<a href="\\1">\\2</a>', $string );
 		$string	= preg_replace( "/\{@link (\S+)\}/U", '<a href="\\1">\\1</a>', $string );
 		return $string;
 	}
-
-	public static function removeFiles( $path, $pattern ){
-		$index	= new \FS_File_RecursiveRegexFilter( $path, $pattern );								// index formerly generated or copied files
-		foreach( $index as $entry )																	// iterate index
-			@unlink( $entry->getPathname());														// remove outdated files
-	}
 }
-?>

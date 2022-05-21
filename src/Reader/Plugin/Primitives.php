@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +20,24 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Primitives.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Reader\Plugin;
+
+use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
- *	@extends		DocCreator_Reader_Plugin_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Primitives.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class Primitives extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
-
+class Primitives extends Abstraction
+{
 	protected $phpTypeCompat	= array(
 		'int'		=> 'integer',
 		'bool'		=> 'boolean',
@@ -49,13 +50,14 @@ class Primitives extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		ADT_PHP_Container	$data		Object containing collected Class Data
+	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( \ADT_PHP_Container $data ){
+	public function extendData( PhpContainer $data )
+	{
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $class ){
-				if( $class instanceof \ADT_PHP_Class )
+				if( $class instanceof PhpClass )
 					foreach( $class->getMembers() as $member )
 						$this->tryToExtendPrimitiveType( $member );
 				foreach( $class->getMethods() as $method ){
@@ -70,18 +72,19 @@ class Primitives extends \CeusMedia\DocCreator\Reader\Plugin\Abstraction{
 		}
 	}
 
-	protected function tryToExtendPrimitiveCast( $data ){
+	protected function tryToExtendPrimitiveCast( $data )
+	{
 		$type	= $data->getCast();
 		if( is_string( $type ) && !empty( $type ) )
 			if( array_key_exists( $type, $this->phpTypeCompat ) )
 				$data->setCast( $this->phpTypeCompat[$type] );
 	}
 
-	protected function tryToExtendPrimitiveType( $data ){
+	protected function tryToExtendPrimitiveType( $data )
+	{
 		$type	= $data->getType();
 		if( is_string( $type ) && !empty( $type ) )
 			if( array_key_exists( $type, $this->phpTypeCompat ) )
 				$data->setType( $this->phpTypeCompat[$type] );
 	}
 }
-?>

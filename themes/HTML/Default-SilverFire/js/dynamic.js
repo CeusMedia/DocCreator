@@ -5,7 +5,7 @@ function appendTitle( string ) {
 }
 
 function openTreeToLink(href){
-	var doc = $(parent.control.document);
+	var doc = $(parent.frm_control.document);
 	var tree = doc.find("body #tree_container");
 	tree.find("a").each(function(){
 		if($(this).attr("href") == href){

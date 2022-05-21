@@ -2,7 +2,7 @@
 /**
  *	Builds Home Info Site File.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +20,23 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Home.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
 /**
  *	Builds Home Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Home.php5 85 2012-05-23 02:31:06Z christian.wuerker $
  */
-class Home extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
-
+class Home extends SiteInfoAbstraction
+{
 	protected $key			= 'home';
 	protected $fileNames	= array(
 		'home',
@@ -45,6 +45,8 @@ class Home extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 		'home.md',
 		'readme.md',
 		'README.md',
+		'../readme.md',
+		'../README.md',
 	);
 
 	/**
@@ -52,7 +54,7 @@ class Home extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite()
+	public function createSite(): bool
 	{
 		if( !parent::createSiteByFile() ){
 			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
@@ -74,7 +76,6 @@ class Home extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction{
 			$this->saveFile( $this->key.".html", $content );
 			$this->appendLink( $this->key.".html", $this->key, 1, $this->key );
 		}
-		return 1;
+		return TRUE;
 	}
 }
-?>

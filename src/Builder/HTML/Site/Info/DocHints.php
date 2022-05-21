@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +20,24 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: DocHints.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
+
+use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
+
+use UI_HTML_Elements as HtmlElements;
+
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
- *	@extends		DocCreator_Builder_HTML_Site_Info_Abstract
- *	@uses			Alg_UnusedVariableFinder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2021 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: DocHints.php5 77 2010-11-23 06:31:24Z christian.wuerker $
  */
-class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
+class DocHints extends SiteInfoAbstraction
 {
 	protected $key			= 'docHints';
 	protected $count		= 0;
@@ -55,7 +56,7 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 	 *	@access		public
 	 *	@return		bool		Flag: file has been created
 	 */
-	public function createSite()
+	public function createSite(): bool
 	{
 		$content	= "";
 		$list		= array();
@@ -66,45 +67,45 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 			{
 				$classNotes	= array();
 				if( !preg_match( '/^.{20,}$/s', $class->getDescription() ) )
-					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.description.missing'] );
+					$classNotes[]	= HtmlElements::ListItem( $words['class.description.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getCategory() ) )
-					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.category.missing'] );
+					$classNotes[]	= HtmlElements::ListItem( $words['class.category.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getPackage() ) )
-					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.package.missing'] );
+					$classNotes[]	= HtmlElements::ListItem( $words['class.package.missing'] );
 				if( $this->checkClassVersion )
 					if( !preg_match( '/^.{4,}$/s', $class->getVersion() ) )
-						$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.version.missing'] );
+						$classNotes[]	= HtmlElements::ListItem( $words['class.version.missing'] );
 
 				$authors	= $class->getAuthors();
 				if( !$authors )
-					$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.author.missing'] );
+					$classNotes[]	= HtmlElements::ListItem( $words['class.author.missing'] );
 				else
 					foreach( $authors as $author )
 						if( !$author->getEmail() )
-							$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.author.email.missing'] );
+							$classNotes[]	= HtmlElements::ListItem( $words['class.author.email.missing'] );
 
 				if( $this->checkClassLicense ){
 					$licenses	= $class->getLicenses();
 					if( !$licenses )
-						$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.license.missing'] );
+						$classNotes[]	= HtmlElements::ListItem( $words['class.license.missing'] );
 					else
 						foreach( $licenses as $license )
 							if( !$license->getUrl() )
-								$classNotes[]	= \UI_HTML_Elements::ListItem( $words['class.license.url.missing'] );
+								$classNotes[]	= HtmlElements::ListItem( $words['class.license.url.missing'] );
 				}
 
 				foreach( $class->getMethods() as $method )
 				{
 					$methodNotes	= array();
 					if( !preg_match( '/^\w+\s+\w+$/', $method->getDescription() ) )
-						$methodNotes[]	= \UI_HTML_Elements::ListItem( $words['method.description.missing'] );
+						$methodNotes[]	= HtmlElements::ListItem( $words['method.description.missing'] );
 					if( !$method->getReturn() )
-						$methodNotes[]	= \UI_HTML_Elements::ListItem( $words['method.return.missing'] );
+						$methodNotes[]	= HtmlElements::ListItem( $words['method.return.missing'] );
 					if( $methodNotes )
 					{
-						$methodNotes	= \UI_HTML_Elements::unorderedList( $methodNotes, 2 );
-						$link			= \UI_HTML_Elements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName(), 'method' );
-						$classNotes[]	= \UI_HTML_Elements::ListItem( $link.$methodNotes, 2, array( 'class' => 'method' ) );
+						$methodNotes	= HtmlElements::unorderedList( $methodNotes, 2 );
+						$link			= HtmlElements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName(), 'method' );
+						$classNotes[]	= HtmlElements::ListItem( $link.$methodNotes, 2, array( 'class' => 'method' ) );
 					}
 				}
 
@@ -113,11 +114,11 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 
 					$this->count++;
 
-				$notes	= \UI_HTML_Elements::unorderedList( $classNotes );
+				$notes	= HtmlElements::unorderedList( $classNotes );
 
-				$link	= \UI_HTML_Elements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$count	= ' <small>('.count( $classNotes ).')</small>';
-				$item	= \UI_HTML_Elements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
+				$item	= HtmlElements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
 				$list[]	= $item;
 			}
 		}
@@ -130,7 +131,7 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
 				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
-				'content'	=> '<div id="tree">'.\UI_HTML_Elements::unorderedList( $list ).'</div>',
+				'content'	=> '<div id="tree">'.HtmlElements::unorderedList( $list ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);
@@ -140,7 +141,6 @@ class DocHints extends \CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction
 			$this->saveFile( $this->key.'.html', $content );
 			$this->appendLink( $this->key.'.html', $this->key, $this->count );
 		}
-		return (bool) $this->count;
+		return $this->count > 0;
 	}
 }
-?>
