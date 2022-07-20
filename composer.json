@@ -18,10 +18,10 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=7.3",
-    "ceus-media/common": "^0.8 | dev-master",
-    "ceus-media/php-parser": "dev-master",
-    "michelf/php-markdown": "^1.7",
-    "league/commonmark": "^0.16.0"
+    "ceus-media/common": "^0.8 | ^0.9 | dev-master",
+    "ceus-media/php-parser": "* | dev-master",
+    "michelf/php-markdown": "*",
+    "league/commonmark": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "*"
