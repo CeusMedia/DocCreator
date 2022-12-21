@@ -103,6 +103,8 @@ class Tree extends HtmlBuilderAbstraction
 			$menu->addChild( $item );
 
 		$list	= array();
+        $classes = $root->getClasses();
+        $interfaces = $root->getInterfaces();
 		foreach( $root->getClasses() as $class ){
 			$parts	= explode( "_", $class->getName() );
 			$name	= array_pop( $parts );
