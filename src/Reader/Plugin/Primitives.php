@@ -38,14 +38,14 @@ use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
  */
 class Primitives extends Abstraction
 {
-	protected $phpTypeCompat	= array(
+	protected $phpTypeCompat	= [
 		'int'		=> 'integer',
 		'bool'		=> 'boolean',
 		'double'	=> 'float',
 		'real'		=> 'float',
 		'...'		=> 'dotdotdot',
 		'Object'	=> 'object',
-	);
+	];
 
 	/**
 	 *	...

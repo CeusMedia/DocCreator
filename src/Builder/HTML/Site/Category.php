@@ -82,10 +82,10 @@ class Category extends HtmlBuilderAbstraction
 		ksort( $list );
 		if( $list ){
 			$packageList	= HtmlElements::unorderedList( array_values( $list ) );
-			$data	= array(
+			$data	= [
 				'words'	=> $this->env->words['packages'],
 				'list'	=> $packageList,
-			);
+			];
 			return $this->loadTemplate( 'category.packages', $data );
 		}
 	}

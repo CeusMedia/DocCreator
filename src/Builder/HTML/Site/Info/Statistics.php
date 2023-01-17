@@ -69,14 +69,14 @@ class Statistics extends SiteInfoAbstraction
 			return;
 		$linesPerFile	= $numberLines / $numberFiles;
 		$data	= array(
-			'number'	=> array(
+			'number'	=> [
 				'files'		=> $numberFiles,
 				'lines'		=> $numberLines,
 				'codes'		=> $numberCodes,
 				'docs'		=> $numberDocs,
 				'strips'	=> $numberStrips,
 				'length'	=> $numberLength,
-			),
+			],
 			'ratio'			=> array(
 				'linesPerFile'		=> round( $linesPerFile, 0 ),
 				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),

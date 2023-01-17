@@ -38,7 +38,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
 class About extends SiteInfoAbstraction
 {
 	protected $key			= 'about';
-	protected $fileNames	= array(
+	protected $fileNames	= [
 		'about',
 		'about.txt',
 		'about.log',
@@ -51,7 +51,7 @@ class About extends SiteInfoAbstraction
 		'release-notes.txt',
 		'release-notes.log',
 		'release-notes.nfo',
-	);
+	];
 
 	/**
 	 *	Creates About Info Site File.

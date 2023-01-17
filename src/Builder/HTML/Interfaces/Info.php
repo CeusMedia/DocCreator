@@ -76,10 +76,10 @@ class Info extends HtmlBuilderAbstraction
 		);
 		$attributes	= max( $attributeData ) ? $this->loadTemplate( 'interface.info.attributes', $attributeData ) : "";
 		$relations	= max( $relationData ) ? $this->loadTemplate( 'interface.info.relations', $relationData ) : "";
-		$uiData	= array(
+		$uiData	= [
 			'attributes'	=> $attributes,
 			'relations'		=> $relations,
-		);
+		];
 		if( !max( $uiData ) )
 			return "";
 		$uiData['words']	= $this->env->words['interfaceInfo'];

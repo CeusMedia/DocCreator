@@ -86,10 +86,10 @@ class Members extends ClassInfo
 			return "";
 		$attributes	= array( 'class' => 'extendedClass' );
 		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->words['classMembersInherited'],
 			'list'	=> $extended,
-		);
+		];
 		return $this->loadTemplate( 'class.members.inherited', $data );
 	}
 

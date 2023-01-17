@@ -38,7 +38,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
 class Changes extends SiteInfoAbstraction
 {
 	protected $key			= 'changes';
-	protected $fileNames	= array(
+	protected $fileNames	= [
 		'changes',
 		'changes.txt',
 		'changes.log',
@@ -52,7 +52,7 @@ class Changes extends SiteInfoAbstraction
 		'changelog.md',
 		'CHANGELOG.md',
 		'CHANGELOG',
-	);
+	];
 
 	/**
 	 *	Creates Change Log Info Site File.

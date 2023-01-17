@@ -81,11 +81,11 @@ class Configuration
 
 	public function getBuilderLogo( XmlElement $builder )
 	{
-		$logo		= (object) array(
+		$logo		= (object) [
 			'source'	=> NULL,
 			'title'		=> NULL,
 			'link'		=> NULL
-		);
+		];
 		if( isset( $builder->logo ) ){
 			$logo->source = $builder->logo->getValue();
 			if( $builder->logo->hasAttribute( 'title' ) )

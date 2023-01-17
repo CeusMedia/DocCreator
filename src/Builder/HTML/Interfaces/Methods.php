@@ -83,10 +83,10 @@ class Methods extends InterfaceInfo
 			return "";
 		$attributes	= array( 'class' => 'extendedInterface' );
 		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->words['interfaceMethodsInherited'],
 			'list'	=> $extended,
-		);
+		];
 		return $this->loadTemplate( 'interface.methods.inherited', $data );
 	}
 

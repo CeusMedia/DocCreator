@@ -66,16 +66,16 @@ class Control extends HtmlBuilderAbstraction
 	{
 		$logo = $this->env->config->getBuilderLogo( $this->env->builder );
 		if( $logo->source ){
-			$attributes	= array(
+			$attributes	= [
 				'src'		=> 'images/'.$logo->source,
 				'alt'		=> $logo->title,
-			);
+			];
 			$image		= HtmlTag::create( 'img', NULL, $attributes );
 			if( $logo->link ){
-				$image	= HtmlTag::create( 'a', $image, array(
+				$image	= HtmlTag::create( 'a', $image, [
 					'href'		=> $logo->link,
 					'target'	=> '_top',
-				) );
+				] );
 			}
 			return $image;
 		}

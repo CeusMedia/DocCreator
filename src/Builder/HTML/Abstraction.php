@@ -188,11 +188,11 @@ abstract class Abstraction
 			);
 			$list	= $this->loadTemplate( $this->type.'.info.param.list', $data );
 		}
-		$data	= array(
+		$data	= [
 			'key'	=> $this->words[$this->type.'Info'][$type],
 			'value'	=> $list,
 			'class'	=> $title,
-		);
+		];
 		return $this->loadTemplate( $this->type.'.info.param', $data );
 	}
 

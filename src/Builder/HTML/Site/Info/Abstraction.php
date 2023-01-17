@@ -67,12 +67,12 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 
 	protected function appendLink( $url, $key, $count = NULL, $class = NULL )
 	{
-		$this->linkList[]	= array(
+		$this->linkList[]	= [
 			'url'	=> $url,
 			'key'	=> $key,
 			'count'	=> $count,
 			'class'	=> $class,
-		);
+		];
 	}
 
 	abstract public function createSite();

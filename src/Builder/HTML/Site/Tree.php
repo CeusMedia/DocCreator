@@ -67,11 +67,11 @@ class Tree extends HtmlBuilderAbstraction
 		$builder	= new \UI_HTML_Tree_Menu();
 		$builder->setTarget( $this->targetFrame );
 		$tree		= $builder->buildMenuFromMenuList( $menu );
-		$uiData	= array(
+		$uiData	= [
 			'cookieId'	=> "doc_tree",#$this->env->config['project.name'].'_tree',
 			'words'		=> $this->env->words['tree'],
 			'tree'		=> $tree,
-		);
+		];
 		return $this->loadTemplate( "site.tree", $uiData );
 	}
 

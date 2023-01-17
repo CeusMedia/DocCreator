@@ -122,10 +122,10 @@ class Index extends HtmlBuilderAbstraction
 		$indexList	= HtmlTag::create( 'ul', $this->list, array( 'class' => 'nav' ) );
 		$indexList	= HtmlTag::create( 'div', $indexList, array( 'class' => 'navbar-inner' ) );
 		$indexList	= HtmlTag::create( 'div', $indexList, array( 'class' => 'navbar navbar-fixed-top' ) );
-		$data		= array(
+		$data		= [
 			'words'	=> $this->env->words['index'],
 			'list'	=> $indexList,
-		);
+		];
 		return $this->loadTemplate( 'site/index', $data );
 	}
 

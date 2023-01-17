@@ -115,10 +115,10 @@ class Methods extends ClassInfo
 			return "";
 		$attributes	= array( 'class' => 'extendedClass' );
 		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->words['classMethodsInherited'],
 			'list'	=> $extended,
-		);
+		];
 		return $this->loadTemplate( 'class.methods.inherited', $data );
 	}
 

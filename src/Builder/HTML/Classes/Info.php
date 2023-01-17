@@ -81,10 +81,10 @@ class Info extends InfoInterface
 		);
 		$attributes	= max( $attributeData ) ? $this->loadTemplate( 'class.info.attributes', $attributeData ) : "";
 		$relations	= max( $relationData ) ? $this->loadTemplate( 'class.info.relations', $relationData ) : "";
-		$uiData	= array(
+		$uiData	= [
 			'attributes'	=> $attributes,
 			'relations'		=> $relations,
-		);
+		];
 		if( !max( $uiData ) )
 			return "";
 		$uiData['words']	= $this->env->words['classInfo'];

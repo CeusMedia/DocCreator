@@ -41,13 +41,13 @@ class DocHints extends SiteInfoAbstraction
 {
 	protected $key			= 'docHints';
 	protected $count		= 0;
-	protected $points		= array(
+	protected $points		= [
 		'class.description.missing'	=> 5,
 		'class.category.missing'	=> 5,
 		'class.package.missing'		=> 5,
 		'class.author.missing'		=> 5,
 		'class.version.missing'		=> 5,
-	);
+	];
 	public $checkClassVersion	= FALSE;
 	public $checkClassLicense	= FALSE;
 

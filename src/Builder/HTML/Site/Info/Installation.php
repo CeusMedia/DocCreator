@@ -38,7 +38,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
 class Installation extends SiteInfoAbstraction
 {
 	protected $key			= "installation";
-	protected $fileNames	= array(
+	protected $fileNames	= [
 		'install',
 		'install.txt',
 		'install.log',
@@ -46,7 +46,7 @@ class Installation extends SiteInfoAbstraction
 		'install.md',
 		'INSTALL.md',
 		'INSTALL',
-	);
+	];
 
 	/**
 	 *	Creates Installation Info Site File.

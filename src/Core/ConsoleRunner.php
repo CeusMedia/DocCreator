@@ -44,7 +44,7 @@ class ConsoleRunner extends CliApplication
 
 	protected $verbose		= FALSE;
 
-	protected $shortCuts	= array(
+	protected $shortCuts	= [
 		'-c'	=> '--config-file',
 		'-s'	=> '--source-folder',
 		'-t'	=> '--target-folder',
@@ -52,7 +52,7 @@ class ConsoleRunner extends CliApplication
 		'-l'	=> '--log-errors',
 		'-m'	=> '--mail-errors',
 		'-q'	=> '--quite',
-	);
+	];
 
 	/**
 	 *	Constructor.
@@ -85,7 +85,7 @@ class ConsoleRunner extends CliApplication
 
 #		set_error_handler( array( $this, 'handleError' ) );
 		try{
-			$mapSkip	= array(
+			$mapSkip	= [
 				'--config-file'		=> 'setConfigFile',
 				'--source-folder'	=> 'setProjectBasePath',
 				'--target-folder'	=> 'setBuilderTargetPath',
@@ -97,7 +97,7 @@ class ConsoleRunner extends CliApplication
 				'--skip-resources'	=> 'enableResources',
 				'--quite'			=> 'setQuite',
 				'--trace'			=> 'setTrace'
-			);
+			];
 			$creator	= new Runner(
 				$this->configFile,
 				$this->verbose,

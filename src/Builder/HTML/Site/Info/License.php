@@ -38,14 +38,14 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
 class License extends SiteInfoAbstraction
 {
 	protected $key			= 'license';
-	protected $fileNames	= array(
+	protected $fileNames	= [
 		'license',
 		'license.txt',
 		'license.nfo',
 		'license.md',
 		'LICENSE.md',
 		'LICENSE',
-	);
+	];
 
 	/**
 	 *	Creates Bug Info Site File.

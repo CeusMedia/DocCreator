@@ -81,11 +81,11 @@ class Search extends Abstraction
 					$document	= TextUnicoder::convertToUnicode( $document );
 
 				$terms		= TermExtractor::getTerms( $document );
-				$data->getFile( $fileName )->getClass( $class->getName() )->search	= array(
+				$data->getFile( $fileName )->getClass( $class->getName() )->search	= [
 					'document'	=> $document,
 					'terms'		=> $terms,
 					'facts'		=> $facts,
-				);
+				];
 			}
 		}
 		$data->timeTerms	= $clock2->stop( 6, 0 );								//  note needed time

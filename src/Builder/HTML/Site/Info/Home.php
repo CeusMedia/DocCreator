@@ -38,7 +38,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
 class Home extends SiteInfoAbstraction
 {
 	protected $key			= 'home';
-	protected $fileNames	= array(
+	protected $fileNames	= [
 		'home',
 		'home.txt',
 		'home.html',
@@ -47,7 +47,7 @@ class Home extends SiteInfoAbstraction
 		'README.md',
 		'../readme.md',
 		'../README.md',
-	);
+	];
 
 	/**
 	 *	Creates History Info Site File.

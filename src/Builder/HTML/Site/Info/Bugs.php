@@ -38,7 +38,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
 class Bugs extends SiteInfoAbstraction
 {
 	protected $key			= 'bugs';
-	protected $fileNames	= array(
+	protected $fileNames	= [
 		'bugs',
 		'bugs.txt',
 		'bugs.log',
@@ -59,7 +59,7 @@ class Bugs extends SiteInfoAbstraction
 		'issues.txt',
 		'issues.log',
 		'issues.nfo',
-	);
+	];
 
 	/**
 	 *	Creates Bug Info Site File.

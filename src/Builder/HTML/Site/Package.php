@@ -109,10 +109,10 @@ class Package extends HtmlBuilderAbstraction
 			return '';
 		ksort( $list );
 		$packageList	= HtmlElements::unorderedList( array_values( $list ) );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->env->words['packages'],
 			'list'	=> $packageList,
-		);
+		];
 		return $this->loadTemplate( 'package.packages', $data );
 	}
 
