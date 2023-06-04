@@ -1,6 +1,6 @@
 <?php
 /**
- *	Script to execute DocCreator Runnner on console.
+ *	Script to execute DocCreator Runner on console.
  *	You can run this script from anywhere on the filesystem.
  *
  *	Usage: php /path/to/DocCreator/doc.php --config-file=/path/to/your/doc.xml
@@ -17,5 +17,5 @@ else if( file_exists( $pathSelf.$autoload ) )
 else
 	throw new \RuntimeException( 'No vendor folder found. Please run composer!' );	//  quit with exception
 
-new UI_DevOutput;
+new \CeusMedia\Common\UI\DevOutput;
 new \CeusMedia\DocCreator\Core\ConsoleRunner();										//  create a new runner

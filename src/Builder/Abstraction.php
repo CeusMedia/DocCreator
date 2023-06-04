@@ -2,7 +2,7 @@
 /**
  *	Abstraction of creator classes for builders.
  *
- *	Copyright (c) 2015-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,17 +20,16 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2021 Christian Würker
+ *	@copyright		2015-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder;
 
+use CeusMedia\Common\FS\Folder\RecursiveIterator as RecursiveFolderIterator;
+use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\DocCreator\Core\Environment as Environment;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as AbstractHtmlBuilder;
-
-use FS_Folder_RecursiveIterator as RecursiveFolderIterator;
-use XML_Element as XmlElement;
-
 use RuntimeException;
 
 /**
@@ -41,7 +40,7 @@ use RuntimeException;
  *	@package		CeusMedia_DocCreator_Builder
  *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2021 Christian Würker
+ *	@copyright		2015-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 abstract class Abstraction

@@ -2,7 +2,7 @@
 /**
  *	Builds Source Code View.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,13 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
+use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\File_ as ParsedFile;
 use CeusMedia\PhpParser\Structure\Function_ as ParsedFunction;
@@ -34,7 +36,7 @@ use CeusMedia\PhpParser\Structure\Function_ as ParsedFunction;
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class SourceCode extends HtmlBuilderAbstraction
@@ -48,7 +50,7 @@ class SourceCode extends HtmlBuilderAbstraction
 	 */
 	public function buildSourceCode( ParsedFile $file, bool $isClass = FALSE ): string
 	{
-		$options	= new \ADT_List_Dictionary( $this->env->getBuilderOptions() );
+		$options	= new Dictionary( $this->env->getBuilderOptions() );
 		if( !$options->get( 'showSourceCode' ) )
 			return '';
 		$code		= $file->getSourceCode();

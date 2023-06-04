@@ -2,7 +2,7 @@
 /**
  *	Class holding environmental Resources for all DocCreater Components.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +20,20 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Core;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
+use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
-
-use FS_File_Reader as FileReader;
-use FS_File_INI_Reader as IniFileReader;
-use XML_Element as XmlElement;
-
 use RuntimeException;
 
 /**
@@ -43,7 +42,7 @@ use RuntimeException;
  *	@package		CeusMedia_DocCreator_Core
  *	@uses			IniFileReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@todo			fix case sensitive packages/categories
  */

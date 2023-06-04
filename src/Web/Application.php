@@ -4,6 +4,7 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Web
  */
+
 namespace CeusMedia\DocCreator\Web;
 
 /**

@@ -2,7 +2,7 @@
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,13 +20,17 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML;
 
+use CeusMedia\Common\FS\File\RecursiveRegexFilter as RecursiveFileRegexFilter;
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use CeusMedia\Common\UI\Template as TemplateEngine;
 use CeusMedia\DocCreator\Core\Environment;
-
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
@@ -34,12 +38,6 @@ use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
 use CeusMedia\PhpParser\Structure\Parameter_ as PhpParameter;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
-
-use FS_File_RecursiveRegexFilter as RecursiveFileRegexFilter;
-use UI_HTML_Elements as HtmlElements;
-use UI_HTML_Tag as HtmlTag;
-use UI_Template as TemplateEngine;
-
 use Exception;
 
 /**
@@ -47,7 +45,7 @@ use Exception;
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 abstract class Abstraction
