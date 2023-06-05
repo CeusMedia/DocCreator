@@ -140,7 +140,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 
 	protected function saveFile( $fileName, $content )
 	{
-        FileWriter::save( $this->pathTarget.$fileName, $content );
+        FileWriter::save( $this->pathTarget.$fileName, $content, self::FILE_PERMS );
 	}
 
 	public function setLinkTargetFrame( string $linkTarget ): self

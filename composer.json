@@ -19,10 +19,11 @@
   "require": {
     "php": "^7.4 | ^8",
     "ext-zlib": "*",
-    "ceus-media/common": "^0.8 | ^0.9 | ^1.0 | 0.9.x-dev | 1.0.x-dev | dev-master",
-    "ceus-media/php-parser": "* | dev-master",
+    "ceus-media/common": "^1.0 | 1.0.x-dev | ^0.9 | 0.9.x-dev | dev-master",
+    "ceus-media/php-parser": "^0.4 | 0.4.x-dev | ^0.3",
     "michelf/php-markdown": "*",
-    "league/commonmark": "*"
+    "league/commonmark": "*",
+    "ceus-media/template-engine": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5 | ^10",

@@ -64,7 +64,7 @@ class Tree extends HtmlBuilderAbstraction
 		}
 
 		$menu		= new TreeMenuCollection( '', [] );
-		$menu->setAttribute( 'class', NULL );
+		$menu->setAttribute( 'class', '' );
 		$menu->setAttribute( 'id', 'tree' );
 
 		$this->convertTreeToTreeMenuRecursive( $tree, $menu );

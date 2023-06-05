@@ -80,7 +80,7 @@ class Search extends SiteInfoAbstraction
 		foreach( $files as $file )
 			foreach( $file->getClasses() as $class )
 				$data[$class->getId()]	= $class->search;
-		return FileWriter::save( $pathTarget."terms.serial", serialize( $data ) );
+		return FileWriter::save( $pathTarget."terms.serial", serialize( $data ), self::FILE_PERMS );
 	}
 }
 

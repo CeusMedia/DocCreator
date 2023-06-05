@@ -32,7 +32,6 @@ use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 
-
 /**
  *	Builds for Index Tree for Classes or Files.
  *	@category		Tool
@@ -105,7 +104,7 @@ class Control extends HtmlBuilderAbstraction
 			'logo'		=> $logo,
 		);
 		$content	= $this->loadTemplate( "site/control", $uiData );
-        FileWriter::save( $pathTarget."control.html", $content );
+        FileWriter::save( $pathTarget."control.html", $content, self::FILE_PERMS );
 	}
 }
 

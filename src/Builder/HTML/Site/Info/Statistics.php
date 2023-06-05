@@ -100,16 +100,17 @@ class Statistics extends SiteInfoAbstraction
 		unset( $data['files'] );
 
 		//  --  GRAPH  --  //
+		$graphFile	= "loc.svg";
+/*
 		$graphData	= array(
 			new \UI_SVG_ChartData( $data['ratio']['codesPerFile'], "Code" ),
 			new \UI_SVG_ChartData( $data['ratio']['docsPerFile'], "Docs" ),
 			new \UI_SVG_ChartData( $data['ratio']['stripsPerFile'], "stripped" ),
 		);
-		$graphFile	= "loc.svg";
 		$chart		= new \UI_SVG_Chart( $graphData, array( "blue", "green", "gray" ) );
 		$chart->buildPieGraph( array( "x" => 50, "y" => 50, "legend" => TRUE ) );
 		$chart->save( $this->pathTarget.$graphFile );
-
+*/
 		$parseTime	= 0;
 		$buildTime	= 0;
 		$fileCount	= 0;

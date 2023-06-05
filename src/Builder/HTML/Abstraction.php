@@ -30,7 +30,7 @@ namespace CeusMedia\DocCreator\Builder\HTML;
 use CeusMedia\Common\FS\File\RecursiveRegexFilter as RecursiveFileRegexFilter;
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-use CeusMedia\Common\UI\Template as TemplateEngine;
+use CeusMedia\TemplateEngine\Template as TemplateEngine;
 use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
@@ -52,6 +52,8 @@ use RuntimeException;
  */
 abstract class Abstraction
 {
+	public const FILE_PERMS		= 0664;
+
 	/**	@var		Environment		$env 			Environment Object */
 	protected Environment $env;
 	/**	@var		string|NULL		$type			Data Type (class|file) */
