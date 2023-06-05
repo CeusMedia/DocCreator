@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Main Class of DocCreator Application.
  *
@@ -40,11 +41,13 @@ use Exception;
  */
 class ConsoleRunner extends CliApplication
 {
-	protected $configFile	= FALSE;
+	protected ?string $configFile;
 
-	protected $verbose		= FALSE;
+	protected bool $verbose;
 
-	protected $shortCuts	= [
+	protected bool $trace;
+
+	protected array $shortCuts		= [
 		'-c'	=> '--config-file',
 		'-s'	=> '--source-folder',
 		'-t'	=> '--target-folder',
@@ -57,8 +60,9 @@ class ConsoleRunner extends CliApplication
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$pathProject	Path of Project to document
+	 *	@param		string|NULL		$configFile		...
 	 *	@param		bool			$verbose		Flag: show Information during Creation
+	 *	@param		bool			$trace			Flag: ...
 	 *	@return		void
 	 */
 	public function __construct( string $configFile = NULL, bool $verbose = FALSE, bool $trace = FALSE )
@@ -76,7 +80,8 @@ class ConsoleRunner extends CliApplication
 	 */
 	protected function main()
 	{
-		$parameters	= $this->arguments->get( 'parameters' );
+		/** @var array $parameters */
+		$parameters	= $this->arguments->get( 'parameters', [] );
 		$parameters	= new Dictionary( $parameters );
 		if( $parameters->has( '--help' ) ){
 			$this->showUsage();
@@ -98,11 +103,11 @@ class ConsoleRunner extends CliApplication
 				'--quite'			=> 'setQuite',
 				'--trace'			=> 'setTrace'
 			];
-			$creator	= new Runner(
-				$this->configFile,
-				$this->verbose,
-				$this->trace
-			);
+			$creator	= new Runner( $this->configFile, $this->verbose, $this->trace );
+			/**
+			 * @var string $key
+			 * @var mixed $value
+			 */
 			foreach( $parameters->getAll() as $key => $value )
 				if( array_key_exists( $key, $mapSkip ) )
 					$creator->{$mapSkip[$key]}( $value );

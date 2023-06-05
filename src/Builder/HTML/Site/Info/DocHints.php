@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -39,17 +40,17 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class DocHints extends SiteInfoAbstraction
 {
-	protected $key			= 'docHints';
-	protected $count		= 0;
-	protected $points		= [
+	protected string $key		= 'docHints';
+	protected int $count		= 0;
+	protected array $points		= [
 		'class.description.missing'	=> 5,
 		'class.category.missing'	=> 5,
 		'class.package.missing'		=> 5,
 		'class.author.missing'		=> 5,
 		'class.version.missing'		=> 5,
 	];
-	public $checkClassVersion	= FALSE;
-	public $checkClassLicense	= FALSE;
+	public bool $checkClassVersion	= FALSE;
+	public bool $checkClassLicense	= FALSE;
 
 	/**
 	 *	Creates Deprecation Info Site File.
@@ -58,13 +59,10 @@ class DocHints extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$content	= "";
 		$list		= array();
-		$words		= isset( $this->words[$this->key] ) ? $this->words[$this->key] : array();
-		foreach( $this->env->data->getFiles() as $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
+		$words		= $this->words[$this->key] ?? array();
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$classNotes	= array();
 				if( !preg_match( '/^.{20,}$/s', $class->getDescription() ) )
 					$classNotes[]	= HtmlElements::ListItem( $words['class.description.missing'] );
@@ -94,8 +92,7 @@ class DocHints extends SiteInfoAbstraction
 								$classNotes[]	= HtmlElements::ListItem( $words['class.license.url.missing'] );
 				}
 
-				foreach( $class->getMethods() as $method )
-				{
+				foreach( $class->getMethods() as $method ){
 					$methodNotes	= array();
 					if( !preg_match( '/^\w+\s+\w+$/', $method->getDescription() ) )
 						$methodNotes[]	= HtmlElements::ListItem( $words['method.description.missing'] );
@@ -122,15 +119,14 @@ class DocHints extends SiteInfoAbstraction
 				$list[]	= $item;
 			}
 		}
-		if( $this->count )
-		{
+		if( $this->count ){
 			$this->verboseCreation( $this->key );
 
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> $words['heading'] ?? $this->key,
 				'content'	=> '<div id="tree">'.HtmlElements::unorderedList( $list ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

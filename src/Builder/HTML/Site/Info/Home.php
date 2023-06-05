@@ -38,8 +38,8 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class Home extends SiteInfoAbstraction
 {
-	protected $key			= 'home';
-	protected $fileNames	= [
+	protected string $key		= 'home';
+	protected array $fileNames	= [
 		'home',
 		'home.txt',
 		'home.html',
@@ -58,7 +58,7 @@ class Home extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		if( !parent::createSiteByFile() ){
-			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+			$words	= $this->env->words[$this->key] ?? array();
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'version'	=> $this->env->builder->title->getAttribute("version"),
@@ -68,7 +68,7 @@ class Home extends SiteInfoAbstraction
 				'content'	=> "",
 				'date'		=> date( $words['formatDate'], time() ),
 				'time'		=> date( $words['formatTime'], time() ),
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> $words['heading'] ?? $this->key,
 				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/'.$this->key;

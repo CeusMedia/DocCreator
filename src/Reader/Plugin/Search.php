@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -42,7 +43,6 @@ use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
  */
 class Search extends Abstraction
 {
-
 	/**
 	 *	Extracts Terms from Descriptions for Search Index.
 	 *	@access		public
@@ -50,7 +50,7 @@ class Search extends Abstraction
 	 *	@return		void
 	 *	@todo		support Interfaces
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
 		$clock2	= new Clock();												//  start inner Clock
 		if( $this->verbose )
@@ -93,8 +93,8 @@ class Search extends Abstraction
 
 	protected function getFactsDocument( array $facts ): string
 	{
-		$document	= array();
-		foreach( array_values( $facts ) as $fact ){
+		$document	= [];
+		foreach( $facts as $fact ){
 			if( is_string( $fact ) && trim( $fact ) )
 				$document[]	= $fact;
 			else if( is_array( $fact ) ){
@@ -109,7 +109,7 @@ class Search extends Abstraction
 		return implode( "\n", $document );
 	}
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$termsBlacklist	= array( 'for', 'and', 'with', 'of', 'if', 'else', 'returns', 'method', 'function', 'functions', 'methods', 'method' );
 		TermExtractor::setBlacklist( $termsBlacklist );

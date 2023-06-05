@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -39,7 +40,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class MethodAccess extends SiteInfoAbstraction
 {
-	protected $key		= 'methodAccess';
+	protected string $key	= 'methodAccess';
 	/**
 	 *	Creates Change Log Info Site File.
 	 *	@access		public
@@ -77,12 +78,12 @@ class MethodAccess extends SiteInfoAbstraction
 
 		$this->verboseCreation( $this->key );
 
-		$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+		$words	= $this->env->words[$this->key] ?? array();
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> $this->key,
 			'id'		=> 'info-'.$this->key,
-			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+			'topic'		=> $words['heading'] ?? $this->key,
 			'content'	=> HtmlElements::unorderedList( $classList ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

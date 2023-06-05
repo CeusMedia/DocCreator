@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for Package View.
  *
@@ -51,7 +52,7 @@ class Package extends HtmlBuilderAbstraction
 	{
 		$list	= array();
 		foreach( $package->getClasses() as $className => $class ){
-			$type	= $this->getTypeMarkUp( $class, TRUE );
+			$type	= $this->getTypeMarkUp( $class );
 			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "class" ) );
 			$list[$className]	= $item;
 		}
@@ -76,7 +77,7 @@ class Package extends HtmlBuilderAbstraction
 	{
 		$list	= array();
 		foreach( $package->getInterfaces() as $interfaceName => $interface ){
-			$type	= $this->getTypeMarkUp( $interface, TRUE );
+			$type	= $this->getTypeMarkUp( $interface );
 			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "interface" ) );
 			$list[$interfaceName]	= $item;
 		}

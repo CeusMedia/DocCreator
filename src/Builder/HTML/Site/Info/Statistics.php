@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Statistics Info Site File.
  *
@@ -26,6 +27,8 @@
 
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Alg\UnitFormater;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
 /**
@@ -38,7 +41,6 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class Statistics extends SiteInfoAbstraction
 {
-
 	/**
 	 *	Creates Statistics Info Site File.
 	 *	@access		public
@@ -56,7 +58,7 @@ class Statistics extends SiteInfoAbstraction
 		$numberLines	= 0;
 		$numberStrips	= 0;
 
-		$clock	= new \Alg_Time_Clock();
+		$clock	= new Clock();
 		foreach( $this->env->data->getFiles() as $file ){
 			$stats				= $file->statistics;
 			$numberFiles		++;
@@ -79,10 +81,10 @@ class Statistics extends SiteInfoAbstraction
 				'length'	=> $numberLength,
 			],
 			'ratio'			=> array(
-				'linesPerFile'		=> round( $linesPerFile, 0 ),
-				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
-				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
-				'stripsPerFile'		=> round( $numberStrips / $numberFiles, 0 ),
+				'linesPerFile'		=> round( $linesPerFile ),
+				'codesPerFile'		=> round( $numberCodes / $numberFiles ),
+				'docsPerFile'		=> round( $numberDocs / $numberFiles ),
+				'stripsPerFile'		=> round( $numberStrips / $numberFiles ),
 				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
 				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
 				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
@@ -91,10 +93,10 @@ class Statistics extends SiteInfoAbstraction
 		);
 
 		//  --  TOTAL TABLE  --  //
-		$data['length']['total']			= \Alg_UnitFormater::formatBytes( $data['number']['length'], 1 );
-		$data['length']['perFile']			= \Alg_UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
-		$data['time']['stats']['total']		= \Alg_UnitFormater::formatMicroSeconds( $data['seconds'] );
-		$data['time']['stats']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
+		$data['length']['total']			= UnitFormater::formatBytes( $data['number']['length'], 1 );
+		$data['length']['perFile']			= UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
+		$data['time']['stats']['total']		= UnitFormater::formatMicroSeconds( $data['seconds'] );
+		$data['time']['stats']['perFile']	= UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
 		unset( $data['files'] );
 
 		//  --  GRAPH  --  //
@@ -120,10 +122,10 @@ class Statistics extends SiteInfoAbstraction
 		}
 		if( $fileCount ){
 			$parseTime	= $this->env->data->timeTotal;
-			$data['time']['parse']['total']		= \Alg_UnitFormater::formatMicroSeconds( $parseTime );
-			$data['time']['parse']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
-			$data['time']['build']['total']		= \Alg_UnitFormater::formatMicroSeconds( $buildTime );
-			$data['time']['build']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
+			$data['time']['parse']['total']		= UnitFormater::formatMicroSeconds( $parseTime );
+			$data['time']['parse']['perFile']	= UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
+			$data['time']['build']['total']		= UnitFormater::formatMicroSeconds( $buildTime );
+			$data['time']['build']['perFile']	= UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
 		}
 
 		$uiData	= array(

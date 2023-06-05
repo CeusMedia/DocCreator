@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Parse Error Info Site File.
  *
@@ -47,7 +48,7 @@ class ParseErrors extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$list		= array();
-		foreach( $this->env->data->getFiles() as $fileId => $file )
+		foreach( $this->env->data->getFiles() as $file )
 		{
 			if( !$file->errors )
 				continue;
@@ -61,12 +62,12 @@ class ParseErrors extends SiteInfoAbstraction
 
 		$this->verboseCreation( 'parseErrors' );
 
-		$words	= isset( $this->env->words['parseErrors'] ) ? $this->env->words['parseErrors'] : array();
+		$words	= $this->env->words['parseErrors'] ?? array();
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'parseErrors',
 			'id'		=> 'info-parseErrors',
-			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'parseErrors',
+			'topic'		=> $words['heading'] ?? 'parseErrors',
 			'content'	=> HtmlElements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

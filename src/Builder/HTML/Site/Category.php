@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for Category View.
  *
@@ -51,7 +52,7 @@ class Category extends HtmlBuilderAbstraction
 	{
 		$list	= array();
 		foreach( $category->getClasses() as $className => $class ){
-			$type	= $this->getTypeMarkUp( $class, TRUE );
+			$type	= $this->getTypeMarkUp( $class );
 			$list[$className]	= HtmlElements::ListItem( $type, 0, array( 'class' => "file" ) );
 		}
 		if( 0 === count( $list ) )
@@ -75,7 +76,7 @@ class Category extends HtmlBuilderAbstraction
 		$list	= array();
 		foreach( $category->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
-			$type	= $this->getTypeMarkUp( $package, TRUE );
+			$type	= $this->getTypeMarkUp( $package );
 			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "package" ) );
 			$list[$packageName]	= $item;
 		}
@@ -88,6 +89,7 @@ class Category extends HtmlBuilderAbstraction
 			];
 			return $this->loadTemplate( 'category.packages', $data );
 		}
+		return '';
 	}
 
 	/**

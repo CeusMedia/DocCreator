@@ -44,10 +44,10 @@ use CeusMedia\PhpParser\Structure\File_ as PhpFile;
  */
 class Builder extends HtmlBuilderAbstraction
 {
-	protected $builderFileInfo;
-	protected $builderFileFunctions;
-	protected $builderSourceCode;
-	protected $builderIndex;
+	protected FileInfo $builderFileInfo;
+	protected FileFunctions $builderFileFunctions;
+	protected FileSourceCode $builderSourceCode;
+	protected FileIndex $builderIndex;
 
 	/**
 	 *	Constructor.

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Deprecation Info Site File.
  *
@@ -39,7 +40,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class Deprecations extends SiteInfoAbstraction
 {
-	protected $count		= 0;
+	protected int $count		= 0;
 
 	/**
 	 *	Creates Deprecation Info Site File.
@@ -48,27 +49,22 @@ class Deprecations extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$content		= "";
 		$deprecations	= array();
-		foreach( $this->env->data->getFiles() as $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$classDeprecations	= array();
 				$methodDeprecations	= array();
 
 				$classUri	= "class.".$class->getId().".html";
 				$classLink	= HtmlElements::Link( $classUri, $class->getName(), 'class' );
 
-				if( $class->getDeprecations() )
-				{
+				if( $class->getDeprecations() ){
 					foreach( $class->getDeprecations() as $deprecation )
 						$classDeprecations[]	= HtmlElements::ListItem( $deprecation, 1, array( 'class' => "classItem" ) );
 					$this->count	+= count( $classDeprecations );
 				}
 
-				foreach( $class->getMethods() as $method )
-				{
+				foreach( $class->getMethods() as $method ){
 					if( !$method->getDeprecations() )
 						continue;
 					$list	= array();
@@ -93,12 +89,12 @@ class Deprecations extends SiteInfoAbstraction
 		{
 			$this->verboseCreation( 'deprecations' );
 
-			$words	= isset( $this->env->words['deprecations'] ) ? $this->env->words['deprecations'] : array();
+			$words	= $this->env->words['deprecations'] ?? array();
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'deprecations',
 				'id'		=> 'info-deprecations',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
+				'topic'		=> $words['heading'] ?? 'deprecations',
 				'content'	=> HtmlElements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for Index View.
  *
@@ -25,6 +26,7 @@
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
+use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
@@ -47,7 +49,7 @@ define( 'RELATION_IMPLEMENTS', 2 );
  */
 class Index extends HtmlBuilderAbstraction
 {
-	private $list	= [];
+	private array $list	= [];
 
 	/**
 	 *	Builds Index View.
@@ -71,7 +73,7 @@ class Index extends HtmlBuilderAbstraction
 
 			//  --  CLASS MEMBERS & INHERITED CLASS MEMBERS  --  //
 			if( $class instanceof PhpClass ){
-				$inheritedMemberList	= $this->buildInheritedMemberList( $class, RELATION_EXTENDS );
+				$inheritedMemberList	= $this->buildInheritedMemberList( $class );
 				$memberList	= $this->buildMemberList( $class );
 				if( $memberList ){
 					if( $inheritedMemberList )
@@ -84,7 +86,7 @@ class Index extends HtmlBuilderAbstraction
 			}
 
 			//  --  CLASS METHODS & INHERITED CLASS METHODS  --  //
-			$inheritedMethodList	= $this->buildInheritedMethodList( $class, RELATION_EXTENDS );
+			$inheritedMethodList	= $this->buildInheritedMethodList( $class );
 			$methodList	= $this->buildMethodList( $class );
 			if( $methodList ){
 				if( $inheritedMethodList )
@@ -112,7 +114,7 @@ class Index extends HtmlBuilderAbstraction
 		}
 
 		//  --  FILE SOURCE  --  //
-		$options	= new \ADT_List_Dictionary( $this->env->getBuilderOptions() );
+		$options	= new Dictionary( $this->env->getBuilderOptions() );
 		if( $options->get( 'showSourceCode' ) )
 			$this->addMainLink( 'file-source', $words['sourceCode'] );
 

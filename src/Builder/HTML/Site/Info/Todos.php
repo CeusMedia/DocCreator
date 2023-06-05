@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Todo Info Site File.
  *
@@ -39,7 +40,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class Todos extends SiteInfoAbstraction
 {
-	protected $count	= 0;
+	protected int $count	= 0;
 
 	/**
 	 *	Creates Todo Info Site File.
@@ -49,10 +50,9 @@ class Todos extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$content	= "";
 		$todos		= array();
-		foreach( $this->env->data->getFiles() as $fileId => $file ){
-			foreach( $file->getClasses() as $classId => $class ){
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$classTodos		= array();
 				$methodTodos	= array();
 
@@ -89,12 +89,12 @@ class Todos extends SiteInfoAbstraction
 		if( $todos ){
 			$this->verboseCreation( 'todos' );
 
-			$words	= isset( $this->env->words['todos'] ) ? $this->env->words['todos'] : array();
+			$words	= $this->env->words['todos'] ?? array();
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'todos',
 				'id'		=> 'info-todos',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
+				'topic'		=> $words['heading'] ?? 'todos',
 				'content'	=> HtmlElements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

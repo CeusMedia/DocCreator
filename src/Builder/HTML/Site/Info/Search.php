@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Search File.
  *
@@ -42,7 +43,7 @@ class Search extends SiteInfoAbstraction
 	/**
 	 *	Builds Tree View.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		bool
 	 */
 	public function createSite(): bool
 	{
@@ -76,8 +77,8 @@ class Search extends SiteInfoAbstraction
 	{
 		$data		= array();
 		$files		= $this->env->data->getFiles();
-		foreach( $files as $fileId => $file )
-			foreach( $file->getClasses() as $classId => $class )
+		foreach( $files as $file )
+			foreach( $file->getClasses() as $class )
 				$data[$class->getId()]	= $class->search;
 		return FileWriter::save( $pathTarget."terms.serial", serialize( $data ) );
 	}

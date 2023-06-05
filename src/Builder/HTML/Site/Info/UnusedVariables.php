@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -26,6 +27,7 @@
 
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\Alg\UnusedVariableFinder;
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
@@ -48,24 +50,19 @@ class UnusedVariables extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$count		= 0;
-		$content	= "";
-		$finder		= new \Alg_UnusedVariableFinder();
+		$finder		= new UnusedVariableFinder();
 		$classList	= array();
-		foreach( $this->env->data->getFiles() as $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$finder->readCode( $file->getSourceCode() );
 				$unusedVariables	= $finder->getUnusedVars();
 				if( !$unusedVariables )
 					continue;
 
 				$listMethods	= array();
-				foreach( $unusedVariables as $method => $vars )
-				{
+				foreach( $unusedVariables as $method => $vars ){
 					$listVars	= array();
-					foreach( $vars as $var )
-					{
+					foreach( $vars as $var ){
 						$count++;
 						$span	= '<span class="var">'.$var.'</span>';
 						$item	= HtmlElements::ListItem( $span, 2, array( 'class' => "varItem" ) );
@@ -87,16 +84,15 @@ class UnusedVariables extends SiteInfoAbstraction
 			}
 		}
 		ksort( $classList );
-		if( $count )
-		{
+		if( $count ){
 			$this->verboseCreation( 'unusedVariables' );
 
-			$words	= isset( $this->env->words['unusedVariables'] ) ? $this->env->words['unusedVariables'] : array();
+			$words	= $this->env->words['unusedVariables'] ?? array();
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unusedVariables',
 				'id'		=> 'info-unusedVariables',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unusedVariables',
+				'topic'		=> $words['heading'] ?? 'unusedVariables',
 				'content'	=> '<div id="tree">'.HtmlElements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

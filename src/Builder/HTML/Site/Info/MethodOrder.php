@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -48,7 +49,6 @@ class MethodOrder extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$count		= 0;
-		$content	= "";
 		$list		= array();
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
@@ -76,12 +76,12 @@ class MethodOrder extends SiteInfoAbstraction
 
 		$this->verboseCreation( 'methodOrder' );
 
-		$words	= isset( $this->env->words['methodOrder'] ) ? $this->env->words['methodOrder'] : array();
+		$words	= $this->env->words['methodOrder'] ?? array();
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'methodOrder',
 			'id'		=> 'info-methodOrder',
-			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
+			'topic'		=> $words['heading'] ?? 'methodOrder',
 			'content'	=> HtmlElements::unorderedList( $list ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

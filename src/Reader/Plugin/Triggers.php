@@ -44,9 +44,9 @@ class Triggers extends Abstraction
 	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
-		$data->triggers	= array();
+		$data->triggers	= [];
 		foreach( $data->getFiles() as $file ){
 			$source	= $file->getSourceCode();
 			if( !preg_match( '/@trigger\s/i', $source ) )
@@ -58,7 +58,7 @@ class Triggers extends Abstraction
 					$body	= implode( "\n", $method->getSourceCode() );
 					if( !preg_match( '/@trigger/si', $body ) )
 						continue;
-					$matches	= array();
+					$matches	= [];
 					preg_match_all( '@/\*\*.+\*/@Us', $body, $matches );
 					foreach( $matches[0] as $nr => $match ){
 						$match	= preg_replace( '@\n\s*\*\s+@Us', ' ', $match );

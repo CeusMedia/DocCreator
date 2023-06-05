@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads Configuration XML File.
  *
@@ -28,6 +29,7 @@ namespace CeusMedia\DocCreator\Core;
 
 use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use RuntimeException;
 
 /**
  *	Reads Configuration XML File.
@@ -48,6 +50,7 @@ class Configuration
 	 *	@access		public
 	 *	@param		string			$fileName		Name of Configuration XML File
 	 *	@return		void
+	 *	@throws		RuntimeException
 	 */
 	public function __construct( string $fileName )
 	{
@@ -106,7 +109,7 @@ class Configuration
 	public function getBuilderOptions( XmlElement $builder ): XmlElement
 	{
 		if( !isset( $builder->option ) )
-			return array();
+			return [];
 		return $builder->option;
 	}
 

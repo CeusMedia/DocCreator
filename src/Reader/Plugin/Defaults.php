@@ -44,7 +44,7 @@ class Defaults extends Abstraction
 	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
 	}
 }

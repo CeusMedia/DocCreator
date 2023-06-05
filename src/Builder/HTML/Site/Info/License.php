@@ -38,8 +38,8 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class License extends SiteInfoAbstraction
 {
-	protected $key			= 'license';
-	protected $fileNames	= [
+	protected string $key		= 'license';
+	protected array $fileNames	= [
 		'license',
 		'license.txt',
 		'license.nfo',

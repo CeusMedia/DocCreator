@@ -38,8 +38,8 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class Changes extends SiteInfoAbstraction
 {
-	protected $key			= 'changes';
-	protected $fileNames	= [
+	protected string $key		= 'changes';
+	protected array $fileNames	= [
 		'changes',
 		'changes.txt',
 		'changes.log',

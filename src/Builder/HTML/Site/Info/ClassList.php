@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Class List Info Site File.
  *
@@ -41,7 +42,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class ClassList extends SiteInfoAbstraction
 {
-	public $linkTarget = '_self';
+	public string $linkTarget = '_self';
 
 	/**
 	 *	...
@@ -68,15 +69,15 @@ class ClassList extends SiteInfoAbstraction
 	{
 		$divClear	= HtmlTag::create( 'div', '', array( 'style' => 'clear: both' ) );
 		$list		= array();
-		foreach( $this->env->data->getFiles() as $fileId=> $file ){
-			foreach( $file->getClasses() as $classId => $class ){
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$uri	= 'class.'.$class->getId().'.html';
 				$label	= $this->getLabel( $class );
 				$link	= HtmlElements::Link( $uri, $label, 'class', $this->linkTarget );
 				$div	= HtmlTag::create( 'div', $link, array( 'class' => 'class' ) );
 				$list[$label.time()]	= $div;
 			}
-			foreach( $file->getInterfaces() as $interfaceId => $interface ){
+			foreach( $file->getInterfaces() as $interface ){
 				$uri	= 'interface.'.$interface->getId().'.html';
 				$label	= $this->getLabel( $interface );
 				$link	= HtmlElements::Link( $uri, $label, 'interface', $this->linkTarget );

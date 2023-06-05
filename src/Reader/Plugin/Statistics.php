@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -46,7 +47,7 @@ class Statistics extends Abstraction
 	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
 		foreach( $data->getFiles() as $file ){
 			$clock				= new Clock();

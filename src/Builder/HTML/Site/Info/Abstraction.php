@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Abstract Site Info Builder.
  *
@@ -31,7 +32,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use League\CommonMark\CommonMarkConverter;
-
+use RuntimeException;
 
 /**
  *	Abstract Site Info Builder.
@@ -46,10 +47,10 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	protected $pathProject	= NULL;
 	protected $pathTarget	= NULL;
 	protected $linkList		= NULL;
-	protected $linkTarget	= 'content';
-	protected $fileNames	= array();
-	protected $key			= NULL;
-	protected $options		= array();
+	protected string $linkTarget	= 'content';
+	protected array $fileNames		= array();
+	protected string $key			= '';
+	protected array $options		= array();
 
 	/**
 	 *	Constructor.
@@ -59,7 +60,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	@param		array			$options	...
 	 *	@return		void
 	 */
-	public function __construct( Environment $env, string $type = NULL, array &$linkList, $options = array() )
+	public function __construct( Environment $env, string $type = NULL, array &$linkList, array $options = array() )
 	{
 		parent::__construct( $env, $type );
 		$this->linkList	=& $linkList;
@@ -82,23 +83,22 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	Creates site if any file (from ::$fileNames) has been found in product documentation folder.
 	 *	@access		public
 	 *	@return		integer		Number of found and enlisted contents (files)
+	 *	@throws		RuntimeException
 	 */
 	public function createSiteByFile(): int
 	{
 		if( !$this->fileNames )
-			throw new \Exception( 'No files set' );
+			throw new RuntimeException( 'No files set' );
 		if( !$this->key )
-			throw new \Exception( 'No key set' );
+			throw new RuntimeException( 'No key set' );
 
 		$list		= array();
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
 		if( !$pathDocs )
 			return 0;
-		foreach( $this->fileNames as $fileName )
-		{
+		foreach( $this->fileNames as $fileName ){
 			$fileName	= $pathDocs.$fileName;
-			if( file_exists( $fileName ) )
-			{
+			if( file_exists( $fileName ) ){
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
 				$content	= FileReader::load( $fileName );
 				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
@@ -117,17 +117,16 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 				$list[]		= $header.$content;
 			}
 		}
-		if( $list )
-		{
+		if( $list ){
 			$this->verboseCreation( $this->key );
-			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+			$words	= $this->env->words[$this->key] ?? array();
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'words'		=> $words,
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
 				'content'	=> implode( "\n\n", $list ),
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> $words['heading'] ?? $this->key,
 				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/'.$this->key;
@@ -167,7 +166,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 		if( !$this->env->verbose )
 			return;
 		$words	= $this->env->words['links'];
-		$label	= isset( $words[$key] ) ? $words[$key] : $key;
+		$label	= $words[$key] ?? $key;
 		$this->env->out->sameLine( "Creating site: ".$label );
 	}
 }

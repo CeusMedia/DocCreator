@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Abstraction of creator classes for builders.
  *
@@ -28,6 +29,7 @@ namespace CeusMedia\DocCreator\Builder;
 
 use CeusMedia\Common\FS\Folder\RecursiveIterator as RecursiveFolderIterator;
 use CeusMedia\Common\XML\Element as XmlElement;
+use CeusMedia\DocCreator\Core\Configuration;
 use CeusMedia\DocCreator\Core\Environment as Environment;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as AbstractHtmlBuilder;
 use RuntimeException;
@@ -45,6 +47,11 @@ use RuntimeException;
  */
 abstract class Abstraction
 {
+	protected Environment $env;
+	protected Configuration $config;
+	protected string $pathTarget;
+	protected string $pathTheme;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -65,9 +72,9 @@ abstract class Abstraction
 		$this->__onConstruct();
 	}
 
-	abstract protected function __onConstruct();
+	abstract protected function __onConstruct(): void;
 
-	protected function copyResourcesRecursive( string $pathSource, string $pathTarget, string $label )
+	protected function copyResourcesRecursive( string $pathSource, string $pathTarget, string $label ): void
 	{
 		$pathSource	= $pathSource;
 		$pathTarget	= $this->pathTarget.$pathTarget;

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds for Index Tree for Classes or Files.
  *
@@ -42,14 +43,14 @@ use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
  */
 class Control extends HtmlBuilderAbstraction
 {
-	protected $linkTarget	= "frm_content";
+	protected string $linkTarget	= "frm_content";
 
 	private function buildLinks( array $linkList ): string
 	{
 		$list	= array();
 		$words	= $this->env->words['links'];
 		foreach( $linkList as $link ){
-			$label	= isset( $words[$link['key']] ) ? $words[$link['key']] : $link['key'];
+			$label	= $words[$link['key']] ?? $link['key'];
 			$label	.= $link['count'] > 1 ? " (".$link['count'].")" : "";
 			$class	= 'info '.$link['key'];
 			$link	= HtmlElements::Link( $link['url'], $label, $class, $this->linkTarget );
@@ -92,7 +93,7 @@ class Control extends HtmlBuilderAbstraction
 	public function createControl( array $linkList )
 	{
 		$pathTarget	= $this->env->getBuilderTargetPath();
-		$builder	= new \CeusMedia\DocCreator\Builder\HTML\Site\Tree( $this->env );
+		$builder	= new Tree( $this->env );
 		$builder->setTargetFrame( $this->linkTarget );
 		$tree		= $builder->buildTree();
 		$logo		= $this->buildLogo();

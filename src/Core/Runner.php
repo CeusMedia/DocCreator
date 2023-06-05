@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	General Runner of DocCreator Application.
  *
@@ -40,13 +41,14 @@ use RuntimeException;
  */
 class Runner
 {
-	protected $env;
-	protected $configFile		= NULL;
-	protected $configTool		= array();
-	protected $configProject;
+	protected Environment $env;
+	protected ?string $configFile	= NULL;
+	protected array $configTool		= [];
+	protected Configuration $configProject;
+	protected $options				= NULL;
 	protected $pathProject;
-	protected $options			= NULL;
 
+	protected CliOutput $out;
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -74,44 +76,48 @@ class Runner
 	 *	Enable or disable creation of Doc Files (Classes, Interfaces, Packages, Categories).
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch creation of Doc Files
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function enableCreator( bool $bool = TRUE )
+	public function enableCreator( bool $bool = TRUE ): self
 	{
 		$this->configProject->setSkip( 'creator', !$bool );
+		return $this;
 	}
 
 	/**
 	 *	Enable or disable creation of Info Sites.
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch creation of Info Sites
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function enableInfo( bool $bool = TRUE )
+	public function enableInfo( bool $bool = TRUE ): self
 	{
 		$this->configProject->setSkip( 'info', !$bool );
+		return $this;
 	}
 
 	/**
 	 *	Enable or disable parsing of Source Files.
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch parsing of Source Files
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function enableParser( bool $bool = TRUE )
+	public function enableParser( bool $bool = TRUE ): self
 	{
 		$this->configProject->setSkip( 'parser', !$bool );
+		return $this;
 	}
 
 	/**
 	 *	Enable or disable creation of Resources (Images, StyleSheets, JavaScripts).
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: switch creation of Resources
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function enableResources( bool $bool = TRUE )
+	public function enableResources( bool $bool = TRUE ): self
 	{
 		$this->configProject->setSkip( 'resources', !$bool );
+		return $this;
 	}
 
 	public function main()
@@ -119,7 +125,7 @@ class Runner
 		if( !$this->configFile )
 			throw new RuntimeException( "No config file set." );
 
-		$this->pathTool	= dirname( dirname( dirname( __FILE__ ) ) );
+//		$this->pathTool	= dirname( __FILE__, 3 );
 //		try{
 			$clock		= new Clock;
 			if( $this->configProject->getVerbose() ){
@@ -135,7 +141,7 @@ class Runner
 					$this->out->newLine( 'Skip: Parser + Reader + Reader Plugins' );
 			}
 			else{
-				$doc	= new Reader( $this->env, $this->configProject->getVerbose() );
+				$doc	= new Reader( $this->env, $this->configProject->getVerbose() ?? FALSE );
 				$data	= $doc->readFiles();
 				$this->env->saveContainer( $data );												//  save Data to Serial File
 			}
@@ -143,7 +149,10 @@ class Runner
 			$this->out->newLine();
 			$this->runCreator();
 			$usage	= getrusage();
-			$this->out->newLine( "Done in ".$clock->stop( 0, 1 )." seconds (".round( $usage["ru_utime.tv_usec"] / 1000000, 1 ).")" );
+			$this->out->newLine( vsprintf( "Done in %s seconds (%s)", [
+				$clock->stop( 0, 1 ),
+				round( $usage["ru_utime.tv_usec"] / 1000000, 1 ),
+			] ) );
 			$this->out->newLine();
 
 #			if( !empty( $this->configProject['quite'] ) )
@@ -165,31 +174,35 @@ class Runner
 		}*/
 	}
 
-	public function setBuilderTargetPath( string $path = NULL )
+	public function setBuilderTargetPath( string $path = NULL ): self
 	{
 		$this->configProject->setBuilderTargetPath( $path );
+		return $this;
 	}
 
 	/**
-	 *	Set an other XML Configuration File and load it.
+	 *	Set a XML Configuration File and load it.
 	 *	@access		public
 	 *	@param		string		$configFile		URI of XML Configuration File
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setConfigFile( string $configFile )
+	public function setConfigFile( string $configFile ): self
 	{
 		$this->configFile	= $configFile;
 		$this->loadProjectConfig();
+		return $this;
 	}
 
-	public function setErrorMail( string $mail )
+	public function setErrorMail( string $mail ): self
 	{
 		$this->configProject->setMailReceiver( $mail );
+		return $this;
 	}
 
-	public function setProjectBasePath( string $path )
+	public function setProjectBasePath( string $path ): self
 	{
 		$this->configProject->setProjectBasePath( $path );
+		return $this;
 	}
 
 #	public function setErrorLog( $fileName ){
@@ -200,19 +213,22 @@ class Runner
 #		$this->configProject['creator.'.$key]	= $value;
 #	}
 
-	public function setQuiet()
+	public function setQuiet(): self
 	{
 		$this->setVerbose( FALSE );
+		return $this;
 	}
 
-	public function setTrace( bool $bool = TRUE )
+	public function setTrace( bool $bool = TRUE ): self
 	{
 		$this->configProject->setTrace( $bool );
+		return $this;
 	}
 
-	public function setVerbose( bool $bool = TRUE )
+	public function setVerbose( bool $bool = TRUE ): self
 	{
 		$this->configProject->setVerbose( 'general', $bool );
+		return $this;
 	}
 
 	/**
@@ -220,7 +236,7 @@ class Runner
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function loadProjectConfig()
+	protected function loadProjectConfig(): void
 	{
 		//  --  LOAD CUSTOM PROJECT CONFIG  --  //
 		if( !$this->configFile )
@@ -232,7 +248,7 @@ class Runner
 		$this->env				= new Environment( $this->configProject, $this->configTool, $this->out );
 		if( $this->configProject->getTimeLimit() >= 0 )
 			set_time_limit( $this->configProject->getTimeLimit() );
-		$this->setVerbose( $this->configProject->getVerbose() );
+		$this->setVerbose( $this->configProject->getVerbose() ?? FALSE );
 	}
 
 	/**
@@ -240,12 +256,12 @@ class Runner
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function loadToolConfig()
+	protected function loadToolConfig(): void
 	{
-		$uri	= dirname( dirname( dirname( __FILE__ ) ) )."/config/config.ini";
+		$uri	= dirname( __FILE__, 3 ) ."/config/config.ini";
 		if( !file_exists( $uri ) )
 			throw new RuntimeException( 'No tool config file given' );
-		$this->configTool	= parse_ini_file( $uri, TRUE );
+		$this->configTool	= parse_ini_file( $uri, TRUE ) ?: [];
 	}
 
 	/**
@@ -254,7 +270,7 @@ class Runner
 	 *	@return		void
 	 *	@throws		RuntimeException if a Builder Class is not existing
 	 */
-	protected function runCreator()
+	protected function runCreator(): void
 	{
 		foreach( $this->configProject->getBuilders() as $builder ){
 			$format		= $builder->getAttribute( 'format' );

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Creates Documentation Files from Parser Data.
  *
@@ -30,6 +31,7 @@ use CeusMedia\Common\Alg\Time\Clock as Clock;
 use CeusMedia\DocCreator\Builder\Abstraction as AbstractBuilder;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as AbstractHtmlBuilder;
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
+use ReflectionException;
 
 /**
  *	Creates Documentation Files from Parser Data.
@@ -41,7 +43,11 @@ use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
  */
 class Creator extends AbstractBuilder
 {
-	protected function __onConstruct()
+	/**
+	 *	@return		void
+	 *	@throws		ReflectionException
+	 */
+	protected function __onConstruct(): void
 	{
 		$this->createFiles();
 		$this->createPackages();
@@ -75,19 +81,18 @@ class Creator extends AbstractBuilder
 		$pathTarget	= $this->pathTarget;
 		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
 
-		$fileBuilder		= new File\Builder( $this->env );
-		$classBuilder		= new Classes\Builder( $this->env, $fileBuilder );
-		$interfaceBuilder	= new Interfaces\Builder( $this->env, $fileBuilder );
+		$classBuilder		= new Classes\Builder( $this->env );
+		$interfaceBuilder	= new Interfaces\Builder( $this->env );
 
 		$total	= 0;
 		$count	= 0;
 		$this->env->out->newLine();
-		foreach( $this->env->data->getFiles() as $fileName => $file ){
+		foreach( $this->env->data->getFiles() as $file ){
 			$total	+= count( $file->getClasses() );
 			$total	+= count( $file->getInterfaces() );
 		}
 
-		foreach( $this->env->data->getFiles() as $fileName => $file ){
+		foreach( $this->env->data->getFiles() as $file ){
 			$clock2		= new Clock;
 			if( $file->hasClasses() ){
 				foreach( $file->getClasses() as $class ){
@@ -132,6 +137,10 @@ class Creator extends AbstractBuilder
 			$this->createPackageRecursive( $category, $prefix );
 	}
 
+	/**
+	 *	@return		void
+	 *	@throws		ReflectionException
+	 */
 	private function createSites()
 	{
 		$builder	= new Site\Builder( $this->env );

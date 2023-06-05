@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Recursive PHP File Reader for storing parsed Data.
  *
@@ -32,6 +33,7 @@ use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
 use CeusMedia\PhpParser\Parser as PhpParser;
 use ReflectionClass;
+use ReflectionException;
 use RuntimeException;
 
 /**
@@ -46,16 +48,17 @@ use RuntimeException;
  */
 class Reader
 {
-	protected $config			= NULL;
-	protected $path				= "";
-	protected $plugins			= array();
-	protected $verbose			= NULL;
+	protected Environment $env;
+	protected Configuration $config;
+	protected string $path				= '';
+	protected array $plugins			= [];
+	protected bool $verbose;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Environment		$config		Configuration Array Object
-	 *	@param		bool			$verbose	Flag: show Pregress in Console.
+	 *	@param		Environment		$env		Environment Object
+	 *	@param		bool			$verbose	Flag: show Progress in Console.
 	 *	@return		void
 	 */
 	public function __construct( Environment $env, bool $verbose = TRUE )
@@ -141,10 +144,10 @@ class Reader
 	 */
 	protected function parseFiles( PhpContainer $data, $project, array $list )
 	{
+		$count		= 0;
+		$total		= 0;
 		$sources	= explode( ",", $this->config->getProjectPath( $project ) );
 		if( $this->verbose ){
-			$count	= 0;
-			$total	= 0;
 			foreach( $sources as $pathSource ){
 				$pathSource = strlen( trim( $pathSource ) ) ? $pathSource : "./";
 				$total	= count( $list[$pathSource] );
@@ -226,6 +229,8 @@ class Reader
 	 *	Assigns Reader Plugins to be applied after parsing all Projects.
 	 *	@access		protected
 	 *	@return		void
+	 *	@throws		RuntimeException
+	 *	@throws		ReflectionException
 	 */
 	protected function registerPlugins()
 	{

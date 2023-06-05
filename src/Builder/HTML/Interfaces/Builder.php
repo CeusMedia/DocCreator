@@ -47,12 +47,12 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
  */
 class Builder extends HtmlBuilderAbstraction
 {
-	private $builderFile;
-	private $builderFunctions;
-	private $builderInterface;
-	private $builderMethods;
-	private $builderSourceCode;
-	private $builderIndex;
+	private FileInfo $builderFile;
+	private FileFunctions $builderFunctions;
+	private InterfaceInfo $builderInterface;
+	private InterfaceMethods $builderMethods;
+	private FileSourceCode $builderSourceCode;
+	private FileIndex $builderIndex;
 
 	/**
 	 *	Constructor.

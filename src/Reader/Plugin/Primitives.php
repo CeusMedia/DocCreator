@@ -39,7 +39,7 @@ use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
  */
 class Primitives extends Abstraction
 {
-	protected $phpTypeCompat	= [
+	protected array $phpTypeCompat	= [
 		'int'		=> 'integer',
 		'bool'		=> 'boolean',
 		'double'	=> 'float',
@@ -54,7 +54,7 @@ class Primitives extends Abstraction
 	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $class ){
@@ -73,7 +73,7 @@ class Primitives extends Abstraction
 		}
 	}
 
-	protected function tryToExtendPrimitiveCast( $data )
+	protected function tryToExtendPrimitiveCast( $data ): void
 	{
 		$type	= $data->getCast();
 		if( is_string( $type ) && !empty( $type ) )

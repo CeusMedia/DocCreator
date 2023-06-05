@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Trigger Info Site File.
  *
@@ -56,12 +57,12 @@ class Triggers extends SiteInfoAbstraction
 		$this->verboseCreation( 'triggers' );
 
 		$list		= array();
-		foreach( $this->env->data->triggers as $triggerName => $triggers )
-			foreach( $triggers as $nr => $trigger ){
+		foreach( $this->env->data->triggers as $triggers )
+			foreach( $triggers as $trigger ){
 			$class	= $this->env->getClassFromId( $trigger['classId'] );
 			$uri	= 'class.'.$class->getId().'.html#class_method_'.$trigger['method'];
 			$method	= HtmlElements::Link( $uri, $trigger['method'], 'method' );
-			$class	= $this->getTypeMarkUp( $class, TRUE );
+			$class	= $this->getTypeMarkUp( $class );
 
 			$info	= array();
 			$info[]	= HtmlElements::ListItem( 'Class: '.$class );
@@ -74,12 +75,12 @@ class Triggers extends SiteInfoAbstraction
 		}
 		$content	= HtmlTag::create( 'dl', implode( "\n", $list ) );
 
-		$words	= isset( $this->env->words['triggers'] ) ? $this->env->words['triggers'] : array();
+		$words	= $this->env->words['triggers'] ?? array();
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'triggers',
 			'id'		=> 'info-triggers',
-			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'triggers',
+			'topic'		=> $words['heading'] ?? 'triggers',
 			'content'	=> $content,
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

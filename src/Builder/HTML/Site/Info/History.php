@@ -38,8 +38,8 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class History extends SiteInfoAbstraction
 {
-	protected $key			= 'history';
-	protected $fileNames	= [
+	protected string $key		= 'history';
+	protected array $fileNames	= [
 		'history',
 		'history.txt',
 		'history.log',

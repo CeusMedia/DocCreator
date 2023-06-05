@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -39,7 +40,7 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class UnresolvedRelations extends SiteInfoAbstraction
 {
-	protected $count		= 0;
+	protected int $count		= 0;
 
 	/**
 	 *	Creates Deprecation Info Site File.
@@ -48,33 +49,27 @@ class UnresolvedRelations extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$content	= "";
 		$classList	= array();
-		foreach( $this->env->data->getFiles() as $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$list	= array();
 				$this->checkUnresolvedAndAddListItemIfNot( $list, $class->getExtendedClass(), 'extends: ' );
 				foreach( $class->getExtendingClasses() as $extendingClass )
 					$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingClass, 'extendedBy: ' );
-				if( $list )
-				{
+				if( $list ){
 					$url	= 'class.'.$class->getId().'.html';
 					$link	= HtmlElements::Link( $url, $class->getName(), 'class' );
 					$list	= HtmlElements::unorderedList( $list, 1 );
 					$classList[]	= HtmlElements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
 				}
 			}
-			foreach( $file->getInterfaces() as $interface )
-			{
+			foreach( $file->getInterfaces() as $interface ){
 				$list	= array();
 				foreach( $interface->getExtendingInterfaces() as $extendingInterface )
 					$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingInterface, 'extendedBy: ' );
 				foreach( $interface->getImplementingClasses() as $implementingClass )
 					$this->checkUnresolvedAndAddListItemIfNot( $list, $implementingClass, 'implementedBy: ' );
-				if( $list )
-				{
+				if( $list ){
 					$url	= 'interface.'.$interface->getId().'.html';
 					$link	= HtmlElements::Link( $url, $interface->getName(), 'interface' );
 					$list	= HtmlElements::unorderedList( $list, 1 );
@@ -82,16 +77,15 @@ class UnresolvedRelations extends SiteInfoAbstraction
 				}
 			}
 		}
-		if( $this->count )
-		{
+		if( $this->count ){
 			$this->verboseCreation( 'unresolvedRelations' );
 
-			$words	= isset( $this->env->words['unresolvedRelations'] ) ? $this->env->words['unresolvedRelations'] : array();
+			$words	= $this->env->words['unresolvedRelations'] ?? array();
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unresolvedRelations',
 				'id'		=> 'info-unresolvedRelations',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unresolvedRelations',
+				'topic'		=> $words['heading'] ?? 'unresolvedRelations',
 				'content'	=> '<div id="tree">'.HtmlElements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

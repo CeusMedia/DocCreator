@@ -26,7 +26,7 @@
 
 namespace CeusMedia\DocCreator\Reader\Plugin;
 
-use ArrayObject;
+use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
 
 /**
@@ -39,21 +39,26 @@ use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
  */
 abstract class Abstraction
 {
+	protected Environment $env;
+	protected bool $verbose;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		ArrayObject		$config		Configuration Array Object
+	 *	@param		Environment		$env		Environment Object
+	 *	@param		bool			$verbose	Flag: be verbose
 	 *	@return		void
 	 */
-	public function __construct( $env, bool $verbose )
+	public function __construct( Environment $env, bool $verbose = FALSE )
 	{
 		$this->env		= $env;
 		$this->verbose	= $verbose;
 		$this->setUp();
 	}
 
-	abstract public function extendData( PhpContainer $data );
+	abstract public function extendData( PhpContainer $data ): void;
 
-	protected function setUp(){}
+	protected function setUp(): void
+	{
+	}
 }
-?>

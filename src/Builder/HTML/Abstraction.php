@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *
@@ -39,6 +40,7 @@ use CeusMedia\PhpParser\Structure\Parameter_ as PhpParameter;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use Exception;
+use RuntimeException;
 
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
@@ -51,17 +53,17 @@ use Exception;
 abstract class Abstraction
 {
 	/**	@var		Environment		$env 			Environment Object */
-	protected $env;
-	/**	@var		string			$type			Data Type (class|file) */
-	protected $type					= NULL;
+	protected Environment $env;
+	/**	@var		string|NULL		$type			Data Type (class|file) */
+	protected ?string $type			= NULL;
 	/**	@var		array			$words			Array of Language Pairs */
-	protected $words;
+	protected array $words;
 
-	protected $cacheTemplate		= array();
+	protected array $cacheTemplate	= array();
 
-	protected $pathTheme			= NULL;
+	protected string $pathTheme;
 
-	protected $pathBuilder			= NULL;
+	protected string $pathBuilder;
 
 	/**
 	 *	Constructor.
@@ -75,11 +77,11 @@ abstract class Abstraction
 		$this->env			= $env;
 		$this->type			= $type;
 		$this->words		= $this->env->words;
-		$this->pathBuilder	= dirname( dirname( __FILE__ ) ).'/';
+		$this->pathBuilder	= dirname( __FILE__, 2 ) .'/';
 		$this->pathTheme	= $this->getThemePath();
 	}
 
-	public static function removeFiles( string $path, string $pattern )
+	public static function removeFiles( string $path, string $pattern ): void
 	{
 		$index	= new RecursiveFileRegexFilter( $path, $pattern );									// index formerly generated or copied files
 		foreach( $index as $entry )																	// iterate index
@@ -295,7 +297,7 @@ abstract class Abstraction
 					$label	= HtmlElements::Link( $url, $type->getName(), 'interface' );
 					break;
 				default:
-					throw new Exception( 'Invalid type' );
+					throw new RuntimeException( 'Invalid type' );
 			}
 		}
 		else if( is_string( $type ) ){

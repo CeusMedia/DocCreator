@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -45,7 +46,8 @@ class Unicode extends Abstraction
 	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( PhpContainer $data ){
+	public function extendData( PhpContainer $data ): void
+	{
 		foreach( $data->getFiles() as $file ){
 			$file->unicode		= TRUE;
 			$sourceCode			= $file->getSourceCode();
@@ -57,4 +59,3 @@ class Unicode extends Abstraction
 		}
 	}
 }
-?>

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Class Information View.
  *
@@ -110,7 +111,7 @@ class Info extends InfoInterface
 	}
 
 	/** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
-	private function buildRelationTree(PhpInterface $class ): string
+	private function buildRelationTree( PhpInterface $class ): string
 	{
 		$classes = $this->getSuperClasses( $class );
 		if( 0 === count( $classes ) )

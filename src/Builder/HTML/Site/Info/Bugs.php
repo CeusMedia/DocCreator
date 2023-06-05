@@ -37,8 +37,8 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  */
 class Bugs extends SiteInfoAbstraction
 {
-	protected $key			= 'bugs';
-	protected $fileNames	= [
+	protected string $key			= 'bugs';
+	protected array $fileNames	= [
 		'bugs',
 		'bugs.txt',
 		'bugs.log',
