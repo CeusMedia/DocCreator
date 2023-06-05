@@ -67,28 +67,28 @@ class ClassList extends SiteInfoAbstraction
 
 	private function buildClassList(): string
 	{
-		$divClear	= HtmlTag::create( 'div', '', array( 'style' => 'clear: both' ) );
-		$list		= array();
+		$divClear	= HtmlTag::create( 'div', '', ['style' => 'clear: both'] );
+		$list		= [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
 				$uri	= 'class.'.$class->getId().'.html';
 				$label	= $this->getLabel( $class );
 				$link	= HtmlElements::Link( $uri, $label, 'class', $this->linkTarget );
-				$div	= HtmlTag::create( 'div', $link, array( 'class' => 'class' ) );
+				$div	= HtmlTag::create( 'div', $link, ['class' => 'class'] );
 				$list[$label.time()]	= $div;
 			}
 			foreach( $file->getInterfaces() as $interface ){
 				$uri	= 'interface.'.$interface->getId().'.html';
 				$label	= $this->getLabel( $interface );
 				$link	= HtmlElements::Link( $uri, $label, 'interface', $this->linkTarget );
-				$div	= HtmlTag::create( 'div', $link, array( 'class' => 'interface' ) );
+				$div	= HtmlTag::create( 'div', $link, ['class' => 'interface'] );
 				$list[$label.time()]	= $div;
 			}
 		}
 		ksort( $list );
 		$last		= "";
-		$letters	= array();
-		$lines		= array();
+		$letters	= [];
+		$lines		= [];
 		foreach( $list as $key => $item ){
 			if( $last != $key[0] ){
 				$letters[]	= $key[0];
@@ -106,17 +106,17 @@ class ClassList extends SiteInfoAbstraction
 			$last		= $key[0];
 		}
 
-		$list	= array();
+		$list	= [];
 		for( $i=65; $i<91; $i++ ){
 			$letter	= chr( $i );
 			if( in_array( $letter, $letters ) )
 				$item	= HtmlElements::Link( '#letter-'.$letter, $letter );
 			else
-				$item	= HtmlTag::create( 'span', $letter, array( 'class' => 'letter-disabled' ) );
+				$item	= HtmlTag::create( 'span', $letter, ['class' => 'letter-disabled'] );
 			$list[]	= $item.'&nbsp;';
 		}
 		$list		= implode( $list );
-		$letters	= HtmlTag::create( 'div', $list, array( 'id' => 'list-letters' ) );
+		$letters	= HtmlTag::create( 'div', $list, ['id' => 'list-letters'] );
 		$list		= implode( "\n", $lines ).$divClear;
 		return $letters.$list;
 	}

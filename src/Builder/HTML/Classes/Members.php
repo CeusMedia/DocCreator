@@ -49,14 +49,14 @@ class Members extends ClassInfo
 	 *	@param		array			$got			List of Member Names already handled
 	 *	@return		string			List HTML
 	 */
-	private function buildInheritedMemberList( PhpClass $class, $got = array() ): string
+	private function buildInheritedMemberList( PhpClass $class, $got = [] ): string
 	{
-		$extended		= array();
+		$extended		= [];
 		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
 
 		$classes		= $this->getSuperClasses( $class );
 		foreach( $classes as $nr => $superClass ){
-			$list		= array();
+			$list		= [];
 			if( !is_object( $superClass ) )
 				continue;
 			foreach( $superClass->getMembers() as $memberName => $member ){
@@ -70,7 +70,7 @@ class Members extends ClassInfo
 				$uri		= 'class.'.$superClass->getId().".html#class_member_".$memberName;
 				$link		= HtmlElements::Link( $uri, $memberName, 'member' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
-				$list[$memberName]	= HtmlElements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
+				$list[$memberName]	= HtmlElements::ListItem( $linkTyped, 1, ['class' => 'member'] );
 			}
 			if( $list ){
 				ksort( $list );
@@ -105,12 +105,12 @@ class Members extends ClassInfo
 		$default	= $member->getDefault() ? " = ".$member->getDefault() : "";
 		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
 
-		$attributes	= array();
+		$attributes	= [];
 		$accessType	= $member->getAccess() ? $member->getAccess() : 'unknown';
 		$access		= $this->buildAccessLabel( $accessType );
 		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
-		$attributes['default']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $member->getDefault() ), 'default' );
+		$attributes['default']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $member->getDefault() ), 'default' );
 
 		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
 
@@ -137,7 +137,7 @@ class Members extends ClassInfo
 	{
 		$this->type	= "class";
 
-		$list		= array();
+		$list		= [];
 		$members	= $class->getMembers();
 		ksort( $members );
 		foreach( $members as $memberName => $member )

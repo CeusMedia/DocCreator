@@ -49,7 +49,7 @@ class MethodOrder extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$count		= 0;
-		$list		= array();
+		$list		= [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
 				$methods	= array_keys( $class->getMethods( FALSE ) );
@@ -67,7 +67,7 @@ class MethodOrder extends SiteInfoAbstraction
 				$count++;
 				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$label	= $link.": ".$line1." | ".$line2;
-				$list[$class->getName()]	= HtmlElements::ListItem( $label, 0, array( 'class' => 'class' ) );
+				$list[$class->getName()]	= HtmlElements::ListItem( $label, 0, ['class' => 'class'] );
 			}
 		}
 		ksort( $list );
@@ -76,7 +76,7 @@ class MethodOrder extends SiteInfoAbstraction
 
 		$this->verboseCreation( 'methodOrder' );
 
-		$words	= $this->env->words['methodOrder'] ?? array();
+		$words	= $this->env->words['methodOrder'] ?? [];
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'methodOrder',

@@ -107,8 +107,8 @@ class Statistics extends SiteInfoAbstraction
 			new \UI_SVG_ChartData( $data['ratio']['docsPerFile'], "Docs" ),
 			new \UI_SVG_ChartData( $data['ratio']['stripsPerFile'], "stripped" ),
 		);
-		$chart		= new \UI_SVG_Chart( $graphData, array( "blue", "green", "gray" ) );
-		$chart->buildPieGraph( array( "x" => 50, "y" => 50, "legend" => TRUE ) );
+		$chart		= new \UI_SVG_Chart( $graphData, ["blue", "green", "gray"] );
+		$chart->buildPieGraph( ["x" => 50, "y" => 50, "legend" => TRUE] );
 		$chart->save( $this->pathTarget.$graphFile );
 */
 		$parseTime	= 0;

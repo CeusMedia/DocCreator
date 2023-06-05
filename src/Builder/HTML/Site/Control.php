@@ -46,7 +46,7 @@ class Control extends HtmlBuilderAbstraction
 
 	private function buildLinks( array $linkList ): string
 	{
-		$list	= array();
+		$list	= [];
 		$words	= $this->env->words['links'];
 		foreach( $linkList as $link ){
 			$label	= $words[$link['key']] ?? $link['key'];
@@ -57,7 +57,7 @@ class Control extends HtmlBuilderAbstraction
 		}
 
 		$uiData	= array(
-			'list'	=> HtmlElements::unorderedList( $list, 0, array( 'class' => "links" ) ),
+			'list'	=> HtmlElements::unorderedList( $list, 0, ['class' => "links"] ),
 			'words'	=> $words,
 		);
 		return $this->loadTemplate( "site/links", $uiData );

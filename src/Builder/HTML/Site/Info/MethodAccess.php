@@ -49,12 +49,12 @@ class MethodAccess extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$count		= 0;
-		$classList	= array();
+		$classList	= [];
 		foreach( $this->env->data->getFiles() as $file )
 		{
 			foreach( $file->getClasses() as $class )
 			{
-				$methodList	= array();
+				$methodList	= [];
 				foreach( $class->getMethods() as $method )
 				{
 					if( !$method->getAccess() )
@@ -62,15 +62,15 @@ class MethodAccess extends SiteInfoAbstraction
 						$count++;
 						$url			= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
 						$link			= HtmlElements::Link( $url, $method->getName(), 'method' );
-						$methodList[]	= HtmlElements::ListItem( $link, 1, array( 'class' => 'method' ) );
+						$methodList[]	= HtmlElements::ListItem( $link, 1, ['class' => 'method'] );
 					}
 				}
 				if( !$methodList )
 					continue;
-				$methodList		= HtmlElements::unorderedList( $methodList, 1, array( 'class' => 'methods' ) );
+				$methodList		= HtmlElements::unorderedList( $methodList, 1, ['class' => 'methods'] );
 				$url			= 'class.'.$class->getId().'.html';
 				$link			= HtmlElements::Link( $url, $class->getName(), 'class' );
-				$classList[]	= HtmlElements::ListItem( $link.$methodList, 0, array( 'class' => 'classes' ) );
+				$classList[]	= HtmlElements::ListItem( $link.$methodList, 0, ['class' => 'classes'] );
 			}
 		}
 		if( !$classList )
@@ -78,7 +78,7 @@ class MethodAccess extends SiteInfoAbstraction
 
 		$this->verboseCreation( $this->key );
 
-		$words	= $this->env->words[$this->key] ?? array();
+		$words	= $this->env->words[$this->key] ?? [];
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> $this->key,

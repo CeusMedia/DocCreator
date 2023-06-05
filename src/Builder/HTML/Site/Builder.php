@@ -43,7 +43,7 @@ use RuntimeException;
  */
 class Builder extends HtmlBuilderAbstraction
 {
-	protected array $linkList		= array();
+	protected array $linkList		= [];
 
 	/**
 	 *	Creates several Sites: Index, Todos, Deprecated, ChangeLog, ReadMe and Statistics.

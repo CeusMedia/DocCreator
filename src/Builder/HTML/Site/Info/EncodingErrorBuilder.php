@@ -50,7 +50,7 @@ class EncodingErrorBuilder extends SiteInfoAbstraction
 	{
 		return FALSE; //  disabled for now
 
-		$list		= array();
+		$list		= [];
 		foreach( $this->env->data->getFiles() as $fileId => $file ){
 			if( !$file->errors )
 				continue;

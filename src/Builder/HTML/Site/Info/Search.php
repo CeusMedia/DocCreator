@@ -75,7 +75,7 @@ class Search extends SiteInfoAbstraction
 	 */
 	private function createTermList( string $pathTarget ): int
 	{
-		$data		= array();
+		$data		= [];
 		$files		= $this->env->data->getFiles();
 		foreach( $files as $file )
 			foreach( $file->getClasses() as $class )

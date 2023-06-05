@@ -61,7 +61,7 @@ abstract class Abstraction
 	/**	@var		array			$words			Array of Language Pairs */
 	protected array $words;
 
-	protected array $cacheTemplate	= array();
+	protected array $cacheTemplate	= [];
 
 	protected string $pathTheme;
 
@@ -157,23 +157,23 @@ abstract class Abstraction
 	 *	@param		array				$list		Result List of Authors, empty but can be preset
 	 *	@return		string
 	 */
-	protected function buildParamAuthors(  $data, array $list = array() ): string
+	protected function buildParamAuthors(  $data, array $list = [] ): string
 	{
 		foreach( $data->getAuthors() as $author ){
 			if( $author->getEmail() )
 				$author	= HtmlElements::Link( "mailto:".$author->getEmail(), $author->getName(), $this->type.'-info-author' );
 			else
 				$author	= $author->getName();
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $author ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $author] );
 		}
 		return $this->buildParamList( $list, 'authors' );
 	}
 
-	protected function buildParamLinkedList( array $data, string $key, array $list = array() ): string
+	protected function buildParamLinkedList( array $data, string $key, array $list = [] ): string
 	{
 		foreach( $data as $url ){
 			$link	= HtmlElements::Link( $url, $url, $this->type.'-info-link' );
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $link ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $link] );
 		}
 		return $this->buildParamList( $list, $key );
 	}
@@ -198,13 +198,13 @@ abstract class Abstraction
 		return $this->loadTemplate( $this->type.'.info.param', $data );
 	}
 
-	protected function buildParamStringList( $value, string $key, array $list = array() ): string
+	protected function buildParamStringList( $value, string $key, array $list = [] ): string
 	{
 		if( !is_array( $value ) )
 			return $this->buildParamList( $value, $key );
 		foreach( $value as $label ){
 			$label	= $this->realizeInlineLinks( $label );
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $label ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $label] );
 		}
 		return $this->buildParamList( $list, $key );
 	}
@@ -325,7 +325,7 @@ abstract class Abstraction
 #			else if( $type !== "unknown" )
 #				remark( "!getTypeMarkUp: ".$type );
 		}
-		return HtmlTag::create( 'span', $label, array( 'class' => 'type' ) );
+		return HtmlTag::create( 'span', $label, ['class' => 'type'] );
 	}
 
 	/**

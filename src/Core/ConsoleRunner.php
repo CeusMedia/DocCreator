@@ -88,7 +88,7 @@ class ConsoleRunner extends CliApplication
 			exit;
 		}
 
-#		set_error_handler( array( $this, 'handleError' ) );
+#		set_error_handler( [$this, 'handleError'] );
 		try{
 			$mapSkip	= [
 				'--config-file'		=> 'setConfigFile',

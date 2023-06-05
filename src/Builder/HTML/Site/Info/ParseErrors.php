@@ -47,7 +47,7 @@ class ParseErrors extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$list		= array();
+		$list		= [];
 		foreach( $this->env->data->getFiles() as $file )
 		{
 			if( !$file->errors )
@@ -62,13 +62,13 @@ class ParseErrors extends SiteInfoAbstraction
 
 		$this->verboseCreation( 'parseErrors' );
 
-		$words	= $this->env->words['parseErrors'] ?? array();
+		$words	= $this->env->words['parseErrors'] ?? [];
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'parseErrors',
 			'id'		=> 'info-parseErrors',
 			'topic'		=> $words['heading'] ?? 'parseErrors',
-			'content'	=> HtmlElements::unorderedList( $list, 0, array( 'class' => "classes" ) ),
+			'content'	=> HtmlElements::unorderedList( $list, 0, ['class' => "classes"] ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),
 		);

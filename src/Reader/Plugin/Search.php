@@ -57,7 +57,7 @@ class Search extends Abstraction
 			$this->env->out->append( " => Extracting Search Terms ..." );
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $classId => $class ){
-				$facts	= array();
+				$facts	= [];
 				$facts['className']	= $class->getName();
 				$facts['classDesc']	= $class->getDescription();
 #				foreach( $class->getAuthors() as $author )

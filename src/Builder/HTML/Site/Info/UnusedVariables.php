@@ -51,7 +51,7 @@ class UnusedVariables extends SiteInfoAbstraction
 	{
 		$count		= 0;
 		$finder		= new UnusedVariableFinder();
-		$classList	= array();
+		$classList	= [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
 				$finder->readCode( $file->getSourceCode() );
@@ -59,27 +59,27 @@ class UnusedVariables extends SiteInfoAbstraction
 				if( !$unusedVariables )
 					continue;
 
-				$listMethods	= array();
+				$listMethods	= [];
 				foreach( $unusedVariables as $method => $vars ){
-					$listVars	= array();
+					$listVars	= [];
 					foreach( $vars as $var ){
 						$count++;
 						$span	= '<span class="var">'.$var.'</span>';
-						$item	= HtmlElements::ListItem( $span, 2, array( 'class' => "varItem" ) );
+						$item	= HtmlElements::ListItem( $span, 2, ['class' => "varItem"] );
 						$listVars[]	= $item;
 					}
 					if( !$listVars )
 						continue;
 					$link	= HtmlElements::Link( 'class.'.$class->getId().'.html#class_method_'.$method, $method, 'method' );
-					$list	= HtmlElements::unorderedList( $listVars, 2, array( 'class' => 'varList' ) );
-					$item	= HtmlElements::ListItem( $link.$list, 1, array( 'class' => 'methodItem' ) );
+					$list	= HtmlElements::unorderedList( $listVars, 2, ['class' => 'varList'] );
+					$item	= HtmlElements::ListItem( $link.$list, 1, ['class' => 'methodItem'] );
 					$listMethods[]	= $item;
 				}
 				if( !$listMethods )
 					continue;
 				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
-				$list	= HtmlElements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
-				$item	= HtmlElements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+				$list	= HtmlElements::unorderedList( $listMethods, 1, ['class' => 'methodList'] );
+				$item	= HtmlElements::ListItem( $link.$list, 0, ['class' => 'class'] );
 				$classList[$class->getName()]	= $item;
 			}
 		}
@@ -87,7 +87,7 @@ class UnusedVariables extends SiteInfoAbstraction
 		if( $count ){
 			$this->verboseCreation( 'unusedVariables' );
 
-			$words	= $this->env->words['unusedVariables'] ?? array();
+			$words	= $this->env->words['unusedVariables'] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unusedVariables',

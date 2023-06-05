@@ -49,12 +49,12 @@ class Methods extends InterfaceInfo
 	 *	@param		array				$got				...
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( PhpInterface $interface, $got = array() ): string
+	private function buildInheritedMethodList( PhpInterface $interface, $got = [] ): string
 	{
-		$extended	= array();
+		$extended	= [];
 		$interfaces	= $this->getSuperInterfaces( $interface );
 		foreach( $interfaces as $interface ){
-			$list		= array();
+			$list		= [];
 			if( !is_object( $interface ) )
 				continue;
 			foreach( $interface->getMethods() as $methodName => $methodData ){
@@ -70,7 +70,7 @@ class Methods extends InterfaceInfo
 				$link		= HtmlElements::Link( $uri, $methodName, 'method' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
 				$got[]		= $methodName;
-				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
+				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, ['class' => 'method'] );
 			}
 			if( $list ){
 				ksort( $list );
@@ -100,7 +100,7 @@ class Methods extends InterfaceInfo
 	 */
 	private function buildMethodEntry( PhpInterface $interface, PhpMethod $method ): string
 	{
-		$attributes	= array();
+		$attributes	= [];
 
 		$attributes['name']			= $this->buildParamStringList( $method->getName(), 'name' );
 		$attributes['description']	= $this->buildParamStringList( $method->getDescription(), 'description' );
@@ -127,7 +127,7 @@ class Methods extends InterfaceInfo
 		$attributes['return']		= $this->buildParamReturn( $method );
 		$attributes['throws']		= $this->buildParamThrows( $method );
 
-		$params	= array();
+		$params	= [];
 		foreach( $method->getParameters() as $parameter ){
 			$signature	= $this->getParameterMarkUp( $parameter );
 			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
@@ -142,7 +142,7 @@ class Methods extends InterfaceInfo
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
 		$methodLink	= HtmlElements::Link( $uri, $method->getName() );
 
-		$params	= array();
+		$params	= [];
 		foreach( $method->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
 		$params	= implode( ", ", $params );
@@ -173,7 +173,7 @@ class Methods extends InterfaceInfo
 	{
 		$this->type	= "interface";
 
-		$list		= array();
+		$list		= [];
 		$methods	= $interface->getMethods();
 		if( !$methods )
 			return '';

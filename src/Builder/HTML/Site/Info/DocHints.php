@@ -59,11 +59,11 @@ class DocHints extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$list		= array();
-		$words		= $this->words[$this->key] ?? array();
+		$list		= [];
+		$words		= $this->words[$this->key] ?? [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
-				$classNotes	= array();
+				$classNotes	= [];
 				if( !preg_match( '/^.{20,}$/s', $class->getDescription() ) )
 					$classNotes[]	= HtmlElements::ListItem( $words['class.description.missing'] );
 				if( !preg_match( '/^\S+$/', $class->getCategory() ) )
@@ -93,7 +93,7 @@ class DocHints extends SiteInfoAbstraction
 				}
 
 				foreach( $class->getMethods() as $method ){
-					$methodNotes	= array();
+					$methodNotes	= [];
 					if( !preg_match( '/^\w+\s+\w+$/', $method->getDescription() ) )
 						$methodNotes[]	= HtmlElements::ListItem( $words['method.description.missing'] );
 					if( !$method->getReturn() )
@@ -102,7 +102,7 @@ class DocHints extends SiteInfoAbstraction
 					{
 						$methodNotes	= HtmlElements::unorderedList( $methodNotes, 2 );
 						$link			= HtmlElements::Link( 'class.'.$class->getId().".html#class_method_".$method->getName(), $method->getName(), 'method' );
-						$classNotes[]	= HtmlElements::ListItem( $link.$methodNotes, 2, array( 'class' => 'method' ) );
+						$classNotes[]	= HtmlElements::ListItem( $link.$methodNotes, 2, ['class' => 'method'] );
 					}
 				}
 
@@ -115,7 +115,7 @@ class DocHints extends SiteInfoAbstraction
 
 				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$count	= ' <small>('.count( $classNotes ).')</small>';
-				$item	= HtmlElements::ListItem( $link.$count.$notes, 0, array( 'class' => 'class' ) );
+				$item	= HtmlElements::ListItem( $link.$count.$notes, 0, ['class' => 'class'] );
 				$list[]	= $item;
 			}
 		}

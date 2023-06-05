@@ -71,7 +71,7 @@ class SourceCode extends HtmlBuilderAbstraction
 			"@^\s*#@",
 		);
 		$number		= 0;
-		$list		= array();
+		$list		= [];
 		$docOpen	= FALSE;
 		$lines		= explode( "\n", $file->getSourceCode() );
 		$lastEmpty	= FALSE;
@@ -111,7 +111,7 @@ class SourceCode extends HtmlBuilderAbstraction
 			if( $isClass )
 				$line	= preg_replace( "@^(.+function\s+)(\w+)\(@", '\\1<a name="source_class_method_\\2" href="#class_method_\\2">\\2</a>(', $line );
 			$line		= preg_replace( "@^(function\s+)(\w+)\(@", '\\1<a name="source_file_function_\\2" href="#file_function_\\2">\\2</a>(', $line );
-			$classes	= array();
+			$classes	= [];
 			$line		= preg_replace( '@^(\n\r?| *)$@', "&nbsp;", $line );
 			if( $hide )
 				$classes[]	= "source-line-unimportant source-line-hidden";

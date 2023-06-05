@@ -87,7 +87,7 @@ class Info extends HtmlBuilderAbstraction
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
-	protected function buildParamLicenses( $data, array $list = array() ): string
+	protected function buildParamLicenses( $data, array $list = [] ): string
 	{
 		if( !$data->getLicenses() )
 			return "";
@@ -98,7 +98,7 @@ class Info extends HtmlBuilderAbstraction
 				$class	= 'file-info-license';
 				$label	= HtmlElements::Link( $url, $label, $class );
 			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
+			$list[]	= $this->loadTemplate( 'file.info.param.item', ['value' => $label] );
 		}
 		return $this->buildParamList( $list, 'licenses' );
 	}
@@ -126,12 +126,12 @@ class Info extends HtmlBuilderAbstraction
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
-	protected function buildParamThrows( PhpFunction $data, array $list = array() ): string
+	protected function buildParamThrows( PhpFunction $data, array $list = [] ): string
 	{
 		foreach( $data->getThrows() as $throws ){
 			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
 			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $type] );
 		}
 		return $this->buildParamList( $list, 'throws' );
 	}

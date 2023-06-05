@@ -56,7 +56,7 @@ class Triggers extends SiteInfoAbstraction
 
 		$this->verboseCreation( 'triggers' );
 
-		$list		= array();
+		$list		= [];
 		foreach( $this->env->data->triggers as $triggers )
 			foreach( $triggers as $trigger ){
 			$class	= $this->env->getClassFromId( $trigger['classId'] );
@@ -64,7 +64,7 @@ class Triggers extends SiteInfoAbstraction
 			$method	= HtmlElements::Link( $uri, $trigger['method'], 'method' );
 			$class	= $this->getTypeMarkUp( $class );
 
-			$info	= array();
+			$info	= [];
 			$info[]	= HtmlElements::ListItem( 'Class: '.$class );
 			$info[]	= HtmlElements::ListItem( 'Method: '.$method );
 			$info	= HtmlElements::unorderedList( $info );
@@ -75,7 +75,7 @@ class Triggers extends SiteInfoAbstraction
 		}
 		$content	= HtmlTag::create( 'dl', implode( "\n", $list ) );
 
-		$words	= $this->env->words['triggers'] ?? array();
+		$words	= $this->env->words['triggers'] ?? [];
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'triggers',

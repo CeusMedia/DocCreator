@@ -50,10 +50,10 @@ class Package extends HtmlBuilderAbstraction
 	 */
 	private function buildClassList( PhpPackage $package ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $package->getClasses() as $className => $class ){
 			$type	= $this->getTypeMarkUp( $class );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "class" ) );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "class"] );
 			$list[$className]	= $item;
 		}
 		if( 0 === count( $list ) )
@@ -75,10 +75,10 @@ class Package extends HtmlBuilderAbstraction
 	 */
 	private function buildInterfaceList( PhpPackage $package ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $package->getInterfaces() as $interfaceName => $interface ){
 			$type	= $this->getTypeMarkUp( $interface );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "interface" ) );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "interface"] );
 			$list[$interfaceName]	= $item;
 		}
 		if( 0 === count( $list ) )
@@ -99,11 +99,11 @@ class Package extends HtmlBuilderAbstraction
 	 */
 	private function buildPackageList( PhpPackage $superPackage ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $superPackage->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "package" ) );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "package"] );
 			$list[$packageName]	= $item;
 		}
 		if( 0 === count( $list ) )

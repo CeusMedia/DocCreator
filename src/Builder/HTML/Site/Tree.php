@@ -85,7 +85,7 @@ class Tree extends HtmlBuilderAbstraction
      */
 	protected function convertTreeToTreeMenuRecursive( PhpCategory $root, TreeMenuCollection $menu )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $root->getPackages() as $package ){
 			$prefix	= '';
 			$class	= '';
@@ -108,7 +108,7 @@ class Tree extends HtmlBuilderAbstraction
 		foreach( $list as $item )
 			$menu->addChild( $item );
 
-		$list		= array();
+		$list		= [];
 		foreach( $root->getClasses() as $class ){
 			$parts	= explode( "_", $class->getName() );
 			$name	= array_pop( $parts );
@@ -121,7 +121,7 @@ class Tree extends HtmlBuilderAbstraction
 		foreach( $list as $item )
 			$menu->addChild( $item );
 
-		$list	= array();
+		$list	= [];
 		foreach( $root->getInterfaces() as $interface ){
 			$parts	= explode( "_", $interface->getName() );
 			$name	= array_pop( $parts );

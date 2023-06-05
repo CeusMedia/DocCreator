@@ -50,7 +50,7 @@ class Functions extends FileInfo
 	 */
 	private function buildFunctionEntry( PhpFunction $function ): string
 	{
-		$attributes	= array();
+		$attributes	= [];
 
 		$attributes['name']			= $this->buildParamStringList( $function->getName(), 'name' );
 		$attributes['description']	= $this->buildParamStringList( $function->getDescription(), 'description' );
@@ -69,7 +69,7 @@ class Functions extends FileInfo
 		$attributes['return']		= $this->buildParamReturn( $function );
 		$attributes['throws']		= $this->buildParamThrows( $function );
 
-		$params	= array();
+		$params	= [];
 		foreach( $function->getParameters() as $parameter ){
 			$signature	= $this->getParameterMarkUp( $parameter );
 			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
@@ -84,7 +84,7 @@ class Functions extends FileInfo
 		$return			= $this->getTypeMarkUp( $function->getReturn() ? $function->getReturn()->getType() : "void" );
 		$functionName	= HtmlElements::Link( "#source_file_function_".$function->getName(), $function->getName() );
 
-		$params	= array();
+		$params	= [];
 		foreach( $function->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
 		$params	= implode( ", ", $params );
@@ -111,7 +111,7 @@ class Functions extends FileInfo
 	public function buildView( PhpFile $file ): string
 	{
 		$this->type	= "file";
-		$list		= array();
+		$list		= [];
 		$functions	= $file->getFunctions();
 		if( !$functions )
 			return "";

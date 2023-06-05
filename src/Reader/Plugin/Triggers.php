@@ -62,13 +62,13 @@ class Triggers extends Abstraction
 					preg_match_all( '@/\*\*.+\*/@Us', $body, $matches );
 					foreach( $matches[0] as $nr => $match ){
 						$match	= preg_replace( '@\n\s*\*\s+@Us', ' ', $match );
-						$parts	= array();
+						$parts	= [];
 						preg_match_all( '/^\/\*+\s+@trigger\s+(\w+)\s+(.+)?\s*\*+\/$/Us', $match, $parts );
 
 						if( empty( $parts[1] ) )
 							continue;
 						if( !isset( $data->triggers[$parts[1][0]] ) )
-							$data->triggers[$parts[1][0]]	= array();
+							$data->triggers[$parts[1][0]]	= [];
 						$data->triggers[$parts[1][0]][]	= array(
 							'fileId'	=> $file->getId(),
 							'classId'	=> $class->getId(),

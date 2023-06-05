@@ -166,7 +166,7 @@ class Environment
 	 */
 	public function getBuilderOptions(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->config->getBuilderOptions( $this->builder ) as $option )
 			$list[$option->getAttribute( 'name' )]	= trim( $option );
 		return $list;
@@ -179,7 +179,7 @@ class Environment
 	 */
 	public function getBuilderPlugins(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->config->getBuilderPlugins( $this->builder ) as $plugin )
 			if( trim( $plugin ) )
 				$list[trim( $plugin )]	= $plugin->getAttributes();
@@ -419,7 +419,7 @@ class Environment
 
 	private function readPackageStructure(): void
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $className => $class ){
 				$category	= trim( $class->getCategory() ) ? trim( $class->getCategory() ) : 'default';

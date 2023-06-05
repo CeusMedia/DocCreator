@@ -52,7 +52,7 @@ class Methods extends ClassInfo
 	{
 		$this->type	= "class";
 
-		$list		= array();
+		$list		= [];
 		$methods	= $class->getMethods();
 		if( !$methods )
 			return "";
@@ -78,12 +78,12 @@ class Methods extends ClassInfo
 	 *	@param		array			$got			...
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( PhpClass $class, array $got = array() ): string
+	private function buildInheritedMethodList( PhpClass $class, array $got = [] ): string
 	{
-		$extended	= array();
+		$extended	= [];
 		$classes	= $this->getSuperClasses( $class );
 		foreach( $classes as $nr => $class ){
-			$list		= array();
+			$list		= [];
 			if( !is_object( $class ) )
 				continue;
 			foreach( $class->getMethods() as $methodName => $methodData ){
@@ -99,7 +99,7 @@ class Methods extends ClassInfo
 				$link		= HtmlElements::Link( $uri, $methodName, 'method' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
 				$got[]		= $methodName;
-				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
+				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, ['class' => 'method'] );
 			}
 			if( $list ){
 				ksort( $list );
@@ -130,10 +130,10 @@ class Methods extends ClassInfo
 	 *	@return		string
 	 */
 	private function buildMethodEntry( PhpClass $class, PhpMethod $method ){
-		$attributes	= array();
+		$attributes	= [];
 
 		$attributes['name']			= $this->buildParamStringList( $method->getName(), 'name' );
-		$attributes['description']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $method->getDescription() ), 'description' );
+		$attributes['description']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $method->getDescription() ), 'description' );
 
 		$attributes['abstract']		= $this->buildParamList( $method->isAbstract() ? " ": "", 'abstract' );
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
@@ -145,7 +145,7 @@ class Methods extends ClassInfo
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
-		$attributes['copyright']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $method->getCopyright() ), 'copyright' );
+		$attributes['copyright']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $method->getCopyright() ), 'copyright' );
 		$attributes['deprecated']	= $this->buildParamStringList( $method->getDeprecations(), 'deprecated' );
 		$attributes['todo']			= $this->buildParamStringList( $method->getTodos(), 'todo' );
 
@@ -158,7 +158,7 @@ class Methods extends ClassInfo
 		$attributes['throws']		= $this->buildParamThrows( $method );
 //		$attributes['trigger']		= $this->buildParamTriggers( $method->getTriggers() );
 
-		$params	= array();
+		$params	= [];
 		foreach( $method->getParameters() as $parameter ){
 			$signature	= $this->getParameterMarkUp( $parameter );
 			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
@@ -174,7 +174,7 @@ class Methods extends ClassInfo
 		$methodLink	= HtmlElements::Link( $uri, $method->getName() );
 		$methodLink	= '<a href="'.$uri.'" onclick="jumpToLine('.$method->getLine().')">'.$method->getName().'</a>';
 
-		$params	= array();
+		$params	= [];
 		foreach( $method->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
 		$params	= implode( ", ", $params );

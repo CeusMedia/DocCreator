@@ -100,7 +100,7 @@ class Info extends InfoInterface
 	 */
 	protected function getSuperClasses( PhpClass $class ): array
 	{
-		$list	= array();																			//  prepare empty list
+		$list	= [];																			//  prepare empty list
 		while( $superClass = $class->getExtendedClass() ){											//  while internal class has superclass
 			$list[]	= $superClass;																	//  set reference to found superclass
 			if( !is_object( $superClass ) )															//  found superclass is not resolvable
@@ -120,8 +120,8 @@ class Info extends InfoInterface
 		$tree	= "";
 		foreach( $classes as $className ){
 			$className	= $this->getTypeMarkUp( $className ).$tree;
-			$item	= HtmlElements::ListItem( $className, 0, array( 'class' => 'class' ) );
-			$tree	= HtmlElements::unorderedList( array( $item ) );
+			$item	= HtmlElements::ListItem( $className, 0, ['class' => 'class'] );
+			$tree	= HtmlElements::unorderedList( [$item] );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );
 	}

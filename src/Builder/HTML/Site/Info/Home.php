@@ -58,7 +58,7 @@ class Home extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		if( !parent::createSiteByFile() ){
-			$words	= $this->env->words[$this->key] ?? array();
+			$words	= $this->env->words[$this->key] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'version'	=> $this->env->builder->title->getAttribute("version"),

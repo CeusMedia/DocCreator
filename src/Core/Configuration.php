@@ -122,7 +122,7 @@ class Configuration
 	public function getBuilderPlugins( XmlElement $builder ): XmlElement
 	{
 		if( !isset( $builder->plugin ) )
-			return array();
+			return [];
 		return $builder->plugin;
 	}
 
@@ -134,7 +134,7 @@ class Configuration
 	public function getBuilders(): XmlElement
 	{
 		if( !isset( $this->data->builder ) )
-			return array();
+			return [];
 		return $this->data->builder;
 	}
 
@@ -199,7 +199,7 @@ class Configuration
 	 */
 	public function getProjectExtensions( XmlElement $project ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $project->extension as $extension )
 			$list[]	= $extension->getValue();
 		return $list;
@@ -229,7 +229,7 @@ class Configuration
 	 */
 	public function getProjectIgnoreFiles( XmlElement $project ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "file" )
 				$list[]	= $ignore->getValue();
@@ -244,7 +244,7 @@ class Configuration
 	 */
 	public function getProjectIgnoreFolders( XmlElement $project ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "folder" )
 				$list[]	= $ignore->getValue();
@@ -271,7 +271,7 @@ class Configuration
 	public function getProjects(): XmlElement
 	{
 		if( !isset( $this->data->project ) )
-			return array();
+			return [];
 		return $this->data->project;
 	}
 
@@ -282,7 +282,7 @@ class Configuration
 	 */
 	public function getReaderPlugins(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->data->reader->plugin as $plugin )
 			$list[]	= $plugin->getValue();
 		return $list;

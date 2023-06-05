@@ -50,10 +50,10 @@ class Category extends HtmlBuilderAbstraction
 	 */
 	private function buildClassList( PhpCategory $category ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $category->getClasses() as $className => $class ){
 			$type	= $this->getTypeMarkUp( $class );
-			$list[$className]	= HtmlElements::ListItem( $type, 0, array( 'class' => "file" ) );
+			$list[$className]	= HtmlElements::ListItem( $type, 0, ['class' => "file"] );
 		}
 		if( 0 === count( $list ) )
 			return '';
@@ -73,11 +73,11 @@ class Category extends HtmlBuilderAbstraction
 	 */
 	private function buildPackageList( PhpCategory $category ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $category->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "package" ) );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "package"] );
 			$list[$packageName]	= $item;
 		}
 		ksort( $list );

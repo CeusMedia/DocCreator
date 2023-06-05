@@ -92,7 +92,7 @@ class Builder extends HtmlBuilderAbstraction
 	 */
 	public function getFunctionList( PhpFile $file ): array
 	{
-		$list		= array();
+		$list		= [];
 		$functions	= $file->getFunctions();
 		ksort( $functions );
 		foreach( $functions as $function )

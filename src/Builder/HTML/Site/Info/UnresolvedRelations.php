@@ -49,10 +49,10 @@ class UnresolvedRelations extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$classList	= array();
+		$classList	= [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
-				$list	= array();
+				$list	= [];
 				$this->checkUnresolvedAndAddListItemIfNot( $list, $class->getExtendedClass(), 'extends: ' );
 				foreach( $class->getExtendingClasses() as $extendingClass )
 					$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingClass, 'extendedBy: ' );
@@ -60,11 +60,11 @@ class UnresolvedRelations extends SiteInfoAbstraction
 					$url	= 'class.'.$class->getId().'.html';
 					$link	= HtmlElements::Link( $url, $class->getName(), 'class' );
 					$list	= HtmlElements::unorderedList( $list, 1 );
-					$classList[]	= HtmlElements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+					$classList[]	= HtmlElements::ListItem( $link.$list, 0, ['class' => 'class'] );
 				}
 			}
 			foreach( $file->getInterfaces() as $interface ){
-				$list	= array();
+				$list	= [];
 				foreach( $interface->getExtendingInterfaces() as $extendingInterface )
 					$this->checkUnresolvedAndAddListItemIfNot( $list, $extendingInterface, 'extendedBy: ' );
 				foreach( $interface->getImplementingClasses() as $implementingClass )
@@ -73,14 +73,14 @@ class UnresolvedRelations extends SiteInfoAbstraction
 					$url	= 'interface.'.$interface->getId().'.html';
 					$link	= HtmlElements::Link( $url, $interface->getName(), 'interface' );
 					$list	= HtmlElements::unorderedList( $list, 1 );
-					$classList[]	= HtmlElements::ListItem( $link.$list, 0, array( 'class' => 'interface' ) );
+					$classList[]	= HtmlElements::ListItem( $link.$list, 0, ['class' => 'interface'] );
 				}
 			}
 		}
 		if( $this->count ){
 			$this->verboseCreation( 'unresolvedRelations' );
 
-			$words	= $this->env->words['unresolvedRelations'] ?? array();
+			$words	= $this->env->words['unresolvedRelations'] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unresolvedRelations',

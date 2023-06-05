@@ -126,7 +126,7 @@ class Reader
 				throw new RuntimeException( 'Source path "'.$pathSource.'" is not existing' );
 
 			$lister		= new PhpFileLister( $pathSource, $extensions, $ignoreFolders, $ignoreFiles, FALSE );
-			$list[$pathSource]	= array();
+			$list[$pathSource]	= [];
 
 			foreach( $lister as $entry ){
 #				if( !preg_match( "@^[A-Z]@", $entry->getFilename() ) )
@@ -240,7 +240,7 @@ class Reader
 			if( !class_exists( $className ) )
 				throw new RuntimeException( 'Invalid reader plugin "'.$pluginName.'"' );
 			$reflection	= new ReflectionClass( $className );
-			$plugin		= $reflection->newInstanceArgs( array( $this->env, $this->verbose ) );
+			$plugin		= $reflection->newInstanceArgs( [$this->env, $this->verbose] );
 			$this->plugins[$pluginName]	= $plugin;
 		}
 	}

@@ -48,9 +48,9 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	protected $pathTarget	= NULL;
 	protected $linkList		= NULL;
 	protected string $linkTarget	= 'content';
-	protected array $fileNames		= array();
+	protected array $fileNames		= [];
 	protected string $key			= '';
-	protected array $options		= array();
+	protected array $options		= [];
 
 	/**
 	 *	Constructor.
@@ -60,7 +60,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	@param		array			$options	...
 	 *	@return		void
 	 */
-	public function __construct( Environment $env, string $type = NULL, array &$linkList, array $options = array() )
+	public function __construct( Environment $env, string $type = NULL, array &$linkList, array $options = [] )
 	{
 		parent::__construct( $env, $type );
 		$this->linkList	=& $linkList;
@@ -92,7 +92,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 		if( !$this->key )
 			throw new RuntimeException( 'No key set' );
 
-		$list		= array();
+		$list		= [];
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
 		if( !$pathDocs )
 			return 0;
@@ -119,7 +119,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 		}
 		if( $list ){
 			$this->verboseCreation( $this->key );
-			$words	= $this->env->words[$this->key] ?? array();
+			$words	= $this->env->words[$this->key] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'words'		=> $words,
