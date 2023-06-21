@@ -29,6 +29,7 @@ namespace CeusMedia\DocCreator\Core;
 
 use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use Exception;
 use RuntimeException;
 
 /**
@@ -43,7 +44,7 @@ use RuntimeException;
 class Configuration
 {
 	/**	@var		XmlElement		$data			XML root node of config XML file */
-	public $data;
+	public XmlElement $data;
 
 	/**
 	 *	Constructor.
@@ -51,6 +52,7 @@ class Configuration
 	 *	@param		string			$fileName		Name of Configuration XML File
 	 *	@return		void
 	 *	@throws		RuntimeException
+	 *	@throws		Exception
 	 */
 	public function __construct( string $fileName )
 	{
@@ -61,29 +63,31 @@ class Configuration
 	/**
 	 *	Returns Name of Archive File Name.
 	 *	@access		public
-	 *	@return		string			Relative Name of Archive File
+	 *	@return		string|NULL			Relative Name of Archive File
 	 */
-	public function getArchiveFileName(): string
+	public function getArchiveFileName(): ?string
 	{
 		foreach( $this->data->creator->file as $file )
 			if( $file->getAttribute( 'name' ) == "archive" )
 				return $this->getTempPath()."/".$file->getValue();
+		return NULL;
 	}
 
 	/**
 	 *	Returns Path to Documents to read for a given Builder Node.
 	 *	@access		public
 	 *	@param		XmlElement		$builder		Builder Node from XML File
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getBuilderDocumentsPath( XmlElement $builder ): string
+	public function getBuilderDocumentsPath( XmlElement $builder ): ?string
 	{
 		foreach( $builder->path as $path )
 			if( $path->getAttribute( 'type' ) == "documents" )
-				return preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
+				return preg_replace( "@^\[/path/to/DocCreator/\]@", "", $path->getValue() );
+		return NULL;
 	}
 
-	public function getBuilderLogo( XmlElement $builder )
+	public function getBuilderLogo( XmlElement $builder ): object
 	{
 		$logo		= (object) [
 			'source'	=> NULL,
@@ -104,67 +108,75 @@ class Configuration
 	 *	Returns XML Element with one or more Builder Option Nodes of a give Builder Node.
 	 *	@access		public
 	 *	@param		XmlElement		$builder		Builder Node from XML File
-	 *	@return		XmlElement
+	 *	@return		array<XmlElement>
 	 */
-	public function getBuilderOptions( XmlElement $builder ): XmlElement
+	public function getBuilderOptions( XmlElement $builder ): array
 	{
-		if( !isset( $builder->option ) )
-			return [];
-		return $builder->option;
+		$list	= [];
+		foreach( $builder->children() as $child )
+			if( 'option' === $child->getName() )
+				$list[]	= $child;
+		return $list;
 	}
 
 	/**
 	 *	Returns XML Element with one or more Builder Plugin Nodes of a give Builder Node.
 	 *	@access		public
 	 *	@param		XmlElement		$builder		Builder Node from XML File
-	 *	@return		XmlElement
+	 *	@return		array<XmlElement>
 	 */
-	public function getBuilderPlugins( XmlElement $builder ): XmlElement
+	public function getBuilderPlugins( XmlElement $builder ): array
 	{
-		if( !isset( $builder->plugin ) )
-			return [];
-		return $builder->plugin;
+		$list	= [];
+		foreach( $builder->children() as $child )
+			if( 'plugin' === $child->getName() )
+				$list[]	= $child;
+		return $list;
 	}
 
 	/**
 	 *	Returns XML Element with one or more Builder Nodes.
 	 *	@access		public
-	 *	@return		XmlElement
+	 *	@return		array<XmlElement>
 	 */
-	public function getBuilders(): XmlElement
+	public function getBuilders(): array
 	{
-		if( !isset( $this->data->builder ) )
-			return [];
-		return $this->data->builder;
+		$list	= [];
+		foreach( $this->data->children() as $child )
+			if( 'builder' === $child->getName() )
+				$list[]	= $child;
+		return $list;
 	}
 
 	/**
 	 *	Returns Path to read created Files within for a given Builder Node.
 	 *	@access		public
 	 *	@param		XmlElement		$builder		Builder Node from XML File
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getBuilderTargetPath( XmlElement $builder ): string
+	public function getBuilderTargetPath( XmlElement $builder ): ?string
 	{
 		foreach( $builder->path as $path ){
 			if( $path->getAttribute( 'type' ) == "target" ){
 //				remark("getBuilderTargetPath: ".$path->getValue());
-				$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $path->getValue() );
+				$path	= preg_replace( "@^\[/path/to/DocCreator/\]@", "", $path->getValue() );
 				return str_replace( array( "[", "]" ), "", $path );
 			}
 		}
+		return NULL;
 	}
 
 	/**
 	 *	Returns File URI of Error Log.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getErrorLogFileName(): string
+	public function getErrorLogFileName(): ?string
 	{
 		foreach( $this->data->creator->file as $file )
 			if( $file->getAttribute( 'name' ) == "error" )
 				return $this->getLogPath()."/".$file->getValue();
+		return NULL;
 	}
 
 	/**
@@ -259,20 +271,22 @@ class Configuration
 	 */
 	public function getProjectPath( XmlElement $project ): string
 	{
-		$path	= preg_replace( "@^\[/path/to/DocCreator\/\]@", "", $project->path->getValue() );
+		$path	= preg_replace( "@^\[/path/to/DocCreator/\]@", "", $project->path->getValue() );
 		return str_replace( array( "[", "]" ), "", $path );
 	}
 
 	/**
 	 *	Returns XML Element with one or more Project Nodes.
 	 *	@access		public
-	 *	@return		XmlElement
+	 *	@return		array<XmlElement>
 	 */
-	public function getProjects(): XmlElement
+	public function getProjects(): array
 	{
-		if( !isset( $this->data->project ) )
-			return [];
-		return $this->data->project;
+		$list	= [];
+		foreach( $this->data->children() as $child )
+			if( 'project' === $child->getName() )
+				$list[]	= $child;
+		return $list;
 	}
 
 	/**
@@ -288,11 +302,12 @@ class Configuration
 		return $list;
 	}
 
-	public function getSerialFileName(): string
+	public function getSerialFileName(): ?string
 	{
 		foreach( $this->data->creator->file as $file )
 			if( $file->getAttribute( 'name' ) == "serial" )
 				return $this->getTempPath()."/".$file->getValue();
+		return NULL;
 	}
 
 	public function getSkip( string $type ): ?bool
@@ -343,25 +358,24 @@ class Configuration
 
 	public function getVerbose( ?string $type = NULL ): ?bool
 	{
-		$type	= $type ? $type : "general";
+		$type	= $type ?: "general";
 		$node	= $this->data->creator->verbose;
 		if( !$node->hasAttribute( $type ) )
 			return NULL;
 		$value	= $node->getAttribute( $type );
-		switch( strtoupper( $value ) )
-		{
+		switch( strtoupper( $value ) ){
 			case 'FALSE':	return FALSE;
 			case 'TRUE':	return TRUE;
 		}
 		return $value;
 	}
 
-	public function setBuilderTargetPath( string $path = NULL )
+	public function setBuilderTargetPath( string $path = NULL ): self
 	{
 //		remark( "setBuilderTargetPath: ".$path );
 		foreach( $this->data->builder as $builder ){
 			foreach( $builder->path as $builderPath ){
-				$value	= (string) $builderPath->getValue();
+				$value	= $builderPath->getValue();
 				if( $path === NULL )
 					$value = str_replace( array( "[", "]" ), "", $value );
 				else if( preg_match( "/\[.*\]/", $value ) )
@@ -371,9 +385,10 @@ class Configuration
 				$builderPath->setValue( $value );
 			}
 		}
+		return $this;
 	}
 
-	public function setProjectBasePath( string $path = NULL )
+	public function setProjectBasePath( string $path = NULL ): self
 	{
 		foreach( $this->data->project as $project ){
 			$value	= (string) $project->path;
@@ -385,42 +400,45 @@ class Configuration
 				$value	= $path;
 			$project->path->setValue( $value );
 		}
+		return $this;
 	}
 
-	public function setSkip( string $type, bool $value )
+	public function setSkip( string $type, bool $value ): self
 	{
-		$value	= $value ? TRUE : FALSE;
 		$node	= $this->data->creator->skip;
 		$node[$type]	= $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets number of maximum seconds of execution.
 	 *	@access		public
 	 *	@param		int			$seconds		Number of seconds
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setTimeLimit( int $seconds )
+	public function setTimeLimit( int $seconds ): self
 	{
-		return $this->data->creator->setAttribute( 'timelimit', (int) $seconds );
+		$this->data->creator->setAttribute( 'timelimit', $seconds );
+		return $this;
 	}
 
 	/**
 	 *	Switches display of exception trace on error.
 	 *	@access		public
-	 *	@param		int			$boolean		Flag: show exception trace on error
-	 *	@return		void
+	 *	@param		bool		$boolean		Flag: show exception trace on error
+	 *	@return		self
 	 */
-	public function setTrace( bool $boolean )
+	public function setTrace( bool $boolean ): self
 	{
-		return $this->setVerbose( 'trace', (boolean) $boolean );
+		$this->setVerbose( 'trace', $boolean );
+		return $this;
 	}
 
-	public function setVerbose( string $type, bool $value )
+	public function setVerbose( string $type, bool $value ): self
 	{
-		$type	= $type ? $type : "general";
-		$value	= $value ? TRUE : FALSE;
+		$type	= $type ?: "general";
 		$node	= $this->data->creator->verbose;
 		$node[$type]	= $value;
+		return $this;
 	}
 }
