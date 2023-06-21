@@ -46,7 +46,7 @@
     "dev:update-quiet": "composer update --quiet",
     "dev:phpunit": [
       "@dev:install-quiet",
-      "php vendor/bin/phpunit --configuration util/phpunit.xml --testsuite units"
+      "php vendor/bin/phpunit --configuration util/phpunit10.xml --testsuite default"
     ],
     "dev:phpstan": [
       "@dev:install-quiet",
