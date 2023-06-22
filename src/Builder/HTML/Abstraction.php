@@ -144,7 +144,7 @@ abstract class Abstraction
 	{
 		$package		= $this->getPackageFromName( $packageName, $categoryName );
 		if( $package ){
-			$packageUrl		= $this->getUrlFromPackage( $package );
+			$packageUrl		= static::getUrlFromPackage( $package );
 			$packageName	= HtmlElements::Link( $packageUrl, $packageName, 'package' );
 		}
 		return $packageName;
@@ -259,7 +259,7 @@ abstract class Abstraction
 		if( $data->getDescription() )
 			$name	= HtmlElements::Acronym( $name, $data->getDescription() );
 
-		$type		= $data->getCast() ? $data->getCast() : ( $data->getType() ? $data->getType() : "unknown" );
+		$type		= $data->getCast() ?: ( $data->getType() ?: "unknown" );
 		$type		= $this->getTypeMarkUp( $type );
 		$default	= $data->getDefault() ? '<span class="default"> = '.$data->getDefault().'</span>' : "";
 		$code		= $type.' '.$name.$default;
@@ -287,11 +287,11 @@ abstract class Abstraction
 		if( is_object( $type ) ){
 			switch( get_class( $type ) ){
 				case PhpPackage::class:
-					$url	= $this->getUrlFromPackage( $type );
+					$url	= static::getUrlFromPackage( $type );
 					$label	= HtmlElements::Link( $url, $type->getLabel(), 'package' );
 					break;
 				case PhpClass::class:
-					$url	= $this->getUrlFromClass( $type );
+					$url	= static::getUrlFromClass( $type );
 					$label	= HtmlElements::Link( $url, $type->getName(), 'class' );
 					break;
 				case PhpInterface::class:
@@ -351,7 +351,7 @@ abstract class Abstraction
 	{
 		try{
 			$class	= $this->env->data->getClassFromClassName( $className, $relatedClass );
-			return $this->getUrlFromClass( $class );
+			return static::getUrlFromClass( $class );
 		}
 		catch( \Exception $e ){
 			remark( "Builder::getUrlFromClassName: ".$e->getMessage() );

@@ -403,8 +403,8 @@ class Environment
 		$list	= [];
 		foreach( $this->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
-				$category	= trim( $class->getCategory() ) ? trim( $class->getCategory() ) : 'default';
-				$package	= trim( $class->getPackage() ) ? trim( $class->getPackage() ) : 'default';
+				$category	= trim( $class->getCategory() ) ?: 'default';
+				$package	= trim( $class->getPackage() ) ?: 'default';
 				$packageId	= $category."-".$package;
 				$list[$packageId]	= $this->tree->getPackage( $category."_".$package );
 			}

@@ -171,7 +171,7 @@ class Reader
 				$clock	= new Clock();													//  setup Clock
 				$parser	= new PhpParser();												//  setup Parser
 
-				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );		//  parse File and return Data Object
+				$file	= $parser->parseFile( $entry->getPathname() );		//  parse File and return Data Object
 				$file->errors			= ob_get_clean();								//  store Parser Errors
 				$file->time['parse']	= $clock->stop( 6, 0 );							//  store time needed
 

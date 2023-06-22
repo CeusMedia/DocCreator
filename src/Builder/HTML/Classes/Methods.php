@@ -139,7 +139,7 @@ class Methods extends ClassInfo
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
 		$attributes['static']		= $this->buildParamList( $method->isStatic() ? " " : "", 'static' );
 
-		$accessType	= $method->getAccess() ? $method->getAccess() : 'unknown';
+		$accessType	= $method->getAccess() ?: 'unknown';
 		$access		= $this->buildAccessLabel( $accessType );
 
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
@@ -181,7 +181,7 @@ class Methods extends ClassInfo
 		if( $params	)
 			$params	= " ".$params." ";
 
-		$accessType	= $method->getAccess() ? $method->getAccess() : 'public';
+		$accessType	= $method->getAccess() ?: 'public';
 
 		$data	= array(
 			'methodName'	=> $method->getName(),

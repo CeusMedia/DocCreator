@@ -106,7 +106,7 @@ class Members extends ClassInfo
 		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
 
 		$attributes	= [];
-		$accessType	= $member->getAccess() ? $member->getAccess() : 'unknown';
+		$accessType	= $member->getAccess() ?: 'unknown';
 		$access		= $this->buildAccessLabel( $accessType );
 		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
@@ -114,7 +114,7 @@ class Members extends ClassInfo
 
 		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
 
-		$accessType	= $member->getAccess() ? $member->getAccess() : 'public';
+		$accessType	= $member->getAccess() ?: 'public';
 		$data	= array(
 			'memberName'	=> $memberName,
 			'memberTitle'	=> '$'.$memberName,
