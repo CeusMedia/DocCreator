@@ -58,7 +58,7 @@ class Info extends InfoInterface
 			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $class->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $class->getSince(), 'since' ),				//  since version
-			'copyright'		=> $this->buildParamStringList( $class->getCopyright(), 'copyright' ),		//  copyright notes
+			'copyright'		=> $this->buildParamStringList( $class->getCopyrights(), 'copyright' ),		//  copyright notes
 			'authors'		=> $this->buildParamAuthors( $class ),										//  authors
 			'link'			=> $this->buildParamLinkedList( $class->getLinks(), 'link' ),				//  links
 			'see'			=> $this->buildParamLinkedList( $class->getSees(), 'see' ),					//  see-also-references
@@ -66,8 +66,9 @@ class Info extends InfoInterface
 			'deprecated'	=> $this->buildParamStringList( $class->getDeprecations(), 'deprecated' ),	//  deprecation notes
 			'todo'			=> $this->buildParamStringList( $class->getTodos(), 'todo' ),				//  todo notes
 			'abstract'		=> $this->buildParamList( $class->isAbstract() ? " " : "", 'abstract' ),
-			'final'			=> $this->buildParamList( $class->isFinal() ? " " : "", 'final' ),
 		);
+		if( $class instanceof PhpClass )
+			$attributeData['final']	= $this->buildParamList( $class->isFinal() ? " " : "", 'final' );
 		$relationData	= array(
 			'tree'			=> $this->buildRelationTree( $class ),
 			'extends'		=> $this->buildParamClassList( $class, $class->getExtendedClass(), 'extends' ),				//  uses
@@ -95,10 +96,10 @@ class Info extends InfoInterface
 	/**
 	 *	Returns a list of backwards resolved superclasses, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		PhpClass		$class		Class to get list of superclasses for
+	 *	@param		PhpInterface	$class		Class to get list of superclasses for
 	 *	@return		array			List of superclasses
 	 */
-	protected function getSuperClasses( PhpClass $class ): array
+	protected function getSuperClasses( PhpInterface $class ): array
 	{
 		$list	= [];																			//  prepare empty list
 		while( $superClass = $class->getExtendedClass() ){											//  while internal class has superclass
@@ -110,7 +111,6 @@ class Info extends InfoInterface
 		return $list;																				//  return list of superclasses
 	}
 
-	/** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
 	private function buildRelationTree( PhpInterface $class ): string
 	{
 		$classes = $this->getSuperClasses( $class );

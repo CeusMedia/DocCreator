@@ -61,7 +61,7 @@ class Info extends HtmlBuilderAbstraction
 			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $file->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $file->getSince(), 'since' ),				//  since version
-			'copyright'		=> $this->buildParamStringList( $file->getCopyright(), 'copyright' ),		//  copyright notes
+			'copyright'		=> $this->buildParamStringList( $file->getCopyrights(), 'copyright' ),		//  copyright notes
 			'authors'		=> $this->buildParamAuthors( $file ),										//  authors
 			'link'			=> $this->buildParamLinkedList( $file->getLinks(), 'link' ),				//  links
 			'see'			=> $this->buildParamLinkedList( $file->getSees(), 'see' ),					//  see-also-references
