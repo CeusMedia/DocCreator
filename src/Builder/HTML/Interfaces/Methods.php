@@ -115,7 +115,7 @@ class Methods extends InterfaceInfo
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
-		$attributes['copyright']	= $this->buildParamStringList( $method->getCopyright(), 'copyright' );
+		$attributes['copyright']	= $this->buildParamStringList( $method->getCopyrights(), 'copyright' );
 		$attributes['deprecated']	= $this->buildParamStringList( $method->getDeprecations(), 'deprecated' );
 		$attributes['todo']			= $this->buildParamStringList( $method->getTodos(), 'todo' );
 

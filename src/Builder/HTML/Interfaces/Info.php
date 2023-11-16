@@ -57,7 +57,7 @@ class Info extends HtmlBuilderAbstraction
 			'package'		=> $this->buildParamStringList( $package, 'package' ),							//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $interface->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $interface->getSince(), 'since' ),				//  since version
-			'copyright'		=> $this->buildParamStringList( $interface->getCopyright(), 'copyright' ),		//  copyright notes
+			'copyright'		=> $this->buildParamStringList( $interface->getCopyrights(), 'copyright' ),		//  copyright notes
 			'authors'		=> $this->buildParamAuthors( $interface ),										//  authors
 			'link'			=> $this->buildParamLinkedList( $interface->getLinks(), 'link' ),				//  links
 			'see'			=> $this->buildParamLinkedList( $interface->getSees(), 'see' ),					//  see-also-references
