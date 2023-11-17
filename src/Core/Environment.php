@@ -142,9 +142,9 @@ class Environment
 	/**
 	 *	Returns Path to read Info File from for currently selected Builder.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getBuilderDocumentsPath(): string
+	public function getBuilderDocumentsPath(): ?string
 	{
 		return $this->config->getBuilderDocumentsPath( $this->builder );
 	}
