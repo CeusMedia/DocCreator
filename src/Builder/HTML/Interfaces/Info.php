@@ -44,7 +44,7 @@ use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
  */
 class Info extends HtmlBuilderAbstraction
 {
-	public function buildView( PhpInterface $interface ): string
+	public function buildView( object $interface ): string
 	{
 		$this->type		= 'interface';
 

@@ -52,20 +52,40 @@ class MethodOrder extends SiteInfoAbstraction
 		$list		= [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
-				$methods	= array_keys( $class->getMethods( FALSE ) );
-				$ordered	= $methods;
+				$actual		= [];
+				$ordered	= [];
+				foreach( $class->getMethods( FALSE ) as $methodName => $method ){
+					switch( $method->getAccess() ){
+						case 'protected':
+							$prefix	= '_2';
+							break;
+						case 'private':
+							$prefix	= '_3';
+							break;
+						case 'public':
+						default:
+							$prefix	= '_1';
+							break;
+					}
+					$prefix	.= $method->isStatic() ? '_1|' : '_2|';
+					$ordered[]	= $prefix.$methodName;
+					$actual[]	= $methodName;
+				}
 				natCaseSort( $ordered );
-				if( array_values( $methods ) == array_values( $ordered ) )
+				$ordered	= array_map( static function( string $item ): string{
+					return substr( $item, 5 );
+				}, $ordered );
+				if( array_values( $actual ) == array_values( $ordered ) )
 					continue;
 				do{
-					$line1 = array_shift( $methods );
+					$line1 = array_shift( $actual );
 					$line2 = array_shift( $ordered );
 					if( $line1 != $line2 )
 						break;
 				}
-				while( count( $methods ) && count( $ordered ) );
+				while( count( $actual ) && count( $ordered ) );
 				$count++;
-				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
+				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getNamespacedName(), 'class' );
 				$label	= $link.": ".$line1." | ".$line2;
 				$list[$class->getName()]	= HtmlElements::ListItem( $label, 0, ['class' => 'class'] );
 			}

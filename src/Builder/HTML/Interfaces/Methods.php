@@ -169,7 +169,7 @@ class Methods extends InterfaceInfo
 	 *	@param		PhpInterface		$interface			Interface Object
 	 *	@return		string
 	 */
-	public function buildView( PhpInterface $interface ): string
+	public function buildView( object $interface ): string
 	{
 		$this->type	= "interface";
 

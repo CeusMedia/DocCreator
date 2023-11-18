@@ -43,7 +43,7 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
  */
 class Info extends InfoInterface
 {
-	public function buildView( PhpInterface $class ): string
+	public function buildView( object $class ): string
 	{
 		$this->type		= 'class';
 
@@ -75,7 +75,6 @@ class Info extends InfoInterface
 			'uses'			=> $this->buildParamClassList( $class, $class->getUsedClasses(), 'uses' ),					//  uses
 			'implements'	=> $this->buildParamClassList( $class, $class->getImplementedInterfaces(), 'implements' ),	//  implements
 			'extendedBy'	=> $this->buildParamClassList( $class, $class->getExtendingClasses(), 'extendedBy' ),		//  extended by classes
-			'implementedBy'	=> $this->buildParamClassList( $class, $class->getImplementingClasses(), 'implementedBy' ),	//  implemented by classes
 			'usedBy'		=> $this->buildParamClassList( $class, $class->getUsingClasses(), 'usedBy' ),				//  used by classes
 			'composedBy'	=> $this->buildParamClassList( $class, $class->getComposingClasses(), 'composedBy' ),		//  extended by class
 			'receivedBy'	=> $this->buildParamClassList( $class, $class->getReceivingClasses(), 'receivedBy' ),		//  received by classes
@@ -96,10 +95,10 @@ class Info extends InfoInterface
 	/**
 	 *	Returns a list of backwards resolved superclasses, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		PhpInterface	$class		Class to get list of superclasses for
-	 *	@return		array			List of superclasses
+	 *	@param		PhpClass	$class		Class to get list of superclasses for
+	 *	@return		array		List of superclasses
 	 */
-	protected function getSuperClasses( PhpInterface $class ): array
+	protected function getSuperClasses( PhpClass $class ): array
 	{
 		$list	= [];																			//  prepare empty list
 		while( $superClass = $class->getExtendedClass() ){											//  while internal class has superclass
@@ -111,7 +110,7 @@ class Info extends InfoInterface
 		return $list;																				//  return list of superclasses
 	}
 
-	private function buildRelationTree( PhpInterface $class ): string
+	private function buildRelationTree( PhpClass $class ): string
 	{
 		$classes = $this->getSuperClasses( $class );
 		if( 0 === count( $classes ) )

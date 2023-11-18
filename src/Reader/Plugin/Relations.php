@@ -29,6 +29,7 @@ namespace CeusMedia\DocCreator\Reader\Plugin;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 use Exception;
 
 /**
@@ -140,10 +141,10 @@ class Relations extends Abstraction
 	 *	...
 	 *	@access		protected
 	 *	@param		PhpContainer	$data			Object containing collected Class Data
-	 *	@param		PhpInterface	$artefact		Interface or Class
+	 *	@param		PhpClass|PhpInterface|PhpTrait	$artefact		Interface or Class
 	 *	@return		void
 	 */
-	protected function tryToResolveMethodRelations( PhpContainer $data, PhpInterface $artefact )
+	protected function tryToResolveMethodRelations( PhpContainer $data, object $artefact )
 	{
 		foreach( $artefact->getMethods() as $method ){
 			foreach( $method->getParameters() as $parameter ){

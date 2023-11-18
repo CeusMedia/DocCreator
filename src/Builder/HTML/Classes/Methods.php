@@ -45,10 +45,10 @@ class Methods extends ClassInfo
 	/**
 	 *	Builds View of Class Methods for Class Information File.
 	 *	@access		public
-	 *	@param		PhpInterface	$class			Class Object
+	 *	@param		PhpClass	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( PhpInterface $class ): string
+	public function buildView( object $class ): string
 	{
 		$this->type	= "class";
 

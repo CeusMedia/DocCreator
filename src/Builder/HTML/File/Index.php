@@ -35,6 +35,7 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Member_ as PhpMember;
 use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 
 define( 'RELATION_EXTENDS', 1 );
 define( 'RELATION_IMPLEMENTS', 2 );
@@ -178,10 +179,10 @@ class Index extends HtmlBuilderAbstraction
 	/**
 	 *	Builds List of inherited Methods.
 	 *	@access		private
-	 *	@param		PhpInterface		$class			Class Object to get inherited Method List for
+	 *	@param		PhpClass|PhpInterface|PhpTrait	$class			Class Object to get inherited Method List for
 	 *	@return		array
 	 */
-	private function buildInheritedMethodList( PhpInterface $class ): array
+	private function buildInheritedMethodList( object $class ): array
 	{
 		$list		= [];
 		if( $class instanceof PhpClass )
@@ -200,12 +201,12 @@ class Index extends HtmlBuilderAbstraction
 	/**
 	 *	Builds List Item of Member.
 	 *	@access		private
-	 *	@param		PhpClass		$class			Class Object
-	 *	@param		string			$memberName		Name of Member
-	 *	@param		PhpMember	$memberData		Information of Member
+	 *	@param		PhpClass|PhpTrait	$class			Class Object
+	 *	@param		string				$memberName		Name of Member
+	 *	@param		PhpMember			$memberData		Information of Member
 	 *	@return		string
 	 */
-	private function buildMemberEntry( PhpClass $class, string $memberName, PhpMember $memberData ): string
+	private function buildMemberEntry( object $class, string $memberName, PhpMember $memberData ): string
 	{
 		$desc	= explode( "\n", $memberData->getDescription() );
 		$desc	= array_shift( $desc );
@@ -219,11 +220,11 @@ class Index extends HtmlBuilderAbstraction
 	/**
 	 *	Builds List of Members.
 	 *	@access		private
-	 *	@param		PhpClass	$class			Class Object
-	 *	@param		int			$relation		Flag: hide private Members
+	 *	@param		PhpClass|PhpTrait	$class			Class Object
+	 *	@param		int					$relation		Flag: hide private Members
 	 *	@return		array
 	 */
-	private function buildMemberList( PhpClass $class, $relation = 0 ): array
+	private function buildMemberList( object $class, $relation = 0 ): array
 	{
 		$list		= [];
 		$members	= $class->getMembers();
@@ -240,12 +241,12 @@ class Index extends HtmlBuilderAbstraction
 	/**
 	 *	Builds List Item of Method.
 	 *	@access		private
-	 *	@param		PhpInterface	$class			Class Object
-	 *	@param		string			$methodName		Name of Method
-	 *	@param		PhpMethod	$methodData		Information of Method
+	 *	@param		PhpClass|PhpInterface|PhpTrait	$class			Class Object
+	 *	@param		string							$methodName		Name of Method
+	 *	@param		PhpMethod						$methodData		Information of Method
 	 *	@return		string
 	 */
-	private function buildMethodEntry( PhpInterface $class, string $methodName, PhpMethod $methodData ): string
+	private function buildMethodEntry( object $class, string $methodName, PhpMethod $methodData ): string
 	{
 		$desc	= explode( "\n", $methodData->getDescription() );
 		$desc	= array_shift( $desc );
@@ -261,11 +262,11 @@ class Index extends HtmlBuilderAbstraction
 	/**
 	 *	Builds List of Methods.
 	 *	@access		private
-	 *	@param		PhpInterface	$class			Class Object
+	 *	@param		PhpClass|PhpInterface|PhpTrait	$class			Class Object
 	 *	@param		int				$relation		Flag: hide final, abstract and private Methods
 	 *	@return		array
 	 */
-	private function buildMethodList( PhpInterface $class, $relation = 0 ): array
+	private function buildMethodList( object $class, $relation = 0 ): array
 	{
 		$list		= [];
 		$methods	= $class->getMethods();

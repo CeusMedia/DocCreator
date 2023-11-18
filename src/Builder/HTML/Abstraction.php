@@ -91,6 +91,30 @@ abstract class Abstraction
 	}
 
 	/**
+	 *	Returns the Doc URL from a Class Data Object.
+	 *	@static
+	 *	@access		protected
+	 *	@param		PhpClass		$class			Class Object to get Doc URL for
+	 *	@return		string
+	 */
+	protected static function getUrlFromClass( PhpClass $class ): string
+	{
+		return "class.".$class->getId().".html";
+	}
+
+	/**
+	 *	Returns Doc URL from Package Object.
+	 *	@static
+	 *	@access		protected
+	 *	@param		PhpPackage		$package		Package Data Object
+	 *	@return		string
+	 */
+	protected static function getUrlFromPackage( PhpPackage $package ): string
+	{
+		return "package.".$package->getId().".html";
+	}
+
+	/**
 	 *	Builds localized Access Label with Acronym if possible.
 	 *	@access		protected
 	 *	@param		string		$access		Access type
@@ -329,18 +353,6 @@ abstract class Abstraction
 	}
 
 	/**
-	 *	Returns the Doc URL from a Class Data Object.
-	 *	@static
-	 *	@access		protected
-	 *	@param		PhpClass		$class			Class Object to get Doc URL for
-	 *	@return		string
-	 */
-	protected static function getUrlFromClass( PhpClass $class ): string
-	{
-		return "class.".$class->getId().".html";
-	}
-
-	/**
 	 *	Returns Doc URL for a Class Name if within indexed Classes.
 	 *	@access		protected
 	 *	@param		string			$className		Name of Class to get Doc URL for
@@ -389,18 +401,6 @@ abstract class Abstraction
 			remark( "Builder::getUrlFromInterfaceName: ".$e->getMessage() );
 			return "";
 		}
-	}
-
-	/**
-	 *	Returns Doc URL from Package Object.
-	 *	@static
-	 *	@access		protected
-	 *	@param		PhpPackage		$package		Package Data Object
-	 *	@return		string
-	 */
-	protected static function getUrlFromPackage( PhpPackage $package ): string
-	{
-		return "package.".$package->getId().".html";
 	}
 
 	/**
