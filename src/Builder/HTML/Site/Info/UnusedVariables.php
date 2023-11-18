@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,23 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\Alg\UnusedVariableFinder;
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class UnusedVariables extends SiteInfoAbstraction
@@ -47,55 +50,49 @@ class UnusedVariables extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$count		= 0;
-		$content	= "";
-		$finder		= new \Alg_UnusedVariableFinder();
-		$classList	= array();
-		foreach( $this->env->data->getFiles() as $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
+		$finder		= new UnusedVariableFinder();
+		$classList	= [];
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
 				$finder->readCode( $file->getSourceCode() );
 				$unusedVariables	= $finder->getUnusedVars();
 				if( !$unusedVariables )
 					continue;
 
-				$listMethods	= array();
-				foreach( $unusedVariables as $method => $vars )
-				{
-					$listVars	= array();
-					foreach( $vars as $var )
-					{
+				$listMethods	= [];
+				foreach( $unusedVariables as $method => $vars ){
+					$listVars	= [];
+					foreach( $vars as $var ){
 						$count++;
 						$span	= '<span class="var">'.$var.'</span>';
-						$item	= HtmlElements::ListItem( $span, 2, array( 'class' => "varItem" ) );
+						$item	= HtmlElements::ListItem( $span, 2, ['class' => "varItem"] );
 						$listVars[]	= $item;
 					}
 					if( !$listVars )
 						continue;
 					$link	= HtmlElements::Link( 'class.'.$class->getId().'.html#class_method_'.$method, $method, 'method' );
-					$list	= HtmlElements::unorderedList( $listVars, 2, array( 'class' => 'varList' ) );
-					$item	= HtmlElements::ListItem( $link.$list, 1, array( 'class' => 'methodItem' ) );
+					$list	= HtmlElements::unorderedList( $listVars, 2, ['class' => 'varList'] );
+					$item	= HtmlElements::ListItem( $link.$list, 1, ['class' => 'methodItem'] );
 					$listMethods[]	= $item;
 				}
 				if( !$listMethods )
 					continue;
 				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
-				$list	= HtmlElements::unorderedList( $listMethods, 1, array( 'class' => 'methodList' ) );
-				$item	= HtmlElements::ListItem( $link.$list, 0, array( 'class' => 'class' ) );
+				$list	= HtmlElements::unorderedList( $listMethods, 1, ['class' => 'methodList'] );
+				$item	= HtmlElements::ListItem( $link.$list, 0, ['class' => 'class'] );
 				$classList[$class->getName()]	= $item;
 			}
 		}
 		ksort( $classList );
-		if( $count )
-		{
+		if( $count ){
 			$this->verboseCreation( 'unusedVariables' );
 
-			$words	= isset( $this->env->words['unusedVariables'] ) ? $this->env->words['unusedVariables'] : array();
+			$words	= $this->env->words['unusedVariables'] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'unusedVariables',
 				'id'		=> 'info-unusedVariables',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'unusedVariables',
+				'topic'		=> $words['heading'] ?? 'unusedVariables',
 				'content'	=> '<div id="tree">'.HtmlElements::unorderedList( $classList ).'</div>',
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),

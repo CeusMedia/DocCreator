@@ -1,0 +1,10 @@
+includes:
+#	- ../vendor/phpstan/phpstan-strict-rules/rules.neon
+#	- phpstan-baseline.neon
+
+parameters:
+	phpVersion: 80100
+	level: 0
+	paths:
+		- ../src
+	checkMissingIterableValueType: false

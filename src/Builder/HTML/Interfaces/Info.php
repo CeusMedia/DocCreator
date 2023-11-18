@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Interface Information View.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,24 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Interface Information View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@todo			Code Doc
  */
@@ -76,39 +77,39 @@ class Info extends HtmlBuilderAbstraction
 		);
 		$attributes	= max( $attributeData ) ? $this->loadTemplate( 'interface.info.attributes', $attributeData ) : "";
 		$relations	= max( $relationData ) ? $this->loadTemplate( 'interface.info.relations', $relationData ) : "";
-		$uiData	= array(
+		$uiData	= [
 			'attributes'	=> $attributes,
 			'relations'		=> $relations,
-		);
+		];
 		if( !max( $uiData ) )
 			return "";
 		$uiData['words']	= $this->env->words['interfaceInfo'];
 		return $this->loadTemplate( 'interface.info', $uiData );
 	}
 
-	protected function buildParamArtefactList( $parent, $value, $key, array $list = array() ): string
+	protected function buildParamArtefactList( $parent, $value, $key, array $list = [] ): string
 	{
-		$list	= array();
+		$list	= [];
 		if( is_string( $value ) )
 			return $this->buildParamList( $value, $key );
 
 		if( is_array( $value ) ){
 			foreach( $value as $artefact )
 				if( $artefact !== $parent )
-					$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $artefact ), 0, array( 'class' => 'class' ) );
+					$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $artefact ), 0, ['class' => 'class'] );
 		}
 		else if( $value )
-			$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $value ), 0, array( 'class' => 'class' ) );
+			$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $value ), 0, ['class' => 'class'] );
 
 		return $this->buildParamList( $list, $key );
 	}
 
-	protected function buildParamClassList( $parent, $value, $key, array $list = array() ): string
+	protected function buildParamClassList( $parent, $value, $key, array $list = [] ): string
 	{
 		return $this->buildParamArtefactList( $parent, $value, $key, $list );
 	}
 
-	protected function buildParamInterfaceList( $parent, $value, $key, array $list = array() ): string
+	protected function buildParamInterfaceList( $parent, $value, $key, array $list = [] ): string
 	{
 		return $this->buildParamArtefactList( $parent, $value, $key, $list );
 	}
@@ -120,7 +121,7 @@ class Info extends HtmlBuilderAbstraction
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
-	protected function buildParamLicenses( $data, array $list = array() ): string
+	protected function buildParamLicenses( $data, array $list = [] ): string
 	{
 		if( !$data->getLicenses() )
 			return "";
@@ -131,7 +132,7 @@ class Info extends HtmlBuilderAbstraction
 				$class	= 'file-info-license';
 				$label	= HtmlElements::Link( $url, $label, $class );
 			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
+			$list[]	= $this->loadTemplate( 'file.info.param.item', ['value' => $label] );
 		}
 		return $this->buildParamList( $list, 'licenses' );
 	}
@@ -158,12 +159,12 @@ class Info extends HtmlBuilderAbstraction
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
-	protected function buildParamThrows( PhpFunction $data, $list = array() ): string
+	protected function buildParamThrows( PhpFunction $data, $list = [] ): string
 	{
 		foreach( $data->getThrows() as $throws ){
 			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
 			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $type] );
 		}
 		return $this->buildParamList( $list, 'throws' );
 	}
@@ -177,8 +178,8 @@ class Info extends HtmlBuilderAbstraction
 		$tree	= '';
 		foreach( $interfaces as $interfaceName ){
 			$interfaceName	= $this->getTypeMarkUp( $interfaceName ).$tree;
-			$item	= HtmlElements::ListItem( $interfaceName, 0, array( 'class' => 'class' ) );
-			$tree	= HtmlElements::unorderedList( array( $item ) );
+			$item	= HtmlElements::ListItem( $interfaceName, 0, ['class' => 'class'] );
+			$tree	= HtmlElements::unorderedList( [$item] );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );
 	}
@@ -191,7 +192,7 @@ class Info extends HtmlBuilderAbstraction
 	 */
 	protected function getSuperInterfaces( PhpInterface $interface ): array
 	{
-		$list	= array();																			//  prepare empty list
+		$list	= [];																			//  prepare empty list
 		while( $superInterface = $interface->getExtendedInterface() ){								//  while internal interface has superinterface
 			$list[]		= $superInterface;															//  set reference to found superinterface
 			if( !is_object( $superInterface ) )														//  found superinterface is not resolvable

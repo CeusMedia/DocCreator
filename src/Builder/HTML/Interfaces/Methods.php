@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Interface Methods Information File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,23 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Interfaces\Info as InterfaceInfo;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Interface Methods Information File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Methods extends InterfaceInfo
@@ -48,12 +49,12 @@ class Methods extends InterfaceInfo
 	 *	@param		array				$got				...
 	 *	@return		string
 	 */
-	private function buildInheritedMethodList( PhpInterface $interface, $got = array() ): string
+	private function buildInheritedMethodList( PhpInterface $interface, $got = [] ): string
 	{
-		$extended	= array();
+		$extended	= [];
 		$interfaces	= $this->getSuperInterfaces( $interface );
 		foreach( $interfaces as $interface ){
-			$list		= array();
+			$list		= [];
 			if( !is_object( $interface ) )
 				continue;
 			foreach( $interface->getMethods() as $methodName => $methodData ){
@@ -69,7 +70,7 @@ class Methods extends InterfaceInfo
 				$link		= HtmlElements::Link( $uri, $methodName, 'method' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
 				$got[]		= $methodName;
-				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, array( 'class' => 'method' ) );
+				$list[$methodName]	= HtmlElements::ListItem( $linkTyped, 0, ['class' => 'method'] );
 			}
 			if( $list ){
 				ksort( $list );
@@ -83,10 +84,10 @@ class Methods extends InterfaceInfo
 			return "";
 		$attributes	= array( 'class' => 'extendedInterface' );
 		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->words['interfaceMethodsInherited'],
 			'list'	=> $extended,
-		);
+		];
 		return $this->loadTemplate( 'interface.methods.inherited', $data );
 	}
 
@@ -99,7 +100,7 @@ class Methods extends InterfaceInfo
 	 */
 	private function buildMethodEntry( PhpInterface $interface, PhpMethod $method ): string
 	{
-		$attributes	= array();
+		$attributes	= [];
 
 		$attributes['name']			= $this->buildParamStringList( $method->getName(), 'name' );
 		$attributes['description']	= $this->buildParamStringList( $method->getDescription(), 'description' );
@@ -126,7 +127,7 @@ class Methods extends InterfaceInfo
 		$attributes['return']		= $this->buildParamReturn( $method );
 		$attributes['throws']		= $this->buildParamThrows( $method );
 
-		$params	= array();
+		$params	= [];
 		foreach( $method->getParameters() as $parameter ){
 			$signature	= $this->getParameterMarkUp( $parameter );
 			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
@@ -141,7 +142,7 @@ class Methods extends InterfaceInfo
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
 		$methodLink	= HtmlElements::Link( $uri, $method->getName() );
 
-		$params	= array();
+		$params	= [];
 		foreach( $method->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
 		$params	= implode( ", ", $params );
@@ -172,7 +173,7 @@ class Methods extends InterfaceInfo
 	{
 		$this->type	= "interface";
 
-		$list		= array();
+		$list		= [];
 		$methods	= $interface->getMethods();
 		if( !$methods )
 			return '';

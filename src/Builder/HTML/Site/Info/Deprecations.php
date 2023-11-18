@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Deprecation Info Site File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,26 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Deprecation Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Deprecations extends SiteInfoAbstraction
 {
-	protected $count		= 0;
+	protected int $count		= 0;
 
 	/**
 	 *	Creates Deprecation Info Site File.
@@ -48,58 +49,53 @@ class Deprecations extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$content		= "";
-		$deprecations	= array();
-		foreach( $this->env->data->getFiles() as $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
-				$classDeprecations	= array();
-				$methodDeprecations	= array();
+		$deprecations	= [];
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
+				$classDeprecations	= [];
+				$methodDeprecations	= [];
 
 				$classUri	= "class.".$class->getId().".html";
 				$classLink	= HtmlElements::Link( $classUri, $class->getName(), 'class' );
 
-				if( $class->getDeprecations() )
-				{
+				if( $class->getDeprecations() ){
 					foreach( $class->getDeprecations() as $deprecation )
-						$classDeprecations[]	= HtmlElements::ListItem( $deprecation, 1, array( 'class' => "classItem" ) );
+						$classDeprecations[]	= HtmlElements::ListItem( $deprecation, 1, ['class' => "classItem"] );
 					$this->count	+= count( $classDeprecations );
 				}
 
-				foreach( $class->getMethods() as $method )
-				{
+				foreach( $class->getMethods() as $method ){
 					if( !$method->getDeprecations() )
 						continue;
-					$list	= array();
+					$list	= [];
 					foreach( $method->getDeprecations() as $deprecation )
 						if( trim( $deprecation ) )
-							$list[]		= HtmlElements::ListItem( $deprecation, 2, array( 'class' => "methodItem" ) );
-					$methodList		= HtmlElements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+							$list[]		= HtmlElements::ListItem( $deprecation, 2, ['class' => "methodItem"] );
+					$methodList		= HtmlElements::unorderedList( $list, 2, ['class' => "methodList"] );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().'.html#class_method_'.$method->getName();
 					$methodLink		= HtmlElements::Link( $methodUrl, $method->getName(), 'method' );
-					$methodDeprecations[]	= HtmlElements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
+					$methodDeprecations[]	= HtmlElements::ListItem( $methodLink.$methodList, 1, ['class' => "method"] );
 				}
 				if( !$classDeprecations && !$methodDeprecations )
 					continue;
 
-				$methodDeprecations	= HtmlElements::unorderedList( $methodDeprecations, 1, array( 'class' => "methods" ) );
-				$classDeprecations	= HtmlElements::unorderedList( $classDeprecations, 1, array( 'class' => "classList" ) );
-				$deprecations[]		= HtmlElements::ListItem( $classLink.$classDeprecations.$methodDeprecations, 0, array( 'class' => "class" ) );
+				$methodDeprecations	= HtmlElements::unorderedList( $methodDeprecations, 1, ['class' => "methods"] );
+				$classDeprecations	= HtmlElements::unorderedList( $classDeprecations, 1, ['class' => "classList"] );
+				$deprecations[]		= HtmlElements::ListItem( $classLink.$classDeprecations.$methodDeprecations, 0, ['class' => "class"] );
 			 }
 		}
 		if( $deprecations )
 		{
 			$this->verboseCreation( 'deprecations' );
 
-			$words	= isset( $this->env->words['deprecations'] ) ? $this->env->words['deprecations'] : array();
+			$words	= $this->env->words['deprecations'] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'deprecations',
 				'id'		=> 'info-deprecations',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'deprecations',
-				'content'	=> HtmlElements::unorderedList( $deprecations, 0, array( 'class' => "classes" ) ),
+				'topic'		=> $words['heading'] ?? 'deprecations',
+				'content'	=> HtmlElements::unorderedList( $deprecations, 0, ['class' => "classes"] ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);

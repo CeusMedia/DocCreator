@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for Package View.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,22 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builder for Package View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Package extends HtmlBuilderAbstraction
@@ -49,10 +50,10 @@ class Package extends HtmlBuilderAbstraction
 	 */
 	private function buildClassList( PhpPackage $package ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $package->getClasses() as $className => $class ){
-			$type	= $this->getTypeMarkUp( $class, TRUE );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "class" ) );
+			$type	= $this->getTypeMarkUp( $class );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "class"] );
 			$list[$className]	= $item;
 		}
 		if( 0 === count( $list ) )
@@ -74,10 +75,10 @@ class Package extends HtmlBuilderAbstraction
 	 */
 	private function buildInterfaceList( PhpPackage $package ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $package->getInterfaces() as $interfaceName => $interface ){
-			$type	= $this->getTypeMarkUp( $interface, TRUE );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "interface" ) );
+			$type	= $this->getTypeMarkUp( $interface );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "interface"] );
 			$list[$interfaceName]	= $item;
 		}
 		if( 0 === count( $list ) )
@@ -98,21 +99,21 @@ class Package extends HtmlBuilderAbstraction
 	 */
 	private function buildPackageList( PhpPackage $superPackage ): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $superPackage->getPackages() as $packageName => $package ){
 #			$label	= $this->env->capitalizePackageName( $package->getLabel() );
 			$type	= $this->getTypeMarkUp( $package );
-			$item	= HtmlElements::ListItem( $type, 0, array( 'class' => "package" ) );
+			$item	= HtmlElements::ListItem( $type, 0, ['class' => "package"] );
 			$list[$packageName]	= $item;
 		}
 		if( 0 === count( $list ) )
 			return '';
 		ksort( $list );
 		$packageList	= HtmlElements::unorderedList( array_values( $list ) );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->env->words['packages'],
 			'list'	=> $packageList,
-		);
+		];
 		return $this->loadTemplate( 'package.packages', $data );
 	}
 

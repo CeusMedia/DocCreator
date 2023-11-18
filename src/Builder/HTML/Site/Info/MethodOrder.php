@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,21 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class MethodOrder extends SiteInfoAbstraction
@@ -48,8 +49,7 @@ class MethodOrder extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		$count		= 0;
-		$content	= "";
-		$list		= array();
+		$list		= [];
 		foreach( $this->env->data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class ){
 				$methods	= array_keys( $class->getMethods( FALSE ) );
@@ -67,7 +67,7 @@ class MethodOrder extends SiteInfoAbstraction
 				$count++;
 				$link	= HtmlElements::Link( 'class.'.$class->getId().'.html', $class->getName(), 'class' );
 				$label	= $link.": ".$line1." | ".$line2;
-				$list[$class->getName()]	= HtmlElements::ListItem( $label, 0, array( 'class' => 'class' ) );
+				$list[$class->getName()]	= HtmlElements::ListItem( $label, 0, ['class' => 'class'] );
 			}
 		}
 		ksort( $list );
@@ -76,12 +76,12 @@ class MethodOrder extends SiteInfoAbstraction
 
 		$this->verboseCreation( 'methodOrder' );
 
-		$words	= isset( $this->env->words['methodOrder'] ) ? $this->env->words['methodOrder'] : array();
+		$words	= $this->env->words['methodOrder'] ?? [];
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'key'		=> 'methodOrder',
 			'id'		=> 'info-methodOrder',
-			'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'methodOrder',
+			'topic'		=> $words['heading'] ?? 'methodOrder',
 			'content'	=> HtmlElements::unorderedList( $list ),
 			'words'		=> $words,
 			'footer'	=> $this->buildFooter(),

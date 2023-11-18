@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +21,28 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Reader\Plugin;
 
+use CeusMedia\Common\Alg\Text\Unicoder as TextUnicoder;
+use CeusMedia\Common\Alg\Text\TermExtractor as TermExtractor;
+use CeusMedia\Common\Alg\Time\Clock as Clock;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
-
-use Alg_Text_Unicoder as TextUnicoder;
-use Alg_Text_TermExtractor as TermExtractor;
-use Alg_Time_Clock as Clock;
 
 /**
  *	...
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Search extends Abstraction
 {
-
 	/**
 	 *	Extracts Terms from Descriptions for Search Index.
 	 *	@access		public
@@ -50,14 +50,14 @@ class Search extends Abstraction
 	 *	@return		void
 	 *	@todo		support Interfaces
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
 		$clock2	= new Clock();												//  start inner Clock
 		if( $this->verbose )
 			$this->env->out->append( " => Extracting Search Terms ..." );
 		foreach( $data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $classId => $class ){
-				$facts	= array();
+				$facts	= [];
 				$facts['className']	= $class->getName();
 				$facts['classDesc']	= $class->getDescription();
 #				foreach( $class->getAuthors() as $author )
@@ -81,11 +81,11 @@ class Search extends Abstraction
 					$document	= TextUnicoder::convertToUnicode( $document );
 
 				$terms		= TermExtractor::getTerms( $document );
-				$data->getFile( $fileName )->getClass( $class->getName() )->search	= array(
+				$data->getFile( $fileName )->getClass( $class->getName() )->search	= [
 					'document'	=> $document,
 					'terms'		=> $terms,
 					'facts'		=> $facts,
-				);
+				];
 			}
 		}
 		$data->timeTerms	= $clock2->stop( 6, 0 );								//  note needed time
@@ -93,8 +93,8 @@ class Search extends Abstraction
 
 	protected function getFactsDocument( array $facts ): string
 	{
-		$document	= array();
-		foreach( array_values( $facts ) as $fact ){
+		$document	= [];
+		foreach( $facts as $fact ){
 			if( is_string( $fact ) && trim( $fact ) )
 				$document[]	= $fact;
 			else if( is_array( $fact ) ){
@@ -109,7 +109,7 @@ class Search extends Abstraction
 		return implode( "\n", $document );
 	}
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$termsBlacklist	= array( 'for', 'and', 'with', 'of', 'if', 'else', 'returns', 'method', 'function', 'functions', 'methods', 'method' );
 		TermExtractor::setBlacklist( $termsBlacklist );

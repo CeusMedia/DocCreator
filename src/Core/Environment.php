@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Class holding environmental Resources for all DocCreater Components.
+ *	Class holding environmental Resources for all DocCreator Components.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,67 +21,66 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Core;
 
+use CeusMedia\Common\CLI\Output as CliOutput;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
+use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
-
-use FS_File_Reader as FileReader;
-use FS_File_INI_Reader as IniFileReader;
-use XML_Element as XmlElement;
-
 use RuntimeException;
 
 /**
- *	Class holding environmental Resources for all DocCreater Components.
+ *	Class holding environmental Resources for all DocCreator Components.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@uses			IniFileReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@todo			fix case sensitive packages/categories
  */
 class Environment
 {
-	public $config;
-	public $words;
-	public $data;
-	public $packageList;
-#	public $upperCasePackages	= array();
+	public Configuration $config;
+	public array $words					= [];
+	public ?PhpContainer $data			= NULL;
+	public array $packageList			= [];
+#	public $upperCasePackages			= [];
 	public $extensions;
-	public $verbose				= FALSE;
-
-	/**	@var	PhpCategory	$tree		... */
-	public $tree;
-	public $phpClasses			= array();
-	public $tool				= array();
-
-	public $path;
-	/**	@var	XmlElement			$builder		Builder section of config XML */
-	public $builder;
-
-	protected $hasGzipSupport	= FALSE;
+	public bool $verbose				= FALSE;
+	/**	@var	PhpCategory				$tree			... */
+	public PhpCategory $tree;
+	public array $phpClasses			= [];
+	public array $tool					= [];
+	public string $path;
+	/**	@var	XmlElement|NULL			$builder		Builder section of config XML */
+	public ?XmlElement $builder			= NULL;
+	public CliOutput $out;
+	protected bool $hasGzipSupport		= FALSE;
 
 	/**
-	 *	Constructur, reads Resources and stores locally.
+	 *	Constructor, reads Resources and stores locally.
 	 *	@access		public
 	 *	@param		Configuration	$config			Configuration Array Object
+	 *	@param		array			$configTool		...
 	 *	@return		void
 	 */
-	public function __construct( Configuration $config, $configTool, $out )
+	public function __construct( Configuration $config, array $configTool, CliOutput $out )
 	{
 		$this->config	= $config;
 		$this->tool		= $configTool;
 		$this->out		= $out;
-		$this->verbose	= $config->getVerbose();
-		$this->path		= dirname( dirname( __DIR__ ) ).'/';
+		$this->verbose	= $config->getVerbose() ?? FALSE;
+		$this->path		= dirname( __DIR__, 2 ) .'/';
 
 		$uri	= $this->path."config/php.classes.list";
 		$this->phpClasses	= FileReader::loadArray( $uri );
@@ -142,7 +142,7 @@ class Environment
 	/**
 	 *	Returns Path to read Info File from for currently selected Builder.
 	 *	@access		public
-	 *	@param		string
+	 *	@return		string
 	 */
 	public function getBuilderDocumentsPath(): string
 	{
@@ -152,7 +152,7 @@ class Environment
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string
+	 *	@return		string
 	 */
 	public function getBuilderFormat(): string
 	{
@@ -162,11 +162,11 @@ class Environment
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		array
+	 *	@return		array
 	 */
 	public function getBuilderOptions(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->config->getBuilderOptions( $this->builder ) as $option )
 			$list[$option->getAttribute( 'name' )]	= trim( $option );
 		return $list;
@@ -179,7 +179,7 @@ class Environment
 	 */
 	public function getBuilderPlugins(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->config->getBuilderPlugins( $this->builder ) as $plugin )
 			if( trim( $plugin ) )
 				$list[trim( $plugin )]	= $plugin->getAttributes();
@@ -189,7 +189,7 @@ class Environment
 	/**
 	 *	Returns Path to save created Files in for currently selected Builder.
 	 *	@access		public
-	 *	@param		string
+	 *	@return		string
 	 */
 	public function getBuilderTargetPath(): string
 	{
@@ -199,7 +199,7 @@ class Environment
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string
+	 *	@return		string
 	 */
 	public function getBuilderTheme(): string
 	{
@@ -289,7 +289,7 @@ class Environment
 	 */
 	public function load()
 	{
-		$this->data	= $this->loadContainer( $this->config );										//  load Data Container from Serial
+		$this->data	= $this->loadContainer();														//  load Data Container from Serial
 		$this->readStructureTree();																	//  build Category/Package View from Data Container
 		$this->readPackageStructure();																//  extract a List of Packages
 		$this->readClassIndex();																	//  extract a List of Classes
@@ -336,7 +336,7 @@ class Environment
 	 *	@param		XmlElement		$builder		Builder section of config XML
 	 *	@return		void
 	 */
-	public function openBuilder( XmlElement $builder )
+	public function openBuilder( XmlElement $builder ): void
 	{
 		$this->builder	= $builder;
 		$format			= $builder->getAttribute( 'format' );
@@ -353,7 +353,7 @@ class Environment
 	 *	@todo			check for method calls and remove
 	 *	@todo			this method could be migrated to a DocCreator Browser User Interface
 	 */
-	public function printTree( $category, int $level = 0 )
+	public function printTree( $category, int $level = 0 ): void
 	{
 		if( $category instanceof PhpCategory ){
 			foreach( $category->getCategories() as $cat ){
@@ -378,7 +378,7 @@ class Environment
 	 *	@param		PhpContainer	$data		Collected File / Class Data
 	 *	@return		void
 	 */
-	public function saveContainer( PhpContainer $data )
+	public function saveContainer( PhpContainer $data ): void
 	{
 //		return TRUE;
 		$serial	= serialize( $data );
@@ -402,7 +402,7 @@ class Environment
 	/**
 	 *	@todo		same algo is in Container, check which is deprecated
 	 */
-	private function readClassIndex()
+	private function readClassIndex(): void
 	{
 		foreach( $this->data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $className => $class ){
@@ -417,9 +417,9 @@ class Environment
 		}
 	}
 
-	private function readPackageStructure()
+	private function readPackageStructure(): void
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->data->getFiles() as $fileName => $file ){
 			foreach( $file->getClasses() as $className => $class ){
 				$category	= trim( $class->getCategory() ) ? trim( $class->getCategory() ) : 'default';

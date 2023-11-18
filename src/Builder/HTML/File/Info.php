@@ -2,7 +2,7 @@
 /**
  *	Builder for File Info View.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +20,23 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builder for File Info View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Info extends HtmlBuilderAbstraction
@@ -87,7 +87,7 @@ class Info extends HtmlBuilderAbstraction
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
-	protected function buildParamLicenses( $data, array $list = array() ): string
+	protected function buildParamLicenses( $data, array $list = [] ): string
 	{
 		if( !$data->getLicenses() )
 			return "";
@@ -98,7 +98,7 @@ class Info extends HtmlBuilderAbstraction
 				$class	= 'file-info-license';
 				$label	= HtmlElements::Link( $url, $label, $class );
 			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', array( 'value' => $label ) );
+			$list[]	= $this->loadTemplate( 'file.info.param.item', ['value' => $label] );
 		}
 		return $this->buildParamList( $list, 'licenses' );
 	}
@@ -126,12 +126,12 @@ class Info extends HtmlBuilderAbstraction
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
-	protected function buildParamThrows( PhpFunction $data, array $list = array() ): string
+	protected function buildParamThrows( PhpFunction $data, array $list = [] ): string
 	{
 		foreach( $data->getThrows() as $throws ){
 			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
 			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $type ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $type] );
 		}
 		return $this->buildParamList( $list, 'throws' );
 	}

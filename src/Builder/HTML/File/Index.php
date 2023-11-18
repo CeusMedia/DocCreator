@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for Index View.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,20 +21,20 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Member_ as PhpMember;
 use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
-
-use UI_HTML_Elements as HtmlElements;
-use UI_HTML_Tag as HtmlTag;
 
 define( 'RELATION_EXTENDS', 1 );
 define( 'RELATION_IMPLEMENTS', 2 );
@@ -43,12 +44,12 @@ define( 'RELATION_IMPLEMENTS', 2 );
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Index extends HtmlBuilderAbstraction
 {
-	private $list	= [];
+	private array $list	= [];
 
 	/**
 	 *	Builds Index View.
@@ -61,7 +62,7 @@ class Index extends HtmlBuilderAbstraction
 		$all		= array_merge( $file->getClasses(), $file->getInterfaces() );
 		$class		= array_shift( $all );
 		$words		= $this->env->words['index'];
-		$this->list	= array();
+		$this->list	= [];
 
 		//  --  FILE INFO  --  //
 		$this->addMainLink( 'file-info', $words['file'] );
@@ -72,7 +73,7 @@ class Index extends HtmlBuilderAbstraction
 
 			//  --  CLASS MEMBERS & INHERITED CLASS MEMBERS  --  //
 			if( $class instanceof PhpClass ){
-				$inheritedMemberList	= $this->buildInheritedMemberList( $class, RELATION_EXTENDS );
+				$inheritedMemberList	= $this->buildInheritedMemberList( $class );
 				$memberList	= $this->buildMemberList( $class );
 				if( $memberList ){
 					if( $inheritedMemberList )
@@ -85,7 +86,7 @@ class Index extends HtmlBuilderAbstraction
 			}
 
 			//  --  CLASS METHODS & INHERITED CLASS METHODS  --  //
-			$inheritedMethodList	= $this->buildInheritedMethodList( $class, RELATION_EXTENDS );
+			$inheritedMethodList	= $this->buildInheritedMethodList( $class );
 			$methodList	= $this->buildMethodList( $class );
 			if( $methodList ){
 				if( $inheritedMethodList )
@@ -99,33 +100,33 @@ class Index extends HtmlBuilderAbstraction
 
 		//  --  FILE FUNCTIONS  --  //
 		if( $file->hasFunctions() ){
-			$functionList	= array();
+			$functionList	= [];
 			foreach( $file->getFunctions() as $name => $function ){
 				$a		= explode( "\n", $function->getDescription() );
 				$desc	= array_shift( $a );
 				$label	= HtmlElements::Acronym( $name, $desc );
 				$link	= HtmlElements::Link( "#file_function_".$name, $label );
 				$class	= 'index-function';
-				$item	= HtmlElements::ListItem( $link, 1, array( 'class' => $class ) );
+				$item	= HtmlElements::ListItem( $link, 1, ['class' => $class] );
 				$functionList[]	= $item;
 			}
 			$this->addMainLink( 'file-functions', $words['functions'], $functionList );
 		}
 
 		//  --  FILE SOURCE  --  //
-		$options	= new \ADT_List_Dictionary( $this->env->getBuilderOptions() );
+		$options	= new Dictionary( $this->env->getBuilderOptions() );
 		if( $options->get( 'showSourceCode' ) )
 			$this->addMainLink( 'file-source', $words['sourceCode'] );
 
 
 //		$indexList	= HtmlElements::unorderedList( $this->list );
-		$indexList	= HtmlTag::create( 'ul', $this->list, array( 'class' => 'nav' ) );
-		$indexList	= HtmlTag::create( 'div', $indexList, array( 'class' => 'navbar-inner' ) );
-		$indexList	= HtmlTag::create( 'div', $indexList, array( 'class' => 'navbar navbar-fixed-top' ) );
-		$data		= array(
+		$indexList	= HtmlTag::create( 'ul', $this->list, ['class' => 'nav'] );
+		$indexList	= HtmlTag::create( 'div', $indexList, ['class' => 'navbar-inner'] );
+		$indexList	= HtmlTag::create( 'div', $indexList, ['class' => 'navbar navbar-fixed-top'] );
+		$data		= [
 			'words'	=> $this->env->words['index'],
 			'list'	=> $indexList,
-		);
+		];
 		return $this->loadTemplate( 'site/index', $data );
 	}
 
@@ -142,15 +143,15 @@ class Index extends HtmlBuilderAbstraction
 		$class	= str_replace( "_", "-", $class );
 		$url	= "#".str_replace( "-", "_", $class );
 		if( $content && is_array( $content ) ){
-			$caret		= HtmlTag::create( 'b', '', array( 'class' => 'caret' ) );
+			$caret		= HtmlTag::create( 'b', '', ['class' => 'caret'] );
 //			$content	= HtmlElements::unorderedList( $content );
-			$content	= HtmlTag::create( 'ul', $content, array( 'class' => 'dropdown-menu' ) );
-			$link		= HtmlTag::create( 'a', $label.$caret, array( 'href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown' ) );
-			$item		= HtmlTag::create( 'li', $link.$content, array( 'class' => 'dropdown index-'.$class ) );
+			$content	= HtmlTag::create( 'ul', $content, ['class' => 'dropdown-menu'] );
+			$link		= HtmlTag::create( 'a', $label.$caret, ['href' => /*$url*/'#index-'.$class, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'] );
+			$item		= HtmlTag::create( 'li', $link.$content, ['class' => 'dropdown index-'.$class] );
 		}
 		else{
 			$link	= HtmlElements::Link( $url, $label ).$content;
-			$item	= HtmlElements::ListItem( $link, 0, array( 'class' => 'index-'.$class ) );
+			$item	= HtmlElements::ListItem( $link, 0, ['class' => 'index-'.$class] );
 		}
 		$this->list[]	= $item;
 	}
@@ -163,7 +164,7 @@ class Index extends HtmlBuilderAbstraction
 	 */
 	private function buildInheritedMemberList( PhpClass $class ): array
 	{
-		$list		= array();
+		$list		= [];
 		$superClass	= $class->getExtendedClass();
 		if( is_object( $superClass ) ){
 			$subList	= $this->buildInheritedMemberList( $superClass );
@@ -182,7 +183,7 @@ class Index extends HtmlBuilderAbstraction
 	 */
 	private function buildInheritedMethodList( PhpInterface $class ): array
 	{
-		$list		= array();
+		$list		= [];
 		if( $class instanceof PhpClass )
 			$superClass	= $class->getExtendedClass();
 		else if( $class instanceof PhpInterface )
@@ -212,7 +213,7 @@ class Index extends HtmlBuilderAbstraction
 		$uri	= 'class.'.$class->getId().".html#class_member_".$memberName;
 		$link	= HtmlElements::Link( $uri, $label );
 		$class	= 'index-member-'.$memberData->getAccess();
-		return HtmlElements::ListItem( $link, 1, array( 'class' => $class ) );
+		return HtmlElements::ListItem( $link, 1, ['class' => $class] );
 	}
 
 	/**
@@ -224,7 +225,7 @@ class Index extends HtmlBuilderAbstraction
 	 */
 	private function buildMemberList( PhpClass $class, $relation = 0 ): array
 	{
-		$list		= array();
+		$list		= [];
 		$members	= $class->getMembers();
 		ksort( $members );
 		foreach( $members as $memberName => $memberData ){
@@ -254,7 +255,7 @@ class Index extends HtmlBuilderAbstraction
 			$uri	= 'class.'.$class->getId().".html#class_method_".$methodName;
 		$link	= HtmlElements::Link( $uri, $label );
 		$class	= 'index-method-'.$methodData->getAccess();
-		return HtmlElements::ListItem( $link, 1, array( 'class' => $class ) );
+		return HtmlElements::ListItem( $link, 1, ['class' => $class] );
 	}
 
 	/**
@@ -266,7 +267,7 @@ class Index extends HtmlBuilderAbstraction
 	 */
 	private function buildMethodList( PhpInterface $class, $relation = 0 ): array
 	{
-		$list		= array();
+		$list		= [];
 		$methods	= $class->getMethods();
 		ksort( $methods );
 		foreach( $methods as $methodName => $methodData ){

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Todo Info Site File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,26 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Todo Info Site File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Todos extends SiteInfoAbstraction
 {
-	protected $count	= 0;
+	protected int $count	= 0;
 
 	/**
 	 *	Creates Todo Info Site File.
@@ -49,53 +50,52 @@ class Todos extends SiteInfoAbstraction
 	 */
 	public function createSite(): bool
 	{
-		$content	= "";
-		$todos		= array();
-		foreach( $this->env->data->getFiles() as $fileId => $file ){
-			foreach( $file->getClasses() as $classId => $class ){
-				$classTodos		= array();
-				$methodTodos	= array();
+		$todos		= [];
+		foreach( $this->env->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
+				$classTodos		= [];
+				$methodTodos	= [];
 
 				$classUri	= "class.".$class->getId().".html";
 				$classLink	= HtmlElements::Link( $classUri, $class->getName(), 'class' );
 
 				if( $class->getTodos() ){
 					foreach( $class->getTodos() as $todo )
-						$classTodos[]	= HtmlElements::ListItem( $todo, 1, array( 'class' => "classItem" ) );
+						$classTodos[]	= HtmlElements::ListItem( $todo, 1, ['class' => "classItem"] );
 					$this->count	+= count( $classTodos );
 				}
 
 				foreach( $class->getMethods() as $methodName => $methodData ){
 					if( !$methodData->getTodos() )
 						continue;
-					$list	= array();
+					$list	= [];
 					foreach( $methodData->getTodos() as $todo )
-						$list[]		= HtmlElements::ListItem( $todo, 2, array( 'class' => "methodItem" ) );
-					$methodList		= HtmlElements::unorderedList( $list, 2, array( 'class' => "methodList" ) );
+						$list[]		= HtmlElements::ListItem( $todo, 2, ['class' => "methodItem"] );
+					$methodList		= HtmlElements::unorderedList( $list, 2, ['class' => "methodList"] );
 					$this->count	+= count( $list );
 					$methodUrl		= 'class.'.$class->getId().".html#class_method_".$methodName;
 					$methodLink		= HtmlElements::Link( $methodUrl, $methodName, 'method' );
-					$methodTodos[]	= HtmlElements::ListItem( $methodLink.$methodList, 1, array( 'class' => "method" ) );
+					$methodTodos[]	= HtmlElements::ListItem( $methodLink.$methodList, 1, ['class' => "method"] );
 				}
 				if( !$classTodos && !$methodTodos )
 					continue;
 
-				$methodTodos	= HtmlElements::unorderedList( $methodTodos, 1, array( 'class' => "methods" ) );
-				$classTodos		= HtmlElements::unorderedList( $classTodos, 1, array( 'class' => "classList" ) );
-				$todos[$class->getName()]		= HtmlElements::ListItem( $classLink.$classTodos.$methodTodos, 0, array( 'class' => "class" ) );
+				$methodTodos	= HtmlElements::unorderedList( $methodTodos, 1, ['class' => "methods"] );
+				$classTodos		= HtmlElements::unorderedList( $classTodos, 1, ['class' => "classList"] );
+				$todos[$class->getName()]		= HtmlElements::ListItem( $classLink.$classTodos.$methodTodos, 0, ['class' => "class"] );
 			}
 		}
 		ksort( $todos );
 		if( $todos ){
 			$this->verboseCreation( 'todos' );
 
-			$words	= isset( $this->env->words['todos'] ) ? $this->env->words['todos'] : array();
+			$words	= $this->env->words['todos'] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'key'		=> 'todos',
 				'id'		=> 'info-todos',
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : 'todos',
-				'content'	=> HtmlElements::unorderedList( $todos, 0, array( 'class' => "classes" ) ),
+				'topic'		=> $words['heading'] ?? 'todos',
+				'content'	=> HtmlElements::unorderedList( $todos, 0, ['class' => "classes"] ),
 				'words'		=> $words,
 				'footer'	=> $this->buildFooter(),
 			);

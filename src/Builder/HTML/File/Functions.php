@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for File Function View.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,23 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\File;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\File\Info as FileInfo;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builder for File Function View.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Functions extends FileInfo
@@ -49,7 +50,7 @@ class Functions extends FileInfo
 	 */
 	private function buildFunctionEntry( PhpFunction $function ): string
 	{
-		$attributes	= array();
+		$attributes	= [];
 
 		$attributes['name']			= $this->buildParamStringList( $function->getName(), 'name' );
 		$attributes['description']	= $this->buildParamStringList( $function->getDescription(), 'description' );
@@ -68,7 +69,7 @@ class Functions extends FileInfo
 		$attributes['return']		= $this->buildParamReturn( $function );
 		$attributes['throws']		= $this->buildParamThrows( $function );
 
-		$params	= array();
+		$params	= [];
 		foreach( $function->getParameters() as $parameter ){
 			$signature	= $this->getParameterMarkUp( $parameter );
 			$text		= $parameter->getDescription() ? '&nbsp;&minus;&nbsp;'.$parameter->getDescription() : "";
@@ -83,7 +84,7 @@ class Functions extends FileInfo
 		$return			= $this->getTypeMarkUp( $function->getReturn() ? $function->getReturn()->getType() : "void" );
 		$functionName	= HtmlElements::Link( "#source_file_function_".$function->getName(), $function->getName() );
 
-		$params	= array();
+		$params	= [];
 		foreach( $function->getParameters() as $parameter )
 			$params[]	= $this->getParameterMarkUp( $parameter );
 		$params	= implode( ", ", $params );
@@ -110,7 +111,7 @@ class Functions extends FileInfo
 	public function buildView( PhpFile $file ): string
 	{
 		$this->type	= "file";
-		$list		= array();
+		$list		= [];
 		$functions	= $file->getFunctions();
 		if( !$functions )
 			return "";

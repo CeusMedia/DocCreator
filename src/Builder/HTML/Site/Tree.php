@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds for Index Tree for Classes or Files.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +21,15 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site;
 
+use CeusMedia\Common\ADT\Tree\Menu\Collection as TreeMenuCollection;
+use CeusMedia\Common\ADT\Tree\Menu\Item as TreeMenuItem;
+use CeusMedia\Common\UI\HTML\Tree\Menu as TreeMenu;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
@@ -34,17 +39,16 @@ use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Tree extends HtmlBuilderAbstraction
 {
-	protected $targetFrame;
+	protected ?string $targetFrame		= NULL;
 
 	/**
 	 *	Builds Tree View.
 	 *	@access		public
-	 *	@param		string		$projectId		Project ID (used as Cookie Name)
 	 *	@return		string
 	 *	@todo		rename to buildView
 	 */
@@ -59,41 +63,43 @@ class Tree extends HtmlBuilderAbstraction
 			$tree	= array_pop( $packages );
 		}
 
-		$menu		= new \ADT_Tree_Menu_List();
-		$menu->setAttribute( 'class', NULL );
+		$menu		= new TreeMenuCollection( '', [] );
+		$menu->setAttribute( 'class', '' );
 		$menu->setAttribute( 'id', 'tree' );
 
 		$this->convertTreeToTreeMenuRecursive( $tree, $menu );
-		$builder	= new \UI_HTML_Tree_Menu();
+		$builder	= new TreeMenu();
 		$builder->setTarget( $this->targetFrame );
 		$tree		= $builder->buildMenuFromMenuList( $menu );
-		$uiData	= array(
+		$uiData	= [
 			'cookieId'	=> "doc_tree",#$this->env->config['project.name'].'_tree',
 			'words'		=> $this->env->words['tree'],
 			'tree'		=> $tree,
-		);
+		];
 		return $this->loadTemplate( "site.tree", $uiData );
 	}
 
     /**
      * @param PhpCategory $root
-     * @param $menu
+     * @param TreeMenuCollection $menu
      */
-	protected function convertTreeToTreeMenuRecursive( PhpCategory &$root, &$menu )
+	protected function convertTreeToTreeMenuRecursive( PhpCategory $root, TreeMenuCollection $menu )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $root->getPackages() as $package ){
-			if( $package instanceof PhpCategory ){
-				$prefix	= 'category.';
-				$class	= 'category';
-			}
-			else if( $package instanceof PhpPackage ){
+			$prefix	= '';
+			$class	= '';
+			if( $package instanceof PhpPackage ){
 				$prefix	= 'package.';
 				$class	= 'package';
 			}
+			else if( $package instanceof PhpCategory ){
+				$prefix	= 'category.';
+				$class	= 'category';
+			}
 			$uri	= $prefix.$package->getId().".html";
 			$label	= $this->env->capitalizePackageLabel( $package->getLabel() );
-			$item	= new \ADT_Tree_Menu_Item( $uri, $label );
+			$item	= new TreeMenuItem( $uri, $label );
 			$item->setAttribute( 'class', $class );
 			$this->convertTreeToTreeMenuRecursive( $package, $item );
 			$list[$label]	= $item;
@@ -102,11 +108,11 @@ class Tree extends HtmlBuilderAbstraction
 		foreach( $list as $item )
 			$menu->addChild( $item );
 
-		$list	= array();
+		$list		= [];
 		foreach( $root->getClasses() as $class ){
 			$parts	= explode( "_", $class->getName() );
 			$name	= array_pop( $parts );
-			$item	= new \ADT_Tree_Menu_Item( 'class.'.$class->getId().'.html', $name );
+			$item	= new TreeMenuItem( 'class.'.$class->getId().'.html', $name );
 			$item->setAttribute( 'class', 'class' );
 			$uniqueKey	= $class->getName()."_".uniqid();
 			$list[$uniqueKey]	= $item;
@@ -115,11 +121,11 @@ class Tree extends HtmlBuilderAbstraction
 		foreach( $list as $item )
 			$menu->addChild( $item );
 
-		$list	= array();
+		$list	= [];
 		foreach( $root->getInterfaces() as $interface ){
 			$parts	= explode( "_", $interface->getName() );
 			$name	= array_pop( $parts );
-			$item	= new \ADT_Tree_Menu_Item( 'interface.'.$interface->getId().'.html', $name );
+			$item	= new TreeMenuItem( 'interface.'.$interface->getId().'.html', $name );
 			$item->setAttribute( 'class', 'interface' );
 			$uniqueKey	= $interface->getName()."_".uniqid();
 			$list[$uniqueKey]	= $item;

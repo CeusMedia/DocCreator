@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,13 +21,17 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML;
 
+use CeusMedia\Common\FS\File\RecursiveRegexFilter as RecursiveFileRegexFilter;
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use CeusMedia\TemplateEngine\Template as TemplateEngine;
 use CeusMedia\DocCreator\Core\Environment;
-
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
@@ -34,36 +39,33 @@ use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
 use CeusMedia\PhpParser\Structure\Parameter_ as PhpParameter;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
-
-use FS_File_RecursiveRegexFilter as RecursiveFileRegexFilter;
-use UI_HTML_Elements as HtmlElements;
-use UI_HTML_Tag as HtmlTag;
-use UI_Template as TemplateEngine;
-
 use Exception;
+use RuntimeException;
 
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 abstract class Abstraction
 {
+	public const FILE_PERMS		= 0664;
+
 	/**	@var		Environment		$env 			Environment Object */
-	protected $env;
-	/**	@var		string			$type			Data Type (class|file) */
-	protected $type					= NULL;
+	protected Environment $env;
+	/**	@var		string|NULL		$type			Data Type (class|file) */
+	protected ?string $type			= NULL;
 	/**	@var		array			$words			Array of Language Pairs */
-	protected $words;
+	protected array $words;
 
-	protected $cacheTemplate		= array();
+	protected array $cacheTemplate	= [];
 
-	protected $pathTheme			= NULL;
+	protected string $pathTheme;
 
-	protected $pathBuilder			= NULL;
+	protected string $pathBuilder;
 
 	/**
 	 *	Constructor.
@@ -77,11 +79,11 @@ abstract class Abstraction
 		$this->env			= $env;
 		$this->type			= $type;
 		$this->words		= $this->env->words;
-		$this->pathBuilder	= dirname( dirname( __FILE__ ) ).'/';
+		$this->pathBuilder	= dirname( __FILE__, 2 ) .'/';
 		$this->pathTheme	= $this->getThemePath();
 	}
 
-	public static function removeFiles( string $path, string $pattern )
+	public static function removeFiles( string $path, string $pattern ): void
 	{
 		$index	= new RecursiveFileRegexFilter( $path, $pattern );									// index formerly generated or copied files
 		foreach( $index as $entry )																	// iterate index
@@ -155,23 +157,23 @@ abstract class Abstraction
 	 *	@param		array				$list		Result List of Authors, empty but can be preset
 	 *	@return		string
 	 */
-	protected function buildParamAuthors(  $data, array $list = array() ): string
+	protected function buildParamAuthors(  $data, array $list = [] ): string
 	{
 		foreach( $data->getAuthors() as $author ){
 			if( $author->getEmail() )
 				$author	= HtmlElements::Link( "mailto:".$author->getEmail(), $author->getName(), $this->type.'-info-author' );
 			else
 				$author	= $author->getName();
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $author ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $author] );
 		}
 		return $this->buildParamList( $list, 'authors' );
 	}
 
-	protected function buildParamLinkedList( array $data, string $key, array $list = array() ): string
+	protected function buildParamLinkedList( array $data, string $key, array $list = [] ): string
 	{
 		foreach( $data as $url ){
 			$link	= HtmlElements::Link( $url, $url, $this->type.'-info-link' );
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $link ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $link] );
 		}
 		return $this->buildParamList( $list, $key );
 	}
@@ -188,21 +190,21 @@ abstract class Abstraction
 			);
 			$list	= $this->loadTemplate( $this->type.'.info.param.list', $data );
 		}
-		$data	= array(
+		$data	= [
 			'key'	=> $this->words[$this->type.'Info'][$type],
 			'value'	=> $list,
 			'class'	=> $title,
-		);
+		];
 		return $this->loadTemplate( $this->type.'.info.param', $data );
 	}
 
-	protected function buildParamStringList( $value, string $key, array $list = array() ): string
+	protected function buildParamStringList( $value, string $key, array $list = [] ): string
 	{
 		if( !is_array( $value ) )
 			return $this->buildParamList( $value, $key );
 		foreach( $value as $label ){
 			$label	= $this->realizeInlineLinks( $label );
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', array( 'value' => $label ) );
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $label] );
 		}
 		return $this->buildParamList( $list, $key );
 	}
@@ -297,7 +299,7 @@ abstract class Abstraction
 					$label	= HtmlElements::Link( $url, $type->getName(), 'interface' );
 					break;
 				default:
-					throw new Exception( 'Invalid type' );
+					throw new RuntimeException( 'Invalid type' );
 			}
 		}
 		else if( is_string( $type ) ){
@@ -323,7 +325,7 @@ abstract class Abstraction
 #			else if( $type !== "unknown" )
 #				remark( "!getTypeMarkUp: ".$type );
 		}
-		return HtmlTag::create( 'span', $label, array( 'class' => 'type' ) );
+		return HtmlTag::create( 'span', $label, ['class' => 'type'] );
 	}
 
 	/**

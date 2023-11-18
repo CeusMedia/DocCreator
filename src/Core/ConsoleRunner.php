@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Main Class of DocCreator Application.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,14 +21,14 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Core;
 
-use ADT_List_Dictionary as Dictionary;
-use CLI_Application as CliApplication;
-
+use CeusMedia\Common\ADT\Collection\Dictionary as Dictionary;
+use CeusMedia\Common\CLI\Application as CliApplication;
 use Exception;
 
 /**
@@ -35,16 +36,18 @@ use Exception;
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class ConsoleRunner extends CliApplication
 {
-	protected $configFile	= FALSE;
+	protected ?string $configFile;
 
-	protected $verbose		= FALSE;
+	protected bool $verbose;
 
-	protected $shortCuts	= array(
+	protected bool $trace;
+
+	protected array $shortCuts		= [
 		'-c'	=> '--config-file',
 		'-s'	=> '--source-folder',
 		'-t'	=> '--target-folder',
@@ -52,13 +55,14 @@ class ConsoleRunner extends CliApplication
 		'-l'	=> '--log-errors',
 		'-m'	=> '--mail-errors',
 		'-q'	=> '--quite',
-	);
+	];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$pathProject	Path of Project to document
+	 *	@param		string|NULL		$configFile		...
 	 *	@param		bool			$verbose		Flag: show Information during Creation
+	 *	@param		bool			$trace			Flag: ...
 	 *	@return		void
 	 */
 	public function __construct( string $configFile = NULL, bool $verbose = FALSE, bool $trace = FALSE )
@@ -76,16 +80,17 @@ class ConsoleRunner extends CliApplication
 	 */
 	protected function main()
 	{
-		$parameters	= $this->arguments->get( 'parameters' );
+		/** @var array $parameters */
+		$parameters	= $this->arguments->get( 'parameters', [] );
 		$parameters	= new Dictionary( $parameters );
 		if( $parameters->has( '--help' ) ){
 			$this->showUsage();
 			exit;
 		}
 
-#		set_error_handler( array( $this, 'handleError' ) );
+#		set_error_handler( [$this, 'handleError'] );
 		try{
-			$mapSkip	= array(
+			$mapSkip	= [
 				'--config-file'		=> 'setConfigFile',
 				'--source-folder'	=> 'setProjectBasePath',
 				'--target-folder'	=> 'setBuilderTargetPath',
@@ -97,12 +102,12 @@ class ConsoleRunner extends CliApplication
 				'--skip-resources'	=> 'enableResources',
 				'--quite'			=> 'setQuite',
 				'--trace'			=> 'setTrace'
-			);
-			$creator	= new Runner(
-				$this->configFile,
-				$this->verbose,
-				$this->trace
-			);
+			];
+			$creator	= new Runner( $this->configFile, $this->verbose, $this->trace );
+			/**
+			 * @var string $key
+			 * @var mixed $value
+			 */
 			foreach( $parameters->getAll() as $key => $value )
 				if( array_key_exists( $key, $mapSkip ) )
 					$creator->{$mapSkip[$key]}( $value );

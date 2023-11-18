@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Creates Documentation Files from Parser Data.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +21,33 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML;
 
+use CeusMedia\Common\Alg\Time\Clock as Clock;
 use CeusMedia\DocCreator\Builder\Abstraction as AbstractBuilder;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as AbstractHtmlBuilder;
-
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
-
-use Alg_Time_Clock as Clock;
+use ReflectionException;
 
 /**
  *	Creates Documentation Files from Parser Data.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Creator extends AbstractBuilder
 {
-	protected function __onConstruct()
+	/**
+	 *	@return		void
+	 *	@throws		ReflectionException
+	 */
+	protected function __onConstruct(): void
 	{
 		$this->createFiles();
 		$this->createPackages();
@@ -76,19 +81,18 @@ class Creator extends AbstractBuilder
 		$pathTarget	= $this->pathTarget;
 		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
 
-		$fileBuilder		= new File\Builder( $this->env );
-		$classBuilder		= new Classes\Builder( $this->env, $fileBuilder );
-		$interfaceBuilder	= new Interfaces\Builder( $this->env, $fileBuilder );
+		$classBuilder		= new Classes\Builder( $this->env );
+		$interfaceBuilder	= new Interfaces\Builder( $this->env );
 
 		$total	= 0;
 		$count	= 0;
 		$this->env->out->newLine();
-		foreach( $this->env->data->getFiles() as $fileName => $file ){
+		foreach( $this->env->data->getFiles() as $file ){
 			$total	+= count( $file->getClasses() );
 			$total	+= count( $file->getInterfaces() );
 		}
 
-		foreach( $this->env->data->getFiles() as $fileName => $file ){
+		foreach( $this->env->data->getFiles() as $file ){
 			$clock2		= new Clock;
 			if( $file->hasClasses() ){
 				foreach( $file->getClasses() as $class ){
@@ -133,6 +137,10 @@ class Creator extends AbstractBuilder
 			$this->createPackageRecursive( $category, $prefix );
 	}
 
+	/**
+	 *	@return		void
+	 *	@throws		ReflectionException
+	 */
 	private function createSites()
 	{
 		$builder	= new Site\Builder( $this->env );

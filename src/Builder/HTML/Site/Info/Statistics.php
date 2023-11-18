@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds Statistics Info Site File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +21,14 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Alg\UnitFormater;
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
 
 /**
@@ -32,12 +36,11 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Statistics extends SiteInfoAbstraction
 {
-
 	/**
 	 *	Creates Statistics Info Site File.
 	 *	@access		public
@@ -55,7 +58,7 @@ class Statistics extends SiteInfoAbstraction
 		$numberLines	= 0;
 		$numberStrips	= 0;
 
-		$clock	= new \Alg_Time_Clock();
+		$clock	= new Clock();
 		foreach( $this->env->data->getFiles() as $file ){
 			$stats				= $file->statistics;
 			$numberFiles		++;
@@ -69,19 +72,19 @@ class Statistics extends SiteInfoAbstraction
 			return;
 		$linesPerFile	= $numberLines / $numberFiles;
 		$data	= array(
-			'number'	=> array(
+			'number'	=> [
 				'files'		=> $numberFiles,
 				'lines'		=> $numberLines,
 				'codes'		=> $numberCodes,
 				'docs'		=> $numberDocs,
 				'strips'	=> $numberStrips,
 				'length'	=> $numberLength,
-			),
+			],
 			'ratio'			=> array(
-				'linesPerFile'		=> round( $linesPerFile, 0 ),
-				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
-				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
-				'stripsPerFile'		=> round( $numberStrips / $numberFiles, 0 ),
+				'linesPerFile'		=> round( $linesPerFile ),
+				'codesPerFile'		=> round( $numberCodes / $numberFiles ),
+				'docsPerFile'		=> round( $numberDocs / $numberFiles ),
+				'stripsPerFile'		=> round( $numberStrips / $numberFiles ),
 				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
 				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
 				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
@@ -90,23 +93,24 @@ class Statistics extends SiteInfoAbstraction
 		);
 
 		//  --  TOTAL TABLE  --  //
-		$data['length']['total']			= \Alg_UnitFormater::formatBytes( $data['number']['length'], 1 );
-		$data['length']['perFile']			= \Alg_UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
-		$data['time']['stats']['total']		= \Alg_UnitFormater::formatMicroSeconds( $data['seconds'] );
-		$data['time']['stats']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
+		$data['length']['total']			= UnitFormater::formatBytes( $data['number']['length'], 1 );
+		$data['length']['perFile']			= UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
+		$data['time']['stats']['total']		= UnitFormater::formatMicroSeconds( $data['seconds'] );
+		$data['time']['stats']['perFile']	= UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
 		unset( $data['files'] );
 
 		//  --  GRAPH  --  //
+		$graphFile	= "loc.svg";
+/*
 		$graphData	= array(
 			new \UI_SVG_ChartData( $data['ratio']['codesPerFile'], "Code" ),
 			new \UI_SVG_ChartData( $data['ratio']['docsPerFile'], "Docs" ),
 			new \UI_SVG_ChartData( $data['ratio']['stripsPerFile'], "stripped" ),
 		);
-		$graphFile	= "loc.svg";
-		$chart		= new \UI_SVG_Chart( $graphData, array( "blue", "green", "gray" ) );
-		$chart->buildPieGraph( array( "x" => 50, "y" => 50, "legend" => TRUE ) );
+		$chart		= new \UI_SVG_Chart( $graphData, ["blue", "green", "gray"] );
+		$chart->buildPieGraph( ["x" => 50, "y" => 50, "legend" => TRUE] );
 		$chart->save( $this->pathTarget.$graphFile );
-
+*/
 		$parseTime	= 0;
 		$buildTime	= 0;
 		$fileCount	= 0;
@@ -119,10 +123,10 @@ class Statistics extends SiteInfoAbstraction
 		}
 		if( $fileCount ){
 			$parseTime	= $this->env->data->timeTotal;
-			$data['time']['parse']['total']		= \Alg_UnitFormater::formatMicroSeconds( $parseTime );
-			$data['time']['parse']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
-			$data['time']['build']['total']		= \Alg_UnitFormater::formatMicroSeconds( $buildTime );
-			$data['time']['build']['perFile']	= \Alg_UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
+			$data['time']['parse']['total']		= UnitFormater::formatMicroSeconds( $parseTime );
+			$data['time']['parse']['perFile']	= UnitFormater::formatMicroSeconds( $parseTime / $fileCount );
+			$data['time']['build']['total']		= UnitFormater::formatMicroSeconds( $buildTime );
+			$data['time']['build']['perFile']	= UnitFormater::formatMicroSeconds( $buildTime / $fileCount );
 		}
 
 		$uiData	= array(

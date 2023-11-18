@@ -2,7 +2,7 @@
 /**
  *	Builds Home Info Site File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,10 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
 use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstraction;
@@ -32,13 +33,13 @@ use CeusMedia\DocCreator\Builder\HTML\Site\Info\Abstraction as SiteInfoAbstracti
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Home extends SiteInfoAbstraction
 {
-	protected $key			= 'home';
-	protected $fileNames	= array(
+	protected string $key		= 'home';
+	protected array $fileNames	= [
 		'home',
 		'home.txt',
 		'home.html',
@@ -47,7 +48,7 @@ class Home extends SiteInfoAbstraction
 		'README.md',
 		'../readme.md',
 		'../README.md',
-	);
+	];
 
 	/**
 	 *	Creates History Info Site File.
@@ -57,7 +58,7 @@ class Home extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		if( !parent::createSiteByFile() ){
-			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+			$words	= $this->env->words[$this->key] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'version'	=> $this->env->builder->title->getAttribute("version"),
@@ -67,7 +68,7 @@ class Home extends SiteInfoAbstraction
 				'content'	=> "",
 				'date'		=> date( $words['formatDate'], time() ),
 				'time'		=> date( $words['formatTime'], time() ),
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> $words['heading'] ?? $this->key,
 				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/'.$this->key;

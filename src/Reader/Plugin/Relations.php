@@ -2,7 +2,7 @@
 /**
  *	Collects Relations between Classes.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,15 +20,15 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Reader\Plugin;
 
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
-
 use Exception;
 
 /**
@@ -36,7 +36,7 @@ use Exception;
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Reader_Plugin
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Relations extends Abstraction
@@ -47,12 +47,12 @@ class Relations extends Abstraction
 	 *	@param		PhpContainer	$data		Object containing collected Class Data
 	 *	@return		void
 	 */
-	public function extendData( PhpContainer $data )
+	public function extendData( PhpContainer $data ): void
 	{
 		if( $this->verbose )
 			$this->env->out->sameLine( "Plugin: Class/Interface Relations" );
 
-		foreach( $data->getFiles() as $fileName => $file ){
+		foreach( $data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class )
 				if( $class instanceof PhpClass )
 					$this->tryToResolveClassRelations( $data, $class );
@@ -71,7 +71,7 @@ class Relations extends Abstraction
 	protected function tryToResolveClassRelations( PhpContainer $data, PhpClass $class )
 	{
 		if( $class->getUsedClasses() ){																//  current class uses other classes
-			foreach( $class->getUsedClasses() as $nr => $className ){								//  iterate used classes
+			foreach( $class->getUsedClasses() as $className ){										//  iterate used classes
 				try{
 					$usedClass	= $data->getClassFromClassName( $className, $class );				//  try to resolve class to object
 					$usedClass->setUsingClass( $class );
@@ -82,7 +82,7 @@ class Relations extends Abstraction
 		}
 
 		if( $class->getImplementedInterfaces() ){													//  current class implements interfaces
-			foreach( $class->getImplementedInterfaces() as $nr => $interfaceName ){					//  iterate interfaces
+			foreach( $class->getImplementedInterfaces() as $interfaceName ){						//  iterate interfaces
 				try{
 					$implementedInterface	= $data->getInterfaceFromInterfaceName( $interfaceName, $class );		//  try to resolve interface to object
 					$implementedInterface->setImplementingClass( $class ) ;
@@ -154,12 +154,13 @@ class Relations extends Abstraction
 					if( $artefact instanceof PhpClass ){
 						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
 						$foundClass->addReceivingClass( $artefact );
+						$parameter->setType( $foundClass );
 					}
 					else if( $artefact instanceof PhpInterface ){
 						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
 						$foundClass->addReceivingInterface( $artefact );
+						$parameter->setType( $foundClass );
 					}
-					$parameter->setType( $foundClass );
 				}
 				catch( Exception $e ){}
 			}
@@ -169,12 +170,14 @@ class Relations extends Abstraction
 					continue;
 				$type	= $parameter->getCast();
 				try{
-					if( $artefact instanceof PhpClass )
+					if( $artefact instanceof PhpClass ){
 						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
-					else if( $artefact instanceof PhpInterface )
+						$parameter->setCast( $foundClass );
+					}
+					else if( $artefact instanceof PhpInterface ){
 						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
-
-					$parameter->setCast( $foundClass );
+						$parameter->setCast( $foundClass );
+					}
 				}
 				catch( Exception $e ){}
 			}
@@ -185,12 +188,13 @@ class Relations extends Abstraction
 					if( $artefact instanceof PhpClass ){
 						$foundClass	= $data->getClassFromClassName( $type, $artefact );				//  try to resolve extended Class to object
 						$foundClass->addReturningClass( $artefact );
+						$method->getReturn()->setType( $foundClass );
 					}
 					else if( $artefact instanceof PhpInterface ){
 						$foundClass	= $data->getInterfaceFromInterfaceName( $type, $artefact );		//  try to resolve extended Interface to object
 						$foundClass->addReturningInterface( $artefact );
+						$method->getReturn()->setType( $foundClass );
 					}
-					$method->getReturn()->setType( $foundClass );
 				}
 				catch( Exception $e ){}
 			}

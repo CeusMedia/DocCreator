@@ -2,7 +2,7 @@
 /**
  *	Builds Interface Information File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,10 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
@@ -41,17 +42,17 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Builder extends HtmlBuilderAbstraction
 {
-	private $builderFile;
-	private $builderFunctions;
-	private $builderInterface;
-	private $builderMethods;
-	private $builderSourceCode;
-	private $builderIndex;
+	private FileInfo $builderFile;
+	private FileFunctions $builderFunctions;
+	private InterfaceInfo $builderInterface;
+	private InterfaceMethods $builderMethods;
+	private FileSourceCode $builderSourceCode;
+	private FileIndex $builderIndex;
 
 	/**
 	 *	Constructor.

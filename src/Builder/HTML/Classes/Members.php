@@ -2,7 +2,7 @@
 /**
  *	Builds Class Members Information File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +20,24 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Classes;
 
+use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Classes\Info as ClassInfo;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Member_ as PhpMember;
-
-use UI_HTML_Elements as HtmlElements;
 
 /**
  *	Builds Class Members Information File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Class
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 class Members extends ClassInfo
@@ -49,14 +49,14 @@ class Members extends ClassInfo
 	 *	@param		array			$got			List of Member Names already handled
 	 *	@return		string			List HTML
 	 */
-	private function buildInheritedMemberList( PhpClass $class, $got = array() ): string
+	private function buildInheritedMemberList( PhpClass $class, $got = [] ): string
 	{
-		$extended		= array();
+		$extended		= [];
 		$memberNames	= array_keys( $class->getMembers() );										//  we only need a list of method names for comparison
 
 		$classes		= $this->getSuperClasses( $class );
 		foreach( $classes as $nr => $superClass ){
-			$list		= array();
+			$list		= [];
 			if( !is_object( $superClass ) )
 				continue;
 			foreach( $superClass->getMembers() as $memberName => $member ){
@@ -70,7 +70,7 @@ class Members extends ClassInfo
 				$uri		= 'class.'.$superClass->getId().".html#class_member_".$memberName;
 				$link		= HtmlElements::Link( $uri, $memberName, 'member' );
 				$linkTyped	= $this->getTypeMarkUp( $link );
-				$list[$memberName]	= HtmlElements::ListItem( $linkTyped, 1, array( 'class' => 'member' ) );
+				$list[$memberName]	= HtmlElements::ListItem( $linkTyped, 1, ['class' => 'member'] );
 			}
 			if( $list ){
 				ksort( $list );
@@ -86,10 +86,10 @@ class Members extends ClassInfo
 			return "";
 		$attributes	= array( 'class' => 'extendedClass' );
 		$extended	= HtmlElements::unorderedList( $extended, 0, $attributes );
-		$data	= array(
+		$data	= [
 			'words'	=> $this->words['classMembersInherited'],
 			'list'	=> $extended,
-		);
+		];
 		return $this->loadTemplate( 'class.members.inherited', $data );
 	}
 
@@ -105,12 +105,12 @@ class Members extends ClassInfo
 		$default	= $member->getDefault() ? " = ".$member->getDefault() : "";
 		$type		= $member->getType() ? $this->getTypeMarkUp( $member->getType() ) : "";
 
-		$attributes	= array();
+		$attributes	= [];
 		$accessType	= $member->getAccess() ? $member->getAccess() : 'unknown';
 		$access		= $this->buildAccessLabel( $accessType );
 		$attributes['access']	= $this->buildParamStringList( $access, 'access' );
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
-		$attributes['default']	= $this->buildParamStringList( str_replace( array( '<%', '%>' ), array( '[%', '%]' ), $member->getDefault() ), 'default' );
+		$attributes['default']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $member->getDefault() ), 'default' );
 
 		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
 
@@ -137,7 +137,7 @@ class Members extends ClassInfo
 	{
 		$this->type	= "class";
 
-		$list		= array();
+		$list		= [];
 		$members	= $class->getMembers();
 		ksort( $members );
 		foreach( $members as $memberName => $member )

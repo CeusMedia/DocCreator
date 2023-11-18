@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads Configuration XML File.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,20 +21,22 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Core;
 
-use XML_Element as XmlElement;
-use XML_ElementReader as XmlElementReader;
+use CeusMedia\Common\XML\Element as XmlElement;
+use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use RuntimeException;
 
 /**
  *	Reads Configuration XML File.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Core
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@todo			Code Doc
  */
@@ -47,6 +50,7 @@ class Configuration
 	 *	@access		public
 	 *	@param		string			$fileName		Name of Configuration XML File
 	 *	@return		void
+	 *	@throws		RuntimeException
 	 */
 	public function __construct( string $fileName )
 	{
@@ -81,11 +85,11 @@ class Configuration
 
 	public function getBuilderLogo( XmlElement $builder )
 	{
-		$logo		= (object) array(
+		$logo		= (object) [
 			'source'	=> NULL,
 			'title'		=> NULL,
 			'link'		=> NULL
-		);
+		];
 		if( isset( $builder->logo ) ){
 			$logo->source = $builder->logo->getValue();
 			if( $builder->logo->hasAttribute( 'title' ) )
@@ -105,7 +109,7 @@ class Configuration
 	public function getBuilderOptions( XmlElement $builder ): XmlElement
 	{
 		if( !isset( $builder->option ) )
-			return array();
+			return [];
 		return $builder->option;
 	}
 
@@ -118,7 +122,7 @@ class Configuration
 	public function getBuilderPlugins( XmlElement $builder ): XmlElement
 	{
 		if( !isset( $builder->plugin ) )
-			return array();
+			return [];
 		return $builder->plugin;
 	}
 
@@ -130,7 +134,7 @@ class Configuration
 	public function getBuilders(): XmlElement
 	{
 		if( !isset( $this->data->builder ) )
-			return array();
+			return [];
 		return $this->data->builder;
 	}
 
@@ -195,7 +199,7 @@ class Configuration
 	 */
 	public function getProjectExtensions( XmlElement $project ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $project->extension as $extension )
 			$list[]	= $extension->getValue();
 		return $list;
@@ -225,7 +229,7 @@ class Configuration
 	 */
 	public function getProjectIgnoreFiles( XmlElement $project ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "file" )
 				$list[]	= $ignore->getValue();
@@ -240,7 +244,7 @@ class Configuration
 	 */
 	public function getProjectIgnoreFolders( XmlElement $project ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $project->ignore as $ignore )
 			if( $ignore->getAttribute( 'type' ) === "folder" )
 				$list[]	= $ignore->getValue();
@@ -267,7 +271,7 @@ class Configuration
 	public function getProjects(): XmlElement
 	{
 		if( !isset( $this->data->project ) )
-			return array();
+			return [];
 		return $this->data->project;
 	}
 
@@ -278,7 +282,7 @@ class Configuration
 	 */
 	public function getReaderPlugins(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->data->reader->plugin as $plugin )
 			$list[]	= $plugin->getValue();
 		return $list;

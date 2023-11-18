@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Abstract Site Info Builder.
  *
- *	Copyright (c) 2008-2021 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,25 @@
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
+
 namespace CeusMedia\DocCreator\Builder\HTML\Site\Info;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
 use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use League\CommonMark\CommonMarkConverter;
-
-use FS_File_Reader as FileReader;
-use FS_File_Writer as FileWriter;
+use RuntimeException;
 
 /**
  *	Abstract Site Info Builder.
  *	@category		Tool
  *	@package		CeusMedia_DocCreator_Builder_HTML_Site_Info
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2021 Christian Würker
+ *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 abstract class Abstraction extends HtmlBuilderAbstraction
@@ -45,10 +47,10 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	protected $pathProject	= NULL;
 	protected $pathTarget	= NULL;
 	protected $linkList		= NULL;
-	protected $linkTarget	= 'content';
-	protected $fileNames	= array();
-	protected $key			= NULL;
-	protected $options		= array();
+	protected string $linkTarget	= 'content';
+	protected array $fileNames		= [];
+	protected string $key			= '';
+	protected array $options		= [];
 
 	/**
 	 *	Constructor.
@@ -58,7 +60,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	@param		array			$options	...
 	 *	@return		void
 	 */
-	public function __construct( Environment $env, string $type = NULL, array &$linkList, $options = array() )
+	public function __construct( Environment $env, string $type = NULL, array &$linkList, array $options = [] )
 	{
 		parent::__construct( $env, $type );
 		$this->linkList	=& $linkList;
@@ -67,12 +69,12 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 
 	protected function appendLink( $url, $key, $count = NULL, $class = NULL )
 	{
-		$this->linkList[]	= array(
+		$this->linkList[]	= [
 			'url'	=> $url,
 			'key'	=> $key,
 			'count'	=> $count,
 			'class'	=> $class,
-		);
+		];
 	}
 
 	abstract public function createSite();
@@ -81,23 +83,22 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	Creates site if any file (from ::$fileNames) has been found in product documentation folder.
 	 *	@access		public
 	 *	@return		integer		Number of found and enlisted contents (files)
+	 *	@throws		RuntimeException
 	 */
 	public function createSiteByFile(): int
 	{
 		if( !$this->fileNames )
-			throw new \Exception( 'No files set' );
+			throw new RuntimeException( 'No files set' );
 		if( !$this->key )
-			throw new \Exception( 'No key set' );
+			throw new RuntimeException( 'No key set' );
 
-		$list		= array();
+		$list		= [];
 		$pathDocs	= $this->env->getBuilderDocumentsPath();
 		if( !$pathDocs )
 			return 0;
-		foreach( $this->fileNames as $fileName )
-		{
+		foreach( $this->fileNames as $fileName ){
 			$fileName	= $pathDocs.$fileName;
-			if( file_exists( $fileName ) )
-			{
+			if( file_exists( $fileName ) ){
 				$header		= '<div class="file-uri">'.$fileName.'</div>';
 				$content	= FileReader::load( $fileName );
 				$extension	= pathinfo( $fileName, PATHINFO_EXTENSION );
@@ -116,17 +117,16 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 				$list[]		= $header.$content;
 			}
 		}
-		if( $list )
-		{
+		if( $list ){
 			$this->verboseCreation( $this->key );
-			$words	= isset( $this->env->words[$this->key] ) ? $this->env->words[$this->key] : array();
+			$words	= $this->env->words[$this->key] ?? [];
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'words'		=> $words,
 				'key'		=> $this->key,
 				'id'		=> 'info-'.$this->key,
 				'content'	=> implode( "\n\n", $list ),
-				'topic'		=> isset( $words['heading'] ) ? $words['heading'] : $this->key,
+				'topic'		=> $words['heading'] ?? $this->key,
 				'footer'	=> $this->buildFooter(),
 			);
 			$template	= 'site/info/'.$this->key;
@@ -140,7 +140,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 
 	protected function saveFile( $fileName, $content )
 	{
-        FileWriter::save( $this->pathTarget.$fileName, $content );
+        FileWriter::save( $this->pathTarget.$fileName, $content, self::FILE_PERMS );
 	}
 
 	public function setLinkTargetFrame( string $linkTarget ): self
@@ -166,7 +166,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 		if( !$this->env->verbose )
 			return;
 		$words	= $this->env->words['links'];
-		$label	= isset( $words[$key] ) ? $words[$key] : $key;
+		$label	= $words[$key] ?? $key;
 		$this->env->out->sameLine( "Creating site: ".$label );
 	}
 }
