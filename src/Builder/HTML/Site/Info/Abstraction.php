@@ -154,7 +154,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 			return;
 		$words	= $this->env->words['links'];
 		$label	= $words[$key] ?? $key;
-		$this->env->out->sameLine( "Creating site: ".$label );
+		$this->env->out->newLine( "Creating site: ".$label );
 	}
 
 	protected function appendLink( $url, $key, $count = NULL, $class = NULL )

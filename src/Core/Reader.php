@@ -95,10 +95,10 @@ class Reader
 		//  --  APPLY PLUGINS  --  //
 		$clock2	= new Clock();														//  start inner Clock
 		foreach( $this->plugins as $pluginName => $plugin ){						//  iterate registered Plugins
-			$this->env->out->sameLine( "Plugin: ".$pluginName );
+			$this->env->out->newLine( "Plugin: ".$pluginName );
 			$plugin->extendData( $data );											//  apply plugin
 		}
-		$this->env->out->sameLine( "Plugins applied." );
+		$this->env->out->newLine( "Plugins applied." );
 		$this->env->out->newLine();
 		$data->timeRelations	= $clock2->stop( 6, 0 );							//  note needed time
 

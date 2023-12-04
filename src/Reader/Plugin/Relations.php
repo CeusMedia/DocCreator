@@ -51,7 +51,7 @@ class Relations extends Abstraction
 	public function extendData( PhpContainer $data ): void
 	{
 		if( $this->verbose )
-			$this->env->out->sameLine( "Plugin: Class/Interface Relations" );
+			$this->env->out->newLine( "Plugin: Class/Interface Relations" );
 
 		foreach( $data->getFiles() as $file ){
 			foreach( $file->getClasses() as $class )

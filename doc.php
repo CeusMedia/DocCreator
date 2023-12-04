@@ -7,7 +7,7 @@
  *	Usage: php /path/to/DocCreator/doc.php --config-file=/path/to/your/doc.xml
  */
 
-use CeusMedia\Common\CLI;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\UI\DevOutput;
 use CeusMedia\DocCreator\Core\ConsoleRunner;
 
@@ -22,8 +22,7 @@ else if( file_exists( $pathSelf.$autoload ) )
 else
 	throw new RuntimeException( 'No vendor folder found. Please run composer!' );	//  quit with exception
 
-if( !CLI::checkIsCli( FALSE ) )
-	die( 'CLI, only' );
+Env::isCli() or die( 'CLI, only' );
 
 new DevOutput;
 new ConsoleRunner();										//  create a new runner

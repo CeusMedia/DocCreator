@@ -55,7 +55,7 @@ class Tree extends HtmlBuilderAbstraction
 	public function buildTree(): string
 	{
 		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating tree" );
+			$this->env->out->newLine( "Creating tree" );
 
 		$tree		= $this->env->tree;
 		if( count( $tree->getPackages() ) == 1 ){

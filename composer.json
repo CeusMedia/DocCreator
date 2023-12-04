@@ -15,7 +15,6 @@
     "email": "office@ceusmedia.de",
     "jabber": "cwuerker@ceusmedia.de"
   },
-  "minimum-stability": "dev",
   "require": {
     "php": "^8.1",
     "ext-zlib": "*",

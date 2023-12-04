@@ -59,7 +59,7 @@ class EncodingErrorBuilder extends SiteInfoAbstraction
 		}
 		if( $list ){
 			if( $this->env->verbose )
-				$this->env->out->sameLine( "Creating site: ".$this->env->words['links']['encodingErrors'] );
+				$this->env->out->newLine( "Creating site: ".$this->env->words['links']['encodingErrors'] );
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'topic'		=> $this->env->words['encoding']['heading'],
