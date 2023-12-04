@@ -78,7 +78,7 @@ class ConsoleRunner extends CliApplication
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main()
+	protected function main(): void
 	{
 		/** @var array $parameters */
 		$parameters	= $this->arguments->get( 'parameters', [] );
@@ -132,7 +132,7 @@ class ConsoleRunner extends CliApplication
 	 *	@param		?string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( ?string $message = NULL )
+	protected function showUsage( ?string $message = NULL ): void
 	{
 		print join( PHP_EOL, [
 			 "Usage: php doc.php [OPTION]...",

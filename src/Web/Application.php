@@ -16,6 +16,6 @@ class Application
 {
 	public function __construct()
 	{
-		die( "Web UI is coming soon in v0.9" );
+		die( "Web UI is coming soon in v1.1" );
 	}
 }
