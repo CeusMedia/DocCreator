@@ -79,10 +79,11 @@ class Creator extends AbstractBuilder
 	{
 		$clock		= new Clock;
 		$pathTarget	= $this->pathTarget;
-		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
+		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface|trait)\..+\.html$/' );	// remove formerly generated class and interface files
 
 		$classBuilder		= new Classes\Builder( $this->env );
 		$interfaceBuilder	= new Interfaces\Builder( $this->env );
+		$traitBuilder		= new Traits\Builder( $this->env );
 
 		$total	= 0;
 		$count	= 0;
@@ -128,7 +129,7 @@ class Creator extends AbstractBuilder
 						$percentage	= str_pad( round( $count / $total * 100 ), 2, " ", STR_PAD_LEFT );
 						$this->env->out->sameLine( "Creating (".$percentage."%) ".$traitId );
 					}
-					$view		= $interfaceBuilder->buildView( $file, $trait );
+					$view		= $traitBuilder->buildView( $file, $trait );
 					file_put_contents( $docFile, $view );
 				}
 			}

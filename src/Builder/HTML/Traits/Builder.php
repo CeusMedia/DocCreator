@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builds Class Information File.
+ *	Builds Trait Information File.
  *
  *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
  *
@@ -18,13 +18,13 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Classes
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  */
 
-namespace CeusMedia\DocCreator\Builder\HTML\Classes;
+namespace CeusMedia\DocCreator\Builder\HTML\Traits;
 
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\DocCreator\Builder\HTML\File\Info as FileInfo;
@@ -37,11 +37,12 @@ use CeusMedia\DocCreator\Builder\HTML\File\Index as FileIndex;
 use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 
 /**
- *	Builds Class Information File.
+ *	Builds Trait Information File.
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Classes
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -78,24 +79,24 @@ class Builder extends HtmlBuilderAbstraction
 	 *	Builds entire Class Information File.
 	 *	@access		public
 	 *	@param		PhpFile		$file			File Object
-	 *	@param		PhpClass		$class			...
+	 *	@param		PhpTrait		$trait			...
 	 *	@return		string
 	 */
-	public function buildView( PhpFile $file, PhpClass $class ): string
+	public function buildView( PhpFile $file, PhpTrait $trait ): string
 	{
-		$data	= array(
+		$data	= [
 			'index'				=> $this->builderIndex->buildIndex( $file ),
-			'className'			=> $class->getName(),
+			'className'			=> $trait->getName(),
 			'fileName'			=> $file->getBasename(),
 			'pathName'			=> $file->getPathname(),
 			'fileInfo'			=> $this->builderFile->buildView( $file ),
-			'classInfo'			=> $this->builderClass->buildView( $class ),
-			'classMembers'		=> $this->builderMembers->buildView( $class ),
-			'classMethods'		=> $this->builderMethods->buildView( $class ),
+			'classInfo'			=> $this->builderClass->buildView( $trait ),
+			'classMembers'		=> $this->builderMembers->buildView( $trait ),
+			'classMethods'		=> $this->builderMethods->buildView( $trait ),
 			'fileFunctions'		=> $this->builderFunctions->buildView( $file ),
 			'fileSource'		=> $this->builderSourceCode->buildSourceCode( $file, TRUE ),
 			'footer'			=> $this->buildFooter(),
-		);
+		];
 		return $this->loadTemplate( 'class.content', $data );
 	}
 }

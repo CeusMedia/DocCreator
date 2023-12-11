@@ -31,7 +31,7 @@ use CeusMedia\Common\Alg\Time\Clock as Clock;
 use CeusMedia\Common\FS\File\PHP\Lister as PhpFileLister;
 use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
-use CeusMedia\PhpParser\Parser as PhpParser;
+use CeusMedia\PhpParser\Parser\Regular as PhpParser;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
