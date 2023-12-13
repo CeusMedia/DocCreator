@@ -48,7 +48,7 @@ class Info extends InfoInterface
 	 *	@param		Trait_		$trait
 	 *	@return		string
 	 */
-	public function buildView( object $trait ): string
+	public function buildView( Trait_ $trait ): string
 	{
 		$this->type		= 'class';
 
@@ -73,14 +73,14 @@ class Info extends InfoInterface
 		];
 		$relationData	= [
 			'tree'			=> '',//$this->buildRelationTree( $trait ),
-			'extends'		=> $this->buildParamClassList( $trait, $trait->getExtendedClass(), 'extends' ),				//  uses
-			'uses'			=> $this->buildParamClassList( $trait, $trait->getUsedClasses(), 'uses' ),					//  uses
-			'implements'	=> $this->buildParamClassList( $trait, $trait->getImplementedInterfaces(), 'implements' ),	//  implements
-			'extendedBy'	=> $this->buildParamClassList( $trait, $trait->getExtendingClasses(), 'extendedBy' ),		//  extended by classes
+			'extends'		=> '',//$this->buildParamClassList( $trait, $trait->getExtendedClass(), 'extends' ),				//  uses
+			'uses'			=> '',//$this->buildParamClassList( $trait, $trait->getUsesClasses(), 'uses' ),					//  uses
+			'implements'	=> '',//$this->buildParamClassList( $trait, $trait->getImplementedInterfaces(), 'implements' ),	//  implements
+			'extendedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getExtendingClasses(), 'extendedBy' ),		//  extended by classes
 			'usedBy'		=> $this->buildParamClassList( $trait, $trait->getUsingClasses(), 'usedBy' ),				//  used by classes
-			'composedBy'	=> $this->buildParamClassList( $trait, $trait->getComposingClasses(), 'composedBy' ),		//  extended by class
-			'receivedBy'	=> $this->buildParamClassList( $trait, $trait->getReceivingClasses(), 'receivedBy' ),		//  received by classes
-			'returnedBy'	=> $this->buildParamClassList( $trait, $trait->getReturningClasses(), 'returnedBy' ),		//  return by classes
+			'composedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getComposingClasses(), 'composedBy' ),		//  extended by class
+			'receivedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getReceivingClasses(), 'receivedBy' ),		//  received by classes
+			'returnedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getReturningClasses(), 'returnedBy' ),		//  return by classes
 		];
 		$attributes	= max( $attributeData ) ? $this->loadTemplate( 'class.info.attributes', $attributeData ) : "";
 		$relations	= max( $relationData ) ? $this->loadTemplate( 'class.info.relations', $relationData ) : "";
