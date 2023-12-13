@@ -32,14 +32,17 @@ use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use CeusMedia\TemplateEngine\Template as TemplateEngine;
 use CeusMedia\DocCreator\Core\Environment;
+use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
 use CeusMedia\PhpParser\Structure\Category_ as PhpCategory;
 use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
+use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
 use CeusMedia\PhpParser\Structure\Parameter_ as PhpParameter;
-use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
-use CeusMedia\PhpParser\Structure\File_ as PhpFile;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 use Exception;
+use PhpParser\Builder\Trait_;
 use RuntimeException;
 
 /**
@@ -177,11 +180,11 @@ abstract class Abstraction
 	/**
 	 *	Builds Authors Entry for Parameters List.
 	 *	@access		protected
-	 *	@param		PhpFunction|PhpFile	$data		Authors Data Array
+	 *	@param		PhpFunction|PhpMethod|PhpFile|PhpClass|PhpTrait|PhpInterface	$data		Authors Data Array
 	 *	@param		array				$list		Result List of Authors, empty but can be preset
 	 *	@return		string
 	 */
-	protected function buildParamAuthors( $data, array $list = [] ): string
+	protected function buildParamAuthors( PhpFunction|PhpMethod|PhpFile|PhpClass|PhpTrait|PhpInterface $data, array $list = [] ): string
 	{
 		foreach( $data->getAuthors() as $author ){
 			if( $author->getEmail() )

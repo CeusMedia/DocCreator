@@ -72,7 +72,7 @@ class Info extends InfoInterface
 			'todo'			=> $this->buildParamStringList( $trait->getTodos(), 'todo' ),				//  todo notes
 		];
 		$relationData	= [
-			'tree'			=> $this->buildRelationTree( $trait ),
+			'tree'			=> '',//$this->buildRelationTree( $trait ),
 			'extends'		=> $this->buildParamClassList( $trait, $trait->getExtendedClass(), 'extends' ),				//  uses
 			'uses'			=> $this->buildParamClassList( $trait, $trait->getUsedClasses(), 'uses' ),					//  uses
 			'implements'	=> $this->buildParamClassList( $trait, $trait->getImplementedInterfaces(), 'implements' ),	//  implements
