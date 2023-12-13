@@ -29,7 +29,7 @@ namespace CeusMedia\DocCreator\Builder\HTML\Traits;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use CeusMedia\DocCreator\Builder\HTML\File\Info as FileInfo;
 use CeusMedia\DocCreator\Builder\HTML\File\Functions as FileFunctions;
-use CeusMedia\DocCreator\Builder\HTML\Classes\Info as ClassInfo;
+use CeusMedia\DocCreator\Builder\HTML\Traits\Info as TraitInfo;
 use CeusMedia\DocCreator\Builder\HTML\Classes\Members as ClassMembers;
 use CeusMedia\DocCreator\Builder\HTML\Classes\Methods as ClassMethods;
 use CeusMedia\DocCreator\Builder\HTML\File\SourceCode as FileSourceCode;
@@ -51,7 +51,7 @@ class Builder extends HtmlBuilderAbstraction
 {
 	protected FileInfo $builderFile;
 	protected FileFunctions $builderFunctions;
-	protected ClassInfo $builderClass;
+	protected TraitInfo $builderInfo;
 	protected ClassMembers $builderMembers;
 	protected ClassMethods $builderMethods;
 	protected FileSourceCode $builderSourceCode;
@@ -68,7 +68,7 @@ class Builder extends HtmlBuilderAbstraction
 		parent::__construct( $env );
 		$this->builderFile			= new FileInfo( $env );
 		$this->builderFunctions		= new FileFunctions( $env );
-		$this->builderClass			= new ClassInfo( $env );
+		$this->builderInfo			= new TraitInfo( $env );
 		$this->builderMembers		= new ClassMembers( $env );
 		$this->builderMethods		= new ClassMethods( $env );
 		$this->builderSourceCode	= new FileSourceCode( $env );
@@ -90,7 +90,7 @@ class Builder extends HtmlBuilderAbstraction
 			'fileName'			=> $file->getBasename(),
 			'pathName'			=> $file->getPathname(),
 			'fileInfo'			=> $this->builderFile->buildView( $file ),
-			'classInfo'			=> $this->builderClass->buildView( $trait ),
+			'classInfo'			=> $this->builderInfo->buildView( $trait ),
 			'classMembers'		=> $this->builderMembers->buildView( $trait ),
 			'classMethods'		=> $this->builderMethods->buildView( $trait ),
 			'fileFunctions'		=> $this->builderFunctions->buildView( $file ),

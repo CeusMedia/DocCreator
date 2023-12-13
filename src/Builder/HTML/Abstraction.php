@@ -181,7 +181,7 @@ abstract class Abstraction
 	 *	@param		array				$list		Result List of Authors, empty but can be preset
 	 *	@return		string
 	 */
-	protected function buildParamAuthors(  $data, array $list = [] ): string
+	protected function buildParamAuthors( $data, array $list = [] ): string
 	{
 		foreach( $data->getAuthors() as $author ){
 			if( $author->getEmail() )

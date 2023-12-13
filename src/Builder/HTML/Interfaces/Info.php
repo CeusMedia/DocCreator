@@ -29,9 +29,11 @@ namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 
 /**
  *	Builds Interface Information View.
@@ -117,7 +119,7 @@ class Info extends HtmlBuilderAbstraction
 	/**
 	 *	Builds List of License Attributes.
 	 *	@access		protected
-	 *	@param		PhpFile|PhpInterface|PhpFunction			$data		Array of File Data
+	 *	@param		PhpFile|PhpFunction|PhpInterface|PhpClass|PhpTrait			$data		Array of File Data
 	 *	@param		array			$list		List to fill
 	 *	@return		string
 	 */
@@ -169,7 +171,7 @@ class Info extends HtmlBuilderAbstraction
 		return $this->buildParamList( $list, 'throws' );
 	}
 
-	private function buildRelationTree( PhpInterface $interface ): string
+	private function buildRelationTree( PhpInterface|PhpClass|PhpTrait $interface ): string
 	{
 		$interfaces = $this->getSuperInterfaces( $interface );
 		if( 0 === count( $interfaces ) )
