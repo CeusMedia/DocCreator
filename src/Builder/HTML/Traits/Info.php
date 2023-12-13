@@ -48,7 +48,7 @@ class Info extends InfoInterface
 	 *	@param		Trait_		$trait
 	 *	@return		string
 	 */
-	public function buildView( Trait_ $trait ): string
+	public function buildView( object $trait ): string
 	{
 		$this->type		= 'class';
 
