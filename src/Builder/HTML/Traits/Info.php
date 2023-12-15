@@ -29,9 +29,7 @@ namespace CeusMedia\DocCreator\Builder\HTML\Traits;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Interfaces\Info as InfoInterface;
-use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
-use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
-use CeusMedia\PhpParser\Structure\Trait_;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 
 /**
  *	Builds Trait Information View.
@@ -45,7 +43,7 @@ use CeusMedia\PhpParser\Structure\Trait_;
 class Info extends InfoInterface
 {
 	/**
-	 *	@param		Trait_		$trait
+	 *	@param		PhpTrait		$trait
 	 *	@return		string
 	 */
 	public function buildView( object $trait ): string
@@ -97,13 +95,13 @@ class Info extends InfoInterface
 	/**
 	 *	Returns a list of backwards resolved superclasses, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		PhpClass	$class		Class to get list of superclasses for
+	 *	@param		PhpTrait	$trait		Class to get list of superclasses for
 	 *	@return		array		List of superclasses
 	 */
-	protected function getSuperClasses( PhpClass $class ): array
+	protected function getSuperClasses( PhpTrait $trait ): array
 	{
 		$list	= [];																			//  prepare empty list
-		while( $superClass = $class->getExtendedClass() ){											//  while internal class has superclass
+		while( $superClass = $trait->getUsingTraits() ){											//  while internal class has superclass
 			$list[]	= $superClass;																	//  set reference to found superclass
 			if( !is_object( $superClass ) )															//  found superclass is not resolvable
 				break;																				//  break recursion
@@ -112,16 +110,16 @@ class Info extends InfoInterface
 		return $list;																				//  return list of superclasses
 	}
 
-	private function buildRelationTree( PhpClass $class ): string
+	private function buildRelationTree( PhpTrait $trait ): string
 	{
-		$classes = $this->getSuperClasses( $class );
-		if( 0 === count( $classes ) )
+		$traits	= $this->getSuperClasses( $trait );
+		if( 0 === count( $traits ) )
 			return '';
-		array_unshift( $classes, $class );
+		array_unshift( $traits, $trait );
 		$tree	= "";
-		foreach( $classes as $className ){
-			$className	= $this->getTypeMarkUp( $className ).$tree;
-			$item	= HtmlElements::ListItem( $className, 0, ['class' => 'class'] );
+		foreach( $traits as $traitName ){
+			$traitName	= $this->getTypeMarkUp( $traitName ).$tree;
+			$item	= HtmlElements::ListItem( $traitName, 0, ['class' => 'class'] );
 			$tree	= HtmlElements::unorderedList( [$item] );
 		}
 		return $this->buildParamList( $tree, 'inheritance' );

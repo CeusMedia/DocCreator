@@ -41,9 +41,8 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Package_ as PhpPackage;
 use CeusMedia\PhpParser\Structure\Parameter_ as PhpParameter;
 use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
-use Exception;
-use PhpParser\Builder\Trait_;
 use RuntimeException;
+use Throwable;
 
 /**
  *	General Builder Class with useful Methods for inheriting Classes.
@@ -177,6 +176,22 @@ abstract class Abstraction
 		return $packageName;
 	}
 
+	protected function buildParamArtefactList( $parent, $value, $key, array $list = [] ): string
+	{
+		if( is_string( $value ) )
+			return $this->buildParamList( $value, $key );
+
+		if( is_array( $value ) ){
+			foreach( $value as $artefact )
+				if( $artefact !== $parent )
+					$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $artefact ), 0, ['class' => 'class'] );
+		}
+		else if( $value )
+			$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $value ), 0, ['class' => 'class'] );
+
+		return $this->buildParamList( $list, $key );
+	}
+
 	/**
 	 *	Builds Authors Entry for Parameters List.
 	 *	@access		protected
@@ -196,6 +211,34 @@ abstract class Abstraction
 		return $this->buildParamList( $list, 'authors' );
 	}
 
+	protected function buildParamClassList( $parent, $value, $key, array $list = [] ): string
+	{
+		return $this->buildParamArtefactList( $parent, $value, $key, $list );
+	}
+
+	/**
+	 *	Builds List of License Attributes.
+	 *	@access		protected
+	 *	@param		PhpFile|PhpFunction|PhpMethod|PhpClass|PhpInterface|PhpTrait			$data		Array of File Data
+	 *	@param		array			$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamLicenses( PhpFile|PhpFunction|PhpMethod|PhpClass|PhpInterface|PhpTrait $data, array $list = [] ): string
+	{
+		if( !$data->getLicenses() )
+			return '';
+		foreach( $data->getLicenses() as $license ){
+			$label	= $license->getName();
+			if( $license->getUrl() ){
+				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
+				$class	= 'file-info-license';
+				$label	= HtmlElements::Link( $url, $label, $class );
+			}
+			$list[]	= $this->loadTemplate( 'file.info.param.item', ['value' => $label] );
+		}
+		return $this->buildParamList( $list, 'licenses' );
+	}
+
 	protected function buildParamLinkedList( array $data, string $key, array $list = [] ): string
 	{
 		foreach( $data as $url ){
@@ -209,7 +252,7 @@ abstract class Abstraction
 	{
 		$type	= 'param'.ucFirst( $title );
 		if( !$list )
-			return "";
+			return '';
 		if( is_array( $list ) ){
 			$data	= array(
 				'list'					=> implode( "\n", $list ),
@@ -237,6 +280,39 @@ abstract class Abstraction
 	}
 
 	/**
+	 *	Builds Return Description.
+	 *	@access		protected
+	 *	@param		PhpFunction|PhpMethod	$data		Data object of function or method
+	 *	@return		string				Return Description
+	 */
+	protected function buildParamReturn( PhpFunction|PhpMethod $data ): string
+	{
+		if( !$data->getReturn() )
+			return '';
+		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : '';
+		if( $data->getReturn()->getDescription() )
+			$type	.= " ".$data->getReturn()->getDescription();
+		return $this->buildParamList( $type, 'return' );
+	}
+
+	/**
+	 *	Builds list of possibly thrown exceptions.
+	 *	@access		protected
+	 *	@param		PhpFunction|PhpMethod	$data		Authors Data Array
+	 *	@param		array					$list		List to fill
+	 *	@return		string
+	 */
+	protected function buildParamThrows( PhpFunction|PhpMethod $data, array $list = [] ): string
+	{
+		foreach( $data->getThrows() as $throws ){
+			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : '';
+			$type	.= $throws->getReason() ? " ".$throws->getReason() : '';
+			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $type] );
+		}
+		return $this->buildParamList( $list, 'throws' );
+	}
+
+	/**
 	 *	Returns full Template File URI from Template File Key.
 	 *	@access		protected
 	 *	@param		string			$fileKey		Template File Key, eg. 'folder.folder.basename'
@@ -244,23 +320,22 @@ abstract class Abstraction
 	 */
 	protected function getFileNameFromTemplateKey( string $fileKey ): string
 	{
-		$package		= "";
+		$package		= '';
 		$fileKeyParts	= explode( ".", $fileKey );
 		if( count( $fileKeyParts ) > 1 )
 			$package	= array_shift( $fileKeyParts )."/";
 		$fileKey		= implode( ".", $fileKeyParts );
 		$fileName		= $package.$fileKey.".html";
-		$templateUri	= $this->pathTheme.'templates/'.$fileName;
-		return $templateUri;
+
+		return $this->pathTheme.'templates/'.$fileName;
 	}
 
-	protected function getFormatedDescription( ?string $description = '' )
+	protected function getFormatedDescription( ?string $description = '' ): string
 	{
 		$description	= trim( (string) $description );
 		$description	= htmlentities( $description, ENT_QUOTES, 'UTF-8' );
 		$description	= nl2br( $description );
-		$description	= $this->realizeInlineLinks( $description );
-		return $description;
+		return $this->realizeInlineLinks( $description );
 	}
 
 	/**
@@ -288,9 +363,9 @@ abstract class Abstraction
 
 		$type		= $data->getCast() ?: ( $data->getType() ?: "unknown" );
 		$type		= $this->getTypeMarkUp( $type );
-		$default	= $data->getDefault() ? '<span class="default"> = '.$data->getDefault().'</span>' : "";
-		$code		= $type.' '.$name.$default;
-		return $code;
+		$default	= $data->getDefault() ? '<span class="default"> = '.$data->getDefault().'</span>' : '';
+
+		return $type.' '.$name.$default;
 	}
 
 	/**
@@ -308,7 +383,7 @@ abstract class Abstraction
 #		if( is_object( $type ) )
 #			remark( $type->getName()." - ".get_class( $type ) );
 		if( !$type )
-			return "";
+			return '';
 #			throw new Exception( 'Type cannot be empty' );
 		$label	= $type;
 		if( is_object( $type ) ){
@@ -325,29 +400,33 @@ abstract class Abstraction
 					$url	= $this->getUrlFromInterface( $type );
 					$label	= HtmlElements::Link( $url, $type->getName(), 'interface' );
 					break;
+				case PhpTrait::class:
+					$url	= $this->getUrlFromTrait( $type );
+					$label	= HtmlElements::Link( $url, $type->getName(), 'trait' );
+					break;
 				default:
 					throw new RuntimeException( 'Invalid type' );
 			}
 		}
 		else if( is_string( $type ) ){
 			if( in_array( $type, $this->env->phpClasses ) ){
-				$url	= "http://us3.php.net/manual/en/class.".strtolower( $type ).".php";
+				$url	= "https://us3.php.net/manual/en/class.".strtolower( $type ).".php";
 				$label	= HtmlElements::Link( $url, "PHP: ".$type );
 			}
 			else if( array_key_exists( $type, $this->env->words['types'] ) ){
-				$url	= "http://us3.php.net/manual/en/language.types.".strtolower( $type ).".php";
+				$url	= "https://us3.php.net/manual/en/language.types.".strtolower( $type ).".php";
 				$label	= HtmlElements::Link( $url, $label );
 				$label	= HtmlElements::Acronym( $label, $this->env->words['types'][$type] );
 			}
 			else if( array_key_exists( $type, $this->env->words['pseudoTypes'] ) ){
-				$url	= "http://us3.php.net/manual/en/language.pseudo-types.php#language.types.".strtolower( $type );
+				$url	= "https://us3.php.net/manual/en/language.pseudo-types.php#language.types.".strtolower( $type );
 				if( $type == "dotdotdot" )
 					$label	= "...";
 				$label	= HtmlElements::Link( $url, $label );
 				$label	= HtmlElements::Acronym( $label, $this->env->words['pseudoTypes'][$type] );
 			}
 			else if( $type == "unknown" )
-				return "";
+				return '';
 #				$label	= HtmlTag::create( 'small', $type );
 #			else if( $type !== "unknown" )
 #				remark( "!getTypeMarkUp: ".$type );
@@ -359,32 +438,41 @@ abstract class Abstraction
 	 *	Returns Doc URL for a Class Name if within indexed Classes.
 	 *	@access		protected
 	 *	@param		string			$className		Name of Class to get Doc URL for
-	 *	@param		PhpInterface	$relatedClass	Class Object related to Class to find
-	 *	@return		PhpClass
+	 *	@param		PhpClass		$relatedClass	Class Object related to Class to find
+	 *	@return		string
 	 */
-	protected function getUrlFromClassName( string $className, PhpInterface $relatedClass ): PhpClass
+	protected function getUrlFromClassName( string $className, PhpClass $relatedClass ): string
 	{
 		try{
 			$class	= $this->env->data->getClassFromClassName( $className, $relatedClass );
 			return static::getUrlFromClass( $class );
 		}
-		catch( \Exception $e ){
+		catch( Throwable $e ){
 			remark( "Builder::getUrlFromClassName: ".$e->getMessage() );
-			return "";
+			return '';
 		}
 	}
 
 	/**
-	 *	Returns the Doc URL from a Interface Data Object.
+	 *	Returns the doc URL from an interface data object.
 	 *	@access		protected
-	 *	@param		PhpInterface	$interface		Interface Object to get Doc URL for
+	 *	@param		PhpInterface	$interface		Interface object to get doc URL for
 	 *	@return		string
 	 */
 	protected function getUrlFromInterface( PhpInterface $interface ): string
 	{
-		$interfaceId	= $interface->getId();
-		$url	= "interface.".$interfaceId.".html";
-		return $url;
+		return "interface.".$interface->getId().".html";
+	}
+
+	/**
+	 *	Returns the doc URL from an interface data object.
+	 *	@access		protected
+	 *	@param		PhpTrait		$trait		Interface object to get doc URL for
+	 *	@return		string
+	 */
+	protected function getUrlFromTrait( PhpTrait $trait ): string
+	{
+		return "trait.".$trait->getId().".html";
 	}
 
 	/**
@@ -392,17 +480,17 @@ abstract class Abstraction
 	 *	@access		protected
 	 *	@param		string			$interfaceName		Name of Interface to get Doc URL for
 	 *	@param		PhpInterface	$relatedArtefact	Class or Interface Object related to Interface to find
-	 *	@return		PhpInterface
+	 *	@return		string
 	 */
-	protected function getUrlFromInterfaceName( string $interfaceName, PhpInterface $relatedArtefact )
+	protected function getUrlFromInterfaceName( string $interfaceName, PhpInterface $relatedArtefact ): string
 	{
 		try{
 			$interface	= $this->env->data->getInterfaceFromInterfaceName( $interfaceName, $relatedArtefact );
 			return $this->getUrlFromInterface( $interface );
 		}
-		catch( \Exception $e ){
+		catch( Throwable $e ){
 			remark( "Builder::getUrlFromInterfaceName: ".$e->getMessage() );
-			return "";
+			return '';
 		}
 	}
 
