@@ -48,6 +48,7 @@ class Info extends InfoInterface
 	 */
 	public function buildView( object $trait ): string
 	{
+		/** @var PhpTrait $trait */
 		$this->type		= 'class';
 
 		$package		= $this->buildPackageLink( $trait->getPackage(), $trait->getCategory() );
@@ -70,18 +71,15 @@ class Info extends InfoInterface
 			'todo'			=> $this->buildParamStringList( $trait->getTodos(), 'todo' ),				//  todo notes
 		];
 		$relationData	= [
-			'tree'			=> '',//$this->buildRelationTree( $trait ),
-			'extends'		=> '',//$this->buildParamClassList( $trait, $trait->getExtendedClass(), 'extends' ),				//  uses
-			'uses'			=> '',//$this->buildParamClassList( $trait, $trait->getUsesClasses(), 'uses' ),					//  uses
-			'implements'	=> '',//$this->buildParamClassList( $trait, $trait->getImplementedInterfaces(), 'implements' ),	//  implements
-			'extendedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getExtendingClasses(), 'extendedBy' ),		//  extended by classes
+			'tree'			=> $this->buildRelationTree( $trait ),
+			'uses'			=> $this->buildParamClassList( $trait, $trait->getUsingTraits(), 'uses' ),					//  uses
 			'usedBy'		=> $this->buildParamClassList( $trait, $trait->getUsingClasses(), 'usedBy' ),				//  used by classes
 			'composedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getComposingClasses(), 'composedBy' ),		//  extended by class
 			'receivedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getReceivingClasses(), 'receivedBy' ),		//  received by classes
 			'returnedBy'	=> '',//$this->buildParamClassList( $trait, $trait->getReturningClasses(), 'returnedBy' ),		//  return by classes
 		];
-		$attributes	= max( $attributeData ) ? $this->loadTemplate( 'class.info.attributes', $attributeData ) : "";
-		$relations	= max( $relationData ) ? $this->loadTemplate( 'class.info.relations', $relationData ) : "";
+		$attributes	= max( $attributeData ) ? $this->loadTemplate( 'trait.info.attributes', $attributeData ) : "";
+		$relations	= max( $relationData ) ? $this->loadTemplate( 'trait.info.relations', $relationData ) : "";
 		$uiData	= [
 			'attributes'	=> $attributes,
 			'relations'		=> $relations,
@@ -89,7 +87,7 @@ class Info extends InfoInterface
 		if( !max( $uiData ) )
 			return '';
 		$uiData['words']	= $this->env->words['classInfo'];
-		return $this->loadTemplate( 'class.info', $uiData );
+		return $this->loadTemplate( 'trait.info', $uiData );
 	}
 
 	/**
@@ -106,6 +104,8 @@ class Info extends InfoInterface
 			if( !is_object( $superClass ) )															//  found superclass is not resolvable
 				break;																				//  break recursion
 			$class	= $superClass;																	//  set internal class for recursion
+			foreach( $this->getSuperClasses( $superClass ) as $item )
+				$list[]	= $item;
 		}
 		return $list;																				//  return list of superclasses
 	}

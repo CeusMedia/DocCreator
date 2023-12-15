@@ -133,6 +133,19 @@ class Tree extends HtmlBuilderAbstraction
 		ksort( $list );
 		foreach( $list as $item )
 			$menu->addChild( $item );
+
+		$list	= [];
+		foreach( $root->getTraits() as $trait ){
+			$parts	= explode( "_", $trait->getName() );
+			$name	= array_pop( $parts );
+			$item	= new TreeMenuItem( 'trait.'.$trait->getId().'.html', $name );
+			$item->setAttribute( 'class', 'trait' );
+			$uniqueKey	= $trait->getName()."_".uniqid();
+			$list[$uniqueKey]	= $item;
+		}
+		ksort( $list );
+		foreach( $list as $item )
+			$menu->addChild( $item );
 	}
 
 	public function setTargetFrame( string $targetFrame ): self

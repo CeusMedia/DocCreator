@@ -68,7 +68,7 @@ class Methods extends TraitInfo
 			'list'		=> implode( "", $list ),
 			'inherited'	=> $this->buildInheritedMethodList( $trait, array_keys( $list ) ),
 		);
-		return $this->loadTemplate( 'class.methods', $data );
+		return $this->loadTemplate( 'trait.methods', $data );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Methods extends TraitInfo
 			'words'	=> $this->words['classMethodsInherited'],
 			'list'	=> $extended,
 		];
-		return $this->loadTemplate( 'class.methods.inherited', $data );
+		return $this->loadTemplate( 'trait.methods.inherited', $data );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Methods extends TraitInfo
 		$params	= implode( "<br/>", $params );
 		$attributes['param']	= $this->buildParamList( $params, 'param' );
 
-		$attributes	= $this->loadTemplate( 'class.method.attributes', $attributes );
+		$attributes	= $this->loadTemplate( 'trait.method.attributes', $attributes );
 
 		$uri		= 'trait.'.$trait->getId().".html#source_class_method_".$method->getName();
 		$return		= $method->getReturn() ? $this->getTypeMarkUp( $method->getReturn()->getType() ) : "";
@@ -193,7 +193,7 @@ class Methods extends TraitInfo
 			'parameters'	=> $params,
 			'description'	=> $this->getFormatedDescription( $method->getDescription() ),
 		);
-		return $this->loadTemplate( 'class.method', $data );
+		return $this->loadTemplate( 'trait.method', $data );
 	}
 }
 

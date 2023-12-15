@@ -90,7 +90,7 @@ class Members extends TraitInfo
 			'words'	=> $this->words['classMembersInherited'],
 			'list'	=> $extended,
 		];
-		return $this->loadTemplate( 'class.members.inherited', $data );
+		return $this->loadTemplate( 'trait.members.inherited', $data );
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Members extends TraitInfo
 		$attributes['type']		= $this->buildParamClassList( $member, $member->getType(), 'type' );
 		$attributes['default']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $member->getDefault() ), 'default' );
 
-		$attributes	= $this->loadTemplate( 'class.member.attributes', $attributes );
+		$attributes	= $this->loadTemplate( 'trait.member.attributes', $attributes );
 
 		$accessType	= $member->getAccess() ?: 'public';
 		$data	= array(
@@ -124,7 +124,7 @@ class Members extends TraitInfo
 			'attributes'	=> $attributes,
 			'description'	=> $this->getFormatedDescription( $member->getDescription() ),
 		);
-		return $this->loadTemplate( 'class.member', $data );
+		return $this->loadTemplate( 'trait.member', $data );
 	}
 
 	/**
@@ -154,7 +154,7 @@ class Members extends TraitInfo
 				'heading'	=> $heading,
 				'list'		=> implode( "\n", $list ),
 			);
-			$content	= $this->loadTemplate( 'class.members', $data );
+			$content	= $this->loadTemplate( 'trait.members', $data );
 		}
 		$content	.= $this->buildInheritedMemberList( $trait, array_keys( $list ) );
 		return $content;
