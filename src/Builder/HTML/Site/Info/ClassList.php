@@ -52,7 +52,7 @@ class ClassList extends SiteInfoAbstraction
 	public function createSite()
 	{
 		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating: Class List" );
+			$this->env->out->newLine( "Creating: Class List" );
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),
 			'topic'		=> $this->env->words['classList']['heading'],

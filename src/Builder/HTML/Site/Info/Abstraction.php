@@ -32,6 +32,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 use CeusMedia\DocCreator\Core\Environment;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Exception\CommonMarkException;
 use RuntimeException;
 
 /**
@@ -67,16 +68,6 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 		$this->options	= $options;
 	}
 
-	protected function appendLink( $url, $key, $count = NULL, $class = NULL )
-	{
-		$this->linkList[]	= [
-			'url'	=> $url,
-			'key'	=> $key,
-			'count'	=> $count,
-			'class'	=> $class,
-		];
-	}
-
 	abstract public function createSite();
 
 	/**
@@ -84,6 +75,7 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 	 *	@access		public
 	 *	@return		integer		Number of found and enlisted contents (files)
 	 *	@throws		RuntimeException
+	 *	@throws		CommonMarkException
 	 */
 	public function createSiteByFile(): int
 	{
@@ -138,11 +130,6 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 		return count( $list );
 	}
 
-	protected function saveFile( $fileName, $content )
-	{
-        FileWriter::save( $this->pathTarget.$fileName, $content, self::FILE_PERMS );
-	}
-
 	public function setLinkTargetFrame( string $linkTarget ): self
 	{
 		$this->linkTarget	= $linkTarget;
@@ -167,6 +154,21 @@ abstract class Abstraction extends HtmlBuilderAbstraction
 			return;
 		$words	= $this->env->words['links'];
 		$label	= $words[$key] ?? $key;
-		$this->env->out->sameLine( "Creating site: ".$label );
+		$this->env->out->newLine( "Creating site: ".$label );
+	}
+
+	protected function appendLink( $url, $key, $count = NULL, $class = NULL )
+	{
+		$this->linkList[]	= [
+			'url'	=> $url,
+			'key'	=> $key,
+			'count'	=> $count,
+			'class'	=> $class,
+		];
+	}
+
+	protected function saveFile( $fileName, $content )
+	{
+        FileWriter::save( $this->pathTarget.$fileName, $content, self::FILE_PERMS );
 	}
 }

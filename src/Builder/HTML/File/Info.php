@@ -61,7 +61,7 @@ class Info extends HtmlBuilderAbstraction
 			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $file->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $file->getSince(), 'since' ),				//  since version
-			'copyright'		=> $this->buildParamStringList( $file->getCopyright(), 'copyright' ),		//  copyright notes
+			'copyright'		=> $this->buildParamStringList( $file->getCopyrights(), 'copyright' ),		//  copyright notes
 			'authors'		=> $this->buildParamAuthors( $file ),										//  authors
 			'link'			=> $this->buildParamLinkedList( $file->getLinks(), 'link' ),				//  links
 			'see'			=> $this->buildParamLinkedList( $file->getSees(), 'see' ),					//  see-also-references
@@ -78,62 +78,6 @@ class Info extends HtmlBuilderAbstraction
 			return "";
 		$uiData['heading']	= $this->words['fileInfo']['heading'];
 		return $this->loadTemplate( 'file.info', $uiData );
-	}
-
-	/**
-	 *	Builds List of License Attributes.
-	 *	@access		protected
-	 *	@param		PhpFile|PhpFunction		$data		Array of File Data
-	 *	@param		array			$list		List to fill
-	 *	@return		string
-	 */
-	protected function buildParamLicenses( $data, array $list = [] ): string
-	{
-		if( !$data->getLicenses() )
-			return "";
-		foreach( $data->getLicenses() as $license ){
-			$label	= $license->getName();
-			if( $license->getUrl() ){
-				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
-				$class	= 'file-info-license';
-				$label	= HtmlElements::Link( $url, $label, $class );
-			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', ['value' => $label] );
-		}
-		return $this->buildParamList( $list, 'licenses' );
-	}
-
-	/**
-	 *	Builds Return Description.
-	 *	@access		protected
-	 *	@param		PhpFunction	$data		Data object of function or method
-	 *	@return		string				Return Description
-	 */
-	protected function buildParamReturn( PhpFunction $data ): string
-	{
-		if( !$data->getReturn() )
-			return "";
-		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
-		if( $data->getReturn()->getDescription() )
-			$type	.= " ".$data->getReturn()->getDescription();
-		return $this->buildParamList( $type, 'return' );
-	}
-
-	/**
-	 *	Builds Authors Entry for Parameters List.
-	 *	@access		protected
-	 *	@param		PhpFunction	$data		Authors Data Array
-	 *	@param		array			$list		List to fill
-	 *	@return		string
-	 */
-	protected function buildParamThrows( PhpFunction $data, array $list = [] ): string
-	{
-		foreach( $data->getThrows() as $throws ){
-			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
-			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $type] );
-		}
-		return $this->buildParamList( $list, 'throws' );
 	}
 }
 

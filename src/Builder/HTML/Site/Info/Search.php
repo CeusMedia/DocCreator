@@ -48,7 +48,7 @@ class Search extends SiteInfoAbstraction
 	public function createSite(): bool
 	{
 		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating site: Search" );
+			$this->env->out->newLine( "Creating site: Search" );
 		$this->createTermList( $this->pathTarget );
 		$uiData	= array(
 			'title'		=> $this->env->builder->title->getValue(),

@@ -55,7 +55,7 @@ class Tree extends HtmlBuilderAbstraction
 	public function buildTree(): string
 	{
 		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating tree" );
+			$this->env->out->newLine( "Creating tree" );
 
 		$tree		= $this->env->tree;
 		if( count( $tree->getPackages() ) == 1 ){
@@ -128,6 +128,19 @@ class Tree extends HtmlBuilderAbstraction
 			$item	= new TreeMenuItem( 'interface.'.$interface->getId().'.html', $name );
 			$item->setAttribute( 'class', 'interface' );
 			$uniqueKey	= $interface->getName()."_".uniqid();
+			$list[$uniqueKey]	= $item;
+		}
+		ksort( $list );
+		foreach( $list as $item )
+			$menu->addChild( $item );
+
+		$list	= [];
+		foreach( $root->getTraits() as $trait ){
+			$parts	= explode( "_", $trait->getName() );
+			$name	= array_pop( $parts );
+			$item	= new TreeMenuItem( 'trait.'.$trait->getId().'.html', $name );
+			$item->setAttribute( 'class', 'trait' );
+			$uniqueKey	= $trait->getName()."_".uniqid();
 			$list[$uniqueKey]	= $item;
 		}
 		ksort( $list );

@@ -86,7 +86,7 @@ abstract class Abstraction
 		$index	= new RecursiveFolderIterator( $pathSource );
 		$length	= strlen( $pathSource );
 		if( $this->env->verbose )
-			$this->env->out->sameLine( "Copying ".$label );
+			$this->env->out->newLine( "Copying ".$label );
 		foreach( $index as $entry ){
 			$name	= substr( $entry->getPathname(), $length );
 			if( $entry->isFile() ){

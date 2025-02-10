@@ -57,7 +57,7 @@ class Functions extends FileInfo
 
 		$attributes['version']		= $this->buildParamStringList( $function->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $function->getSince(), 'since' );
-		$attributes['copyright']	= $this->buildParamStringList( $function->getCopyright(), 'copyright' );
+		$attributes['copyright']	= $this->buildParamStringList( $function->getCopyrights(), 'copyright' );
 		$attributes['deprecated']	= $this->buildParamStringList( $function->getDeprecations(), 'deprecated' );
 		$attributes['todo']			= $this->buildParamStringList( $function->getTodos(), 'todo' );
 

@@ -151,7 +151,7 @@ class Runner
 			$usage	= getrusage();
 			$this->out->newLine( vsprintf( "Done in %s seconds (%s)", [
 				$clock->stop( 0, 1 ),
-				round( $usage["ru_utime.tv_usec"] / 1000000, 1 ),
+				round( $usage["ru_utime.tv_usec"] / 1_000_000, 1 ),
 			] ) );
 			$this->out->newLine();
 

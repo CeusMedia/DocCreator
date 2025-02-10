@@ -142,9 +142,9 @@ class Environment
 	/**
 	 *	Returns Path to read Info File from for currently selected Builder.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getBuilderDocumentsPath(): string
+	public function getBuilderDocumentsPath(): ?string
 	{
 		return $this->config->getBuilderDocumentsPath( $this->builder );
 	}
@@ -292,7 +292,6 @@ class Environment
 		$this->data	= $this->loadContainer();														//  load Data Container from Serial
 		$this->readStructureTree();																	//  build Category/Package View from Data Container
 		$this->readPackageStructure();																//  extract a List of Packages
-		$this->readClassIndex();																	//  extract a List of Classes
 	}
 
 	/**
@@ -309,22 +308,22 @@ class Environment
 		if( !empty( $archive ) && $this->hasGzipSupport ){
 			$uri	= $archive;
 			if( file_exists( $uri ) ){
+				$fp		= gzopen( $uri, "r" );
+				if( FALSE === $fp )
+					throw new RuntimeException( 'File not readable' );
 				$serial	= "";
-				if( $fp = gzopen( $uri, "r" ) ){
-					while( !gzeof( $fp ) )
-						$serial	.= gzgets( $fp, 4096 );
-					$data	= unserialize( $serial );
-					gzclose( $fp );
-				}
+				while( !gzeof( $fp ) )
+					$serial	.= gzgets( $fp, 4096 );
+				$data	= unserialize( $serial );
+				gzclose( $fp );
+				return $data;
 			}
-			return $data;
 		}
 		if( !empty( $serial ) ){
 			$uri	= $serial;
 			if( file_exists( $uri ) ){
 				$serial	= file_get_contents( $uri );
-				$data	= unserialize( $serial );
-				return $data;
+				return unserialize( $serial );
 			}
 		}
 		throw new RuntimeException( 'No data file existing - you need to parse' );
@@ -399,31 +398,13 @@ class Environment
 		}
 	}
 
-	/**
-	 *	@todo		same algo is in Container, check which is deprecated
-	 */
-	private function readClassIndex(): void
-	{
-		foreach( $this->data->getFiles() as $fileName => $file ){
-			foreach( $file->getClasses() as $className => $class ){
-				$category	= 'default';
-				$package	= 'default';
-
-				$category	= $class->getCategory() ? $class->getCategory() : $category;
-				$package	= $class->getPackage() ? $class->getPackage() : $package;
-				$this->classNameList[$class->getName()][$category][$package]	= $class;
-				$this->classIdList[$class->getId()]	= $class;
-			}
-		}
-	}
-
 	private function readPackageStructure(): void
 	{
 		$list	= [];
-		foreach( $this->data->getFiles() as $fileName => $file ){
-			foreach( $file->getClasses() as $className => $class ){
-				$category	= trim( $class->getCategory() ) ? trim( $class->getCategory() ) : 'default';
-				$package	= trim( $class->getPackage() ) ? trim( $class->getPackage() ) : 'default';
+		foreach( $this->data->getFiles() as $file ){
+			foreach( $file->getClasses() as $class ){
+				$category	= trim( $class->getCategory() ) ?: 'default';
+				$package	= trim( $class->getPackage() ) ?: 'default';
 				$packageId	= $category."-".$package;
 				$list[$packageId]	= $this->tree->getPackage( $category."_".$package );
 			}

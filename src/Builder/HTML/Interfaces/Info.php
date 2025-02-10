@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Interfaces
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,14 +29,17 @@ namespace CeusMedia\DocCreator\Builder\HTML\Interfaces;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
 use CeusMedia\DocCreator\Builder\HTML\Abstraction as HtmlBuilderAbstraction;
+use CeusMedia\PhpParser\Structure\Class_ as PhpClass;
 use CeusMedia\PhpParser\Structure\File_ as PhpFile;
 use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
+use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
+use CeusMedia\PhpParser\Structure\Trait_ as PhpTrait;
 
 /**
  *	Builds Interface Information View.
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Interface
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Interfaces
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -44,7 +47,7 @@ use CeusMedia\PhpParser\Structure\Function_ as PhpFunction;
  */
 class Info extends HtmlBuilderAbstraction
 {
-	public function buildView( PhpInterface $interface ): string
+	public function buildView( object $interface ): string
 	{
 		$this->type		= 'interface';
 
@@ -57,7 +60,7 @@ class Info extends HtmlBuilderAbstraction
 			'package'		=> $this->buildParamStringList( $package, 'package' ),							//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $interface->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $interface->getSince(), 'since' ),				//  since version
-			'copyright'		=> $this->buildParamStringList( $interface->getCopyright(), 'copyright' ),		//  copyright notes
+			'copyright'		=> $this->buildParamStringList( $interface->getCopyrights(), 'copyright' ),		//  copyright notes
 			'authors'		=> $this->buildParamAuthors( $interface ),										//  authors
 			'link'			=> $this->buildParamLinkedList( $interface->getLinks(), 'link' ),				//  links
 			'see'			=> $this->buildParamLinkedList( $interface->getSees(), 'see' ),					//  see-also-references
@@ -87,89 +90,12 @@ class Info extends HtmlBuilderAbstraction
 		return $this->loadTemplate( 'interface.info', $uiData );
 	}
 
-	protected function buildParamArtefactList( $parent, $value, $key, array $list = [] ): string
-	{
-		$list	= [];
-		if( is_string( $value ) )
-			return $this->buildParamList( $value, $key );
-
-		if( is_array( $value ) ){
-			foreach( $value as $artefact )
-				if( $artefact !== $parent )
-					$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $artefact ), 0, ['class' => 'class'] );
-		}
-		else if( $value )
-			$list[]	= HtmlElements::ListItem( $this->getTypeMarkUp( $value ), 0, ['class' => 'class'] );
-
-		return $this->buildParamList( $list, $key );
-	}
-
-	protected function buildParamClassList( $parent, $value, $key, array $list = [] ): string
-	{
-		return $this->buildParamArtefactList( $parent, $value, $key, $list );
-	}
-
 	protected function buildParamInterfaceList( $parent, $value, $key, array $list = [] ): string
 	{
 		return $this->buildParamArtefactList( $parent, $value, $key, $list );
 	}
 
-	/**
-	 *	Builds List of License Attributes.
-	 *	@access		protected
-	 *	@param		PhpFile|PhpInterface|PhpFunction			$data		Array of File Data
-	 *	@param		array			$list		List to fill
-	 *	@return		string
-	 */
-	protected function buildParamLicenses( $data, array $list = [] ): string
-	{
-		if( !$data->getLicenses() )
-			return "";
-		foreach( $data->getLicenses() as $license ){
-			$label	= $license->getName();
-			if( $license->getUrl() ){
-				$url	= $license->getUrl().'?KeepThis=true&TB_iframe=true';
-				$class	= 'file-info-license';
-				$label	= HtmlElements::Link( $url, $label, $class );
-			}
-			$list[]	= $this->loadTemplate( 'file.info.param.item', ['value' => $label] );
-		}
-		return $this->buildParamList( $list, 'licenses' );
-	}
-
-	/**
-	 *	Builds Return Description.
-	 *	@access		protected
-	 *	@param		PhpFunction	$data		Data object of function or method
-	 *	@return		string				Return Description
-	 */
-	protected function buildParamReturn( PhpFunction $data ){
-		if( !$data->getReturn() )
-			return "";
-		$type	= $data->getReturn()->getType() ? $this->getTypeMarkUp( $data->getReturn()->getType() ) : "";
-		if( $data->getReturn()->getDescription() )
-			$type	.= " ".$data->getReturn()->getDescription();
-		return $this->buildParamList( $type, 'return' );
-	}
-
-	/**
-	 *	Builds Authors Entry for Parameters List.
-	 *	@access		protected
-	 *	@param		PhpFunction	$data		Authors Data Array
-	 *	@param		array			$list		List to fill
-	 *	@return		string
-	 */
-	protected function buildParamThrows( PhpFunction $data, $list = [] ): string
-	{
-		foreach( $data->getThrows() as $throws ){
-			$type	= $throws->getName() ? $this->getTypeMarkUp( $throws->getName() ) : "";
-			$type	.= $throws->getReason() ? " ".$throws->getReason() : "";
-			$list[]	= $this->loadTemplate( $this->type.'.info.param.item', ['value' => $type] );
-		}
-		return $this->buildParamList( $list, 'throws' );
-	}
-
-	private function buildRelationTree( PhpInterface $interface ): string
+	private function buildRelationTree( PhpInterface|PhpClass|PhpTrait $interface ): string
 	{
 		$interfaces = $this->getSuperInterfaces( $interface );
 		if( 0 === count( $interfaces ) )

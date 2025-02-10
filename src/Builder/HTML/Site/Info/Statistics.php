@@ -97,7 +97,7 @@ class Statistics extends SiteInfoAbstraction
 		$data['length']['perFile']			= UnitFormater::formatBytes( $data['number']['length'] / $data['number']['files'], 1 );
 		$data['time']['stats']['total']		= UnitFormater::formatMicroSeconds( $data['seconds'] );
 		$data['time']['stats']['perFile']	= UnitFormater::formatMicroSeconds( $data['seconds'] / $data['number']['files'] );
-		unset( $data['files'] );
+//		unset( $data['files'] );
 
 		//  --  GRAPH  --  //
 		$graphFile	= "loc.svg";

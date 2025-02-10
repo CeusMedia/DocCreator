@@ -43,10 +43,9 @@ class EncodingErrorBuilder extends SiteInfoAbstraction
 	/**
 	 *	Creates Change Log Sites if any Change Log File is available in Project Folder.
 	 *	@access		public
-	 *	@param		string			$pathTarget		Path to save Sites in
 	 *	@return		bool
 	 */
-	public function createSite( $pathTarget, &$linkList ): bool
+	public function createSite(): bool
 	{
 		return FALSE; //  disabled for now
 
@@ -60,7 +59,7 @@ class EncodingErrorBuilder extends SiteInfoAbstraction
 		}
 		if( $list ){
 			if( $this->env->verbose )
-				$this->env->out->sameLine( "Creating site: ".$this->env->words['links']['encodingErrors'] );
+				$this->env->out->newLine( "Creating site: ".$this->env->words['links']['encodingErrors'] );
 			$uiData	= array(
 				'title'		=> $this->env->builder->title->getValue(),
 				'topic'		=> $this->env->words['encoding']['heading'],
@@ -69,7 +68,7 @@ class EncodingErrorBuilder extends SiteInfoAbstraction
 				'footer'	=> $this->buildFooter(),
 			);
 			$content	= $this->loadTemplate( 'site/info/encoding', $uiData );
-			file_put_contents( $pathTarget."encoding.html", $content );
+			file_put_contents( $this->pathTarget."encoding.html", $content );
 /*			$linkList[]	= array(
 				'url'	=> 'triggers.html',
 				'label'	=> $this->env->words['links']['triggers'],

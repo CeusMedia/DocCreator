@@ -95,7 +95,7 @@ class Builder extends HtmlBuilderAbstraction
 	protected function createHtaccess( string $pathTarget )
 	{
 		if( $this->env->verbose )
-			$this->env->out->sameLine( "Creating: .htaccess" );
+			$this->env->out->newLine( "Creating: .htaccess" );
 		$source		= $this->pathTheme.'templates/htaccess';
 		$htaccess	= file_get_contents( $source );
 		file_put_contents( $pathTarget.".htaccess", $htaccess );

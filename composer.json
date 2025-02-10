@@ -15,15 +15,13 @@
     "email": "office@ceusmedia.de",
     "jabber": "cwuerker@ceusmedia.de"
   },
-  "minimum-stability": "dev",
   "require": {
-    "php": "^7.4 | ^8",
+    "php": "^8.1",
     "ext-zlib": "*",
-    "ceus-media/common": "^1.0 | 1.0.x-dev | ^0.9 | 0.9.x-dev | dev-master",
-    "ceus-media/php-parser": "^0.4 | 0.4.x-dev | ^0.3",
-    "michelf/php-markdown": "*",
-    "league/commonmark": "*",
-    "ceus-media/template-engine": "dev-master"
+    "ceus-media/common": "^1.0 | 1.0.x-dev | dev-master",
+    "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
+    "ceus-media/template-engine": "^0.5 | 0.5.x-dev",
+    "ceus-media/markdown": "^0.2 | 0.2.x-dev"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5 | ^10",
@@ -47,11 +45,11 @@
     "dev:update-quiet": "composer update --quiet",
     "dev:phpunit": [
       "@dev:install-quiet",
-      "php vendor/bin/phpunit --configuration util/phpunit.xml --testsuite units"
+      "php vendor/bin/phpunit --configuration util/phpunit10.xml --testsuite default"
     ],
     "dev:phpstan": [
       "@dev:install-quiet",
-      "vendor/bin/phpstan analyze --configuration=util/phpstan.neon --memory-limit=1G --xdebug --verbose"
+      "XDEBUG_MODE=off vendor/bin/phpstan analyze --configuration=util/phpstan.neon --memory-limit=1G --verbose"
     ],
     "dev:phpstan-clear": [
       "@dev:install-quiet",

@@ -57,7 +57,7 @@ class Creator extends AbstractBuilder
 		$this->copyResourcesRecursive( $this->pathTheme.'css/', 'css/', "Stylesheets" );
 		$this->copyResourcesRecursive( $this->pathTheme.'images/', "images/", "Images" );
 		$this->copyResourcesRecursive( $this->pathTheme.'fonts/', "fonts/", "Fonts" );
-		$this->env->out->sameLine( "Copy done." );
+		$this->env->out->newLine( "Copy done." );
 	}
 
 	protected function createCategories( string $prefix = "category." )
@@ -70,7 +70,7 @@ class Creator extends AbstractBuilder
 			$categoryId	= $category->getId();
 			$fileName	= $prefix.$categoryId.".html";
 			$view		= $builder->buildView( $category );
-			$this->env->out->sameLine( "Creating category: ".$categoryId );
+			$this->env->out->newLine( "Creating category: ".$categoryId );
 			file_put_contents( $pathTarget.$fileName, $view );
 		}
 	}
@@ -79,10 +79,11 @@ class Creator extends AbstractBuilder
 	{
 		$clock		= new Clock;
 		$pathTarget	= $this->pathTarget;
-		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface)\..+\.html$/' );	// remove formerly generated class and interface files
+		AbstractHtmlBuilder::removeFiles( $pathTarget, '/^(class|interface|trait)\..+\.html$/' );	// remove formerly generated class and interface files
 
 		$classBuilder		= new Classes\Builder( $this->env );
 		$interfaceBuilder	= new Interfaces\Builder( $this->env );
+		$traitBuilder		= new Traits\Builder( $this->env );
 
 		$total	= 0;
 		$count	= 0;
@@ -90,6 +91,7 @@ class Creator extends AbstractBuilder
 		foreach( $this->env->data->getFiles() as $file ){
 			$total	+= count( $file->getClasses() );
 			$total	+= count( $file->getInterfaces() );
+			$total	+= count( $file->getTraits() );
 		}
 
 		foreach( $this->env->data->getFiles() as $file ){
@@ -115,6 +117,19 @@ class Creator extends AbstractBuilder
 						$this->env->out->sameLine( "Creating (".$percentage."%) ".$interfaceId );
 					}
 					$view		= $interfaceBuilder->buildView( $file, $interface );
+					file_put_contents( $docFile, $view );
+				}
+			}
+			if( $file->hasTraits() ){
+				foreach( $file->getTraits() as $trait ){
+					$count++;
+					$traitId	= $trait->getId();
+					$docFile	= $pathTarget.'trait.'.$traitId.".html";
+					if( $this->env->verbose ){
+						$percentage	= str_pad( round( $count / $total * 100 ), 2, " ", STR_PAD_LEFT );
+						$this->env->out->sameLine( "Creating (".$percentage."%) ".$traitId );
+					}
+					$view		= $traitBuilder->buildView( $file, $trait );
 					file_put_contents( $docFile, $view );
 				}
 			}
@@ -145,7 +160,7 @@ class Creator extends AbstractBuilder
 	{
 		$builder	= new Site\Builder( $this->env );
 		$builder->createSites();
-		$this->env->out->sameLine( "Sites created." );
+		$this->env->out->newLine( "Sites created." );
 		$this->env->out->newLine();
 	}
 
@@ -157,7 +172,7 @@ class Creator extends AbstractBuilder
 			$packageId	= $package->getId();
 			$fileName	= $prefix.$packageId.".html";
 			$view		= $builder->buildView( $package );
-			$this->env->out->sameLine( "Creating package: ".$packageId );
+			$this->env->out->newLine( "Creating package: ".$packageId );
 			file_put_contents( $pathTarget.$fileName, $view );
 			$this->createPackageRecursive( $package, $prefix );
 		}

@@ -31,7 +31,7 @@ use CeusMedia\Common\Alg\Time\Clock as Clock;
 use CeusMedia\Common\FS\File\PHP\Lister as PhpFileLister;
 use CeusMedia\Common\XML\Element as XmlElement;
 use CeusMedia\PhpParser\Structure\Container_ as PhpContainer;
-use CeusMedia\PhpParser\Parser as PhpParser;
+use CeusMedia\PhpParser\Parser\Regular as PhpParser;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
@@ -95,10 +95,10 @@ class Reader
 		//  --  APPLY PLUGINS  --  //
 		$clock2	= new Clock();														//  start inner Clock
 		foreach( $this->plugins as $pluginName => $plugin ){						//  iterate registered Plugins
-			$this->env->out->sameLine( "Plugin: ".$pluginName );
+			$this->env->out->newLine( "Plugin: ".$pluginName );
 			$plugin->extendData( $data );											//  apply plugin
 		}
-		$this->env->out->sameLine( "Plugins applied." );
+		$this->env->out->newLine( "Plugins applied." );
 		$this->env->out->newLine();
 		$data->timeRelations	= $clock2->stop( 6, 0 );							//  note needed time
 
@@ -171,7 +171,7 @@ class Reader
 				$clock	= new Clock();													//  setup Clock
 				$parser	= new PhpParser();												//  setup Parser
 
-				$file	= $parser->parseFile( $entry->getPathname(), $pathSource );		//  parse File and return Data Object
+				$file	= $parser->parseFile( $entry->getPathname(), '' );		//  parse File and return Data Object
 				$file->errors			= ob_get_clean();								//  store Parser Errors
 				$file->time['parse']	= $clock->stop( 6, 0 );							//  store time needed
 

@@ -78,7 +78,7 @@ class ConsoleRunner extends CliApplication
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main()
+	protected function main(): void
 	{
 		/** @var array $parameters */
 		$parameters	= $this->arguments->get( 'parameters', [] );
@@ -129,24 +129,25 @@ class ConsoleRunner extends CliApplication
 	/**
 	 *	Prints Usage Screen.
 	 *	@access		protected
-	 *	@param		string		$message		Message to show below usage lines
+	 *	@param		?string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL )
+	protected function showUsage( ?string $message = NULL ): void
 	{
-		print "Usage: php create.php5 [OPTION]..." . PHP_EOL;
-		print "Options:" . PHP_EOL;
-		print "  -c, --config-file       URI of config file of project" . PHP_EOL;
-		print "  -s, --source-folder     Override base source folder" . PHP_EOL;
-		print "  -t, --target-folder     Override base target folder" . PHP_EOL;
-		print "  -sc, --skip-creator     Skip file creation process" . PHP_EOL;
-		print "  -sp, --skip-parser      Skip file parsing process" . PHP_EOL;
-		print "  -sr, --skip-resources   Skip coping of resources files" . PHP_EOL;
-		print "  -q, --quite             No output to console" . PHP_EOL;
-		print "  --trace                 Show trace of exception" . PHP_EOL;
-		print "  --show-config           Show project config" . PHP_EOL;
-		print "  --show-config-only      Show project config and abort" . PHP_EOL;
-		print PHP_EOL;
+		print join( PHP_EOL, [
+			 "Usage: php doc.php [OPTION]...",
+			 "Options:",
+			 "  -c, --config-file       URI of config file of project",
+			 "  -s, --source-folder     Override base source folder",
+			 "  -t, --target-folder     Override base target folder",
+			 "  -sc, --skip-creator     Skip file creation process",
+			 "  -sp, --skip-parser      Skip file parsing process",
+			 "  -sr, --skip-resources   Skip coping of resources files",
+			 "  -q, --quite             No output to console",
+			 "  --trace                 Show trace of exception",
+			 "  --show-config           Show project config",
+			 "  --show-config-only      Show project config and abort",
+		 ] ) . PHP_EOL . PHP_EOL;
 		if( $message !== NULL )
 			$this->showError( $message );
 	}

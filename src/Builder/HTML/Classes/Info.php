@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Class
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Classes
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -35,7 +35,7 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
 /**
  *	Builds Class Information View.
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Class
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Classes
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -43,7 +43,7 @@ use CeusMedia\PhpParser\Structure\Interface_ as PhpInterface;
  */
 class Info extends InfoInterface
 {
-	public function buildView( PhpInterface $class ): string
+	public function buildView( object $class ): string
 	{
 		$this->type		= 'class';
 
@@ -58,7 +58,7 @@ class Info extends InfoInterface
 			'package'		=> $this->buildParamStringList( $package, 'package' ),						//  package (linked if resolvable)
 			'version'		=> $this->buildParamStringList( $class->getVersion(), 'version' ),			//  version id
 			'since'			=> $this->buildParamStringList( $class->getSince(), 'since' ),				//  since version
-			'copyright'		=> $this->buildParamStringList( $class->getCopyright(), 'copyright' ),		//  copyright notes
+			'copyright'		=> $this->buildParamStringList( $class->getCopyrights(), 'copyright' ),		//  copyright notes
 			'authors'		=> $this->buildParamAuthors( $class ),										//  authors
 			'link'			=> $this->buildParamLinkedList( $class->getLinks(), 'link' ),				//  links
 			'see'			=> $this->buildParamLinkedList( $class->getSees(), 'see' ),					//  see-also-references
@@ -66,15 +66,15 @@ class Info extends InfoInterface
 			'deprecated'	=> $this->buildParamStringList( $class->getDeprecations(), 'deprecated' ),	//  deprecation notes
 			'todo'			=> $this->buildParamStringList( $class->getTodos(), 'todo' ),				//  todo notes
 			'abstract'		=> $this->buildParamList( $class->isAbstract() ? " " : "", 'abstract' ),
-			'final'			=> $this->buildParamList( $class->isFinal() ? " " : "", 'final' ),
 		);
+		if( $class instanceof PhpClass )
+			$attributeData['final']	= $this->buildParamList( $class->isFinal() ? " " : "", 'final' );
 		$relationData	= array(
 			'tree'			=> $this->buildRelationTree( $class ),
 			'extends'		=> $this->buildParamClassList( $class, $class->getExtendedClass(), 'extends' ),				//  uses
 			'uses'			=> $this->buildParamClassList( $class, $class->getUsedClasses(), 'uses' ),					//  uses
 			'implements'	=> $this->buildParamClassList( $class, $class->getImplementedInterfaces(), 'implements' ),	//  implements
 			'extendedBy'	=> $this->buildParamClassList( $class, $class->getExtendingClasses(), 'extendedBy' ),		//  extended by classes
-			'implementedBy'	=> $this->buildParamClassList( $class, $class->getImplementingClasses(), 'implementedBy' ),	//  implemented by classes
 			'usedBy'		=> $this->buildParamClassList( $class, $class->getUsingClasses(), 'usedBy' ),				//  used by classes
 			'composedBy'	=> $this->buildParamClassList( $class, $class->getComposingClasses(), 'composedBy' ),		//  extended by class
 			'receivedBy'	=> $this->buildParamClassList( $class, $class->getReceivingClasses(), 'receivedBy' ),		//  received by classes
@@ -95,8 +95,8 @@ class Info extends InfoInterface
 	/**
 	 *	Returns a list of backwards resolved superclasses, either as object or string if unresolvable.
 	 *	@access		protected
-	 *	@param		PhpClass		$class		Class to get list of superclasses for
-	 *	@return		array			List of superclasses
+	 *	@param		PhpClass	$class		Class to get list of superclasses for
+	 *	@return		array		List of superclasses
 	 */
 	protected function getSuperClasses( PhpClass $class ): array
 	{
@@ -110,8 +110,7 @@ class Info extends InfoInterface
 		return $list;																				//  return list of superclasses
 	}
 
-	/** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
-	private function buildRelationTree( PhpInterface $class ): string
+	private function buildRelationTree( PhpClass $class ): string
 	{
 		$classes = $this->getSuperClasses( $class );
 		if( 0 === count( $classes ) )

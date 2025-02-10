@@ -12,7 +12,7 @@ composer-update-dev:
 	composer update
 
 dev-test: composer-install-dev
-	vendor/phpunit/phpunit/phpunit
+	@vendor/bin/phpunit --configuration util/phpunit10.xml --testsuite default
 
 dev-test-syntax:
 	@find src -type f -print0 | xargs -0 -n1 xargs php -l

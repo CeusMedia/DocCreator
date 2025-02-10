@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Class
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Classes
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -35,7 +35,7 @@ use CeusMedia\PhpParser\Structure\Method_ as PhpMethod;
 /**
  *	Builds Class Methods Information File.
  *	@category		Tool
- *	@package		CeusMedia_DocCreator_Builder_HTML_Class
+ *	@package		CeusMedia_DocCreator_Builder_HTML_Classes
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -45,10 +45,10 @@ class Methods extends ClassInfo
 	/**
 	 *	Builds View of Class Methods for Class Information File.
 	 *	@access		public
-	 *	@param		PhpInterface	$class			Class Object
+	 *	@param		PhpClass	$class			Class Object
 	 *	@return		string
 	 */
-	public function buildView( PhpInterface $class ): string
+	public function buildView( object $class ): string
 	{
 		$this->type	= "class";
 
@@ -139,13 +139,13 @@ class Methods extends ClassInfo
 		$attributes['final']		= $this->buildParamList( $method->isFinal() ? " " : "", 'final' );
 		$attributes['static']		= $this->buildParamList( $method->isStatic() ? " " : "", 'static' );
 
-		$accessType	= $method->getAccess() ? $method->getAccess() : 'unknown';
+		$accessType	= $method->getAccess() ?: 'unknown';
 		$access		= $this->buildAccessLabel( $accessType );
 
 		$attributes['access']		= $this->buildParamStringList( $access, 'access' );
 		$attributes['version']		= $this->buildParamStringList( $method->getVersion(), 'version' );
 		$attributes['since']		= $this->buildParamStringList( $method->getSince(), 'since' );
-		$attributes['copyright']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $method->getCopyright() ), 'copyright' );
+		$attributes['copyright']	= $this->buildParamStringList( str_replace( ['<%', '%>'], ['[%', '%]'], $method->getCopyrights() ), 'copyright' );
 		$attributes['deprecated']	= $this->buildParamStringList( $method->getDeprecations(), 'deprecated' );
 		$attributes['todo']			= $this->buildParamStringList( $method->getTodos(), 'todo' );
 
@@ -181,7 +181,7 @@ class Methods extends ClassInfo
 		if( $params	)
 			$params	= " ".$params." ";
 
-		$accessType	= $method->getAccess() ? $method->getAccess() : 'public';
+		$accessType	= $method->getAccess() ?: 'public';
 
 		$data	= array(
 			'methodName'	=> $method->getName(),
