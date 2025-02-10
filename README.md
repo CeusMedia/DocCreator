@@ -1,9 +1,9 @@
 # DocCreator
 
-![Branch](https://img.shields.io/badge/Branch-1.0.x-blue?style=flat-square)
-![Release](https://img.shields.io/badge/Release-1.0.0-blue?style=flat-square)
+![Branch](https://img.shields.io/badge/Branch-1.1.x-blue?style=flat-square)
+![Release](https://img.shields.io/badge/Release----blue?style=flat-square)
 ![PHP version](https://img.shields.io/badge/PHP-%5E8-blue?style=flat-square&color=777BB4)
-![PHPStan level](https://img.shields.io/badge/PHPStan_level-6-darkgreen?style=flat-square)
+![PHPStan level](https://img.shields.io/badge/PHPStan_level-1-darkgreen?style=flat-square)
 [![Monthly downloads](https://img.shields.io/packagist/dt/ceus-media/doc-creator.svg?style=flat-square)](https://packagist.org/packages/ceus-media/doc-creator)
 [![Package version](https://img.shields.io/packagist/v/ceus-media/doc-creator.svg?style=flat-square)](https://packagist.org/packages/ceus-media/doc-creator)
 [![License](https://img.shields.io/packagist/l/ceus-media/doc-creator.svg?style=flat-square)](https://packagist.org/packages/ceus-media/doc-creator)
