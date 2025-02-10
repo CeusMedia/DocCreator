@@ -16,15 +16,15 @@
     "jabber": "cwuerker@ceusmedia.de"
   },
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "ext-zlib": "*",
-    "ceus-media/common": "^1.0 | 1.0.x-dev | dev-master",
-    "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
-    "ceus-media/template-engine": "^0.5 | 0.5.x-dev",
-    "ceus-media/markdown": "^0.2 | 0.2.x-dev"
+    "ceus-media/common": "^1.1 | 1.1.x-dev",
+    "ceus-media/php-parser": "^0.4 | 0.4.x-dev | ^0.5 | 0.5.x-dev",
+    "ceus-media/template-engine": "^0.5 | 0.5.x-dev | ^0.6 | 0.6.x-dev",
+    "ceus-media/markdown": "^0.2 | 0.2.x-dev | ^0.3 | 0.3.x-dev"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5 | ^10",
+    "phpunit/phpunit": "^10",
     "phpstan/phpstan": "^1",
     "phpstan/phpstan-strict-rules": "^1",
     "php-parallel-lint/php-parallel-lint": "^1.3 | dev-master",
