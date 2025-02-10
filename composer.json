@@ -25,9 +25,9 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^10",
-    "phpstan/phpstan": "^1",
-    "phpstan/phpstan-strict-rules": "^1",
-    "php-parallel-lint/php-parallel-lint": "^1.3 | dev-master",
+    "phpstan/phpstan": "*",
+    "phpstan/phpstan-strict-rules": "*",
+    "php-parallel-lint/php-parallel-lint": "*",
     "rector/rector": "*"
   },
   "autoload": {
